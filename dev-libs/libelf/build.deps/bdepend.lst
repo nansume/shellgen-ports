@@ -1,0 +1,8 @@
+dev-lang/perl       # required for autotools
+sys-devel/autoconf  # required for autotools
+sys-devel/automake  # required for autotools
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/m4        # required for autotools
+sys-devel/make
+sys-libs/musl

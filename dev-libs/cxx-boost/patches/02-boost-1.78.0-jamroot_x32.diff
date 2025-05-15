@@ -1,0 +1,24 @@
+Author: Artjom Slepnjov "Shellgen"
+Description: remove check architecture (support x32)
+Ver: boost-1.78.0  ( <=boost-1.78.0 )
+Date: 2022-02-15 04:20 UTC
+==============================================================
+--- a/Jamroot
++++ b/Jamroot
+@@ -152,7 +152,6 @@
+ 
+ boostcpp.set-version $(BOOST_VERSION) ;
+ 
+-use-project /boost/architecture : libs/config/checks/architecture ;
+ 
+ local all-headers =
+     [ MATCH .*libs/(.*)/include/boost : [ glob libs/*/include/boost libs/*/*/include/boost ] ] ;
+@@ -171,8 +170,6 @@
+ project boost
+     : requirements <include>.
+ 
+-      [ boostcpp.architecture ]
+-      [ boostcpp.address-model ]
+ 
+       # Disable auto-linking for all targets here, primarily because it caused
+       # troubles with V2.

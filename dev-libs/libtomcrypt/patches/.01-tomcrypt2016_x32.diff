@@ -1,0 +1,63 @@
+Author: Artjom Slepnjov "Shellgen"
+Description: x32 support - asm
+Date: 2016-01-01 01:01 UTC
+===================================================================================
+--- a/src/headers/tomcrypt_macros.h
++++ b/src/headers/tomcrypt_macros.h
+@@ -102,15 +102,15 @@
+ 
+ #define STORE64H(x, y)           \
+ asm __volatile__ (               \
+-   "bswapq %0     \n\t"          \
+-   "movq   %0,(%1)\n\t"          \
+-   "bswapq %0     \n\t"          \
++   "bswap %0     \n\t"          \
++   "mov   %0,(%1)\n\t"          \
++   "bswap %0     \n\t"          \
+       ::"r"(x), "r"(y));
+ 
+ #define LOAD64H(x, y)          \
+ asm __volatile__ (             \
+-   "movq (%1),%0\n\t"          \
+-   "bswapq %0\n\t"             \
++   "mov (%1),%0\n\t"          \
++   "bswap %0\n\t"             \
+    :"=r"(x): "r"(y));
+ 
+ #else
+@@ -345,7 +345,7 @@
+ 
+ static inline unsigned long ROL64(unsigned long word, int i)
+ {
+-   asm("rolq %%cl,%0"
++   asm("rol %%cl,%0"
+       :"=r" (word)
+       :"0" (word),"c" (i));
+    return word;
+@@ -353,7 +353,7 @@
+ 
+ static inline unsigned long ROR64(unsigned long word, int i)
+ {
+-   asm("rorq %%cl,%0"
++   asm("ror %%cl,%0"
+       :"=r" (word)
+       :"0" (word),"c" (i));
+    return word;
+@@ -363,7 +363,7 @@
+ 
+ static inline unsigned long ROL64c(unsigned long word, const int i)
+ {
+-   asm("rolq %2,%0"
++   asm("rol %2,%0"
+       :"=r" (word)
+       :"0" (word),"J" (i));
+    return word;
+@@ -371,7 +371,7 @@
+ 
+ static inline unsigned long ROR64c(unsigned long word, const int i)
+ {
+-   asm("rorq %2,%0"
++   asm("ror %2,%0"
+       :"=r" (word)
+       :"0" (word),"J" (i));
+    return word;

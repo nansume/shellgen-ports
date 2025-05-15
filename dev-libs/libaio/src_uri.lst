@@ -1,0 +1,4 @@
+ftp://ftp.vectranet.pl/gentoo/distfiles/libaio-0.3.113.tar.gz
+http://data.gpo.zugaina.org/gentoo/dev-libs/libaio/files/libaio-0.3.112-cppflags.patch
+http://data.gpo.zugaina.org/gentoo/dev-libs/libaio/files/libaio-0.3.113-respect-LDFLAGS.patch
+http://data.gpo.zugaina.org/gentoo/dev-libs/libaio/files/libaio-0.3.113-32-bit-tests.patch

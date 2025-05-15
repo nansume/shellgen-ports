@@ -1,0 +1,6 @@
+bin/*
+lib*/<PN>.so
+lib*/<PN>_core*
+lib*/<PN>_extra*
+lib*/<PN>_openssl*
+<DPREFIX>/share/*

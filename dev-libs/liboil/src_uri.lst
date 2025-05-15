@@ -1,0 +1,3 @@
+ftp://ftp.vectranet.pl/gentoo/distfiles/liboil-0.3.17.tar.gz
+https://gitweb.gentoo.org/repo/gentoo.git/plain/dev-libs/liboil/files/liboil-0.3.17-x32.patch
+#https://gitweb.gentoo.org/repo/gentoo.git/plain/dev-libs/liboil/files/liboil-0.3.17-amd64-cpuid.patch

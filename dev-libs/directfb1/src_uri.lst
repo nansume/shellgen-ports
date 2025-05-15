@@ -1,0 +1,4 @@
+http://sources.buildroot.net/DirectFB-1.7.7.tar.gz
+https://git.alpinelinux.org/aports/plain/community/directfb/0001-directfb-fix-musl-compile.patch
+https://git.alpinelinux.org/aports/plain/community/directfb/0002-Fix-musl-PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP-comp.patch
+https://git.alpinelinux.org/aports/plain/community/directfb/0006-fix-client-gfx_state-initialisation.patch

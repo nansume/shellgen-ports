@@ -1,0 +1,5 @@
+mirror://debian/pool/main/libv/${PN}/${PN}_1.13.orig.tar.gz -> ${PN}-1.13.tar.gz
+mirror://debian/pool/main/libv/${PN}/${PN}_1.13-10.debian.tar.gz
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-nodoc.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-1.13-has_unistd.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-1.13-str.patch

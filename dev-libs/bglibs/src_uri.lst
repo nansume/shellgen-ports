@@ -1,0 +1,3 @@
+http://untroubled.org/${PN}/archive/${PN}-2.04.tar.gz
+#http://deb.debian.org/debian/pool/main/b/${PN}/${PN}_2.04+dfsg-6.debian.tar.xz
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-2.04-stack-buffers.patch

@@ -1,0 +1,64 @@
+Author: Artjom Slepnjov "Shellgen"
+Description: x32 support - asm
+Date: 2016-01-01 01:01 UTC
+Date fix: 2022-12-11 20:40 UTC
+===================================================================================
+--- a/src/headers/tomcrypt_macros.h
++++ b/src/headers/tomcrypt_macros.h
+@@ -111,15 +111,15 @@
+ 
+ #define STORE64H(x, y)           \
+ asm __volatile__ (               \
+-   "bswapq %0     \n\t"          \
+-   "movq   %0,(%1)\n\t"          \
+-   "bswapq %0     \n\t"          \
++   "bswap %0     \n\t"          \
++   "mov   %0,(%1)\n\t"          \
++   "bswap %0     \n\t"          \
+    ::"r"(x), "r"(y): "memory");
+ 
+ #define LOAD64H(x, y)          \
+ asm __volatile__ (             \
+-   "movq (%1),%0\n\t"          \
+-   "bswapq %0\n\t"             \
++   "mov (%1),%0\n\t"          \
++   "bswap %0\n\t"             \
+    :"=r"(x): "r"(y): "memory");
+ 
+ #else
+@@ -357,7 +357,7 @@
+ 
+ static inline ulong64 ROL64(ulong64 word, int i)
+ {
+-   asm("rolq %%cl,%0"
++   asm("rol %%cl,%0"
+       :"=r" (word)
+       :"0" (word),"c" (i));
+    return word;
+@@ -365,7 +365,7 @@
+ 
+ static inline ulong64 ROR64(ulong64 word, int i)
+ {
+-   asm("rorq %%cl,%0"
++   asm("ror %%cl,%0"
+       :"=r" (word)
+       :"0" (word),"c" (i));
+    return word;
+@@ -375,7 +375,7 @@
+ 
+ #define ROL64c(word,i) ({ \
+    ulong64 __ROL64c_tmp = word; \
+-   __asm__ ("rolq %2, %0" : \
++   __asm__ ("rol %2, %0" : \
+             "=r" (__ROL64c_tmp) : \
+             "0" (__ROL64c_tmp), \
+             "J" (i)); \
+@@ -383,7 +383,7 @@
+    })
+ #define ROR64c(word,i) ({ \
+    ulong64 __ROR64c_tmp = word; \
+-   __asm__ ("rorq %2, %0" : \
++   __asm__ ("ror %2, %0" : \
+             "=r" (__ROR64c_tmp) : \
+             "0" (__ROR64c_tmp), \
+             "J" (i)); \

@@ -1,0 +1,8 @@
+# Copyright 1999-2023 Gentoo Authors, GPLv2
+
+CMAKEFLAGS="${CMAKEFLAGS}
+ -DCMAKE_CXX_STANDARD=14 # C++14 or later required for >=gtest-1.13.0
+ -DCRC32C_BUILD_TESTS=$(usex test)
+ -DCRC32C_BUILD_BENCHMARKS=OFF
+ -DCRC32C_USE_GLOG=OFF
+"

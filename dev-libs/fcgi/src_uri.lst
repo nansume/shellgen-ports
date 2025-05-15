@@ -1,0 +1,9 @@
+https://github.com/FastCGI-Archives/fcgi2/archive/2.4.2.tar.gz -> fcgi-2.4.2.tar.gz
+
+#rsync://mirror.bytemark.co.uk/gentoo/distfiles/*/fcgi-2.4.1-SNAP-0910052249.tar.gz
+#http://data.gpo.zugaina.org/gentoo/dev-libs/fcgi/files/fcgi-2.4.0-Makefile.patch
+#http://data.gpo.zugaina.org/gentoo/dev-libs/fcgi/files/fcgi-2.4.0-clientdata-pointer.patch
+#http://data.gpo.zugaina.org/gentoo/dev-libs/fcgi/files/fcgi-2.4.0-html-updates.patch
+#http://data.gpo.zugaina.org/gentoo/dev-libs/fcgi/files/fcgi-2.4.1_pre0311112127-gcc44.patch
+#http://data.gpo.zugaina.org/gentoo/dev-libs/fcgi/files/fcgi-2.4.1_pre0910052249-link.patch
+#http://data.gpo.zugaina.org/gentoo/dev-libs/fcgi/files/fcgi-2.4.1_pre0910052249-poll.patch

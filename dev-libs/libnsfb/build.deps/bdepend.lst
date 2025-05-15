@@ -1,0 +1,12 @@
+dev-lang/perl
+dev-util/nsbuildsystem
+dev-util/pkgconf
+media-libs/alsa-lib
+media-libs/freetype
+media-libs/libjpeg-turbo
+media-libs/libpng
+media-libs/sdl
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl

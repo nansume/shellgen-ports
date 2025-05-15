@@ -1,0 +1,15 @@
+bin/<PN>-config
+bin/<PN>-csource
+<LIB_DIR>/*/inputdrivers/lib*_keyboard.so
+<LIB_DIR>/*/inputdrivers/lib*_ps2mouse.so
+<LIB_DIR>/*/interfaces/I*Font
+<LIB_DIR>/*/interfaces/I*Font/libi*font_ft2.so
+<LIB_DIR>/*/interfaces/I*ImageProvider
+<LIB_DIR>/*/interfaces/I*ImageProvider/libi*imageprovider_jpeg.so
+<LIB_DIR>/*/interfaces/I*ImageProvider/libi*imageprovider_png.so
+<LIB_DIR>/*/systems/lib*_fbdev.so
+<LIB_DIR>/*/wm/lib*wm_default.so
+<LIB_DIR>/*.so*
+<DPREFIX>/share/*/cursor.dat
+<DPREFIX>/share/*/cursor.png
+<DPREFIX>/share/*/decker.ttf

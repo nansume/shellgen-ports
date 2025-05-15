@@ -1,0 +1,3 @@
+http://download.enlightenment.org/rel/libs/efl/efl-1.22.6.tar.xz
+#http://download.enlightenment.org/rel/libs/efl/efl-1.23.3.tar.xz  # meson (autotools drop)
+#http://data.gpo.zugaina.org/gentoo/dev-libs/efl/files/efl-1.21.1-fix_evas_preload_segfault.patch

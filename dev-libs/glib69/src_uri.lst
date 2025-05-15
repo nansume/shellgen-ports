@@ -1,0 +1,4 @@
+https://download.gnome.org/sources/glib/2.69/glib-2.69.3.tar.xz
+#https://download.gnome.org/sources/glib/2.61/glib-2.61.2.tar.xz
+#http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.77/glib-2.77.0.tar.xz
+https://gitweb.gentoo.org/repo/gentoo.git/tree/dev-libs/glib/files/glib-2.64.1-mark-gdbus-server-auth-test-flaky.patch?id=7535019d42a2e6af36499507ebb4296cc9216830 -> glib-2.64.1-mark-gdbus-server-auth-test-flaky.patch

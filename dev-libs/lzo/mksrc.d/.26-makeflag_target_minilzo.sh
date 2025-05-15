@@ -1,0 +1,1 @@
+MAKEFLAGS="${MAKEFLAGS:+${MAKEFLAGS}${NL}}-e cc"

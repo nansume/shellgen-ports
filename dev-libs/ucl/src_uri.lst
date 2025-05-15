@@ -1,0 +1,3 @@
+ftp://mirrors.tera-byte.com/pub/gentoo/distfiles/ucl-1.03.tar.gz
+http://repo.iut.ac.ir/repo/gentoo-portage/dev-libs/ucl/files/ucl-1.03-CFLAGS.patch
+http://repo.iut.ac.ir/repo/gentoo-portage/dev-libs/ucl/files/ucl-1.03-x32.patch

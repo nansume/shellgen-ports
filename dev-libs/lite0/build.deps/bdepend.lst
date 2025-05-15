@@ -1,0 +1,16 @@
+dev-libs/directfb  # directfb1
+
+dev-util/pkgconf
+
+media-libs/freetype
+#media-libs/libjpeg-turbo1
+media-libs/libpng
+
+sys-apps/file
+
+sys-devel/binutils
+sys-devel/gcc9
+sys-devel/make
+
+sys-libs/musl0
+sys-libs/zlib  # for libpng

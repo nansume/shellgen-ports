@@ -1,0 +1,8 @@
+lib*/libcord.so
+lib*/libcord.so.1
+lib*/libcord.so.1.3.*
+lib*/libgc.so
+lib*/libgccpp.so
+lib*/libgccpp.so.1
+lib*/libgccpp.so.1.3.*
+usr/share/*

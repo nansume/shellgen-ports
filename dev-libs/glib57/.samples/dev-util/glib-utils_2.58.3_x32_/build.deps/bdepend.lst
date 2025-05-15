@@ -1,0 +1,11 @@
+dev-libs/libffi  # required
+#dev-libs/pcre  # optional
+dev-util/pkgconf
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+#sys-devel/gettext  # or xstub fix
+sys-devel/make
+sys-kernel/linux-headers  # optional (too recomended)
+sys-libs/musl
+sys-libs/zlib  # required

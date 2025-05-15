@@ -1,0 +1,6 @@
+http://deb.debian.org/debian/pool/main/libx/libx86/libx86_1.1+ds1.orig.tar.bz2
+#http://deb.debian.org/debian/pool/main/libx/libx86/libx86_1.1+ds1-12.debian.tar.xz
+http://data.gpo.zugaina.org/gentoo/dev-libs/libx86/files/libx86-0.99-ifmask.patch
+http://data.gpo.zugaina.org/gentoo/dev-libs/libx86/files/libx86-1.1-makefile.patch
+http://data.gpo.zugaina.org/gentoo/dev-libs/libx86/files/libx86-1.1-x86emu.patch
+http://data.gpo.zugaina.org/gentoo/dev-libs/libx86/files/libx86-1.1-c99.patch

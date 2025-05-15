@@ -1,0 +1,3 @@
+ftp://ftp.acc.umu.se/pub/GNOME/sources/glib/2.57/glib-2.57.1.tar.xz
+http://data.gpo.zugaina.org/didos/dev-libs/glib/files/2.56.2-quark_init_on_demand.patch
+http://data.gpo.zugaina.org/didos/dev-libs/glib/files/2.56.2-gobject_init_on_demand.patch

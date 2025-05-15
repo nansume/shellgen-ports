@@ -1,0 +1,9 @@
+dev-libs/libxml2
+dev-util/pkgconf
+sys-apps/file
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # for libxml2

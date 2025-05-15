@@ -1,0 +1,18 @@
+dev-lang/perl  # tools/gendoc.pl: not found
+dev-util/pkgconf
+
+media-libs/freetype
+#media-libs/libjpeg-turbo
+media-libs/libpng
+
+sys-apps/file
+#sys-devel/autoconf  # testing
+#sys-devel/automake  # testing
+sys-devel/binutils
+sys-devel/gcc
+#sys-devel/libtool  # testing
+sys-devel/make
+sys-devel/patch  # required for (nocompat bb-patch): Fix-musl-PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP-comp
+sys-kernel/linux-headers
+sys-libs/musl
+sys-libs/zlib  # for libpng

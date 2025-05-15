@@ -1,0 +1,7 @@
+# qt4
+#sqlite
+qtcore4
+qtgui4
+qtsql4
+# unar
+gnustep-base

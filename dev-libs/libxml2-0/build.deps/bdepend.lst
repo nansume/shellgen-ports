@@ -1,0 +1,8 @@
+#dev-lang/python38  # needed python mod libxml2 for dev-util/itstool - error: require no space between -L and -ldl
+dev-util/pkgconf
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc9
+sys-devel/make
+sys-libs/musl
+#sys-libs/zlib  # optional

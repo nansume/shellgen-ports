@@ -1,0 +1,9 @@
+bin/*
+lib*/gio/*
+lib*/glib-2.0/*
+lib*/libgio-2.0.so*
+lib*/libglib-2.0.so
+lib*/libgmodule-2.0.so*
+lib*/libgobject-2.0.so*
+lib*/libgthread-2.0.so*
+<DPREFIX>/share/*

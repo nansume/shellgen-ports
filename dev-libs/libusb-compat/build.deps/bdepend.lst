@@ -1,0 +1,12 @@
+dev-libs/glib-compat
+dev-libs/libffi
+dev-libs/libusb
+dev-libs/pcre
+
+dev-util/pkgconf
+sys-apps/file
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl

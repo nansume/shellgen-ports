@@ -1,0 +1,9 @@
+# Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
+# -static +static-libs +shared +nopie -lfs -upx +patch -doc -man -xstub -diet +musl +stest +strip +x32
+
+# https://gfiber.googlesource.com/buildroot/+/master/package/lite/lite.mk
+
+DESCRIPTION="LiTE is a Toolkit Engine for DirectFB"
+HOMEPAGE="http://www.directfb.org/downloads/Libs"
+LICENSE="LGPL-2.1"
+IUSE="-test +static-libs +shared +nopie -doc -man -xstub (+musl) +stest +strip"

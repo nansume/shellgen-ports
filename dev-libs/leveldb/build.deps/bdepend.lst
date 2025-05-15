@@ -1,0 +1,7 @@
+dev-libs/crc32c
+#dev-libs/libressl-compat
+dev-util/cmake
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl

@@ -1,0 +1,7 @@
+app-crypt/libmd  # the musl libc without MD5 functions.
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-kernel/linux-headers
+sys-libs/musl

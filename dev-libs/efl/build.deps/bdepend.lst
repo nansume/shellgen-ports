@@ -1,0 +1,92 @@
+app-text/libspectre  # for postscript (optional)
+app-text/poppler-data  # for pdf (optional)
+
+dev-db/sqlite  # deps: libsndfile (optional)
+
+dev-lang/lua-compat  # without luajit
+dev-lang/python3  # required for glib[meson]?
+dev-libs/expat  # for fontconfig,python
+dev-libs/glib-compat  # deps: for poppler pdf (optional)
+dev-libs/glib  # optional
+dev-libs/gmp  # for gnutls,openssl
+dev-libs/libcroco  # for svg (optional)
+dev-libs/libgcrypt  # for gnutls?
+dev-libs/libgpg-error  # for gnutls?
+dev-libs/libxml2  # required for gstreamer?
+dev-libs/libtasn1  # for gnutls
+dev-libs/libunistring  # for gnutls
+dev-libs/openssl3  # deps: for poppler pdf (optional)
+dev-libs/pcre  # for >=glib-2.69
+dev-libs/nettle  # for gnutls
+dev-util/pkgconf
+
+gnome-base/librsvg  # for svg (optional)
+
+media-gfx/poppler  # for pdf (optional)
+
+media-libs/alsa-lib  # for sound,sdl-deps (optional)
+media-libs/flac  # deps: libsndfile (optional)
+media-libs/freetype  # for fontconfig
+media-libs/fontconfig
+media-libs/giflib
+media-libs/gstreamer1
+media-libs/gst-plugins-base  # for gstreamer
+media-libs/harfbuzz2  # for svg (optional)
+media-libs/lcms2  # deps: for poppler pdf (optional)
+media-libs/libjpeg-turbo
+media-libs/libogg  # deps: libsndfile (optional)
+media-libs/libpng
+media-libs/libvorbis  # deps: libsndfile (optional)
+media-libs/libwebp  # optional
+media-libs/libsndfile  # for sound (optional)
+media-libs/mesa  # for opengl
+media-libs/opus  # deps: libsndfile (optional)
+media-libs/tiff  # optional
+media-libs/sdl2
+
+media-sound/lame  # deps: libsndfile (optional)
+media-sound/mpg123  # deps: libsndfile (optional)
+
+net-misc/curl  # hard depend?, deps: for poppler pdf (optional)
+net-libs/gnutls  # optional
+
+sys-apps/dbus  # hard depend?
+sys-apps/file
+sys-apps/util-linux  # for libmount (optional)
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-kernel/linux-headers-musl  # required?, testing
+sys-libs/musl
+sys-libs/zlib  # for libpng
+
+x11-base/xorg-proto
+
+x11-libs/cairo  # for svg (optional)
+x11-libs/gdk-pixbuf  # for svg (optional)
+x11-libs/libdrm  # optional
+x11-libs/libice
+x11-libs/libpciaccess  # for libdrm
+x11-libs/libsm
+x11-libs/libvdpau  # for mesa
+x11-libs/libx11
+x11-libs/libxau
+x11-libs/libxcb
+x11-libs/libxcomposite
+x11-libs/libxcursor
+x11-libs/libxdamage  # for mesa
+x11-libs/libxdmcp
+x11-libs/libxext
+x11-libs/libxfixes
+x11-libs/libxi  # for libxtst
+x11-libs/libxinerama
+x11-libs/libxrandr  # for mesa
+x11-libs/libxrender  # for fontconfig (optional)
+x11-libs/libxpm
+x11-libs/libxpresent
+x11-libs/libxscrnsaver
+x11-libs/libxshmfence  # for mesa
+x11-libs/libxtst
+x11-libs/libxxf86vm  # for mesa
+x11-libs/pango  # for svg (optional)
+x11-libs/pixman  # for svg (optional)

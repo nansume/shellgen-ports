@@ -1,0 +1,7 @@
+dev-libs/libgpg-error
+sys-apps/file
+#sys-apps/coreutils  #expr-utils
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl

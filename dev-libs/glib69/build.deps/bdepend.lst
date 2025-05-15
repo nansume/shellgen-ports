@@ -1,0 +1,28 @@
+dev-build/meson  # build tool
+
+dev-lang/python3
+
+dev-libs/expat  # python bundled
+dev-libs/libffi
+dev-libs/pcre  # optional (internal pcre glib-2.68.4)
+
+#dev-python/importlib-metadata
+dev-python/importlib-resources  # for meson (build tool)
+#dev-python/py3-pkg-resources
+dev-python/py3-setuptools  # for meson (build tool)
+dev-python/typing  # for meson (build tool)
+#dev-python/typing-extensions
+dev-python/zipp  # for meson (build tool)
+
+dev-util/pkgconf
+dev-util/ninja  # for meson (build tool)
+
+#sys-apps/util-linux  # for libmount (nowork)
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-kernel/linux-headers-musl  # optional (too recomended
+sys-libs/musl
+sys-libs/zlib
+
+x11-misc/shared-mime-info  # optional
