@@ -1,0 +1,9 @@
+# Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
+# -static +static-libs +shared +nopie -lfs -upx +patch -doc -man -xstub -diet +musl -stest +strip +x32
+
+# http://data.gpo.zugaina.org/gentoo/net-libs/liboauth/liboauth-1.0.3-r4.ebuild
+
+DESCRIPTION="C library implementing the OAuth secure authentication protocol"
+HOMEPAGE="https://liboauth.sourceforge.io/"
+LICENSE="|| ( GPL-2 MIT )"
+IUSE="+curl -doc +static-libs +shared +nopie -doc +musl +strip"

@@ -1,0 +1,7 @@
+https://noping.cc/files/${PN}-${PV}.tar.bz2
+
+http://data.gpo.zugaina.org/gentoo/net-libs/${PN}/files/${PN}-1.10.0-no-werror.patch
+http://data.gpo.zugaina.org/gentoo/net-libs/${PN}/files/${PN}-1.6.2-nouidmagic.patch
+http://data.gpo.zugaina.org/gentoo/net-libs/${PN}/files/${PN}-1.10.0-gcc8-fix.patch
+http://data.gpo.zugaina.org/gentoo/net-libs/${PN}/files/${PN}-1.10.0-do-not-quit-when-ping_send-fail.patch
+http://data.gpo.zugaina.org/gentoo/net-libs/${PN}/files/${PN}-1.10.0-report-right-error-msg-when-select-fails.patch

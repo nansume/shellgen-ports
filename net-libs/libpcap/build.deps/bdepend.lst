@@ -1,0 +1,9 @@
+dev-util/pkgconf
+sys-devel/binutils
+sys-devel/bison
+sys-devel/flex
+sys-devel/gcc
+sys-devel/m4
+sys-devel/make
+sys-kernel/linux-headers
+sys-libs/musl

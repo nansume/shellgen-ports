@@ -1,0 +1,5 @@
+https://downloads.sourceforge.net/project/${PN}/${PN}-${PV}.tar.gz
+
+http://data.gpo.zugaina.org/gentoo/net-libs/${PN}/files/${PN}-1.0.1-doxygen-out-of-tree.patch
+http://data.gpo.zugaina.org/gentoo/net-libs/${PN}/files/${PN}-1.0.3-openssl-1.1.patch
+http://data.gpo.zugaina.org/gentoo/net-libs/${PN}/files/${PN}-1.0.3-openssl-1.1_2.patch

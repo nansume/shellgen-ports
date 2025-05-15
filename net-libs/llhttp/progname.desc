@@ -1,0 +1,9 @@
+# Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
+# -static +static-libs +shared +nopie -lfs -upx -patch -doc -man -xstub -diet +musl +stest +strip +x32
+
+# http://data.gpo.zugaina.org/gentoo/net-libs/llhttp/llhttp-9.2.1.ebuild
+
+DESCRIPTION="Port of http_parser to llparse"
+HOMEPAGE="https://github.com/nodejs/llhttp/"
+LICENSE="MIT"
+IUSE="+static-libs +shared +nopie -lfs -upx -doc (+musl) +stest +strip"

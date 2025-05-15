@@ -1,0 +1,14 @@
+dev-libs/glib-compat
+
+dev-libs/libressl-compat  # for openssh
+dev-libs/pcre  # for glib
+dev-util/pkgconf
+
+net-misc/openssh-compat
+
+sys-fs/fuse
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl

@@ -1,0 +1,9 @@
+# Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
+# -static +static-libs +shared +nopie -lfs -upx +patch -doc -man -xstub -diet +musl +stest +strip +x32
+
+# http://data.gpo.zugaina.org/gentoo/net-libs/liboping/liboping-1.10.0-r3.ebuild
+
+DESCRIPTION="Protocol independent ANSI-C ping library and command line utility"
+HOMEPAGE="https://noping.cc/ https://github.com/octo/liboping"
+LICENSE="GPL-2 LGPL-2.1"
+IUSE="+filecaps +ncurses +perl +static-libs +shared +nopie -doc +musl +strip"

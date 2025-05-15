@@ -1,0 +1,17 @@
+dev-lang/duktape
+dev-lang/vala
+dev-libs/glib-compat
+dev-libs/libffi  # for glib
+dev-libs/libxml2  # for vala
+dev-libs/libxslt  # for vala
+dev-libs/openssl3
+dev-libs/pcre  # for vala
+dev-util/pkgconf
+
+net-misc/curl
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # for glib

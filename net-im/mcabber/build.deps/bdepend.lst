@@ -1,0 +1,29 @@
+#app-alternatives/ncursesw
+
+dev-libs/gmp  # for gnutls
+dev-libs/glib-compat
+dev-libs/libffi
+
+dev-libs/libgcrypt
+dev-libs/libgpg-error
+
+dev-libs/libtasn1  # for gnutls
+dev-libs/libunistring  # for gnutls
+dev-libs/nettle  # for gnutls
+
+dev-libs/pcre
+dev-util/pkgconf
+
+net-dns/libidn
+
+net-libs/gnutls
+net-libs/libotr
+net-libs/loudmouth
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+sys-libs/ncurses
+sys-libs/zlib  # for gnutls

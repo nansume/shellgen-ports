@@ -1,0 +1,16 @@
+dev-libs/gmp  # deps curl
+dev-libs/openssl3  # deps curl
+
+dev-util/pkgconf
+
+net-dns/c-ares  # deps curl
+net-misc/curl8-2
+
+sys-apps/file
+
+sys-devel/binutils
+sys-devel/gcc9
+sys-devel/make
+
+sys-libs/musl
+sys-libs/zlib  # deps curl

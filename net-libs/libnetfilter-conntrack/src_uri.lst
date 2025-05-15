@@ -1,0 +1,5 @@
+http://deb.debian.org/debian/pool/main/libn/libnetfilter-conntrack/libnetfilter-conntrack_1.0.9.orig.tar.bz2 -> libnetfilter-conntrack-1.0.9.tar.bz2
+#https://www.netfilter.org/projects/${PN}/files/${PN}-1.0.9.tar.bz2
+http://deb.debian.org/debian/pool/main/libn/libnetfilter-conntrack/libnetfilter-conntrack_1.0.9-6.debian.tar.xz
+http://data.gpo.zugaina.org/gentoo/net-libs/libnetfilter_conntrack/files/libnetfilter_conntrack-1.0.9-musl.patch
+http://data.gpo.zugaina.org/gentoo/net-libs/libnetfilter_conntrack/files/libnetfilter_conntrack-1.0.9-configure-clang16.patch

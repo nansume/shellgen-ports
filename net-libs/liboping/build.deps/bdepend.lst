@@ -1,0 +1,18 @@
+dev-build/autoconf69
+dev-build/automake14
+
+dev-lang/perl
+
+dev-util/pkgconf
+
+sys-apps/file
+
+sys-devel/binutils
+sys-devel/gcc9
+sys-devel/libtool
+sys-devel/m4
+sys-devel/make
+sys-devel/patch  # for patch with fuzz and offset.
+
+sys-libs/musl
+sys-libs/ncurses

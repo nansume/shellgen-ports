@@ -1,0 +1,7 @@
+dev-libs/libite
+dev-libs/libuev
+dev-util/pkgconf
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl

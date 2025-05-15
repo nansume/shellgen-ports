@@ -1,0 +1,9 @@
+#dev-libs/libgcrypt  # for gnutls (optional)
+#dev-libs/libgpg-error  # for gnutls (optional)
+#dev-libs/wolfssl
+net-libs/mbedtls
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # optional

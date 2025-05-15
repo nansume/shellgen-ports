@@ -1,0 +1,9 @@
+# Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
+# -static +static-libs +shared +nopie -lfs -upx -patch -doc -man -xstub -diet +musl +stest +strip +x32
+
+# http://data.gpo.zugaina.org/guru/net-libs/libuecc/libuecc-7.ebuild
+
+DESCRIPTION="a very small Elliptic Curve Cryptography library compatible with Ed25519."
+HOMEPAGE="https://github.com/neocturne/libuecc"
+LICENSE="BSD-2"
+IUSE="+static-libs +shared"

@@ -1,0 +1,7 @@
+ftp://mirrors.tera-byte.com/pub/gentoo/distfiles/curlftpfs-0.9.2.tar.gz
+http://data.gpo.zugaina.org/gentoo/net-fs/curlftpfs/files/curlftpfs-0.9.2-64bit_filesize.patch
+http://data.gpo.zugaina.org/gentoo/net-fs/curlftpfs/files/curlftpfs-0.9.2-darwin.patch
+http://data.gpo.zugaina.org/gentoo/net-fs/curlftpfs/files/curlftpfs-0.9.2-memleak.patch
+http://data.gpo.zugaina.org/gentoo/net-fs/curlftpfs/files/curlftpfs-0.9.2-memleak-nocache.patch
+http://data.gpo.zugaina.org/gentoo/net-fs/curlftpfs/files/curlftpfs-0.9.2-fix-escaping.patch
+http://data.gpo.zugaina.org/gentoo/net-fs/curlftpfs/files/curlftpfs-0.9.2-__off_t.patch

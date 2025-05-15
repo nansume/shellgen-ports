@@ -1,0 +1,5 @@
+mirror://nongnu/${PN}/${PN}-1.6.1.tar.gz
+#mirror://nongnu/${PN}/${PN}-1.7.0.tar.gz  #for musl required testing. (incompatible?)
+https://git.alpinelinux.org/aports/plain/community/davfs2/010-main_code_fix.patch -> davfs2-010-main_code_fix.patch
+https://git.alpinelinux.org/aports/plain/community/davfs2/100-musl-compat.patch -> davfs2-100-musl-compat.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-1.6.1-neon-version-support.patch

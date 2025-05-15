@@ -1,0 +1,12 @@
+#dev-libs/libressl-compat  # optional (replace on the stunnel)
+dev-util/pkgconf
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/bison
+sys-devel/flex
+sys-devel/gcc
+sys-devel/make
+sys-kernel/linux-headers
+sys-libs/musl
+sys-libs/zlib  # optional

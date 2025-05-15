@@ -1,0 +1,5 @@
+https://github.com/uNetworking/uSockets/archive/v0.8.8.tar.gz -> ${PN}-0.8.8.tar.gz
+http://data.gpo.zugaina.org/guru/${CATEGORY}/${PN}/files/${PN}-0.8.8-Makefile.patch
+http://data.gpo.zugaina.org/guru/${CATEGORY}/${PN}/files/${PN}-0.8.1_p20211023-pkg-config.patch
+http://data.gpo.zugaina.org/guru/${CATEGORY}/${PN}/files/${PN}-0.8.1_p20211023-gen-ssl-config.patch
+http://data.gpo.zugaina.org/guru/${CATEGORY}/${PN}/files/${PN}-0.8.8-hammer-test.patch

@@ -1,0 +1,14 @@
+#app-busybox/hexdump
+dev-libs/gmp
+dev-libs/libtasn1
+dev-libs/libunistring
+dev-libs/nettle
+#dev-scheme/guile2
+dev-util/pkgconf
+sys-devel/binutils
+sys-devel/bison
+sys-devel/gcc
+sys-devel/make
+#sys-libs/libfaketime
+sys-libs/musl
+sys-libs/zlib

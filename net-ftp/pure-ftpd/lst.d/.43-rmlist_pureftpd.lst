@@ -1,0 +1,9 @@
+etc/*
+bin/*
+sbin/pure-authd
+sbin/pure-ftpwho
+sbin/pure-mrtginfo
+sbin/pure-quotacheck
+sbin/pure-uploadscript
+<DPREFIX>/share/*
+var/*

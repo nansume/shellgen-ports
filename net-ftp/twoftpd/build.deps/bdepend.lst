@@ -1,0 +1,6 @@
+dev-libs/bglibs
+net-libs/cvm
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/libtool
+sys-devel/make

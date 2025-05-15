@@ -1,0 +1,10 @@
+dev-libs/expat
+#dev-libs/openssl3  # optional (copatible with LGPL-2.0+)
+dev-util/pkgconf
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # for gnutls,openssl,zcomp

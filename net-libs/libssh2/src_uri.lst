@@ -1,0 +1,3 @@
+https://www.libssh2.org/download/${PN}-1.11.0.tar.xz
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-1.11.0-mansyntax_sh.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-1.11.0-size_t.patch

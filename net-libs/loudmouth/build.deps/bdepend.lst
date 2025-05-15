@@ -1,0 +1,17 @@
+dev-libs/glib-compat
+dev-libs/gmp  # for gnutls?
+dev-libs/libffi
+dev-libs/libtasn1  # for gnutls
+dev-libs/libunistring  # for gnutls
+dev-libs/nettle  # for gnutls
+dev-libs/pcre
+dev-util/pkgconf
+
+net-libs/gnutls
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # for gnutls

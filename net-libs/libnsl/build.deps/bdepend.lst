@@ -1,0 +1,8 @@
+dev-util/pkgconf
+net-libs/libtirpc
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl

@@ -1,0 +1,6 @@
+dev-db/cdb
+dev-libs/bglibs
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/libtool
+sys-devel/make

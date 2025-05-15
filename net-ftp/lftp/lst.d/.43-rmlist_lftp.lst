@@ -1,0 +1,9 @@
+etc/*
+bin/lftpget
+lib*/lftp/4.*/cmd-sleep.so
+lib*/lftp/4.*/liblftp-jobs.so
+lib*/lftp/4.*/liblftp-pty.so
+lib*/lftp/4.*/liblftp-tasks.so
+lib*/lftp/4.*/proto-fish.so
+lib*/lftp/4.*/proto-sftp.so
+<DPREFIX>/share/*

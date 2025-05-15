@@ -1,0 +1,39 @@
+# tdlib-v1.8.10 -> c8acf63e02e84f9c5053a4cef253a219dfbe870c  # no build <tdlib-purple>
+# tdlib-v1.8.21 -> 3870c29b158b75ca5e48e0eebd6b5c3a7994a000
+
+# user-nopriv
+=========================================================
+git config --global http.sslVerify false
+#git config --global init.defaultBranch master
+=========================================================
+git clone https://github.com/tdlib/td.git tdlib/
+cd tdlib/
+git checkout 3870c29b158b75ca5e48e0eebd6b5c3a7994a000
+=========================================================
+or
+=========================================================
+mkdir tdlib/
+cd tdlib/
+git init
+git remote add origin https://github.com/tdlib/td.git
+git fetch origin
+#git checkout origin/tdlib-v1.8.2
+#git rev-parse c8acf63e0
+#git rev-parse 3870c29b1
+#git reset --hard c8acf63e02e84f9c5053a4cef253a219dfbe870c
+git reset --hard 3870c29b158b75ca5e48e0eebd6b5c3a7994a000
+#git log --oneline
+#git checkout HEAD
+
+=========================================================
+
+# root
+=========================================================
+PN=tdlib
+PV=1.8.21
+cd /tmp/archive/
+#cp -rp download/tdlib/* -t tdlib/
+chown -R root:root -- tdlib/
+#cd tdlib/
+#find * -print0 | tar -c -O -T - | /bin/xz -z -6 -c > ../${PN}-${PV}.tar.xz  # bug: double
+tar -c tdlib/ -O | /bin/xz -z -6 -c > ${PN}-${PV}.tar.xz

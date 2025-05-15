@@ -1,0 +1,5 @@
+rsync://mirror.bytemark.co.uk/gentoo/distfiles/*/${PN}2.9.4.tar.gz
+#http://gotbnc.com/files/${PN}2.9.4.tar.gz
+
+http://data.gpo.zugaina.org/gentoo/net-irc/bnc/files/respect-cflags-ldflags.patch
+http://data.gpo.zugaina.org/gentoo/net-irc/bnc/files/bnc-2.9.3-64bit.patch
