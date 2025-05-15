@@ -1,0 +1,32 @@
+#!/bin/sh
+# Banned since EAPI 6.
+# Support [experimental]: EAPI-5 einstall from src_install
+# Usage: einstall [make options]
+# This is used as a replacement for make install.
+# https://devmanual.gentoo.org/eclass-reference/ebuild/
+# https://dev.gentoo.org/~zmedico/portage/doc/man/ebuild.5.html
+# Date: 2024-05-19 08:00 UTC - last change
+
+IFS="$(printf '\n\t') "
+ED=${ED:-$INSTALL_DIR}
+
+: ${ED:?required install dir variables}
+
+# Please do not use this in place of `emake install DESTDIR=${D}`. That is the preferred way of installing
+# make-based packages. Also, do not utilize the EXTRA_EINSTALL variable since it is for users.
+
+die() {
+  printf %s\\n "${*:-Failed: ${_} build... error}" >&2
+  exit 1
+}
+
+. runverb \
+make \
+  prefix=${ED}/usr \
+  datadir=${ED}/usr/share \
+  infodir=${ED}/usr/share/info \
+  localstatedir=${ED}/var/lib \
+  mandir=${ED}/usr/share/man \
+  sysconfdir=${ED}/etc \
+  ${EXTRA_EINSTALL} \
+  ${@} install || die "make install... error"

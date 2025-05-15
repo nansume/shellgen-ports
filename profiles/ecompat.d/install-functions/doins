@@ -1,0 +1,35 @@
+#!/bin/sh
+# Support [experimental]: EAPI-3 (minimal)
+# incompatible: doins path/*
+# Usage: doins [-r] <file> [list of more files]
+# Variables: ED INSDESTTREE
+# https://devmanual.gentoo.org/eclass-reference/ebuild/
+# Date: 2024-05-24 14:00 UTC - last change
+
+# install into ${ED}${INSDESTTREE}/
+# options: -r recursive
+
+IFS=' ' SC=${0##*/} ED=${ED:-$INSTALL_DIR} OPT=
+
+: ${ED:?required install dir variables}
+: ${1:?Usage: $SC [-r] <file> [list of more files]... Error}
+
+INSDESTTREE=${INSDESTTREE%/}${INSDESTTREE:+/}
+
+test "X${1}" = 'X-r' && { OPT=${1}; shift;}
+
+for X in ${*}; do
+  test -e "${X}" || { printf %s\\n "$SC: ${X}: No exist file... Error" >&2; exit 1;}
+done
+
+printf %s "${SC}: mkdir -pm 0755 ${ED}${INSDESTTREE}"
+mkdir -pm 0755 -- ${ED}${INSDESTTREE} || { printf %s\\n "... Error" >&2; exit 1;}
+printf '\n'
+
+printf %s "${SC}: cp ${OPT}${OPT:+ }-n ${*} -t ${ED}${INSDESTTREE}"
+cp -n ${OPT} ${*} -t ${ED}${INSDESTTREE} || { printf %s\\n "... Error" >&2; exit 1;}
+printf '\n'
+
+printf %s "${SC}: chmod -R a=rX,u=rwX ${ED}${INSDESTTREE}"
+chmod -R a=rX,u=rwX -- ${ED}${INSDESTTREE} || { printf %s\\n "... Error" >&2; exit 1;}
+printf '\n'

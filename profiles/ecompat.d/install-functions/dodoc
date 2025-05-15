@@ -1,0 +1,38 @@
+#!/bin/sh
+# Support [experimental]: EAPI-4 (minimal)
+# Usage: dodoc [-r] <document> [list of more documents]
+# Variables: ED PN PV DOCINTO
+# https://devmanual.gentoo.org/eclass-reference/ebuild/
+# Date: 2024-05-19 20:00 UTC - last change
+
+# install into /usr/share/doc/${PF}/<docinto path>
+# options: -r recursive
+
+IFS=' ' SC=${0##*/} ED=${ED:-$INSTALL_DIR} OPT=
+
+: ${PN:?required <pkgname> variables} ${PV:?required <pkgver> variables}
+: ${ED:?required install dir variables}
+: ${1:?Usage: $SC [-r] <document> [list of more documents]... Error}
+
+PF="${PN}-${PV}"
+DOCINTO=${DOCINTO%/}${DOCINTO:+/}
+
+test "X${1}" = 'X-r' && { OPT=${1}; shift;}
+
+for DOC in ${*}; do
+  test -e "${DOC}" || { printf %s\\n "$SC: ${DOC}: No exist file or dir... Error" >&2; exit 1;}
+done
+# it required fix properly. it really required?
+#test -d "${1%/}" && set -- "${1%/}/*"
+
+printf %s "${SC}: mkdir -pm 0755 ${ED}/usr/share/doc/${PF}/${DOCINTO}"
+mkdir -pm 0755 -- ${ED}/usr/share/doc/${PF}/${DOCINTO} || { printf %s\\n "... Error" >&2; exit 1;}
+printf '\n'
+
+printf %s "${SC}: cp ${OPT}${OPT:+ }-n ${*} -t ${ED}/usr/share/doc/${PF}/${DOCINTO}"
+cp -n ${OPT} ${*} -t ${ED}/usr/share/doc/${PF}/${DOCINTO} || { printf %s\\n "... Error" >&2; exit 1;}
+printf '\n'
+
+printf %s "${SC}: chmod -R a=rX,u=rwX ${ED}/usr/share/doc/${PF}/${DOCINTO}"
+chmod -R a=rX,u=rwX -- ${ED}/usr/share/doc/${PF}/${DOCINTO} || { printf %s\\n "... Error" >&2; exit 1;}
+printf '\n'

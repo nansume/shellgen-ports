@@ -1,0 +1,31 @@
+#!/bin/sh
+# Support [experimental]: EAPI-5 (minimal)
+# Usage: doheader [-r] <file> [list of more files]
+# https://devmanual.gentoo.org/eclass-reference/ebuild/index.html
+# https://devmanual.gentoo.org/function-reference/install-functions/
+# Date: 2024-05-18 13:00 UTC - last change
+
+# install into /usr/include/
+# options: -r recursive
+
+IFS=' ' SC=${0##*/} ED=${ED:-$INSTALL_DIR} OPT=
+
+: ${ED:?required install dir variables} ${1:?Usage: $SC [-r] <file> [list of more files]... Error}
+
+test "X${1}" = 'X-r' && { OPT=${1}; shift;}
+
+for HEADER in ${*}; do
+  test -e "${HEADER}" || { printf %s\\n "$SC: ${HEADER}: No exist file or dir... Error" >&2; exit 1;}
+done
+
+printf %s "${SC}: mkdir -pm 0755 -- ${ED}/usr/include/"
+mkdir -pm 0755 -- ${ED}/usr/include/ || { printf %s\\n "... Error" >&2; exit 1;}
+printf '\n'
+
+printf %s "${SC}: cp ${OPT}${OPT:+ }-n ${*} -t ${ED}/usr/include/"
+cp ${OPT} -n ${*} -t ${ED}/usr/include/ || { printf %s\\n "... Error" >&2; exit 1;}
+printf '\n'
+
+printf %s "${SC}: chmod -R a=rX,u=rwX -- ${ED}/usr/include/"
+chmod -R a=rX,u=rwX -- ${ED}/usr/include/ || { printf %s\\n "... Error" >&2; exit 1;}
+printf '\n'

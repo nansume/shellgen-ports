@@ -1,0 +1,19 @@
+#!/bin/sh
+# Support [experimental]: dodir from ebuild (minimal)
+# Usage: dodir <path> [more paths]
+# https://devmanual.gentoo.org/eclass-reference/ebuild/
+# Date: 2024-06-01 16:00 UTC - last change
+
+IFS="$(printf '\n\t') "
+SC=${0##*/}
+ED=${ED:-$INSTALL_DIR}
+EXEOPTIONS=${EXEOPTIONS:=-m0755}
+
+: ${ED:?required install dir variables}
+: ${1:?Usage: $SC <path> [more paths]... Error}
+
+for DIR in ${*}; do
+  DIR=${DIR%/}
+  printf %s\\n "${SC}: mkdir ${EXEOPTIONS} -- ${ED}${DIR}/"
+  mkdir -p ${EXEOPTIONS} -- "${ED}${DIR}/" || exit
+done

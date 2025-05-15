@@ -1,0 +1,24 @@
+#!/bin/sh
+# Support [experimental]: dolib.so from ebuild (minimal)
+# Usage: dolib.so <library> [list of more libraries]
+# https://devmanual.gentoo.org/eclass-reference/ebuild/index.html
+# https://devmanual.gentoo.org/function-reference/install-functions/
+# Date: 2024-05-18 14:00 UTC - last change
+
+# *.so - install into: DESTTREE/lib
+
+IFS=' ' SC=${0##*/}
+
+: ${ED:?required install dir variables} ${DESTTREE:-}
+: ${1:?Usage: $SC <library> [list of more libraries]... Error}
+
+use 'shared' || { printf %s\\n "${SC}: useflag '-shared'... skip" >&2; exit;}
+
+for LIB in ${*}; do
+  test -f "${LIB}" || { printf %s\\n "${SC}: ${LIB} - No exist file... Error" >&2; exit 1;}
+  case ${LIB} in *.so|*.so.*);; *?) printf %s\\n "${SC}: ${LIB} - unknown prefix file... Error" >&2; exit 1;; esac
+  chmod '0755' -- ${LIB} || { printf %s\\n "${SC}: chmod 0755 -- ${LIB}... Error" >&2; exit 1;}
+done
+
+mkdir -vpm '0755' -- ${ED}${DESTTREE}/$(get_libdir)/ || { printf %s\\n "${SC}: mkdir <libdir>... Error" >&2; exit 1;}
+mv -vn ${*} -t "${ED}"${DESTTREE}/$(get_libdir)/ || { printf %s\\n "${SC}: mv *.so <libdir>... Error" >&2; exit 1;}

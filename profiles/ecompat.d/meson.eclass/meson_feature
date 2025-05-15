@@ -1,0 +1,10 @@
+#!/bin/sh
+# Support [experimental]: EAPI-? (minimal)
+# Usage [EAPI-?]: meson_feature {useflag-global} {useflag-local:optional}
+# Return: -D${useflag}=enabled / -D${useflag}=disabled  |  Exitcode: [true]/[false]
+# https://gitweb.gentoo.org/repo/gentoo.git/plain/eclass/meson.eclass
+# Date: 2024-06-14 21:00 UTC - last change
+
+: ${PDIR:?} ${CATEGORY:?} ${PN:?} ${1:?required global useflag}
+
+usex "${1}" "-D${2-$1}=enabled" "-D${2-$1}=disabled" || exit

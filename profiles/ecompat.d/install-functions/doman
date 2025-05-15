@@ -1,0 +1,50 @@
+#!/bin/sh
+# Support [experimental]: EAPI-4 (minimal)
+# Usage: doman [-i18n=<locale>] <man-page> [list of more man-pages]
+# https://devmanual.gentoo.org/eclass-reference/ebuild/index.html
+# https://devmanual.gentoo.org/function-reference/install-functions/
+# Date: 2024-05-18 13:00 UTC - last change
+
+# install into: /usr/share/man/man[1-8n]/
+# opts: -i18n=<lng> install into: /usr/share/man/<lng>/man[1-8n]/
+# without : -i18n: foo.<locale>.1 -> /usr/share/man/<locale>/man1/
+
+IFS=' ' SC=${0##*/} LOCALE=
+
+use 'man' || { printf %s\\n "${SC}: useflag '-man'... skip" >&2; exit;}
+
+case ${1} in
+  -i18n=[a-z][a-z]) LOCALE=${1#*=}; shift;;
+  -*) printf %s\\n "Usage: doman [-i18n=<locale>] <manfiles>... Error" >&2; exit 1;;
+esac
+
+: ${ED:?required install dir variables} ${1:?Usage: doman [-i18n=<locale>] <man-page [list]>... Error}
+
+for MAN in ${*}; do
+  N="1"
+  F=${MAN##*/}
+  test -f "${MAN}" || { printf %s\\n "${SC}: ${MAN} - No exist file... Error" >&2; exit 1;}
+  case ${MAN} in *.[1-8]);; *?) printf %s\\n "${SC}: ${MAN} - unknown prefix file... Error" >&2; exit 1;; esac
+  chmod '0644' -- ${MAN} || { printf %s\\n "${SC}: chmod 0644 -- ${MAN}... Error" >&2; exit 1;}
+  test -z "${MAN##*.[1-8]}" && N=${MAN##*.}
+  if test -n "${LOCALE}"; then
+    mkdir -vpm '0755' -- ${ED}/usr/share/man/${LOCALE}/man${N}/ ||
+    { printf %s\\n "${SC}: mkdir usr/share/man/${LOCALE}/man${N}/... Error" >&2; exit 1;}
+    mv -vn ${MAN} -T ${ED}/usr/share/man/${LOCALE}/man${N}/${F%%.*}.${N} ||
+    { printf %s\\n "${SC}: mv ${MAN} usr/share/man/${LOCALE}/man${N}/${F%%.*}.${N}... Error" >&2; exit 1;}
+  else
+    { test -z "${MAN#*.[a-z][a-z]}" || test -z "${MAN#*.[a-z][a-z][a-z]}" ;} && LOCALE=${MAN##*.}
+    if test -n "${LOCALE}"; then
+      mkdir -vpm '0755' -- ${ED}/usr/share/man/${LOCALE}/man${N}/ ||
+      { printf %s\\n "${SC}: mkdir usr/share/man/${LOCALE}/man${N}/... Error" >&2; exit 1;}
+      mv -vn ${MAN} -T ${ED}/usr/share/man/${LOCALE}/man${N}/${F%%.*}.${N} ||
+      { printf %s\\n "${SC}: mv ${MAN} usr/share/man/${LOCALE}/man${N}/${F%%.*}.${N}... Error" >&2; exit 1;}
+      LOCALE=
+    else
+      mkdir -vpm '0755' -- ${ED}/usr/share/man/man${N}/ ||
+      { printf %s\\n "${SC}: mkdir usr/share/man/man${N}/... Error" >&2; exit 1;}
+      mv -vn ${MAN} -t ${ED}/usr/share/man/man${N}/ ||
+      { printf %s\\n "${SC}: mv ${MAN} usr/share/man/man${N}/${F%%.*}.${N}... Error" >&2; exit 1;}
+    fi
+  fi
+done

@@ -1,0 +1,22 @@
+#!/bin/sh
+# Support [experimental]: get_libname from multilib.eclass (minimal)
+# Usage1: get_libname [version]
+# Return: .so.${PV}
+# Usage2: get_libname
+# Return: .so
+# https://devmanual.gentoo.org/eclass-reference/multilib.eclass/index.html
+# Date: 2024-05-18 19:00 UTC - last change
+
+IFS=' ' SC=${0##*/}
+
+if test "${#}" -ge '2';then
+  printf '%s\n%s\n' "Usage: $SC [version]... Error" "\$2? ambiguous [$SC \$1]... Error" >&2
+  exit 1
+elif test -z "${1}";then
+  LIBPREFIX=
+else  # 2024.07.11 - additional, required fix package with: get_libname <empty>
+  PV=${1}
+  LIBPREFIX=".${PV}"
+fi
+
+printf .so%s\\n "${LIBPREFIX}"

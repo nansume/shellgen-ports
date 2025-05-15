@@ -1,0 +1,12 @@
+#!/bin/sh
+# Support [experimental]: EAPI-? (minimal)
+# Usage [EAPI-?]: meson_use {useflag-global} {useflag-local:optional}
+# Return: -D${useflag}=true / -D${useflag}=false  |  Exitcode: [true]/[false]
+# https://gitweb.gentoo.org/repo/gentoo.git/plain/eclass/meson.eclass
+# Date: 2024-06-14 21:00 UTC - last change
+
+: ${PDIR:?} ${CATEGORY:?} ${PN:?} ${1:?required global useflag}
+
+test -z "${PDIR}" && PDIR="/usr/ports/${CATEGORY}/${PN}"
+
+usex "${1}" "-D${2-$1}=true" "-D${2-$1}=false" || exit

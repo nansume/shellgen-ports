@@ -1,0 +1,9 @@
+#!/bin/sh
+
+test "${#}" -eq '0' && exit 0
+
+sed -i 's/\r$//' -- "$@" &&
+
+{ printf %s\\n "run command: ${0##*/}... ok"; exit 0;} ||
+
+{ printf %s\\n "Failed to run command: ${0##*/}"; exit 1;}

@@ -1,0 +1,24 @@
+#!/bin/sh
+# Support [experimental]: Gentoo EAPI (minimal)
+# Usage: fperms [options] <file> [list of more files]
+# Variables: ED
+# https://devmanual.gentoo.org/eclass-reference/ebuild/
+# Date: 2024-05-24 14:00 UTC - last change
+
+IFS="$(printf '\n\t') "
+SC=${0##*/}
+ED=${ED:-$INSTALL_DIR}
+OPT=
+
+: ${ED:?required install dir variables}
+: ${2:?Usage: $SC [options] <file> [list of more files]... Error}
+
+test "${#}" -ge '2' && { OPT=${1}; shift;}
+
+for X in ${*}; do
+  X="${ED}/${X}"
+  test -e "${X}" || { printf %s\\n "$SC: ${X}: No exist file... Error" >&2; exit 1;}
+  chmod ${OPT} -- "${X}" &&
+  printf %s\\n "${SC}: chmod ${OPT} -- ${X}" ||
+  { printf %s\\n "${SC}: chmod ${OPT} -- ${X}... Error" >&2; exit 1;}
+done

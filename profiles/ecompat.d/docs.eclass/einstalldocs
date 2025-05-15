@@ -1,0 +1,40 @@
+#!/bin/sh
+# Support [experimental]: EAPI-6
+# Usage: einstalldocs
+# This is automatically install the documentation.
+# https://devmanual.gentoo.org/eclass-reference/docs.eclass/
+# https://devmanual.gentoo.org/function-reference/install-functions/
+# Date: 2024-05-19 20:00 UTC - last change
+
+IFS="$(printf '\n\t') "
+SC=${0##*/}
+ED=${ED:-$INSTALL_DIR}
+
+: ${PN:?required <pkgname> variables} ${PV:?required <pkgver> variables}
+: ${ED:?required install dir variables}
+
+# TIP! replace: source [path] --> source ${FUNCEXPORT}
+source ${PDIR%/}/ecompat.d/install-functions/"docinto.env"
+
+test -n "${DOCS}"      || DOCS="AUTHORS BUGS CHANGES ChangeLog LICENSE NEWS README* THANKS TODO VERSION"
+test -n "${HTML_DOCS}" || HTML_DOCS="doc/html/*.html"
+
+{ test -n "${DOCS}" || test -n "${HTML_DOCS}" ;} ||
+  { printf %s\\n "required \${DOCS} or \${HTML_DOCS}" >&2; exit 1;}
+
+for DOC in '' ${DOCS}; do
+  test -z "${DOC}" && DOCS=
+  test -e "${DOC}" && DOCS="${DOCS}${DOCS:+ }${DOC}"
+done
+
+for DOC in ${DOCS} ${HTML_DOCS}; do
+  test -e "${DOC}" || { printf %s\\n "$SC: ${DOC}: No exist file or dir... Error" >&2; : exit 1;}
+done
+
+test -n "${DOCS}" && dodoc -r ${DOCS} || : exit
+
+if test -n "${HTML_DOCS}"; then
+  docinto 'html/' || { printf %s\\n "$SC: docinto html/... Error" >&2; exit 1;}
+  : ${DOCINTO:?required <subdir html doc> variables}
+  dodoc -r ${HTML_DOCS} || exit
+fi

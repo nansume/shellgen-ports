@@ -1,0 +1,30 @@
+#!/bin/sh
+# Support [experimental]: dosbin from ebuild (minimal)
+# Usage: dosbin <binary> [list of more binaries]
+# https://devmanual.gentoo.org/eclass-reference/ebuild/
+# https://devmanual.gentoo.org/function-reference/install-functions/
+# https://bugs.gentoo.org/show_bug.cgi?id=586632
+# Date: 2024-05-19 22:00 UTC - last change
+
+IFS="$(printf '\n\t') "
+SC=${0##*/}
+ED=${ED:-$INSTALL_DIR}
+
+: ${ED:?required install dir variables} ${DESTTREE:-} ${INST_UID:=tools} ${INST_GID:=tools}
+: ${1:?Usage: $SC <binary> [list of more binaries]... Error}
+
+for BIN in ${*}; do
+  test -f "${BIN}" || { printf %s\\n "$SC: ${BIN}: No exist file... Error" >&2; exit 1;}
+done
+
+printf %s "${SC}: mkdir ${ED}${DESTTREE}/sbin/"
+mkdir -pm '0755' -- ${ED}${DESTTREE}/sbin/ || { printf %s\\n "... Error" >&2; exit 1;}
+printf '\n'
+
+printf %s "${SC}: install -m0755 -o ${INST_UID:-0} -g ${INST_GID:-0} ${*}"
+
+install -m0755 -o ${INST_UID:-0} -g ${INST_GID:-0} ${*} "${ED}${DESTTREE}/sbin" ||
+
+{ printf %s\\n "... Error" >&2; exit 1;}
+
+printf '\n'

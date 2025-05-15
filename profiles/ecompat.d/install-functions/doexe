@@ -1,0 +1,19 @@
+#!/bin/sh
+# Support [experimental]: doexe from ebuild (minimal)
+# Usage: doexe <executable> [list of more executables]
+# https://devmanual.gentoo.org/eclass-reference/ebuild/index.html
+# https://devmanual.gentoo.org/function-reference/install-functions/
+# https://bugs.gentoo.org/show_bug.cgi?id=586632
+# Date: 2024-05-18 12:00 UTC - last change
+
+IFS="$(printf '\n\t') "
+SC=${0##*/}
+ED=${ED:-$INSTALL_DIR}
+
+: ${ED:?required install dir variables} ${_E_EXEDESTTREE_:-}
+: ${1:?Usage: $SC <executable> [list of more executables]... Error}
+
+mkdir -pm 0755 -- "${ED}${_E_EXEDESTTREE_}/"
+
+# original: install ${EXEOPTIONS} '$mysrc ${ED}$_E_EXEDESTTREE_"
+install ${EXEOPTIONS:=-m0755} "${*}" "${ED}${_E_EXEDESTTREE_}"

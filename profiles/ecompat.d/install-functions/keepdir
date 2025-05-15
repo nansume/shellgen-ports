@@ -1,0 +1,24 @@
+#!/bin/sh
+# Support [experimental]: Gentoo EAPI (minimal)
+# Usage: keepdir <path> [more paths]
+# Variables: ED
+# https://devmanual.gentoo.org/eclass-reference/ebuild/
+# Date: 2024-06-04 22:00 UTC - last change
+
+IFS="$(printf '\n\t') "
+SC=${0##*/}
+ED=${ED:-$INSTALL_DIR}
+
+: ${PN:?required <pkgname> variables} ${CATEGORY:?required <category> variables}
+: ${ED:?required install dir variables}
+: ${1:?Usage: $SC <path> [more paths]... Error}
+
+for DIR in ${*}; do
+  DIR="${ED}/${DIR#/}"
+  test -e "${DIR}" && { test -d "${DIR}" || printf %s\\n "$SC: ${DIR}: It no dir... Error" >&2; exit 1;}
+  printf %s\\n "${SC}: mkdir -pm 0755 -- ${DIR}/"
+  mkdir -pm 0755 -- "${DIR}/" || exit
+  > "${DIR}/.keep_${CATEGORY}_${PN}" &&
+  printf %s\\n "${SC}: > ${DIR}/.keep_${CATEGORY}_${PN}" ||
+  { printf %s\\n "${SC}: > ${DIR}/.keep_${CATEGORY}_${PN}... Error" >&2; exit 1;}
+done

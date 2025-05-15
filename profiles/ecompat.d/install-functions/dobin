@@ -1,0 +1,25 @@
+#!/bin/sh
+# Support [experimental]: dobin from ebuild (minimal)
+# Usage: dobin <binary> [list of more binaries]
+# https://devmanual.gentoo.org/eclass-reference/ebuild/index.html
+# https://devmanual.gentoo.org/function-reference/install-functions/
+# Date: 2024-05-18 12:00 UTC - last change
+
+# https://bugs.gentoo.org/show_bug.cgi?id=586632
+
+IFS=' '
+
+: ${ED:?required install dir variables} ${DESTTREE:-} ${INST_UID:=tools} ${INST_GID:=tools}
+: ${1:?Usage: dobin <binary> [list of more binaries]... Error}
+
+for BIN in ${*}; do
+  test -f "${BIN}" || { printf %s\\n "dobin: ${BIN}: No exist file... Error" >&2; exit 1;}
+done
+
+mkdir -vpm '0755' -- ${ED}${DESTTREE}/bin/ || printf %s\\n "dobin: mkdir <bindir>... Error" >&2
+
+printf %s\\n "dobin: install -m0755 -o ${INST_UID:-0} -g ${INST_GID:-0} ${*}"
+
+install -m0755 -o ${INST_UID:-0} -g ${INST_GID:-0} ${*} "${ED}${DESTTREE}/bin" ||
+
+printf %s\\n "dobin... Error" >&2

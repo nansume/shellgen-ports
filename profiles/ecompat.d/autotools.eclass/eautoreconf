@@ -1,0 +1,11 @@
+#!/bin/sh
+# Support [experimental]: EAPI-6,7,8 eautoreconf from autotools.eclass
+# Usage: eautoreconf
+# variable: AT_M4DIR AC_CONFIG_SUBDIRS
+# https://devmanual.gentoo.org/eclass-reference/autotools.eclass/index.html
+# Date: 2024-05-19 16:00 UTC - last change
+
+printf %s "autoreconf --install"
+autoreconf --install || { printf %s\\n "... Error" >&2; exit 1;}
+
+printf '\n'

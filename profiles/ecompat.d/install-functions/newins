@@ -1,0 +1,29 @@
+#!/bin/sh
+# Support [experimental]: newins from ebuild (minimal)
+# Usage: newins <old file> <new filename>
+# Variables: ED INSDESTTREE
+# default path is ${ED}${INSDESTTREE}/
+# https://devmanual.gentoo.org/eclass-reference/ebuild/
+# Date: 2024-06-01 16:00 UTC - last change
+
+IFS="$(printf '\n\t') "
+SC=${0##*/}
+ED=${ED:-$INSTALL_DIR}
+
+: ${ED:?required install dir variables} ${INSDESTTREE:-}
+: ${1:?Usage: $SC <old file> <new filename>... Error}
+: ${2:?Usage: $SC <old file> <new filename>... Error}
+
+INSDESTTREE=${INSDESTTREE%/}${INSDESTTREE:+/}
+
+if test "${#}" -ne '2';then
+  printf '%s\n' "Usage: $SC  <old file> <new filename>... Error" >&2
+  exit 1
+fi
+
+mkdir -pm 0755 -- ${ED}${INSDESTTREE}
+
+mv -n "${1}" "${ED}${INSDESTTREE}${2}" &&
+
+printf %s\\n "${SC}: mv -n ${1} ${ED}${INSDESTTREE}${2}" ||
+{ printf %s\\n "${SC}: mv -n ${1} ${ED}${INSDESTTREE}${2}... Error" >&2; exit 1;}

@@ -1,0 +1,21 @@
+#!/bin/sh
+# Support [experimental]: EAPI-4 emake from src_compile,src_install
+# Usage: emake [make options]
+# This is used as a replacement for make.
+# https://devmanual.gentoo.org/eclass-reference/ebuild/
+# https://dev.gentoo.org/~zmedico/portage/doc/man/ebuild.5.html
+# Date: 2024-05-19 08:00 UTC - last change
+
+#IFS="$(printf '\n\t')"; IFS=${IFS%?}
+IFS="$(printf '\n\t') "
+
+die() {
+  printf %s\\n "${*:-Failed: ${_} build... error}" >&2
+  exit 1
+}
+
+# Please do not use this in place of `emake install DESTDIR=${D}`. That is the preferred way of installing
+# make-based packages. Also, do not utilize the EXTRA_EINSTALL variable since it is for users.
+
+. runverb \
+${MAKE:-make} ${MAKEOPTS} ${*} ${EXTRA_EMAKE} || die "make install... error"

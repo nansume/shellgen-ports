@@ -1,0 +1,27 @@
+#!/bin/sh
+# Support [experimental]: domenu from desktop.eclass (minimal)
+# Usage: domenu <menus>
+# https://devmanual.gentoo.org/eclass-reference/desktop.eclass/index.html
+# Date: 2024-05-14 11:00 UTC - last change
+
+# Install the list of .desktop menu files into the appropriate directory (/usr/share/applications).
+
+IFS=' ' SC=${0##*/} DESKTOPDIR="/usr/share/applications"
+
+: ${ED:?required install dir variables} ${1:?Usage: domenu <menus>... Error}
+
+use 'desktop' || { printf %s\\n "${SC}: useflag '-desktop'... skip" >&2; exit;}
+
+for F in ${@}; do
+  test -f "${F}" || { printf %s\\n "${SC}: ${F} - No exist file... Error" >&2; exit 1;}
+  case ${F} in *'.desktop');; *) printf %s\\n "No *.desktop files... Error" >&2; exit 1;; esac
+  chmod '0644' -- ${F} || { printf %s\\n "${SC}: chmod 0644 -- ${F}... Error" >&2; exit 1;}
+done
+
+printf %s "${SC}: mkdir -pm 0755 ${ED}${DESKTOPDIR}/"
+mkdir -pm '0755' -- ${ED}${DESKTOPDIR}/ || { printf %s\\n "... Error" >&2; exit 1;}
+printf '\n'
+
+printf %s "${SC}: mv -n ${*} -t ${ED}${DESKTOPDIR}/"
+mv -n ${*} -t ${ED}${DESKTOPDIR}/ || { printf %s\\n "... Error" >&2; exit 1;}
+printf '\n'

@@ -1,0 +1,84 @@
+#!/bin/sh
+# Support [experimental]: newicon from desktop.eclass (minimal)
+# Usage: newicon [options] <icon> <newname>
+# https://devmanual.gentoo.org/eclass-reference/desktop.eclass/index.html
+# Date: 2024-05-14 01:00 UTC - last change
+
+# options:
+# -s [size]
+#   install into /usr/share/icons/{theme}/{size}/{context}
+#   defaults to <48x48>
+#   supported icon sizes are:
+#   16 22 24 32 36 48 64 72 96 128 192 256 512 1024 scalable
+#   without it opt into /usr/share/pixmaps
+# -c [context]
+#   defaults to <apps>
+# -t [theme]
+#   defaults to <hicolor>
+
+# iconfiles: .png .svg
+
+IFS=' ' SC=${0##*/} XICONDIR="/usr/share/pixmaps" THEME="hicolor" SIZE="48x48" CONTEXT="apps" ICONDIR=
+
+: ${ED:?required install dir variables} ${1:?Usage: $SC [options] <icon> <newname>... Error}
+
+use 'icon' || { printf %s\\n "${SC}: useflag '-icon'... skip" >&2; exit;}
+
+set -- $(getopt -n ${0} -u -o c:,s:,t: -- "${@}")
+
+while test "${#}" -gt '0'; do
+  X=${1} O=${1}
+  #printf %s\\n "\${1}='${1}'"
+  case ${1} in
+    -c) test "${2%${2##[!-]}}" != '-' && { O="${1}${2}"; shift;}
+        printf %s\\n "\${O}='${O}'"
+        CONTEXT=${O#$X}
+        test -n "${CONTEXT}" || CONTEXT="apps"
+        test -n "${XICONDIR}" || ICONDIR="/usr/share/icons/${THEME}/${SIZE}/${CONTEXT}"
+        shift
+    ;;
+    -s) test "${2%${2##[!-]}}" != '-' && { O="${1}${2}"; shift;}
+        printf %s\\n "\${O}='${O}'"
+        X=${O#$X}
+        test -n "${X}" && { X=${X%x*} || X="48";}
+        SIZE="${X}x${X}"
+        XICONDIR=
+        ICONDIR="/usr/share/icons/${THEME}/${SIZE}/${CONTEXT}"
+        shift
+    ;;
+    -t) test "${2%${2##[!-]}}" != '-' && { O="${1}${2}"; shift;}
+        printf %s\\n "\${O}='${O}'"
+        THEME=${O#$X}
+        test -n "${THEME}" || THEME="hicolor"
+        test -n "${XICONDIR}" || ICONDIR="/usr/share/icons/${THEME}/${SIZE}/${CONTEXT}"
+        shift
+    ;;
+    --) shift; break
+    ;;
+    *) printf %s\\n "Error" >&2; exit 1
+    ;;
+  esac
+done
+
+if test "${#}" -ne '2';then
+  printf '%s\n' "Usage: $SC  <old file> <new filename>... Error" >&2
+  exit 1
+fi
+
+if test -n "${XICONDIR}"; then
+  ICONDIR="${XICONDIR}"
+else
+  case ${SIZE%x*} in
+    16|22|24|32|36|48|64|72|96|128|192|256|512|1024|scalable);;
+    *) printf %s\\n "SIZE='${SIZE}'... Error" >&2; exit 1;;
+  esac
+fi
+
+printf %s "${SC}: mkdir ${ED}${ICONDIR}/"
+mkdir -pm '0755' -- ${ED}${ICONDIR}/ || { printf %s\\n "... Error" >&2; exit 1;}
+printf '\n'
+
+mv -n "${1}" ${ED}${ICONDIR}/${2} &&
+
+printf %s\\n "${SC}: mv -n ${1} ${ED}${ICONDIR}/${2}" ||
+{ printf %s\\n "${SC}: mv -n ${1} ${ED}${ICONDIR}/${2}... Error" >&2; exit 1;}

@@ -1,0 +1,88 @@
+#!/bin/sh
+# Support [experimental]: doicon from desktop.eclass (minimal)
+# Usage: doicon [options] <icons>
+# https://devmanual.gentoo.org/eclass-reference/desktop.eclass/index.html
+# Date: 2024-05-14 01:00 UTC - last change
+
+# options:
+# -s [size]
+#   install into /usr/share/icons/{theme}/{size}/{context}
+#   defaults to <48x48>
+#   supported icon sizes are:
+#   16 22 24 32 36 48 64 72 96 128 192 256 512 1024 scalable
+#   without it opt into /usr/share/pixmaps
+# -c [context]
+#   defaults to <apps>
+# -t [theme]
+#   defaults to <hicolor>
+
+# iconfiles: .png .svg .xpm
+
+IFS=' ' SC=${0##*/} XICONDIR="/usr/share/pixmaps" THEME="hicolor" SIZE="48x48" CONTEXT="apps" ICONDIR=
+
+: ${ED:?required install dir variables} ${1:?Usage: $SC [options] <icons>... Error}
+
+use 'icon' || { printf %s\\n "${SC}: useflag '-icon'... skip" >&2; exit;}
+
+set -- $(getopt -n ${0} -u -o c:,s:,t: -- "${@}")
+
+#printf %s\\n "\${1}='${1}'" "\${2}='${2}'" "\${3}='${3}'" "\${4}='${4}'" "\${5}='${5}'" "\${6}='${6}'"
+
+while test "${#}" -gt '0'; do
+  X=${1} O=${1}
+  #printf %s\\n "\${1}='${1}'"
+  case ${1} in
+    -c) test "${2%${2##[!-]}}" != '-' && { O="${1}${2}"; shift;}
+        printf %s\\n "\${O}='${O}'"
+        CONTEXT=${O#$X}
+        test -n "${CONTEXT}" || CONTEXT="apps"
+        test -n "${XICONDIR}" || ICONDIR="/usr/share/icons/${THEME}/${SIZE}/${CONTEXT}"
+        shift
+    ;;
+    -s) test "${2%${2##[!-]}}" != '-' && { O="${1}${2}"; shift;}
+        printf %s\\n "\${O}='${O}'"
+        X=${O#$X}
+        test -n "${X}" && { X=${X%x*} || X="48";}
+        SIZE="${X}x${X}"
+        XICONDIR=
+        ICONDIR="/usr/share/icons/${THEME}/${SIZE}/${CONTEXT}"
+        shift
+    ;;
+    -t) test "${2%${2##[!-]}}" != '-' && { O="${1}${2}"; shift;}
+        printf %s\\n "\${O}='${O}'"
+        THEME=${O#$X}
+        test -n "${THEME}" || THEME="hicolor"
+        test -n "${XICONDIR}" || ICONDIR="/usr/share/icons/${THEME}/${SIZE}/${CONTEXT}"
+        shift
+    ;;
+    --) shift; break
+    ;;
+    *) printf %s\\n "Error" >&2; exit 1
+    ;;
+  esac
+done
+
+for ICON in ${*}; do
+  test -f "${ICON}" || { printf %s\\n "${SC}: ${ICON} - No exist file... Error" >&2; exit 1;}
+  case ${ICON} in
+    *.png|*.svg|*.xpm);;
+    *?) printf %s\\n "${SC}: ${ICON} - unknown prefix file... Error" >&2; exit 1;;
+  esac
+  chmod '0644' -- ${ICON} || { printf %s\\n "${SC}: chmod 0644 -- ${ICON}... Error" >&2; exit 1;}
+done
+
+if test -n "${XICONDIR}"; then
+  ICONDIR="${XICONDIR}"
+else
+  case ${SIZE%x*} in
+    16|22|24|32|36|48|64|72|96|128|192|256|512|1024|scalable);;
+    *) printf %s\\n "SIZE='${SIZE}'... Error" >&2; exit 1;;
+  esac
+fi
+
+printf %s "${SC}: mkdir ${ED}${ICONDIR}/"
+mkdir -pm '0755' -- ${ED}${ICONDIR}/ || { printf %s\\n "... Error" >&2; exit 1;}
+printf '\n'
+printf %s "${SC}: mv ${*} -t ${ED}${ICONDIR}/"
+mv -n ${*} -t ${ED}${ICONDIR}/ || { printf %s\\n "... Error" >&2; exit 1;}
+printf '\n'

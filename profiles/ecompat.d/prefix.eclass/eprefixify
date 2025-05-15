@@ -1,0 +1,17 @@
+#!/bin/sh
+
+test "${#}" -lt '1' && { printf %s\\n "at least one argument required"; exit 1;}
+
+printf %s\\n "Adjusting to prefix ${EPREFIX:-/}"
+
+for x in "$@" ; do
+  if test -e "${x}"; then
+    printf %s\\n "  ${x##*/}"
+    sed -e "s|@GENTOO_PORTAGE_EPREFIX@|${EPREFIX}|g" -i "${x}"
+    test $? -eq '0' || die "failed to eprefixify ${x}"
+  else
+    printf %s\\n "${x} does not exist"
+  fi
+done
+
+exit 0

@@ -1,0 +1,31 @@
+#!/bin/sh
+# Support [experimental]: newdoc from ebuild (minimal)
+# Usage: newdoc <old file> <new filename>
+# Variables: PN PV ED DOCINTO
+# default path is ${ED}/usr/share/doc/${PF}/${DOCINTO}
+# https://devmanual.gentoo.org/eclass-reference/ebuild/
+# Date: 2024-06-02 16:00 UTC - last change
+
+IFS="$(printf '\n\t') "
+SC=${0##*/}
+ED=${ED:-$INSTALL_DIR}
+
+: ${PN:?required <pkgname> variables} ${PV:?required <pkgver> variables}
+: ${ED:?required install dir variables}
+: ${1:?Usage: $SC <old file> <new filename>... Error}
+: ${2:?Usage: $SC <old file> <new filename>... Error}
+
+if test "${#}" -ne '2';then
+  printf '%s\n' "Usage: $SC  <old file> <new filename>... Error" >&2
+  exit 1
+fi
+
+PF="${PN}-${PV}"
+DOCINTO=${DOCINTO%/}${DOCINTO:+/}
+
+mkdir -pm 0755 -- ${ED}/usr/share/doc/${PF}/${DOCINTO}
+
+mv -n "${1}" "${ED}/usr/share/doc/${PF}/${DOCINTO}${2}" &&
+
+printf %s\\n "${SC}: mv -n ${1} ${ED}/usr/share/doc/${PF}/${DOCINTO}${2}" ||
+{ printf %s\\n "${SC}: mv -n ${1} ${ED}/usr/share/doc/${PF}/${DOCINTO}${2}... Error" >&2; exit 1;}
