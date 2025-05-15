@@ -1,0 +1,12 @@
+# Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
+# +static -static-libs -shared +nopie -lfs -upx -patch -doc -man -xstub +diet -musl +stest +strip +x32
+
+# http://cvsweb.netbsd.org/bsdweb.cgi/~checkout~/pkgsrc/www/www6to4/Makefile
+# https://iso.netbsd.org/pub/NetBSD/NetBSD-current/pkgsrc/www/www6to4/index.html
+# http://cvsweb.netbsd.org/bsdweb.cgi/pkgsrc/www/www6to4/
+# http://www.vermicelli.pasta.cs.uit.no/ipv6/software.html
+
+DESCRIPTION="Lightweight http proxy, helps IPv4 only browsers"
+HOMEPAGE="http://www.vermicelli.pasta.cs.uit.no/ipv6/software.html"
+LICENSE="GPL-2"
+IUSE="+static -shared +nopie -lfs -upx -doc -man -xstub (+diet) (-musl) +stest +strip"

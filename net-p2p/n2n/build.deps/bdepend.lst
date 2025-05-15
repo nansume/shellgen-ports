@@ -1,0 +1,18 @@
+#dev-lang/perl  # required for autotools
+dev-libs/gmp  # for openssl
+dev-libs/openssl3
+dev-util/cmake
+dev-util/pkgconf
+net-libs/libpcap
+#sys-apps/file
+#sys-devel/autoconf  # required for autotools
+#sys-devel/automake  # required for autotools
+sys-devel/binutils
+sys-devel/gcc
+#sys-devel/libtool  # required for autotools
+#sys-devel/m4  # required for autotools
+sys-devel/make
+sys-kernel/linux-headers-musl
+sys-libs/libcap
+sys-libs/musl
+sys-libs/zlib  # for openssl

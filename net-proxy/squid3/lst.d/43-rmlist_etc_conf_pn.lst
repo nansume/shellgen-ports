@@ -1,0 +1,3 @@
+etc/<PN>/*.conf
+etc/<PKGNAME>/*.conf  # fix squid3
+etc/*/*.conf  # fix squid3

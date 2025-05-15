@@ -1,0 +1,68 @@
+######################################
+#      Miredo IPv6 [utf-8,ipv4]      #
+######################################
+
+# remlab.net - miredo (teredo ipv6) [utf-8,ipv4,ssl]
+http://www.remlab.net/miredo/news.shtml.en
+
+https://git.remlab.net/gitweb/?p=miredo.git;a=summary
+
+# debian/wheezy/main/i386/miredo/1.2.3-1.1/file/etc/init.d/miredo [utf-8,ipv4,ssl]
+http://www.apt-browse.org/browse/debian/wheezy/main/i386/miredo/1.2.3-1.1/file/etc/init.d/miredo
+
+https://gitea.auro.re/jeltz/openwrt/raw/commit/d207116e05aba2a808a2d6b948e56159cecb0e8b/openwrt/package/miredo/Makefile
+
+https://github.com/wosk/miredo/tags
+
+
+==================================================================================================================
+USE=+x32 emerge -b -- net-vpn/miredo
+==================================================================================================================
+  CC       libteredo/security.lo
+  CC       libteredo/mire.o
+  CC       libteredo/md5.lo
+In file included from libteredo/mire.c:47:
+libteredo/debug.h: In function 'd_pthread_mutex_init':
+libteredo/debug.h:60:36: error: 'PTHREAD_MUTEX_ERRORCHECK_NP' undeclared (first use in this function); did you mean 'PTHREAD_MUTEX_ERRORCHECK'?
+   60 |  pthread_mutexattr_settype (pattr, PTHREAD_MUTEX_ERRORCHECK_NP);
+      |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                                    PTHREAD_MUTEX_ERRORCHECK
+libteredo/debug.h:60:36: note: each undeclared identifier is reported only once for each function it appears in
+make[2]: *** [Makefile:1751: libteredo/mire.o] Error 1
+make[2]: *** Waiting for unfinished jobs....
+In file included from libteredo/security.c:40:
+libteredo/debug.h: In function 'd_pthread_mutex_init':
+libteredo/debug.h:60:36: error: 'PTHREAD_MUTEX_ERRORCHECK_NP' undeclared (first use in this function); did you mean 'PTHREAD_MUTEX_ERRORCHECK'?
+   60 |  pthread_mutexattr_settype (pattr, PTHREAD_MUTEX_ERRORCHECK_NP);
+      |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                                    PTHREAD_MUTEX_ERRORCHECK
+libteredo/debug.h:60:36: note: each undeclared identifier is reported only once for each function it appears in
+libteredo/security.c: In function 'teredo_init_HMAC':
+libteredo/debug.h:47:38: error: 'PTHREAD_ERRORCHECK_MUTEX_INITIALIZER_NP' undeclared (first use in this function)
+   47 | #   define PTHREAD_MUTEX_INITIALIZER PTHREAD_ERRORCHECK_MUTEX_INITIALIZER_NP
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+libteredo/debug.h:47:38: note: in definition of macro 'PTHREAD_MUTEX_INITIALIZER'
+   47 | #   define PTHREAD_MUTEX_INITIALIZER PTHREAD_ERRORCHECK_MUTEX_INITIALIZER_NP
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from libteredo/server.c:55:
+libteredo/debug.h: In function 'd_pthread_mutex_init':
+libteredo/debug.h:60:36: error: 'PTHREAD_MUTEX_ERRORCHECK_NP' undeclared (first use in this function); did you mean 'PTHREAD_MUTEX_ERRORCHECK'?
+   60 |  pthread_mutexattr_settype (pattr, PTHREAD_MUTEX_ERRORCHECK_NP);
+      |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                                    PTHREAD_MUTEX_ERRORCHECK
+libteredo/debug.h:60:36: note: each undeclared identifier is reported only once for each function it appears in
+libteredo/server.c: At top level:
+libteredo/debug.h:47:38: error: 'PTHREAD_ERRORCHECK_MUTEX_INITIALIZER_NP' undeclared here (not in a function)
+   47 | #   define PTHREAD_MUTEX_INITIALIZER PTHREAD_ERRORCHECK_MUTEX_INITIALIZER_NP
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+libteredo/debug.h:47:38: note: in definition of macro 'PTHREAD_MUTEX_INITIALIZER'
+   47 | #   define PTHREAD_MUTEX_INITIALIZER PTHREAD_ERRORCHECK_MUTEX_INITIALIZER_NP
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+make[2]: *** [Makefile:1767: libteredo/security.lo] Error 1
+make[2]: *** [Makefile:1767: libteredo/server.lo] Error 1
+make[2]: Leaving directory '/build/miredo-e5f5652'
+make[1]: *** [Makefile:2099: all-recursive] Error 1
+make[1]: Leaving directory '/build/miredo-e5f5652'
+make: *** [Makefile:1216: all] Error 2
+Failed make build
+==================================================================================================================

@@ -1,0 +1,9 @@
+net-libs/libtirpc
+sys-apps/file
+sys-devel/binutils
+sys-devel/bison
+sys-devel/flex
+sys-devel/gcc
+sys-devel/make
+#sys-libs/libxcrypt
+sys-libs/musl

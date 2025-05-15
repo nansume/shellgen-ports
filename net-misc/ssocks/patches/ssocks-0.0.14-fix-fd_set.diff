@@ -1,0 +1,25 @@
+Author: Artjom Slepnjov "Shellgen"
+Description: fix - error: unknown type name 'fd_set'
+Ver: ssocks-0.0.14
+Date: 2024-08-29 20:00 UTC
+===================================================================================
+--- a/src/libsocks/socks5-client.c
++++ b/src/libsocks/socks5-client.c
+@@ -26,6 +26,7 @@
+  * THE SOFTWARE.
+  */
+ 
++#include <sys/select.h>
+ #include "socks-common.h"
+ #include "socks5-client.h"
+ #include "socks5-server.h"
+--- a/src/libsocks/socks5-server.c
++++ b/src/libsocks/socks5-server.c
+@@ -26,6 +26,7 @@
+  * THE SOFTWARE.
+  */
+ 
++#include <sys/select.h>
+ #include "socks-common.h"
+ #include "socks5-server.h"
+ #include "net-util.h"

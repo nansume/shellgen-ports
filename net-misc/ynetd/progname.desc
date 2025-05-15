@@ -1,0 +1,10 @@
+# Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
+# +static -static-libs -shared +nopie -lfs -upx -patch -doc -man -xstub +diet -musl +stest +strip +x32
+
+# https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=ynetd
+# https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=ctf-ynetd  # fork of ynetd hardened with isolation.
+
+DESCRIPTION="A small (< 400 lines of C) server for binding programs to TCP ports"
+HOMEPAGE="https://yx7.cc/code/"
+LICENSE="MIT"
+IUSE="+static -shared +nopie -doc -xstub (+diet) (-musl) +stest +strip +x32"

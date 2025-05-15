@@ -1,0 +1,16 @@
+Author: Artjom Slepnjov "Shellgen"
+Description: replace <u_short> to <unsigned short>
+Ver: sping-1.2
+Date: 2024-09-14 19:00 UTC
+===================================================================================
+--- a/ping.c
++++ b/ping.c
+@@ -158,7 +158,7 @@
+ 	ich->checksum = 0;
+ 	ich->un.echo.sequence = 0;
+ 	ich->un.echo.id = getpid() & 0xFFFF;
+-	ich->checksum = in_cksum ((u_short *) outpacket, sizeof (outpacket));
++	ich->checksum = in_cksum ((unsigned short *) outpacket, sizeof (outpacket));
+ 
+ 	if ((nw = sendto (rawfd, outpacket, sizeof (outpacket), 0, dest, sizeof (*dest))) < 0)
+ 		fatal ("sendto: %s", strerror (errno));

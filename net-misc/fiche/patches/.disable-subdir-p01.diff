@@ -1,0 +1,278 @@
+Url: https://github.com/solusipse/fiche/pull/57
+Description: Add option to disable subdirectory creation.
+Ver: fiche-0.9.1
+Date: 2024-02-02 17:00 UTC
+https://github.com/solusipse/fiche/raw/d5fde16308b5cdd7d67f733fb3d2339afd7f2d73/fiche.c
+https://raw.githubusercontent.com/solusipse/fiche/d5fde16308b5cdd7d67f733fb3d2339afd7f2d73/fiche.h
+https://github.com/solusipse/fiche/raw/d5fde16308b5cdd7d67f733fb3d2339afd7f2d73/main.c
+==============================================================
+--- a/fiche.c
++++ b/fiche.c
+@@ -117,7 +117,7 @@
+  * @arg extra_length additional length that was added to speed-up the
+  *      generation process
+  *
+- * This function is used in connection with create_directory function
++ * This function is used in connection with create_slug_path function
+  * It generates strings that are used to create a directory for
+  * user-provided data. If directory already exists, we ask this function
+  * to generate another slug with increased size.
+@@ -126,13 +126,14 @@
+ 
+ 
+ /**
+- * @brief Creates a directory at requested path using requested slug
++ * @brief Creates a slug directory with requested slug
++ @ @remarks Only ensures that path is available if using no-subdirs mode
+  * @returns 0 if succeded, 1 if failed or dir already existed
+  *
+  * @arg output_dir root directory for all pastes
+  * @arg slug directory name for a particular paste
+  */
+-static int create_directory(char *output_dir, char *slug);
++static int create_slug_path(char *output_dir, char *slug, char no_subdirs);
+ 
+ 
+ /**
+@@ -141,7 +142,7 @@
+  * @arg data Buffer with data received from the user
+  * @arg path Path at which file containing data from the buffer will be created
+  */
+-static int save_to_file(const Fiche_Settings *s, uint8_t *data, char *slug);
++static int save_to_file(uint8_t *data, char *output_dir, char *slug, char no_subdirs);
+ 
+ 
+ // Logging-related
+@@ -201,8 +202,6 @@
+         9999,
+         // slug length
+         4,
+-        // https
+-        false,
+         // buffer length
+         32768,
+         // user name
+@@ -212,7 +211,9 @@
+         // path to banlist
+         NULL,
+         // path to whitelist
+-        NULL
++        NULL,
++        // no subdirectories
++        0
+     };
+ 
+     // Copy default settings to provided instance
+@@ -362,12 +363,7 @@
+ 
+ static int set_domain_name(Fiche_Settings *settings) {
+ 
+-    char *prefix = "";
+-    if (settings->https) {
+-        prefix = "https://";
+-    } else {
+-        prefix = "http://";
+-    }
++    const char *prefix = "http://";
+     const int len = strlen(settings->domain) + strlen(prefix) + 1;
+ 
+     char *b = malloc(len);
+@@ -619,9 +615,8 @@
+         }
+ 
+     }
+-    while(create_directory(c->settings->output_dir_path, slug) != 0);
++    while(create_slug_path(c->settings->output_dir_path, slug, c->settings->no_subdirs) != 0);
+ 
+-
+     // Slug generation failed, we have to finish here
+     if (!slug) {
+         print_error("Couldn't generate a slug!");
+@@ -637,7 +632,7 @@
+ 
+ 
+     // Save to file failed, we have to finish here
+-    if ( save_to_file(c->settings, buffer, slug) != 0 ) {
++    if ( save_to_file(buffer, c->settings->output_dir_path, slug, c->settings->no_subdirs) != 0 ) {
+         print_error("Couldn't save a file!");
+         print_separator();
+ 
+@@ -709,29 +704,39 @@
+ }
+ 
+ 
+-static int create_directory(char *output_dir, char *slug) {
++static int create_slug_path(char *output_dir, char *slug, char no_subdirs) {
+     if (!slug) {
+         return -1;
+     }
+ 
+-    // Additional byte is for the slash
+-    size_t len = strlen(output_dir) + strlen(slug) + 2;
++    // Additional byte is for the slash, for no_subdirs 4 additional bytes for suffix
++    size_t len = no_subdirs ? strlen(output_dir) + strlen(slug) + 6 : strlen(output_dir) + strlen(slug) + 2;
+ 
+     // Generate a path
+     char *path = malloc(len);
+     if (!path) {
+         return -1;
+     }
+-    snprintf(path, len, "%s%s%s", output_dir, "/", slug);
++    if (no_subdirs) {
++        snprintf(path, len, "%s%s%s%s", output_dir, "/", slug, ".txt");
++    } else {
++        snprintf(path, len, "%s%s%s", output_dir, "/", slug);
++    }
+ 
+     // Create output directory, just in case
+     mkdir(output_dir, S_IRWXU | S_IRGRP | S_IROTH | S_IXOTH | S_IXGRP);
+ 
++    int r;
++
+     // Create slug directory
+-    const int r = mkdir(
+-        path,
+-        S_IRWXU | S_IRGRP | S_IROTH | S_IXOTH | S_IXGRP
+-    );
++    if (no_subdirs) {
++        r = access(path, F_OK) == 0;
++    } else {
++        r = mkdir(
++            path,
++            S_IRWXU | S_IRGRP | S_IROTH | S_IXOTH | S_IXGRP
++        );
++    }
+ 
+     free(path);
+ 
+@@ -739,11 +744,13 @@
+ }
+ 
+ 
+-static int save_to_file(const Fiche_Settings *s, uint8_t *data, char *slug) {
++static int save_to_file(uint8_t *data, char *output_dir, char *slug, char no_subdirs) {
+     char *file_name = "index.txt";
+ 
+-    // Additional 2 bytes are for 2 slashes
+-    size_t len = strlen(s->output_dir_path) + strlen(slug) + strlen(file_name) + 3;
++    // Additional 2 bytes are for 2 slashes, 4 bytes for suffix
++    size_t len = no_subdirs ?
++                   strlen(output_dir) + strlen(file_name) + 6 :
++                   strlen(output_dir) + strlen(slug) + strlen(file_name) + 3;
+ 
+     // Generate a path
+     char *path = malloc(len);
+@@ -751,7 +758,11 @@
+         return -1;
+     }
+ 
+-    snprintf(path, len, "%s%s%s%s%s", s->output_dir_path, "/", slug, "/", file_name);
++    if (no_subdirs) {
++        snprintf(path, len, "%s%s%s%s", output_dir, "/", slug, ".txt");
++    } else {
++        snprintf(path, len, "%s%s%s%s%s", output_dir, "/", slug, "/", file_name);
++    }
+ 
+     // Attempt file saving
+     FILE *f = fopen(path, "w");
+@@ -759,9 +770,6 @@
+         free(path);
+         return -1;
+     }
+-
+-    // Null-terminate buffer if not null terminated already
+-    data[s->buffer_len - 1] = 0;
+ 
+     if ( fprintf(f, "%s", data) < 0 ) {
+         fclose(f);
+--- a/fiche.h
++++ b/fiche.h
+@@ -24,7 +24,6 @@
+ #define FICHE_H
+ 
+ #include <stdint.h>
+-#include <stdbool.h>
+ 
+ 
+ /**
+@@ -54,11 +53,6 @@
+     uint8_t slug_len;
+ 
+     /**
+-     * @brief If set, returns url with https prefix instead of http
+-     */
+-    bool https;
+-
+-    /**
+      * @brief Connection buffer length
+      *
+      * @remarks Length of this buffer limits max size of uploaded files
+@@ -84,6 +78,11 @@
+      * @brief Path to the file with whitelisted IPs
+      */
+     char *whitelist_path;
++
++    /**
++     * @brief Don't include subdirectory name
++     */
++    char no_subdirs;
+ 
+ 
+ 
+--- a/main.c
++++ b/main.c
+@@ -9,7 +9,7 @@
+ 
+ -------------------------------------------------------------------------------
+ 
+-usage: fiche [-DepbsdolBuw].
++usage: fiche [-DepbsdolBuwT].
+              [-D] [-e] [-d domain] [-p port] [-s slug size]
+              [-o output directory] [-B buffer size] [-u user name]
+              [-l log file] [-b banlist] [-w whitelist]
+@@ -44,7 +44,7 @@
+ 
+     // Parse input arguments
+     int c;
+-    while ((c = getopt(argc, argv, "D6eSp:b:s:d:o:l:B:u:w:")) != -1) {
++    while ((c = getopt(argc, argv, "D6eSp:b:s:d:o:l:B:u:w:T")) != -1) {
+         switch (c) {
+ 
+             // domain
+@@ -68,13 +68,6 @@
+             }
+             break;
+ 
+-            // https
+-            case 'S':
+-            {
+-                fs.https = true;
+-            }
+-            break;
+-
+             // output directory path
+             case 'o':
+             {
+@@ -117,13 +110,20 @@
+             }
+             break;
+ 
++            // slug mode text files
++            case 'T':
++            {
++                fs.no_subdirs = 1;
++            }
++            break;
++
+             // Display help in case of any unsupported argument
+             default:
+             {
+-                printf("usage: fiche [-dpsSoBulbw].\n");
++                printf("usage: fiche [-dpsoBulbwT].\n");
+                 printf("             [-d domain] [-p port] [-s slug size]\n");
+                 printf("             [-o output directory] [-B buffer size] [-u user name]\n");
+-                printf("             [-l log file] [-b banlist] [-w whitelist] [-S]\n");
++                printf("             [-l log file] [-b banlist] [-w whitelist]\n");
+                 return 0;
+             }
+             break;

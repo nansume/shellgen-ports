@@ -1,0 +1,6 @@
+#dev-db/unixodbc
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-kernel/linux-headers
+sys-libs/musl

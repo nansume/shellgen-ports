@@ -1,0 +1,15 @@
+dev-libs/gmp  # for gnutls
+dev-libs/libtasn1  # for gnutls
+dev-libs/libunistring  # for gnutls
+dev-libs/nettle  # for gnutls
+dev-util/pkgconf
+
+net-libs/gnutls
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/bison
+sys-devel/gcc9
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # for gnutls

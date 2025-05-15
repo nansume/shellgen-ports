@@ -1,0 +1,9 @@
+etc/*
+lib/*
+bin/tor-gencert
+bin/tor-resolve
+bin/tor-print-ed-signing-cert
+bin/torify
+<DPREFIX>/lib/*
+<DPREFIX>/share/*
+var/*

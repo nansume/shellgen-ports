@@ -1,0 +1,405 @@
+checking build system type... x86_64-pc-linux-muslx32
+checking host system type... x86_64-pc-linux-muslx32
+checking target system type... x86_64-pc-linux-muslx32
+checking for a BSD-compatible install... /bin/install -c
+checking whether build environment is sane... yes
+checking for a race-free mkdir -p... ./build-aux/install-sh -c -d
+checking for gawk... no
+checking for mawk... no
+checking for nawk... no
+checking for awk... awk
+checking whether make sets $(MAKE)... yes
+checking whether make supports nested variables... yes
+checking whether UID '260' is supported by ustar format... yes
+checking whether GID '260' is supported by ustar format... yes
+checking how to create a ustar tar archive... plaintar
+checking whether make supports nested variables... (cached) yes
+checking for gawk... (cached) awk
+checking for x86_64-linux-muslx32-gcc... cc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether the compiler supports GNU C... yes
+checking whether cc accepts -g... yes
+checking for cc option to enable C11 features... none needed
+checking whether cc understands -c and -o together... yes
+checking whether make supports the include directive... yes (GNU style)
+checking dependency style of cc... gcc3
+checking whether cc understands -c and -o together... yes
+checking whether ln -s works... yes
+checking whether make sets $(MAKE)... (cached) yes
+checking pkg-config is at least version 0.29.2... yes
+checking how to print strings... printf
+checking for a sed that does not truncate output... /bin/sed
+checking for grep that handles long lines and -e... /bin/grep
+checking for egrep... /bin/grep -E
+checking for fgrep... /bin/grep -F
+checking for ld used by cc... /bin/ld
+checking if the linker (/bin/ld) is GNU ld... yes
+checking for BSD- or MS-compatible name lister (nm)... /bin/nm -B
+checking the name lister (/bin/nm -B) interface... BSD nm
+checking the maximum length of command line arguments... 98304
+checking how to convert x86_64-pc-linux-muslx32 file names to x86_64-pc-linux-muslx32 format... func_convert_file_noop
+checking how to convert x86_64-pc-linux-muslx32 file names to toolchain format... func_convert_file_noop
+checking for /bin/ld option to reload object files... -r
+checking for x86_64-linux-muslx32-file... no
+checking for file... file
+checking for x86_64-linux-muslx32-objdump... no
+checking for objdump... objdump
+checking how to recognize dependent libraries... pass_all
+checking for x86_64-linux-muslx32-dlltool... no
+checking for dlltool... no
+checking how to associate runtime and link libraries... printf %s\n
+checking for x86_64-linux-muslx32-ar... no
+checking for ar... ar
+checking for archiver @FILE support... @
+checking for x86_64-linux-muslx32-strip... no
+checking for strip... strip
+checking for x86_64-linux-muslx32-ranlib... no
+checking for ranlib... ranlib
+checking command to parse /bin/nm -B output from cc object... ok
+checking for sysroot... no
+checking for a working dd... /bin/dd
+checking how to truncate binary pipes... /bin/dd bs=4096 count=1
+checking for x86_64-linux-muslx32-mt... no
+checking for mt... mt
+checking if mt is a manifest tool... no
+checking for stdio.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for strings.h... yes
+checking for sys/stat.h... yes
+checking for sys/types.h... yes
+checking for unistd.h... yes
+checking for vfork.h... no
+checking for dlfcn.h... yes
+checking for objdir... .libs
+checking if cc supports -fno-rtti -fno-exceptions... no
+checking for cc option to produce PIC... -fPIC -DPIC
+checking if cc PIC flag -fPIC -DPIC works... yes
+checking if cc static flag -static works... yes
+checking if cc supports -c -o file.o... yes
+checking if cc supports -c -o file.o... (cached) yes
+checking whether the cc linker (/bin/ld -m elf32_x86_64) supports shared libraries... yes
+checking whether -lc should be explicitly linked in... no
+checking dynamic linker characteristics... GNU/Linux ld.so
+checking how to hardcode library paths into programs... immediate
+checking for shl_load... no
+checking for shl_load in -ldld... no
+checking for dlopen... yes
+checking whether a program can dlopen itself... yes
+checking whether a statically linked program can dlopen itself... no
+checking whether stripping libraries is possible... yes
+checking if libtool supports shared libraries... yes
+checking whether to build shared libraries... yes
+checking whether to build static libraries... no
+checking for special C compiler options needed for large files... no
+checking for _FILE_OFFSET_BITS value needed for large files... no
+checking for _LARGEFILE_SOURCE value needed for large files... no
+checking whether unaligned 64-bit access works... yes
+checking if cc supports -fno-strict-aliasing... yes
+checking if cc supports -Wno-address-of-packed-member... yes
+checking if cc supports -Wno-tautological-constant-out-of-range-compare... no
+checking how to run the C preprocessor... cc -E
+checking for X... libraries , headers 
+checking for gethostbyname... yes
+checking for connect... yes
+checking for remove... yes
+checking for shmat... yes
+checking for IceConnectionNumber in -lICE... yes
+checking for build target... linux
+checking for library containing gethostbyname... none required
+checking for library containing memchr... none required
+checking for library containing memset_s... no
+checking for library containing explicit_bzero... none required
+checking for socket in -lsocket... no
+checking for log in -lm... yes
+checking for getloadavg... yes
+checking for getopt... true
+checking for pkgconf... pkgconf
+checking for ssh... false
+checking for SSH key... no
+checking for a Python interpreter with version >= 3.4... none
+checking for perl... no
+checking for pdflatex... no
+checking for the TikZ package for LaTeX... no
+checking for pdflatex... no
+checking for pdflatex... (cached) no
+checking for -iptables... no
+checking for iptables... false
+configure: WARNING: iptables not found
+checking for -ip6tables... no
+checking for ip6tables... false
+configure: WARNING: ip6tables not found
+checking for -ip... no
+checking for ip... false
+configure: WARNING: ip not found
+checking for -ifconfig... no
+checking for ifconfig... /sbin/ifconfig
+checking for adduser... /sbin/adduser
+checking for -sysctl... no
+checking for sysctl... /sbin/sysctl
+checking for -upnpc... no
+checking for upnpc... false
+checking for checkbashisms... no
+checking for checkbashisms.pl... no
+checking for uncrustify... false
+checking for yapf... no
+checking for struct tm.tm_gmtoff... yes
+checking for getaddrinfo_a in -lanl... no
+checking for libgcrypt-config... /bin/libgcrypt-config
+checking for LIBGCRYPT - version >= 1.6.0... yes (1.9.4)
+checking LIBGCRYPT API version... okay
+checking for cc options needed to detect all undeclared functions... none needed
+checking whether gcry_mpi_set_opaque_copy is declared... yes
+checking for if_tun.h... no
+checking for linux/if_tun.h... yes
+checking whether struct in6_ifreq is declared... no
+checking for doxygen... false
+checking for mandoc... no
+checking for a working HMAC... yes
+checking for bluetooth/bluetooth.h... no
+checking for zbar.h... no
+checking for pabc/pabc.h... no
+checking for jansson.h... yes
+checking for json_loads in -ljansson... yes
+checking for jose/jose.h... no
+configure: WARNING: reclaimID OpenID Connect plugin requires jose
+checking for pulse/simple.h... no
+checking for opus/opus.h... no
+checking for ogg/ogg.h... no
+checking for GST... no
+checking for conversation feature set to build... none
+checking for curl_easy_getinfo in -lcurl-gnutls... no
+checking for gawk... (cached) awk
+checking for curl-config... /bin/curl-config
+checking for the version of libcurl... 7.80.0
+checking for libcurl >= version 7.34.0... yes
+checking whether libcurl is usable... yes
+checking for curl_free... yes
+configure: WARNING: cURL does not have GnuTLS backend
+checking for curl/curl.h... yes
+checking whether CURLINFO_TLS_SSL_PTR is declared... yes
+checking for library containing __atomic_load_8... -latomic
+checking for nss.h... no
+configure: WARNING: NSS plugin will not be build
+checking for kvm_open in -lkvm... no
+checking for kstat_open in -lkstat... no
+checking for sodium.h... yes
+checking for crypto_core_ed25519_scalar_mul in -lsodium... yes
+checking for extractor.h... no
+GNU libextractor not found, some features disabled
+checking for ltdl.h... yes
+checking for lt_dlopenext in -lltdl... yes
+checking for idn2.h... no
+checking for idn2/idn2.h... no
+checking for idna.h... yes
+checking for idna_to_ascii_8z in -lidn... yes
+checking for zlib.h... yes
+checking for compress2 in -lz... yes
+checking for ld used by cc... /bin/ld -m elf32_x86_64
+checking if the linker (/bin/ld -m elf32_x86_64) is GNU ld... yes
+checking for shared library run path origin... done
+checking for iconv... yes
+checking for working iconv... yes
+checking for iconv declaration... 
+         extern size_t iconv (iconv_t cd, char * *inbuf, size_t *inbytesleft, char * *outbuf, size_t *outbytesleft);
+checking for libunistring... yes
+checking how to link with libunistring... /libx32/libunistring.so
+checking for libunistring version... 0.9.10
+checking for sqlite3.h... yes
+checking for sqlite3_open in -lsqlite3... yes
+checking for MHD... yes
+checking for gnutls/abstract.h... yes
+checking for gnutls_priority_set in -lgnutls... yes
+checking for gnutls/dane.h... no
+checking for dirent.h that defines DIR... yes
+checking for library containing opendir... none required
+checking for fcntl.h... yes
+checking for math.h... yes
+checking for errno.h... yes
+checking for ctype.h... yes
+checking for limits.h... yes
+checking for stdarg.h... yes
+checking for signal.h... yes
+checking for locale.h... yes
+checking for stdatomic.h... yes
+checking for malloc.h... yes
+checking for malloc/malloc.h... no
+checking for malloc/malloc_np.h... no
+checking for langinfo.h... yes
+checking for sys/param.h... yes
+checking for sys/mount.h... yes
+checking for sys/statvfs.h... yes
+checking for sys/select.h... yes
+checking for sockLib.h... no
+checking for sys/mman.h... yes
+checking for sys/msg.h... yes
+checking for sys/vfs.h... yes
+checking for arpa/inet.h... yes
+checking for libintl.h... yes
+checking for netdb.h... yes
+checking for netinet/in.h... yes
+checking for sys/ioctl.h... yes
+checking for sys/socket.h... yes
+checking for sys/time.h... yes
+checking for sys/sysinfo.h... yes
+checking for sys/file.h... yes
+checking for sys/resource.h... yes
+checking for ifaddrs.h... yes
+checking for mach/mach.h... no
+checking for sys/timeb.h... yes
+checking for argz.h... no
+checking for ucred.h... no
+checking for sys/ucred.h... no
+checking for endian.h... yes
+checking for sys/endian.h... no
+checking for execinfo.h... no
+checking for byteswap.h... yes
+checking whether NLS is requested... no
+checking for msgfmt... no
+checking for gmsgfmt... :
+checking for xgettext... no
+checking for msgmerge... no
+checking for CFPreferencesCopyAppValue... no
+checking for CFLocaleCopyCurrent... no
+checking whether to use NLS... no
+checking for pid_t... yes
+checking for size_t... yes
+checking for mode_t... yes
+checking whether stat file-mode macros are broken... no
+checking for _Bool... yes
+checking for stdbool.h that conforms to C99... yes
+checking whether struct tm is in sys/time.h or time.h... time.h
+checking for struct sockaddr_in.sin_len... no
+checking for struct sockaddr_un.sun_len... no
+checking for off_t... yes
+checking for uid_t in sys/types.h... yes
+checking for fork... yes
+checking for vfork... yes
+checking for working fork... yes
+checking for working vfork... (cached) yes
+checking for working chown... yes
+checking for atoll... yes
+checking for stat64... no
+checking for strnlen... yes
+checking for mremap... yes
+checking for getrlimit... yes
+checking for setrlimit... yes
+checking for sysconf... yes
+checking for initgroups... yes
+checking for strndup... yes
+checking for gethostbyname2... yes
+checking for getpeerucred... no
+checking for getpeereid... no
+checking for setresuid... yes
+checking for getifaddrs... yes
+checking for freeifaddrs... yes
+checking for getresgid... yes
+checking for mallinfo2... no
+checking for malloc_size... no
+checking for malloc_usable_size... yes
+checking for getrusage... yes
+checking for random... yes
+checking for srandom... yes
+checking for stat... yes
+checking for statfs... yes
+checking for statvfs... yes
+checking for wait4... yes
+checking for timegm... yes
+checking for sudo... no
+checking for doas... no
+checking if __thread is supported... yes
+checking for git... no
+checking if source is under a VCS... no
+checking that generated files are newer than configure... done
+configure: creating ./config.status
+configure: WARNING: libextractor not found, but various file-sharing operations require it
+configure: WARNING: GnuTLS lacks DANE support; validation using it will not be possible
+configure:
+Detected system
+===============
+
+GNUnet version:                 0.19.4
+
+Host Setup:                     x86_64-pc-linux-muslx32
+Install Prefix:                 /usr
+Compiler:                       cc
+CFLAGS:                         -mx32 -msse2 -O2 -fno-stack-protector -no-pie -g0 -march=x86-64 -fno-strict-aliasing -Wno-address-of-packed-member 
+CPPFLAGS:                       
+LDFLAGS:                         -Wl,--unresolved-symbols=report-all
+LIBS:                           -lm 
+Build Target:                   linux
+
+Default Interface:              eth0
+
+sqlite3:                        yes
+MySQL:                          no
+PostgreSQL:                     no
+
+cURL TLS backend:               OpenSSL
+Bluetooth:                      no
+iptables:                       no (DNS query interception might not work)
+ifconfig:                       yes
+UPnPc:                          no (NAT traversal might not work)
+GnuTLS:                         yes (without DANE support)
+
+LaTeX:                          yes
+
+libextractor:                   no
+libzbar:                        no
+libpng:                         no
+libidn:                         libidn
+libopus:                        no (required to build conversation)
+libpulse:                       no (required to build conversation)
+gstreamer:                      no (required to build conversation)
+
+Java:                           no
+
+doxygen:                        no
+mandoc:                         no
+
+GNUnet configuration
+====================
+
+Transports:                     tcp udp unix http wlan
+Conversation:                   no
+Database Backends               sqlite 
+Experimental Code:              yes
+
+Transpiled mdocml Manual:       
+
+configure: WARNING: Please make sure NOW to create a user and group 'gnunet' and additionally a group 'gnunetdns'. Make sure that '/var/lib/gnunet' is owned (and writable) by user 'gnunet'.
+configure: To do this on this system, run:
+# addgroup gnunetdns
+# adduser --system --disabled-login --home /var/lib/gnunet gnunet
+
+configure: WARNING: Each user of GNUnet should be added to the 'gnunet' group
+configure: To do this on this system, run:
+# adduser USERNAME gnunet
+for each of your users, replacing 'USERNAME' with the respective login name.
+Users may have to login again for the changes to take effect.
+configure: For detailed setup instructions, type 'info gnunet' after the installation or visit https://docs.gnunet.org/
+make  all-recursive
+make[1]: Entering directory '/build/gnunet-0.19.4'
+Making all in m4
+================================================================
+make[3]: Leaving directory '/build/gnunet-0.19.4/src/include'
+Making all in util
+make[3]: Entering directory '/build/gnunet-0.19.4/src/util'
+  CC       gnunet-base32.o
+  CC       libgnunetutil_la-bandwidth.lo
+================================================================
+  CC       test_plugin_plug.lo
+  CCLD     libgnunet_plugin_utiltest.la
+make[3]: Leaving directory '/build/gnunet-0.19.4/src/util'
+================================================================
+  CC       nt.lo
+  CCLD     libgnunetnt.la
+libtool: warning: '/libx32/libatomic.la' seems to be moved
+make[3]: Leaving directory '/build/gnunet-0.19.4/src/nt'
+================================================================

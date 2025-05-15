@@ -1,0 +1,9 @@
+#sys-devel/autoconf  # required for autotools
+#sys-devel/automake  # required for autotools
+sys-devel/binutils
+sys-devel/gcc
+#sys-devel/libtool
+#sys-devel/m4  # required for autotools
+sys-devel/make
+#sys-kernel/linux-headers
+sys-libs/musl  # required for dietlibc

@@ -1,0 +1,10 @@
+#################################################################
+#####  Transmission patch i2p support [utf-8,lang-en,ipv4]  #####
+#################################################################
+
+# l-n-s/transmission-i2p: Anonymous torrent client [utf-8,lang-en,ipv4-only,ssl-only]
+http://github.com/l-n-s/transmission-i2p
+# kayrus/transmission-i2p: Anonymous torrent client [utf-8,lang-en,ipv4-only,ssl-only]
+http://github.com/kayrus/transmission-i2p
+# Mikayex/transmission: Transmission fork [utf-8,lang-en,ipv4-only,ssl-only]
+http://github.com/Mikayex/transmission

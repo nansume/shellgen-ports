@@ -1,0 +1,21 @@
+#########################################
+#####  TOR and tsocks [utf-8,ipv4]  #####
+#########################################
+
+# TorStatus - Tor Network Status [utf-8,ipv4,ssl]
+http://torstatus.blutmagie.de/
+# DNS over Tor . pi-hole/pi-hole Wiki . GitHub [utf-8,ipv4-only,ssl-only]
+http://github.com/pi-hole/pi-hole/wiki/DNS-over-Tor
+
+##########################
+#     tsocks+ipv6        #
+##########################
+
+# aur.archlinux.org - packages/tsocks-ipv6 - tsocks + ipv6 support (patch) [utf-8,ipv4,ssl]
+http://aur.archlinux.org/packages/tsocks-ipv6
+# github.com - Elysion-tcfa/tsocks [utf-8,ipv4-only,ssl-only]
+http://github.com/Elysion-tcfa/tsocks
+# github.com - Elysion-tcfa/tsocks/archive/master.zip [utf-8,ipv4-only,ssl-only]
+http://github.com/Elysion-tcfa/tsocks/archive/master.zip
+# github.com - Elysion-tcfa/tsocks INSTALL [utf-8,ipv4-only,ssl-only]
+http://github.com/Elysion-tcfa/tsocks/raw/master/INSTALL

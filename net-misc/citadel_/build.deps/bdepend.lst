@@ -1,0 +1,14 @@
+dev-db/bdb18
+dev-libs/expat
+net-libs/libcitadel
+dev-libs/libical
+dev-libs/openssl3
+
+net-misc/curl
+net-nds/openldap
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib

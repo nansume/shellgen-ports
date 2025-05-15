@@ -1,0 +1,4 @@
+https://www.inet.no/dante/files/dante-1.4.3.tar.gz
+https://git.alpinelinux.org/aports/plain/community/dante/dante-no-bindresvport.patch
+#https://git.alpinelinux.org/aports/plain/community/dante/ifdev.patch
+# linux-void-packages dante-1.4.2

@@ -1,0 +1,4 @@
+bin/curl-config
+bin/*-pc-linux-gnu*-curl-config
+lib*/lib*.so
+<DPREFIX>/share/*

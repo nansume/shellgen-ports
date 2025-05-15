@@ -1,0 +1,10 @@
+#dev-libs/dietlibc  # no-build: ssocksd.c: undefined reference to 'daemon'
+#dev-libs/gmp  # for openssl
+#dev-libs/openssl-compat  # bug: checking for SSL_library_init in -lssl... no
+#dev-libs/openssl  # bug: checking for SSL_library_init in -lssl... no
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+#sys-libs/zlib  # for openssl

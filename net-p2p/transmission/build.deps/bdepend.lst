@@ -1,0 +1,13 @@
+dev-libs/libevent
+dev-libs/openssl3  # for curl
+dev-util/pkgconf
+
+#net-libs/mbedtls  # TODO: replace openssl -> mbedtls
+net-misc/curl
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc9
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib

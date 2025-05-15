@@ -1,0 +1,5 @@
+dev-libs/dietlibc
+#dev-libs/libsodium  # optional
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make

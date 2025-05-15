@@ -1,0 +1,9 @@
+# Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
+# +static -static-libs -shared +nopie -lfs -upx -patch -doc -xstub +diet -musl +stest +strip +amd64
+
+# https://cgit.freebsd.org/ports/plain/net/tinyldap/Makefile
+
+DESCRIPTION="Small LDAP implementation"
+HOMEPAGE="http://www.fefe.de/tinyldap/ ftp://ftp.dinoex.de/pub/tinyldap/"
+LICENSE="GPLv2"
+IUSE="+static -shared +nopie -upx -doc (+diet) (-musl) +stest +strip +amd64"

@@ -1,0 +1,18 @@
+dev-lang/perl
+dev-libs/gmp  # for gnutls
+#dev-libs/libgcrypt  # for gnutls
+#dev-libs/libgpg-error  # for gnutls
+dev-libs/libtasn1  # for gnutls
+dev-libs/libunistring  # for gnutls
+dev-libs/nettle  # for gnutls
+#dev-libs/openssl3
+dev-util/pkgconf
+net-libs/gnutls
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-kernel/linux-headers
+sys-libs/musl
+sys-libs/zlib  # for gnutls

@@ -1,0 +1,6 @@
+dev-util/ctags
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl

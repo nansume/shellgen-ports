@@ -1,0 +1,9 @@
+etc/*
+bin/*
+lib*/libteredo.so
+lib*/libtun6.so
+sbin/miredo-checkconf
+sbin/miredo-server
+<DPREFIX>/libexec/*
+<DPREFIX>/share/*
+var/*

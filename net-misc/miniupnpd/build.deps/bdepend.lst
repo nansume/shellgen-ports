@@ -1,0 +1,19 @@
+dev-libs/gmp  # for openssl
+dev-libs/openssl3
+#dev-vcs/git
+dev-util/pkgconf
+
+net-firewall/nftables
+
+net-libs/libnftnl
+net-libs/libmnl
+
+#sys-apps/lsb-release
+sys-apps/util-linux
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-kernel/linux-headers-musl
+sys-libs/queue-standalone
+sys-libs/musl
+sys-libs/zlib  # for openssl

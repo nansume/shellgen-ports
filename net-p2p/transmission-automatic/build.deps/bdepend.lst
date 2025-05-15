@@ -1,0 +1,19 @@
+dev-lang/perl  # required for autotools
+dev-libs/gmp  # for openssl (optional)
+dev-libs/libxml2  # for gettext
+dev-libs/openssl3
+dev-libs/pcre
+dev-util/pkgconf
+#dev-vcs/git  # no work, according to no required.
+
+net-misc/curl
+
+sys-devel/autoconf  # required for autotools
+sys-devel/automake  # required for autotools
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/libtool  # required for autotools
+sys-devel/m4  # required for autotools
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # for openssl

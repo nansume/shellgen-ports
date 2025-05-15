@@ -1,0 +1,2 @@
+ROOT_PREFIX=
+MYCONF="${MYCONF:+${MYCONF}${NL}}--sysconfdir=${ROOT_PREFIX}/etc/${PKGNAME}"

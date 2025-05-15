@@ -1,0 +1,11 @@
+dev-lang/perl
+sys-apps/file
+sys-devel/autoconf
+sys-devel/automake
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/gettext
+sys-devel/libtool
+sys-devel/m4
+sys-devel/make
+sys-libs/musl

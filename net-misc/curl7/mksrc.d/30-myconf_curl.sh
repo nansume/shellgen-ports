@@ -1,0 +1,28 @@
+MYCONF="${MYCONF}
+ #--with-gnutls
+ #--disable-file
+ #--disable-http
+ #--disable-proxy
+ #--without-ssl
+ #--disable-unix-sockets
+ --disable-threaded-resolver
+ --disable-alt-svc
+ --disable-dict
+ #--disable-gopher
+ --disable-hsts
+ #--disable-imap
+ --disable-ldap
+ --disable-ldaps
+ --disable-mqtt
+ --disable-ntlm
+ --disable-ntlm-wb
+ #--disable-pop3
+ #--disable-rtsp
+ --disable-smb
+ #--disable-smtp
+ --disable-telnet
+ --disable-tftp
+ #--disable-verbose
+ #--without-zlib
+ --with-openssl
+"

@@ -1,0 +1,8 @@
+##########################################
+#####  Socat - ssl tun [utf-8,ipv4]  #####
+##########################################
+
+# Building TUN based virtual networks with socat [utf-8,ipv4]
+http://www.dest-unreach.org/socat/doc/socat-tun.html
+# Securing Traffic Between two Socat Instances Using SSL [utf-8,ipv4]
+http://www.dest-unreach.org/socat/doc/socat-openssltunnel.html

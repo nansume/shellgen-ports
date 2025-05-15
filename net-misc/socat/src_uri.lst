@@ -1,0 +1,5 @@
+http://www.dest-unreach.org/socat/download/socat-1.7.4.4.tar.gz
+#http://www.dest-unreach.org/socat/download/Archive/socat-1.7.3.2.tar.bz2  # no compatible change
+# support: socat-02-libressl.patch
+#http://www.dest-unreach.org/socat/download/Archive/socat-1.7.3.1.tar.bz2
+#https://raw.githubusercontent.com/OpenELEC/unofficial-addons/master/addons/tools/socat/patches/socat-02-libressl.patch

@@ -1,0 +1,3 @@
+https://github.com/janmojzis/${PN}/archive/20240101.tar.gz -> ${PN}-20240101.tar.gz
+http://data.gpo.zugaina.org/gentoo/net-misc/tinyssh/files/tinyssh-20240101_c99.patch
+http://data.gpo.zugaina.org/gentoo/net-misc/tinyssh/files/tinyssh-20240101_conf_cflags.patch

@@ -1,0 +1,9 @@
+etc/*
+bin/scp
+bin/sftp
+bin/ssh-a*
+bin/ssh-copy-id
+bin/ssh-keygen
+bin/ssh-keyscan
+sbin/*
+lib*/*

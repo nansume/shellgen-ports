@@ -1,0 +1,16 @@
+dev-db/lmdb
+dev-db/lmdbxx
+dev-libs/gmp  # for openssl
+dev-libs/openssl3
+dev-libs/libuv
+
+net-libs/usockets
+net-misc/curl
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+
+sys-libs/zlib  # for openssl
+www-apps/uwebsockets

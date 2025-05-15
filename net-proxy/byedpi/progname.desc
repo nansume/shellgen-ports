@@ -1,0 +1,9 @@
+# Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
+# +static -static-libs -shared +nopie -lfs -upx -patch -doc -man -xstub -diet +musl +stest +strip +x32
+
+# http://data.gpo.zugaina.org/guru/net-proxy/byedpi/byedpi-0.16.6.ebuild
+
+DESCRIPTION="Bypass DPI SOCKS proxy"
+HOMEPAGE="https://github.com/hufrea/byedpi"
+LICENSE="MIT"
+IUSE="+static -shared +nopie -lfs -upx -doc -man -xstub -diet +musl +stest +strip"

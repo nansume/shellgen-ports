@@ -1,0 +1,5 @@
+dev-libs/dietlibc
+
+sys-devel/binutils
+sys-devel/gcc9
+sys-devel/make

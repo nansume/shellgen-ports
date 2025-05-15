@@ -1,0 +1,5 @@
+http://www.litech.org/tayga/tayga-0.9.2.tar.bz2
+http://data.gpo.zugaina.org/gentoo/net-proxy/tayga/files/tayga-0.9.2-static-EAM.patch
+http://data.gpo.zugaina.org/gentoo/net-proxy/tayga/files/tayga-0.9.2-manpage-RFC.patch
+http://data.gpo.zugaina.org/gentoo/net-proxy/tayga/files/tayga-0.9.2-release-reserved-addr.patch
+#http://data.gpo.zugaina.org/gentoo/net-proxy/tayga/files/tayga-0.9.2-Fix-implicit-function-declaration.patch

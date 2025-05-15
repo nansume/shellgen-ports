@@ -1,0 +1,3 @@
+https://github.com/Elysion-tcfa/tsocks/archive/be36c83a7326c75123fa019a4cb53792ecd8f689.tar.gz --> tsocks-1.8beta6.tar.gz
+#ftp://mirrors.tera-byte.com/pub/gentoo/distfiles/tsocks-1.8beta5.tar.gz
+https://aur.archlinux.org/cgit/aur.git/plain/fix-mkinstalldirs.patch?h=tsocks-ipv6 --> fix-mkinstalldirs.patch

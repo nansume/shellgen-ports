@@ -1,0 +1,9 @@
+# Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
+# +static -static-libs -shared +nopie -lfs -upx -patch -doc -man -xstub +diet -musl +stest +strip +x32
+
+# http://i1.dk/download/miniinetd/
+
+DESCRIPTION="Mini-inetd is a simple, fork-style TCP server."
+HOMEPAGE="http://i1.dk/download/miniinetd/"
+LICENSE="public domain"
+IUSE="+static -shared +nopie -lfs -upx -doc -man -xstub (+diet) (-musl) +stest +strip"

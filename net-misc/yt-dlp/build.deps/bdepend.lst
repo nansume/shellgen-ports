@@ -1,0 +1,12 @@
+dev-lang/python38
+
+dev-libs/libffi
+dev-libs/openssl3
+
+dev-python/py38-cffi
+dev-python/py38-flitcore
+dev-python/py38-installer
+dev-python/py38-pycryptodome
+
+sys-libs/musl
+sys-libs/zlib

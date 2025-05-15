@@ -1,0 +1,9 @@
+# Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
+# +static -static-libs -shared +nopie -lfs -upx -patch -doc -man -xstub +diet -musl -stest +strip +x32
+
+# https://t2sde.org/packages/slidentd
+
+DESCRIPTION="slidentd - A secure and lightweight ident (RFC1413) daemon for Linux"
+HOMEPAGE="https://t2sde.org/packages/slidentd http://www.uncarved.com/slidentd/"
+LICENSE="GPL"
+IUSE="+static -shared +nopie -doc -xstub +diet -musl -stest +strip +x32"

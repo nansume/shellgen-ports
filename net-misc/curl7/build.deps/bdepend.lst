@@ -1,0 +1,13 @@
+#dev-libs/gmp
+#dev-libs/libtasn1
+#dev-libs/libunistring
+#dev-libs/nettle
+dev-libs/openssl3
+dev-util/pkgconf
+#net-libs/gnutls
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib

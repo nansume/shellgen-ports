@@ -1,0 +1,3 @@
+http://cdn.netbsd.org/pub/pkgsrc/distfiles/${PN}-${PV}.tar.gz
+#ftp://ftp.csie.ncu.edu.tw/distfiles/${PN}-${PV}.tar.gz
+#ftp://ftp.pasta.cs.uit.no/pub/Vermicelli/www6to4-1.6.tar.gz

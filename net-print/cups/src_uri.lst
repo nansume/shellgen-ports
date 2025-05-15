@@ -1,0 +1,7 @@
+https://github.com/apple/cups/releases/download/v2.2.11/cups-2.2.11-source.tar.gz
+#https://github.com/OpenPrinting/cups/releases/download/v2.2.11/cups-2.2.11-source.tar.gz
+#http://shellgen.mooo.com/pub/distfiles/patch/cups/cups-2.2.0-dont-compress-manpages.patch
+http://shellgen.mooo.com/pub/distfiles/patch/cups/cups-2.2.6-fix-install-perms.patch
+#http://shellgen.mooo.com/pub/distfiles/patch/cups/cups-1.4.4-nostrip.patch
+#http://shellgen.mooo.com/pub/distfiles/patch/cups/cups-2.0.2-rename-systemd-service-files.patch
+http://shellgen.mooo.com/pub/distfiles/patch/cups/cups-2.0.1-xinetd-installation-fix.patch
