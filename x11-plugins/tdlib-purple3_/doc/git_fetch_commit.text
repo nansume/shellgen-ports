@@ -1,0 +1,36 @@
+# tdlib-purple-v0.8.21 (tdlib-v1.8.2) -> d220fa864942253856752b1d9abadb8d1ed835be
+
+# user-nopriv
+=========================================================
+git config --global http.sslVerify false
+#git config --global init.defaultBranch master
+=========================================================
+git clone https://github.com/savoptik/tdlib-purple.git tdlib-purple/
+cd tdlib-purple/
+git checkout d220fa864942253856752b1d9abadb8d1ed835be
+=========================================================
+or
+=========================================================
+mkdir tdlib-purple/
+cd tdlib-purple/
+git init
+git remote add origin https://github.com/savoptik/tdlib-purple.git
+git fetch origin
+#git checkout origin/tdlib-v1.8.2
+#git rev-parse d220fa8
+git reset --hard d220fa864942253856752b1d9abadb8d1ed835be
+#git log --oneline
+#git checkout HEAD
+
+=========================================================
+
+# root
+=========================================================
+PN=tdlib-purple
+PV=0.8.21
+cd /tmp/archive/
+#cp -rp download/tdlib-purple/* -t tdlib-purple/
+chown -R root:root -- tdlib-purple/
+#cd tdlib-purple/
+#find * -print0 | tar -c -O -T - | /bin/xz -z -6 -c > ../${PN}-${PV}.tar.xz  # bug: double
+tar -c tdlib-purple/ -O | /bin/xz -z -6 -c > ${PN}-${PV}.tar.xz

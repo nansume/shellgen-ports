@@ -1,0 +1,64 @@
+app-crypt/libmd  # require sha1 crypto
+dev-util/pkgconf
+
+media-fonts/font-util  # required?
+media-libs/freetype
+#media-libs/libepoxy  # required mesa (opengl)
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/bison
+sys-devel/flex
+sys-devel/gcc
+sys-devel/make
+sys-kernel/linux-headers
+sys-libs/musl
+sys-libs/zlib
+
+x11-apps/xkbcomp
+x11-base/xcb-proto
+x11-base/xorg-proto
+#x11-base/xf86driproto
+#x11-base/dri3proto
+
+x11-libs/libdrm
+x11-libs/libfontenc  # required?
+#x11-libs/libfs-1.0.9.tar.xz
+x11-libs/libice  # required?
+x11-libs/libpciaccess
+x11-libs/libsm  # required?
+x11-libs/libx11
+x11-libs/libxau
+#x11-libs/libxaw-1.0.15.tar.xz
+x11-libs/libxcb  # for x11
+x11-libs/libxcursor  # required?
+x11-libs/libxdmcp
+x11-libs/libxext  # for kdrive
+#x11-libs/libxfixes  # for dmx
+#x11-libs/libxcomposite-0.4.6.tar.xz
+#x11-libs/libxcvt
+#x11-libs/libxdamage-1.1.6.tar.xz
+#x11-libs/libxpm-3.5.16.tar.xz
+x11-libs/libxfont2  # or libxfont
+x11-libs/libxft  # required?
+#x11-libs/libxi  # for dmx
+x11-libs/libxkbfile
+#x11-libs/libxmu  # for dmx
+x11-libs/libxrandr  # required?
+#x11-libs/libxrender  # for dmx
+#x11-libs/libxres  # for dmx
+x11-libs/libxshmfence
+#x11-libs/libxt  # for dmx
+#x11-libs/libxtst  # for dmx
+x11-libs/libxv  # for kdrive
+
+#x11-libs/libxxf86dga-1.1.6.tar.xz
+x11-libs/libxxf86vm
+
+x11-libs/pixman
+x11-libs/xtrans
+
+x11-drivers/xf86-input-keyboard  # run-time depend
+x11-drivers/xf86-input-mouse  # run-time depend
+
+x11-misc/util-macros

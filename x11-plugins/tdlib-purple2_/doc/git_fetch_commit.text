@@ -1,0 +1,36 @@
+# tdlib-v1.8.20 -> 1d1bc07eded7d3ee7df7c567e008bbf926cba081
+
+# user-nopriv
+=========================================================
+git config --global http.sslVerify false
+git config --global init.defaultBranch master
+=========================================================
+git clone https://github.com/tdlib/td.git tdlib/
+cd tdlib/
+git checkout 1d1bc07eded7d3ee7df7c567e008bbf926cba081
+=========================================================
+or
+=========================================================
+mkdir tdlib/
+cd tdlib/
+git init
+git remote add origin https://github.com/tdlib/td.git
+git fetch origin
+#git checkout origin/<pkgname>
+#git rev-parse 1d1bc07
+git reset --hard 1d1bc07eded7d3ee7df7c567e008bbf926cba081
+#git log --oneline
+#git checkout HEAD
+
+=========================================================
+
+# root
+=========================================================
+PN=tdlib
+PV=1.8.20
+cd /tmp/archive/
+#cp -rp download/tdlib/* -t tdlib/
+chown -R root:root -- tdlib/
+#cd tdlib/
+#find * -print0 | tar -c -O -T - | /bin/xz -z -6 -c > ../${PN}-${PV}.tar.xz  # bug: double
+tar -c tdlib/ -O | /bin/xz -z -6 -c > ${PN}-${PV}.tar.xz

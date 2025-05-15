@@ -1,0 +1,6 @@
+#x11-misc/util-macros
+
+# optinal deps - no required - only for extensions
+dev-libs/expat
+dev-libs/libffi
+dev-lang/python3

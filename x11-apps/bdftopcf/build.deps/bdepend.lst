@@ -1,0 +1,11 @@
+dev-util/pkgconf
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+
+x11-base/fontsproto
+x11-base/xorg-proto
+x11-misc/util-macros
+#x11-libs/libxfont

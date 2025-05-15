@@ -1,0 +1,30 @@
+# tdlib-v1.8.16 -> 4d1d22d6f477d61f6ff2b8f6e49de1847092c5b4
+# tdlib-purple-v0.8.16 (tdlib-v1.8.2) -> d220fa864942253856752b1d9abadb8d1ed835be
+
+# user-nopriv
+=========================================================
+git config --global http.sslVerify false
+git config --global init.defaultBranch master
+=========================================================
+git clone https://github.com/tdlib/td.git tdlib/
+git clone https://github.com/savoptik/tdlib-purple.git tdlib-purple/
+cd tdlib/
+cd tdlib-purple/
+git rev-parse 4d1d22d6f
+git checkout 4d1d22d6f477d61f6ff2b8f6e49de1847092c5b4  # tdlib
+#git checkout d220fa864942253856752b1d9abadb8d1ed835be  # tdlib-purple
+rm -r -- .git/*/
+cd ../
+=========================================================
+
+# root
+=========================================================
+PN=tdlib
+PN=tdlib-purple
+PV=1.8.16
+PV=0.8.16
+mv -n tdlib -t /tmp/archive/
+cd /tmp/archive/
+chown -R root:root -- tdlib/ tdlib-purple/
+tar -c tdlib/ -O | /bin/xz -z -6 -c > ${PN}-${PV}.tar.xz
+tar -c tdlib-purple/ -O | /bin/xz -z -6 -c > ${PN}-${PV}.tar.xz

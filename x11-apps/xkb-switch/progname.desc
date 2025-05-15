@@ -1,0 +1,9 @@
+# Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
+# -static -static-libs +shared +nopie -lfs -upx -patch -doc -man -xstub -diet +musl +stest +strip +x32
+
+# http://data.gpo.zugaina.org/booboo/x11-apps/xkb-switch/xkb-switch-9999.ebuild
+
+DESCRIPTION="Switch your X keyboard layouts from the command line"
+HOMEPAGE="https://github.com/ierton/xkb-switch"
+LICENSE="GPL-3"
+IUSE="-static -static-libs +shared +nopie -doc (+musl) +stest +strip"

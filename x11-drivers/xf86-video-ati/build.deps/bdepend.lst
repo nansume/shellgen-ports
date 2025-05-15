@@ -1,0 +1,45 @@
+app-crypt/libmd
+dev-libs/expat  # required for mesa?
+
+media-libs/freetype
+media-libs/mesa  # required - without it build failed.
+
+dev-util/pkgconf
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-kernel/linux-headers-musl
+sys-libs/musl
+sys-libs/zlib  # required for mesa?
+
+#x11-base/xcb-proto
+x11-base/xorg-proto
+x11-base/xorg-server
+
+x11-libs/libdrm
+x11-libs/libfontenc
+x11-libs/libpciaccess
+x11-libs/libvdpau  # required for mesa
+x11-libs/libx11
+x11-libs/libxau
+x11-libs/libxcb
+x11-libs/libxcursor
+x11-libs/libxdamage  # required for mesa
+x11-libs/libxdmcp
+x11-libs/libxext
+
+x11-libs/libxfont2
+x11-libs/libxfixes
+x11-libs/libxft
+x11-libs/libxkbfile
+x11-libs/libxrandr
+x11-libs/libxrender
+x11-libs/libxres
+x11-libs/libxshmfence
+x11-libs/libxv
+x11-libs/libxxf86vm  # required for mesa
+x11-libs/pixman
+x11-libs/xtrans
+
+x11-misc/util-macros

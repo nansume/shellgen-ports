@@ -1,0 +1,22 @@
+# tdlib-v1.8.4 -> 7eabd8ca60de025e45e99d4e5edd39f4ebd9467e
+
+# user-nopriv
+=========================================================
+git config --global http.sslVerify false
+git config --global init.defaultBranch master
+=========================================================
+git clone https://github.com/tdlib/td.git tdlib/
+cd tdlib/
+git checkout 7eabd8ca60de025e45e99d4e5edd39f4ebd9467e  # tdlib
+rm -vrf -- .git/*/ .git/description .git/index .git/packed-refs
+cd ../
+=========================================================
+
+# root
+=========================================================
+PN=tdlib
+PV=1.8.4
+mv -vn tdlib -t /tmp/archive/
+cd /tmp/archive/
+chown -R root:root -- tdlib/
+tar -c tdlib/ -O | /bin/xz -z -6 -c > ${PN}-${PV}.tar.xz
