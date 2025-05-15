@@ -1,0 +1,23 @@
+dev-lang/mozjs17:                 re-conf-datadir
+dev-lang/tcl:                     re-conf-datadir
+dev-libs/ucl:                     re-conf-datadir
+dev-util/cmake:                   re-conf-datadir
+dev-vcs/fossil:                   re-conf-datadir
+#games-emulation/dgen-sdl:        re-conf-datadir
+games-rpg/freedroid:              re-conf-datadir
+games-strategy/lgeneral-data:     re-conf-datadir
+games-strategy/lgeneral:          re-conf-datadir
+media-gfx/dfbsee:                 re-conf-datadir
+media-video/ffmpeg:               re-conf-datadir
+media-video/mplayer:              re-conf-datadir
+net-misc/dhcpcd:                  re-conf-datadir
+net-proxy/tsocks:                 re-conf-datadir
+sys-apps/fakeroot:                re-conf-datadir
+#sys-libs/gpm:                     rm-conf-shared
+www-client/links:                 re-conf-datadir
+#www-servers/citadel:             rm-conf-libdir rm-conf-prefix
+www-servers/didiwiki:             re-conf-datadir
+x11-base/fontsproto:              re-conf-datadir
+x11-drivers/xf86-input-keyboard:  re-conf-datadir
+x11-drivers/xf86-input-mouse:     re-conf-datadir
+x11-terms/urxvt:                  re-conf-datadir

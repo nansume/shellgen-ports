@@ -1,0 +1,55 @@
+#*/*:                         --disable-static --enable-shared
+#*/*:                         --enable-shared
+*/*:                         +static-libs +shared
+
+# no support
+app-arch/cpio:               ++disable+static ++enable+shared
+app-arch/gzip:               ++disable+static ++enable+shared
+app-arch/tar:                ++disable+static ++enable+shared
+app-crypt/acme-client:       ++disable+static ++enable+shared
+app-editors/vim:             ++disable+static ++enable+shared
+app-emulation/qemu:          ++disable+static ++enable+shared
+app-i18n/fbterm:             ++disable+static ++enable+shared
+app-misc/fdupes:             ++disable+static ++enable+shared
+app-text/asciidoc:           ++disable+static ++enable+shared
+app-shells/bash:             ++disable+static ++enable+shared
+dev-lang/yasm:               ++disable+static ++enable+shared
+dev-libs/elfutils:           ++disable+static ++enable+shared
+dev-vcs/git:                 ++disable+static ++enable+shared
+dev-util/cmake:              ++disable+static ++enable+shared
+games-emulation/dgen-sdl:    ++disable+static ++enable+shared
+games-simulation/simutrans:  ++disable+static ++enable+shared
+games-strategy/lgeneral:     ++disable+static ++enable+shared
+mail-client/mutt:            ++disable+static ++enable+shared
+media-fonts/font-util:       ++disable+static ++enable+shared
+dev-util/intltool:           ++disable+static ++enable+shared
+net-fs/sshfs:                ++disable+static ++enable+shared
+net-misc/radvd:              ++disable+static ++enable+shared
+net-misc/socat:              ++disable+static ++enable+shared
+net-misc/wget:               ++disable+static ++enable+shared
+net-vpn/tinc:                ++disable+static ++enable+shared
+sys-apps/coreutils:          ++disable+static ++enable+shared
+sys-apps/fakeroot:           ++disable+static ++enable+shared
+sys-apps/grep:               ++disable+static ++enable+shared
+sys-apps/less:               ++disable+static ++enable+shared
+sys-apps/sed:                ++disable+static ++enable+shared
+sys-apps/which:              ++disable+static ++enable+shared
+sys-boot/grub:               ++disable+static ++enable+shared
+sys-devel/bison:             ++disable+static ++enable+shared
+sys-devel/patch:             ++disable+static ++enable+shared
+sys-fs/dosfstools:           ++disable+static ++enable+shared
+www-client/elinks:           ++disable+static ++enable+shared
+www-client/links:            ++disable+static ++enable+shared
+x11-apps/xkbcomp:            ++disable+static ++enable+shared
+x11-apps/xrdb:               ++disable+static ++enable+shared
+x11-base/*proto:             ++disable+static ++enable+shared
+x11-libs/pixman:             ++disable+static ++enable+shared
+x11-misc/xbindkeys:          ++disable+static ++enable+shared
+x11-terms/urxvt:             ++disable+static ++enable+shared
+
+# no support
+dev-util/ctags:              ++enable+shared
+media-gfx/fim:               ++enable+shared
+sys-libs/gpm:                ++enable+shared
+
+# required for <static> build

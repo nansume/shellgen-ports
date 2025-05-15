@@ -1,0 +1,3 @@
+etc/bash_completion.d/*
+#<DPREFIX>/share/bash_completion.d/*
+#bash_completion.d/*

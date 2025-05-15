@@ -1,0 +1,74 @@
+#!/bin/sh
+# 2023-2024
+
+: ${PDIR:?} ${SRC_DIR:?} ${PKGNAME:?}
+
+WORKDIR="${WORKDIR:-${1:-${PDIR%/}/${SRC_DIR}/${PKGNAME}-src}}"
+XBUILDDIR=${WORKDIR}
+
+test "${BUILD_CHROOT:=0}" -ne '0' || { printf %s\\n "${XBUILDDIR}" >&2; exit 1;}
+{ test "X${USER}" != 'Xroot' || test "${USE_BUILD_ROOT:=0}" -ne '0' ;} || { printf %s\\n "${XBUILDDIR}" >&2; exit 1;}
+
+test -d "${WORKDIR}" || { printf %s\\n "${XBUILDDIR}" >&2; exit 1;}
+cd ${WORKDIR}/
+
+XBUILDDIR=
+
+for F in * ''; do
+  test -x "/bin/cmake" && break
+  test -e "${F}" &&
+  case ${F} in
+    GNUmakefile|[Mm]akefile|[Mm]akefile.am|[Mm]akefile.in|[Mm]akefile.PL)
+      XBUILDDIR=${WORKDIR}
+      break
+    ;;
+    [Cc]onfigure)
+      XBUILDDIR=${WORKDIR}
+    ;;
+  esac
+done
+
+test -z "${XBUILDDIR}" &&
+for F in */* */*/* */*/*/* */*/*/*/* */*/*/*/*/* ''; do
+  test -x "/bin/cmake" && break
+  # for python and etc.
+  { test -x "/bin/make" || test -n "${MAKE}" ;} || break
+  test -e "${F}" || continue
+  case "x/${F}" in
+    *'/po/'*|*'/doc/'*|*'/tests/'*|*'/test/'*|*'.win'*|*'.msc'*|*'.bcb'*) continue;;
+    */[Uu]nix/GNUmakefile|*/[Uu]nix/[Mm]akefile|*/[Uu]nix/[Mm]akefile.am| \
+    */[Uu]nix/[Mm]akefile.in|*/[Uu]nix/[Mm]akefile.PL)
+      XBUILDDIR="${WORKDIR%/[Uu]nix}/${F%/*}"
+      break
+    ;;
+    */[Uu]nix/[Cc]onfigure)
+      XBUILDDIR="${WORKDIR%/[Uu]nix}/${F%/*}"
+    ;;
+    */[Mm]akefile.linux*|*/[Mm]akefile.unix*|*/[Mm]akefile*)
+      XBUILDDIR="${WORKDIR}/${F%/*}"
+    ;;
+    *) continue;;
+  esac
+done
+
+test -z "${XBUILDDIR}" &&
+for F in * ''; do
+  test -e "${F}" &&
+  case ${F} in
+    CMakeLists.txt)
+      XBUILDDIR=${WORKDIR}
+      break
+    ;;
+    meson.build|setup.py)
+      XBUILDDIR=${WORKDIR}
+    ;;
+  esac
+done
+
+if test -z "${XBUILDDIR}" && test -d "${PDIR%/}/${SRC_DIR}/${PKGNAME}-src"; then
+  XBUILDDIR="${PDIR%/}/${SRC_DIR}/${PKGNAME}-src"
+fi
+
+printf %s\\n "${XBUILDDIR:-${WORKDIR}}"
+
+test -n "${XBUILDDIR-}"

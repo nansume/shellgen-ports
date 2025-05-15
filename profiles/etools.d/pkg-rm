@@ -1,0 +1,33 @@
+#!/bin/sh
+# Copyright (C) 2021-2023 Artjom Slepnjov, Shellgen
+# License GPLv3: GNU GPL version 3 only
+# http://www.gnu.org/licenses/gpl-3.0.html
+# Date: 2023-10-05 12:00 UTC - fix: near to compat-posix, no-posix: local VAR
+
+: ${XPN:?} ${INSTALL_DIR:?}
+
+IFS="$(printf '\n\t')"; IFS=${IFS%?} PN=${XPN} GLOBIGNORE=
+
+test "X${USER}" != 'Xroot' || exit
+
+test -d "${INSTALL_DIR}" || exit
+cd "${INSTALL_DIR}/"
+
+GLOBIGNORE="${GLOBIGNORE:+${GLOBIGNORE}:}$(excludelist)"  # glob ignore load
+GLOBIGNORE=${GLOBIGNORE%:}
+
+printf %s\\n "GLOBIGNORE='${GLOBIGNORE}'"
+
+#shopt -s dotglob globstar
+for P in '' ${RMLIST}; do
+  test -z "${P}" && { RMLIST=; continue;}
+  test -n "${GLOBIGNORE}" && { smatch-list "${P}" "${GLOBIGNORE}" && continue;}
+  case ${P} in *'.a'|*'.la') { use 'static-libs' || use 'static-lib' ;} && continue;; esac
+  test -e "${P}" && RMLIST="${RMLIST:+${RMLIST} }${P}"
+done
+test -n "${RMLIST}" || exit 0
+IFS=' '
+
+# fix bug: <rm> opts add <-f> null remove
+rm -r -- ${RMLIST} &&  # rm: libx32/libblkid.la: No such file or directory - duplicate (same file)
+printf %s\\n "rm -r -- ${RMLIST}"

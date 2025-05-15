@@ -1,0 +1,82 @@
+#!/bin/sh
+# Copyright (C) 2023-2025 Artjom Slepnjov, Shellgen
+# License GPLv3: GNU GPL version 3 only
+# http://www.gnu.org/licenses/gpl-3.0.html
+# Date: 2023-12-07 19:00 UTC - last change
+
+: ${DPREFIX:?}
+
+LIB_DIR=$(get_libdir) X= PY=
+
+test "${BUILD_CHROOT:=0}" -ne '0' || exit 0
+test "X${USER}" != 'Xroot' && exit
+
+
+printf %s\\n "PWD='${PWD}'" "LIB_DIR='${LIB_DIR:?}'"
+
+# openssl fix: find lib*.so
+for X in /${LIB_DIR}/libcrypto.so.1.* /${LIB_DIR}/libssl.so.1.*; do
+  test -e "${X}" && ln -sf ${X%%*/} "${X%${X#*.so}}"
+done
+# /bin/<python> for python 2 or 3 version
+for X in /bin/python[23]; do
+  test -e "${X}" && ln -sf ${X%%*/} "${X%[23]}"
+done
+#Could not find platform dependent libraries <exec_prefix>
+#Consider setting $PYTHONHOME to <prefix>[:<exec_prefix>]
+#ModuleNotFoundError: No module named <_posixsubprocess>
+for X in /${LIB_DIR}/python*/lib-dynload; do
+  test -e "${X}" || continue
+  PY=${X#?*/}
+  ln -sf ../../${X#/} "/lib/${PY%%/*}/"
+  # fix: py-unicodedata2 -I/include/python3.6m - error: Python.h: No such file
+  ln -sf "/${DPREFIX#/}/include" /
+  # for install <py-pkgname>: CPPFLAGS+="-I${INCDIR}
+  # -I/usr/include/python3.6m -lpython3.6m
+  # $(pkg-config --cflags --libs python3)
+  break
+done
+# fix: No package <xorg-macros [util-macros]> found
+# correct fix: PKG_CONFIG_PATH
+for X in /usr/share/pkgconfig/xorg-macros[.]pc; do
+  test -f "${X}" || continue
+  # correct is: /lib/pkgconfig/
+  mkdir -pm 0755 "/${LIB_DIR}/pkgconfig/"
+  ln -sf ${X} "/${LIB_DIR}/pkgconfig/"
+done
+
+
+X="/bin/musl-gcc"
+X="/bin/gcc"
+# fix error:  make: cc: No such file or directory
+test -x "${X}" && ln -sf ${X##*/} "${X%/*}/cc"
+
+if test "X$(tc-abi)" = 'Xx32'; then
+  # fix error:  not found: <gcc>
+  ln -sf "../${LIB_DIR}/libc.so" "/lib/ld-musl-$(tc-abi).so.1" &&
+  printf %s\\n "ln -sf ../${LIB_DIR}/libc.so /lib/ld-musl-$(tc-abi).so.1"
+
+  # gcc: error: /usr/lib-x32/start.o: No such file or directory
+  test -d "/${LIB_DIR}/dietlibc" && ln -sf "../${LIB_DIR}/dietlibc" "/usr/lib-$(tc-abi)"
+  test -d "/${LIB_DIR}/dietlibc" && ln -sf "../${LIB_DIR}/dietlibc" "/usr/lib-$(arch)"
+else
+  printf %s\\n "build-deps-fixfind - tc-abi: $(tc-abi-build)"
+
+  set -- "/lib/ld-musl-x32.so.1"
+
+  test -L "${1}" && { rm -- "${1}" && printf %s\\n "rm -- ${1}" ;}
+
+  if test "X$(tc-abi)" = 'Xx86'; then
+    test -d "/${LIB_DIR}/dietlibc" && ln -sf "../${LIB_DIR}/dietlibc" "/usr/lib-$(tc-abi)"
+  else
+    test -d "/${LIB_DIR}/dietlibc" && ln -sf "../${LIB_DIR}/dietlibc" "/usr/lib-$(arch)"
+  fi
+fi
+
+if use !usrlib; then
+  set -- "usr/lib" "usr/${LIB_DIR}" "usr/libx32" "usr/lib64" "usr/lib32"
+  until test -z "${1}"; do
+    test -L "${1}" && { rm -- "${1}" && printf %s\\n "rm -- ${1}" ;}
+    shift
+  done
+fi

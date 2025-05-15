@@ -1,0 +1,16 @@
+bash
+coreutils
+cpio
+eudev
+glibc
+gpm
+kmod
+linux-firmware
+loop-aes-losetup
+modules
+nano
+ncurses
+readline
+rootfs
+util-linux
+xz-utils

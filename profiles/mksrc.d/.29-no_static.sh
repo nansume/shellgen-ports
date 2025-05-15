@@ -1,0 +1,1 @@
+MYCONF+=( --disable-static )

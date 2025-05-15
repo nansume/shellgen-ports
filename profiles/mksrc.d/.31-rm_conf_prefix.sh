@@ -1,0 +1,1 @@
+MYCONF=(${MYCONF[@]%--prefix=*})

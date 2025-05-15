@@ -1,0 +1,11 @@
+#bin/*
+#etc/*
+#sbin/*
+#lib/*
+#<LIB_DIR>/*
+#<DPREFIX>/*
+
+#<DPREFIX>/include/*
+#<DPREFIX>/<LIB_DIR>/*
+#<DPREFIX>/libexec/*
+#<DPREFIX>/share/*

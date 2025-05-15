@@ -1,0 +1,7 @@
+<DPREFIX>/share/icons/*
+share/icons/*
+icons/*
+
+<DPREFIX>/share/applications/*
+share/applications/*
+applications/*

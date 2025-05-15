@@ -1,0 +1,3 @@
+# cflag-c89, cxx98, cxx11
+#*/qtgui4:           -std=gnu++11
+*/gstreamer:        -std=c11

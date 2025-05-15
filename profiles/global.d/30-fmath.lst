@@ -1,0 +1,22 @@
+# http://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html
+app-busybox/*:                -ffast-math
+app-shells/bash:              -ffast-math
+
+dev-lang/python*:             -ffast-math
+
+media-gfx/fbi:                -ffast-math
+media-video/ffmpeg:           -ffast-math
+media-video/mplayer:          -ffast-math
+media-video/mpv:              -ffast-math
+media-sound/mpg123:           -ffast-math
+
+net-proxy/squid3:             -ffast-math
+net-vpn/i2pd:                 -ffast-math
+net-vpn/tor:                  -ffast-math
+
+sys-apps/busybox:             -ffast-math
+
+#www-client/links:             -ffast-math
+www-client/w3m:               -ffast-math
+
+x11-base/xorg-server:         -ffast-math

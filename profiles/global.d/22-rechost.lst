@@ -1,0 +1,54 @@
+# gnu-chost/chost-musl-gnu:  x86_64-linux-muslx32 -> x86_64-pc-linux-gnux32
+# chost-diet-musl:  x86_64-pc-linux-dietlibcx32 -> x86_64-linux-muslx32
+# chost-diet-gnu:  x86_64-pc-linux-dietlibcx32 -> x86_64-pc-linux-gnux32 
+# the musl pretend to gnu-chost: sed /-musl/ s/-/-pc-/;s/musl/gnu/
+
+app-crypt/mhash:                    chost-musl-gnu
+#app-misc/pax-utils:                 chost-diet-musl
+app-i18n/dfbterm:                   chost-musl-gnu
+app-office/dfbpoint:                chost-musl-gnu
+app-text/libwpd:                    chost-musl-gnu
+app-text/t1utils:                   chost-diet-musl
+dev-lang/yasm:                      gnu-chost
+dev-libs/beecrypt:                  chost-musl-gnu
+dev-libs/lite:                      chost-musl-gnu
+dev-libs/libelf:                    chost-musl-gnu  # needed after autoreconf
+#dev-libs/fcgi:                      chost-musl-gnu
+dev-libs/judy:                      gnu-chost
+dev-libs/libdaemon:                 chost-musl-gnu
+dev-libs/liboil:                    gnu-chost
+dev-libs/libmaa3:                   chost-musl-gnu
+dev-util/byacc:                     chost-diet-musl
+games-strategy/lgeneral:            gnu-chost
+media-fonts/font-bitstream-speedo:  chost-musl-gnu
+media-libs/gstreamer0:              chost-musl-gnu
+media-libs/libkate:                 chost-musl-gnu
+media-libs/sdl-ttf:                 gnu-chost
+#net-analyzer/netperf:               chost-diet-gnu
+net-analyzer/netperf:               chost-musl-gnu
+#net-analyzer/nmap:                  chost-diet-musl
+net-dns/dnrd:                       gnu-chost
+#net-dns/inadyn-mt:                  chost-diet-gnu
+net-dns/inadyn-mt:                  chost-musl-gnu
+net-fs/curlftpfs:                   gnu-chost
+net-libs/bearssl:                   chost-diet-musl
+net-libs/libnet:                    chost-musl-gnu
+net-libs/liboauth:                  chost-musl-gnu
+net-misc/gofish:                    chost-musl-gnu
+#net-proxy/frox:                     gnu-chost
+net-misc/ssocks:                    chost-diet-musl
+#sys-apps/groff:                     chost-diet-musl  # required c++
+sys-apps/kbd:                       chost-diet-musl
+sys-fs/fuseiso:                     gnu-chost
+sys-fs/libfat:                      gnu-chost
+sys-fs/nilfs-utils0:                gnu-chost
+sys-power/acpid:                    chost-diet-musl
+www-apps/swish-e:                   chost-musl-gnu
+x11-drivers/xf86-input-synaptics0:  chost-musl-gnu
+x11-libs/gtk1:                      chost-musl-gnu
+x11-libs/gtkglext:                  chost-musl-gnu
+x11-libs/libxklavier:               chost-musl-gnu
+x11-libs/libtinynotify:             chost-musl-gnu
+x11-misc/imake:                     chost-diet-musl
+x11-misc/makedepend:                chost-diet-musl
+x11-proto/xf86miscproto:            gnu-chost

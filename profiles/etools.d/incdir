@@ -1,0 +1,5 @@
+#!/bin/sh
+
+INCDIR=${DPREFIX:?}"/include"
+
+printf %s\\n "${INCDIR}"

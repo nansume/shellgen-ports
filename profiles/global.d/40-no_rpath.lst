@@ -1,0 +1,43 @@
+#*/*:                       --disable-rpath
+*/*:                       -rpath
+
+app-emulation/qemu:        ++disable+rpath
+app-misc/fdupes:           ++disable+rpath
+app-crypt/acme-client:     ++disable+rpath
+dev-libs/fribidi:          ++disable+rpath
+dev-libs/glib*:            ++disable+rpath
+dev-libs/libressl:         ++disable+rpath
+dev-libs/pcre2:            ++disable+rpath
+dev-util/ctags:            ++disable+rpath
+dev-util/pkgconf:          ++disable+rpath
+dev-util/re2c:             ++disable+rpath
+mail-mta/opensmtpd:        ++disable+rpath
+media-fonts/font-util:     ++disable+rpath
+media-libs/libass:         ++disable+rpath
+media-libs/libcaca:        ++disable+rpath
+media-libs/libepoxy:       ++disable+rpath
+media-libs/libvpx:         ++disable+rpath
+media-libs/sdl-mixer:      ++disable+rpath
+
+net-libs/libotr:           ++disable+rpath
+
+sys-devel/gcc:             ++disable+rpath
+
+www-client/links:          ++disable+rpath
+
+x11-apps/xkbcomp:          ++disable+rpath
+x11-apps/xrdb:             ++disable+rpath
+x11-base/*proto:           ++disable+rpath
+x11-base/xorg-server:      ++disable+rpath
+
+x11-drivers/xf86-input-*:  ++disable+rpath
+
+x11-libs/cairo:            ++disable+rpath
+x11-libs/libdrm:           ++disable+rpath
+x11-libs/libfontenc:       ++disable+rpath
+x11-libs/libice:           ++disable+rpath
+x11-libs/libpciaccess:     ++disable+rpath
+x11-libs/libsm:            ++disable+rpath
+x11-libs/libx*:            ++disable+rpath
+
+x11-terms/urxvt:           ++disable+rpath

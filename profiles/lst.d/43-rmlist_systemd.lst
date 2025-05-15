@@ -1,0 +1,7 @@
+lib/systemd/*
+<LIB_DIR>/systemd/*
+
+<DPREFIX>/share/polkit*/*
+share/polkit*/*
+
+<DPREFIX>/share/*/mac-osx/

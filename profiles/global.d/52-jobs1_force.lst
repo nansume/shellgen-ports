@@ -1,0 +1,23 @@
+app-shells/bash:            makeflag-jobs1
+app-text/libstaroffice:     makeflag-jobs1
+
+#dev-lang/python2:          makeflag-jobs1
+#dev-lang/python3:          makeflag-jobs1
+dev-libs/openssl-compat:    makeflag-jobs1
+dev-libs/openssl:           makeflag-jobs1
+dev-libs/openssl3:          makeflag-jobs1
+
+mail-mta/exim:              makeflag-jobs1
+media-libs/libvpx:          makeflag-jobs1
+net-proxy/ftpproxy:         makeflag-jobs1
+
+sys-apps/hdparm:            makeflag-jobs1
+sys-boot/lilo:              makeflag-jobs1
+sys-firmware/seabios:       makeflag-jobs1
+#sys-libs/glibc*:           makeflag-jobs1
+sys-libs/readline:          makeflag-jobs1
+
+x11-misc/shared-mime-info:  makeflag-jobs1
+
+www-client/elinks:          makeflag-jobs1
+www-client/lynx:            makeflag-jobs1

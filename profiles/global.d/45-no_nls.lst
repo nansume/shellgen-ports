@@ -1,0 +1,51 @@
+#*/*:                       --disable-nls
+*/*:                       -nls
+
+app-arch/libarchive:       ++disable+nls
+app-crypt/acme-client:     ++disable+nls
+app-emulation/qemu:        ++disable+nls
+app-misc/fdupes:           ++disable+nls
+dev-libs/fribidi:          ++disable+nls
+dev-libs/glib*:            ++disable+nls
+dev-libs/libressl:         ++disable+nls
+dev-libs/pcre2:            ++disable+nls
+dev-util/ctags:            ++disable+nls
+dev-util/pkgconf:          ++disable+nls
+dev-util/re2c:             ++disable+nls
+mail-mta/opensmtpd:        ++disable+nls
+media-fonts/font-util:     ++disable+nls
+media-gfx/fontforge:       ++disable+nls
+media-libs/libass:         ++disable+nls
+media-libs/libcaca:        ++disable+nls
+media-libs/libepoxy:       ++disable+nls
+media-libs/sdl:            ++disable+nls
+media-libs/sdl-mixer:      ++disable+nls
+media-video/ffmpeg:        ++disable+nls
+media-video/mplayer:       ++disable+nls
+
+net-libs/libotr:           ++disable+nls
+
+sys-devel/gcc:             ++disable+nls
+sys-libs/ncurses:          ++disable+nls
+sys-libs/fuse:             ++disable+nls
+
+www-client/links:          ++disable+nls
+
+x11-apps/xkbcomp:          ++disable+nls
+x11-apps/xrdb:             ++disable+nls
+x11-base/*proto:           ++disable+nls
+x11-base/xorg-server:      ++disable+nls
+
+x11-drivers/xf86-input-*:  ++disable+nls
+
+x11-libs/cairo:            ++disable+nls
+x11-libs/libdrm:           ++disable+nls
+x11-libs/libfontenc:       ++disable+nls
+x11-libs/libice:           ++disable+nls
+x11-libs/libpciaccess:     ++disable+nls
+x11-libs/libsm:            ++disable+nls
+x11-libs/libx*:            ++disable+nls
+
+x11-misc/xbindkeys:        ++disable+nls
+
+x11-terms/urxvt:           ++disable+nls

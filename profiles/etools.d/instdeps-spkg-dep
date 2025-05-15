@@ -1,0 +1,41 @@
+#!/bin/sh
+# Copyright (C) 2022-2023 Artjom Slepnjov, Shellgen
+# License GPLv3: GNU GPL version 3 only
+# http://www.gnu.org/licenses/gpl-3.0.html
+# Date: 2023-10-09 18:00 UTC - fix: near to compat-posix, no-posix: local VAR
+
+NL="$(printf '\n\t')"; NL=${NL%?}; IFS=${NL} RUN='spkg-dep' XABI=${ABI}
+ROOT_DIR= PKGS= F= PKG=
+
+test "X${USER}" != 'Xroot' && exit
+test "${BUILD_CHROOT:=0}" -eq '0' && exit
+
+PKGS=
+for F in "${PDIR%/}/build.deps/"* ''; do
+  test -e "${F}" || continue
+  # remove list check - if exists [ok] --> skip
+  skiplist "${F#${PDIR%/}/}" && continue
+  while IFS= read -r X; do
+    X=${X%%#*}
+    X="${X%${X##*[![:space:]]}}"
+    PKGS="${PKGS:+${PKGS}${NL}}${X#${X%%[![:space:]]*}}"
+  done < ${F}
+  PKGS="${PKGS:+${PKGS}${NL}}${F##*/}"
+done
+
+if test "X${ABI}" = 'Xx32'; then
+  ABI=${ABI} ROOT_DIR='/' "${RUN}" ${PKGS}
+  exit
+fi
+
+for PKG in ${PKGS}; do
+  test -n "${PKG%%#*}" || continue
+  XABI=${ABI}
+  if ABI=${ABI} pkg-is ${PKG}; then
+    :
+  else
+    XABI="x32"
+  fi
+  ABI=${XABI} ROOT_DIR='/' "${RUN}" ${PKG}
+  testxpath 'gunzip' || exit 0
+done

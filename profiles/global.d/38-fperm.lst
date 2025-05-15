@@ -1,0 +1,5 @@
+#spidermonkey_1.8.5
+# spidermonkey-1.8.7
+*/spidermonkey:  -fpermissive
+*/mozjs17:       -fpermissive
+*/warzone2100:   -fpermissive

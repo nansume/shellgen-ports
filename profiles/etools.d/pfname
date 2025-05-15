@@ -1,0 +1,20 @@
+#!/bin/sh
+# 2023-2024
+# Date: 2024-09-14 13:00 UTC - last change
+
+use 'bundled' && set -- "src_uri_bundled.lst"
+
+if test "X${USER}" = 'Xroot' && test -n "${SRC_URI}"; then
+  # Remove only spaces from the beginning of the string.
+  printf %s\\n "${SRC_URI#${SRC_URI%%[![:space:]]*}}" > "${1:-src_uri.lst}"
+fi
+
+read -r PF < "${1:-src_uri.lst}"
+
+# FIX: remove comment in filename
+PF="${PF%% #*}"
+PF="${PF%${PF##*[![:space:]]}}"
+
+PF=${PF##*[/ ]}  # it must be only the filename
+
+printf %s\\n "${PF:?required filename for: <PF>}"

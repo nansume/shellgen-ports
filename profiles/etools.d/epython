@@ -1,0 +1,39 @@
+#!/bin/sh
+# Copyright (C) 2023-2025 Artjom Slepnjov, Shellgen
+# License GPLv3: GNU GPL version 3 only
+# http://www.gnu.org/licenses/gpl-3.0.html
+# Date: 2024-04-16 19:00 UTC - last change
+
+# https://docs.python.org/3/using/cmdline.html
+test "${BUILD_CHROOT:=0}" -ne '0' || return 0
+{ test "X${USER}" != 'Xroot' || test "${USE_BUILD_ROOT:=0}" -ne '0' ;} || return 0
+
+#PYTHON_CFLAGS
+#PYTHON_LIBS
+
+for X in /bin/python[23]; do
+  test -e "${X}" || continue
+  export PYTHONPATH="${X%/${PYTHON%[23]}*}"
+  export PYTHON=${X#?*/}
+  export PYTHONPYCACHEPREFIX="/var/cache/${PYTHON%[23]}"
+  break
+done
+test -n "${X-}" || return 0
+
+for X in /${LIB_DIR}/python*/lib-dynload; do
+  test -e "${X}" || continue
+  PYTHON_VER=${X#*/$LIB_DIR/python}
+  export PYTHON_VER=${PYTHON_VER%/*?}
+  export PYTHON_EXEC_PREFIX=${X%$LIB_DIR/*}
+  break
+done
+for X in /lib/python*; do
+  test -e "${X}" || continue
+  export PYTHON_PREFIX=${X%lib/*}
+  export PYTHONHOME="${PYTHON_PREFIX}:${PYTHON_EXEC_PREFIX}"
+  break
+done
+
+printf %s\\n "PYTHONPATH='${PYTHONPATH}'" "PYTHON='${PYTHON}'" "PYTHONPYCACHEPREFIX='${PYTHONPYCACHEPREFIX}'"
+printf %s\\n "PYTHON_VER='${PYTHON_VER}'" "PYTHON_EXEC_PREFIX='${PYTHON_EXEC_PREFIX}'"
+printf %s\\n "PYTHON_PREFIX='${PYTHON_PREFIX}'" "PYTHONHOME='${PYTHONHOME}'"

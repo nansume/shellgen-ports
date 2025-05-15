@@ -1,0 +1,1 @@
+MAKEFLAGS+=" CCLD=${CC}"  # required: <efivar>

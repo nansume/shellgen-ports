@@ -1,0 +1,31 @@
+#!/bin/sh
+# Copyright (C) 2021-2023 Artjom Slepnjov, Shellgen
+# License GPLv3: GNU GPL version 3 only
+# http://www.gnu.org/licenses/gpl-3.0.html
+# Date: 2023-10-09 12:00 UTC - fix: near to compat-posix, no-posix: local VAR
+
+: ${DPREFIX:?} ${LIB_DIR:?}
+
+IFS="$(printf '\n\t')"; IFS=${IFS%?} DPREFIX=${DPREFIX#/} GLOBIGNORE=
+
+test "X${USER}" != 'Xroot' || exit
+
+# skip mod: lib*/grub/i386-pc/*.mod
+# skip mod: lib*/grub/i386-pc/*.img
+for F in $(dotglobstar 'bin/') $(dotglobstar 'lib/') $(dotglobstar "${LIB_DIR}/") $(dotglobstar 'sbin/'); do
+  case ${F} in */*.ko|*/*.o|*/*.a|*/*.mod|*/*.img|*/libgcc_s.so.?) continue;; esac
+  test -e "${F}" || continue
+  testelf ${F} || continue
+  test -x "${F}" && continue
+  chmod +x "${F}" && printf %s\\n "chmod +x ${F}"
+done
+
+# freedroid fix: -x share/<PN>/graphics/*.ico
+for F in ${DPREFIX}"/share/"*/* ${DPREFIX}"/share/"*/*/* ${DPREFIX}"/share/"*/*/*/*; do
+  case ${F} in
+    */*'.png'|*/*'.ico')
+      test -x "${F}" || continue
+      chmod -x "${F}" && printf %s\\n "chmod -x ${F}"
+    ;;
+  esac
+done

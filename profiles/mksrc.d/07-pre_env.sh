@@ -1,0 +1,13 @@
+export XABI=${ABI}
+#export SPREFIX=
+export SPREFIX="/"
+export DPREFIX="/usr"
+export PDIR=${XPWD:=$PWD}
+export P=${XPWD##*/}
+export SN=${P}
+export PN=${P%%_*}
+export PORTS_DIR=${XPWD%/$P}
+export DISTSOURCE="${PORTS_DIR}/${P}/sources"
+export INSTALL_DIR="${PORTS_DIR}/${P}/install"
+export S="${PORTS_DIR}/${P}/${SRC_DIR}"
+export SDIR="${PORTS_DIR}/${P}/${SRC_DIR}"

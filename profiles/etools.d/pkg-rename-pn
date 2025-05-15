@@ -1,0 +1,10 @@
+#!/bin/sh
+
+test "X${USER}" != 'Xroot' || exit 0
+
+cd "${INSTALL_DIR}/" || exit
+
+for X in "bin/${XPN}" "sbin/${XPN}" "bin/${PKGNAME}" "sbin/${PKGNAME}"; do
+  { test -e "${X}" && test ! -e "bin/${PN}" ;} || continue
+  mv -n "${X}" "bin/${PN}" && printf %s\\n "mv -vn '${X}' -> 'bin/${PN}'"
+done

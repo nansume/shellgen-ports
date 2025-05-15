@@ -1,0 +1,25 @@
+#!/bin/sh
+
+SCBUILD=${SCBUILD:-build-script.sh} LOGFILE=${LOGFILE} BUILDLIST=${BUILDLIST} F=
+
+test "0${BUILD_CHROOT}" -ne '0' || exit 0
+test "X${USER}" != 'Xroot' && { USE_BUILD_ROOT='0'; exit;}
+
+test -d "${PDIR:?}" || exit
+cd "${PDIR%/}/"
+
+LOGFILE='/var/log/mkconfig.log'
+
+: ${SRC_DIR:?} ${INSTALL_DIR:?}
+
+test -f "${LOGFILE:?}" || > ${LOGFILE:?}
+
+>>'checksums'.lst
+>>'src_uri'.lst
+
+mkdir -pm '0755' -- "${SRC_DIR}/" "${INSTALL_DIR}/" "${DISTSOURCE:?}/"
+
+USE_BUILD_ROOT='1'
+
+test -n "${BUILDLIST}" && BUILDLIST='1'
+test -e '/etc/profile' && rm -- '/etc/profile'

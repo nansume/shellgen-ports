@@ -1,0 +1,46 @@
+#!/bin/sh
+# Copyright (C) 2021-2025 Artjom Slepnjov, Shellgen
+# License GPLv3: GNU GPL version 3 only
+# http://www.gnu.org/licenses/gpl-3.0.html
+# Date: 2023-11-23 18:00 UTC - last change
+
+: ${PDIR:?} ${WORKDIR:?} ${DISTSOURCE:?} ${ABI:?}
+
+NL="$(printf '\n\t')"; NL=${NL%?}; IFS=" ${NL}" PATCH='patch' PDIR=${PDIR%/}; F="${PDIR}/src_uri.lst"
+PATCHES=
+
+test "X${USER}" != 'Xroot' || exit
+
+test -L "/bin/${PATCH}" || PATCH="/bin/${PATCH}"
+printf %s\\n "PATCH='${PATCH}'"
+
+if [ "${BUILD_DIR-unset}" = unset ]; then
+  BUILD_DIR=${WORKDIR}
+fi
+
+cd "${BUILD_DIR}/" || exit
+
+for P in "${PDIR}/dist-src/"* "${PDIR}/dist-src/".[!.]*; do
+  test -e "${P}" && { cp -ulr "${P}" "${BUILD_DIR}/" && printf %s\\n "cp -ulr ${P} ${BUILD_DIR}/" ;}
+done
+
+test -f "${F}" &&
+while IFS= read -r F; do
+  F=${F%%#*}
+  F="${F%${F##*[![:blank:]]}}"
+  F="${DISTSOURCE}/${F##*[/ ]}"
+  case ${F} in *'.patch'|*'.diff');; *) continue;; esac
+  test -f "${F}" && PATCHES="${PATCHES:+${PATCHES} }${F}"
+done < ${F}
+
+printf %s\\n "PATCHES='${PATCHES}'"
+PATCHES=$(IFS=; mapsetdub ${PATCHES#*[[:space:]]} "${PDIR}/patches/"*'.diff' ${@})
+printf %s\\n "PATCHES='${PATCHES}'"
+
+for F in 'patches/'* ${PATCHES}; do
+  case ${F} in *'.patch'|*'.diff');; *) continue;; esac
+  test -f "${F}" &&
+  case ${F} in *"${ABI}.patch"|*"${ABI}.diff") test "X${ABI}" = 'Xx32' || continue;; esac &&
+  ${PATCH} -p1 -E < "${F}" &&
+  printf "\e[1;32m +\e[m patch -p1 -E < \e[0;35m${F##*/}\e[m... \e[0;36mok\e[m\n"
+done

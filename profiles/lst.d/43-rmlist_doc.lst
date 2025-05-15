@@ -1,0 +1,13 @@
+#<DPREFIX>/share/doc/*
+#<DPREFIX>/share/info/*
+#<DPREFIX>/share/locale/*/*
+#<DPREFIX>/share/man/*
+#<DPREFIX>/man
+share/doc/*
+share/info/*
+share/locale/*/*
+share/man/*
+doc/*
+info/*
+locale/*/*
+man/*

@@ -1,0 +1,1 @@
+INCDIR=${DPREFIX}"/include"

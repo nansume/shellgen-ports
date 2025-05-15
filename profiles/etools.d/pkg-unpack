@@ -1,0 +1,131 @@
+#!/bin/sh
+# Copyright (C) 2021-2024 Artjom Slepnjov, Shellgen
+# License GPLv3: GNU GPL version 3 only
+# http://www.gnu.org/licenses/gpl-3.0.html
+# Date: 2023-10-08 17:00 UTC - fix: near to compat-posix, no-posix: local VAR, ${RANDOM}
+
+: ${PDIR:?} ${PKGNAME:?} ${S:?}
+
+NL="$(printf '\n\t')"; NL=${NL%?}; IFS=${NL} PDIR=${PDIR%/}
+URANDOM=$(tr -dc '0-9' < /dev/urandom | fold -w 5 | head -n 1)
+URANDOM="${URANDOM#${URANDOM%%[!0]*}}"
+TMPDIR="/tmp/${PKGNAME}${URANDOM}-tmp"
+
+test -d "${DISTSOURCE}" || exit
+cd "${DISTSOURCE}/"
+
+test "X${USER}" != 'Xroot' && USE_BUILD_ROOT='0'
+printf %s\\n "USER='${USER}'" "USE_BUILD_ROOT='${USE_BUILD_ROOT}'"
+
+test "X${USER}" != 'Xroot' || exit
+
+test -e "${S}/${PKGNAME}-src" && rm -r -- "${S}/${PKGNAME}-src"
+# Unpack (local)
+mkdir -pm 0755 -- "${S}/" "${TMPDIR}/"
+
+cd "${S}/"
+
+test -f "${PDIR}/src_uri.lst" &&
+
+while IFS= read -r F; do
+  F=${F%%#*}
+  F=${F##*[/ ]}
+  F="${DISTSOURCE}/${F}"
+  test -e "${F}" || exit
+  ZCOMP=
+  EXTF=${F##*.}
+  #[!.]*/[!.]*.?(t|tar.)+(bz2|bz|gz|lzma|zip|xz)
+  case ${EXTF#t} in
+    'bz2'|'bz')
+      ZCOMP=$(type 'bunzip2' 'bzip2' 2>/dev/null)
+    ;;
+    'gz')
+      ZCOMP=$(type 'gunzip' 'gzip' 2>/dev/null)
+    ;;
+    'lz')
+      # Lzip - LZMA lossless data compressor
+      # https://www.nongnu.org/lzip/lzip.html
+      ZCOMP=$(type 'plzip' 'lzip' 2>/dev/null)
+    ;;
+    'lzma'|'xz')
+      ZCOMP=$(type "un${EXTF}" "${EXTF}" "unxz" "xz")
+    ;;
+    *)
+      continue
+    ;;
+  esac
+  ZCOMP=${ZCOMP%%[[:cntrl:]]*}
+  ZCOMP=${ZCOMP##* }
+  ZCOMP=${ZCOMP##*/}
+  : ${ZCOMP:?}
+
+  printf %s\\n "F='${F}'" "EXTF='${EXTF}'" "ZCOMP='${ZCOMP}'"
+
+  cd "${TMPDIR}/"
+  # in busybox for ${ZCOMP} (unpack) opt: <-d> no needed -- only for compat
+  case ${F} in
+    *".tar.${EXTF}"|*".t${EXTF#t}")
+      printf %s\\n "+ ${ZCOMP} -dc ${F} | tar -xkf -"
+      ${ZCOMP} -dc "${F}" | tar -xkf -
+    ;;
+    *'.zip')
+      printf %s "+ unzip -q ${F}"
+      unzip -q "${F}" || printf %s\\n "... error" &&  # test - fix: unpack double deep rcv. dir
+      printf %s\\n "... ok"
+      # what unpack one zip file, after bugfix?
+    ;;
+    *".${EXTF}")
+      printf %s\\n "+ ${ZCOMP} -dk ${F}"
+      test -f "${F%.*}" || ${ZCOMP} -dk "${F}"
+      continue
+    ;;
+  esac
+
+  LIST=
+  for X in */; do test -e "${X%/}" && LIST="${LIST:+${LIST}${NL}}${X}"; done
+  test -n "${LIST}" ||
+  for X in *; do test -e "${X}" && LIST="${LIST:+${LIST}${NL}}${X}"; done
+  printf %s\\n "LIST=${LIST}"
+
+  test -n "${LIST-}" || continue
+
+  ################################################
+  UDIR=
+  test -f "${PDIR}/unpackdir.lst" &&
+  while IFS= read -r UDIR; do
+    UDIR=${UDIR%/}
+    test -n "${UDIR%%[# ]*}" || { UDIR=; continue;}
+    test "x${PF##*[/ ]}" = "x${F##*/}" && { UDIR=; continue;}
+    test "x${UDIR%% *}" = "x${F##*/}" || { UDIR=; continue;}
+    UDIR=${UDIR##*[/ ]}
+    case "${UDIR}" in [./]) UDIR=; continue;; esac
+    UDIR=${UDIR%.$EXTF}
+    UDIR=${UDIR%.tar}
+    UDIR="${PKGNAME}-src/${UDIR}"
+    break
+  done < "${PDIR}/unpackdir.lst"
+  test -n "${UDIR}" || UDIR="${PKGNAME}-src"
+  printf %s\\n "UDIR='${UDIR}'"
+  ################################################
+
+  if case ${LIST} in *${NL}*);; *)! true;; esac; then
+    mkdir -pm 0755 "${S}/${UDIR}/"
+    cp -ulr * "${S}/${UDIR}/"
+    rm -rf -- *
+  elif test "x${UDIR}" = "x${PKGNAME}-src"; then
+    for D in */*; do
+      mkdir -pm 0755 "${S}/${UDIR}/"
+      cp -ulr */* "${S}/${UDIR}/"
+      rm -rf -- */
+      continue 2
+    done
+  else
+    mkdir -pm 0755 "${S}/${UDIR}/"
+    cp -ulr */* "${S}/${UDIR}/"
+    rm -rf */
+  fi
+done < "${PDIR}/src_uri.lst" &&
+
+cd "${PDIR}/" &&
+
+rmdir "${TMPDIR}/" && printf %s\\n "rmdir ${TMPDIR}/"

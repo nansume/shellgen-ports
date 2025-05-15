@@ -1,0 +1,22 @@
+# cflag-maxgcc - replace:  s/-O?/-O3
+app-busybox/*:                maxgcc
+app-shells/bash:              maxgcc
+
+dev-lang/python*:             maxgcc
+
+media-gfx/fbi:                maxgcc
+media-video/ffmpeg:           maxgcc
+media-video/mplayer:          maxgcc
+media-video/mpv:              maxgcc
+media-sound/mpg123:           maxgcc
+
+net-proxy/squid3:             maxgcc
+net-vpn/i2pd:                 maxgcc
+net-vpn/tor:                  maxgcc
+
+sys-apps/busybox:             maxgcc
+
+#www-client/links:             maxgcc
+www-client/w3m:               maxgcc
+
+x11-base/xorg-server:         maxgcc

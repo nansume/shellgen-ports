@@ -1,0 +1,6 @@
+#<DPREFIX>/share/locale/et_EE/*
+<DPREFIX>/share/locale/et/*
+#<DPREFIX>/share/locale/ja_JP/*
+<DPREFIX>/share/locale/ja/*
+#<DPREFIX>/share/locale/ru_RU/*
+<DPREFIX>/share/locale/ru/*

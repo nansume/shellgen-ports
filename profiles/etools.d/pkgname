@@ -1,0 +1,11 @@
+#!/bin/sh
+
+: ${PN:?} ${PV:?} ${PF:?}
+
+PKGNAME=${PF%[-_]$PV*}
+PKGNAME=${PKGNAME%$PV*}
+PKGNAME=${PKGNAME%.tar.*}  # if <PV empty> then...
+PKGNAME=${PKGNAME%-src}    # test - remove duplicat: -src-src|-src
+PKGNAME=${PKGNAME:-$PN}
+
+printf %s\\n "${PKGNAME:?}"

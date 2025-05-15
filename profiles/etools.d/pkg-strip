@@ -1,0 +1,37 @@
+#!/bin/sh
+# Copyright (C) 2021-2023 Artjom Slepnjov, Shellgen
+# License GPLv3: GNU GPL version 3 only
+# http://www.gnu.org/licenses/gpl-3.0.html
+# Date: 2023-12-13 14:00 UTC - last change
+
+: ${LIB_DIR:?}
+
+IFS="$(printf '\n\t')"; IFS=${IFS%?}
+
+test "X${USER}" != 'Xroot' || exit 0
+
+use 'strip' || exit 0
+
+test -n "${BUILDLIST}" && exit
+
+LIST="$(globstar bin/)${IFS}$(globstar ${LIB_DIR}/)${IFS}$(globstar lib/)${IFS}$(globstar sbin/)"
+LIST="${LIST:+${LIST}${IFS}}$(globstar opt/)${IFS}$(globstar usr/libexec/)"
+
+for F in ${LIST}; do
+  case ${F} in *"/i386-pc/"*) continue;; esac  # skip: lib*/grub/i386-pc/*.mod [elf32-i386]
+  testelf ${F} || continue &&
+  case ${F} in
+    *'.a'|*'.o')
+      strip --strip-unneeded ${F} && printf %s\\n "strip --strip-unneeded ${F}"
+    ;;
+    *)
+      # bug: in static libraries and object files remove global symbols - no safe for static lib, object files
+      # https://www.technovelty.org/linux/stripping-shared-libraries.html
+      strip --verbose --strip-all ${F}
+    ;;
+  esac
+done
+#strip --strip-all bin/${PN} ${DPREFIX#/}/libexec/*/* ${LIB_DIR}/lib*.so.${PV} ${LIB_DIR}/lib${PN}.so.?.*
+
+#shopt -s globstar extglob
+#GLOBIGNORE='!(*/usr/bin/*_*|?(*/)?(*/)?(*/)?(*/)*.so?(.*))

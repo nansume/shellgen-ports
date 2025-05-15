@@ -1,0 +1,109 @@
+dev-libs/gmp fmath
+#dev-libs/DirectFB fmath
+media-gfx/fbi fmath
+media-libs/alsa-lib fmath
+media-libs/freetype fmath
+media-libs/libpng fmath
+media-libs/libjpeg-turbo fmath
+media-video/ffmpeg fmath
+media-video/mplayer fmath
+media-video/mpv fmath
+media-sound/mpg123 fmath
+dev-libs/openssl fmath
+#www-client/links fmath
+media-libs/imlib2 fmath
+www-client/w3m fmath
+
+
+# low ram
+###################################
+#app-emulation/wine* notmpfs
+#app-office/libreoffice notmpfs
+#
+# build dir size: 1.3GB
+#dev-libs/boost notmpfs
+#
+#dev-qt/qtwebkit notmpfs
+#media-libs/mesa notmpfs
+#sys-devel/gcc notmpfs
+#sys-devel/llvm notmpfs
+#www-client/seamonkey notmpfs
+#sys-kernel/vanilla-sources notmpfs
+###################################
+
+
+#media-video/* maxgcc
+#media-sound/* maxgcc
+#media-gfx/* maxgcc
+#games-*/* maxgcc
+#dev-libs/DirectFB maxgcc
+#app-emulation/wine maxgcc
+#www-client/seamonkey maxgcc
+#app-office/libreoffice maxgcc
+#dev-qt/* maxgcc
+
+
+#games-roguelike/scourge cxx98
+
+
+#sys-devel/gcc multiabi
+#sys-devel/gettext multiabi
+#sys-libs/glibc multiabi
+#sys-libs/zlib multiabi
+#sys-apps/attr multiabi
+#dev-libs/libpthread-stubs multiabi
+#x11-libs/lib* multiabi
+#x11-proto/* multiabi
+#app-arch/bzip2 multiabi
+#app-emulation/wine* multiabi
+#virtual/libi* multiabi
+#media-libs/libpng multiabi
+#media-libs/freetype multiabi
+
+
+#dev-lang/python 32 i686
+#dev-libs/libassuan 32 i686
+#app-office/libreoffice 32 i686
+#sci-libs/suitesparseconfig 32 i686
+#app-text/hunspell 32 i686
+
+#net-libs/libmnl 32 i686
+#net-firewall/ipset 32 i686
+#net-libs/libnfnetlink 32 i686
+#net-libs/libnetfilter_conntrack 32 i686
+#net-firewall/iptables 32 i686
+
+#dev-libs/liborcus 32 i686
+#dev-cpp/libcmis 32 i686
+#dev-libs/xmlsec 32 i686
+#app-text/libwpd 32 i686
+#app-text/libwps 32 i686
+#app-crypt/gpgme 32 i686
+#app-text/libstaroffice 32 i686
+#app-text/libodfgen 32 i686
+#app-text/libmwaw 32 i686
+#app-text/libetonyek 32 i686
+#app-text/libebook 32 i686
+#app-text/libabw 32 i686
+#media-libs/libvisio 32 i686
+#media-libs/libpagemaker 32 i686
+#media-libs/libzmf 32 i686
+#media-libs/libfreehand 32 i686
+#media-libs/libcdr 32 i686
+#app-text/libmspub 32 i686
+#app-text/libwpg 32 i686
+#media-libs/raptor 32 i686
+#sci-mathematics/lpsolve 32 i686
+#dev-libs/rasqal 32 i686
+#dev-libs/redland 32 i686
+#sci-libs/colamd 32 i686
+#app-text/libexttextcat 32 i686
+#dev-libs/hyphen 32 i686
+#app-text/mythes 32 i686
+#net-libs/webkitfltk 32 i686
+#www-client/fifth 32 i686
+
+#dev-cpp/clucene 32
+#app-text/liblangtag 32
+
+#=dev-util/android-tools-9.0.0_p3 amd64

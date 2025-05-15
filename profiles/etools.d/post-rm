@@ -1,0 +1,35 @@
+#!/bin/sh
+# Copyright (C) 2021-2023 Artjom Slepnjov, Shellgen
+# License GPLv3: GNU GPL version 3 only
+# http://www.gnu.org/licenses/gpl-3.0.html
+# Date: 2023-10-09 16:00 UTC - fix: near to compat-posix, no-posix: local VAR
+
+: ${INSTALL_DIR:?} ${LIB_DIR:?}
+
+IFS="$(printf '\n\t')"; IFS=${IFS%?} GLOBIGNORE=
+
+test "X${USER}" != 'Xroot' || exit
+
+cd "${INSTALL_DIR}/" || exit
+
+GLOBIGNORE="${GLOBIGNORE:+${GLOBIGNORE}:}$(excludelist)"  # glob ignore load
+GLOBIGNORE=${GLOBIGNORE%:}
+
+for F in $(globstar "${LIB_DIR}/"); do
+  test -n "${GLOBIGNORE}" && { smatch-list "${F}" "${GLOBIGNORE}" && continue;}
+  case ${F} in *'.a'|*'.la') { use 'static-libs' || use 'static-lib' ;} && continue;; esac
+  case ${F} in
+    */*'.la'|*/*'.a'|*/*'.pyc'|*/*'.pyo'|*/*'.exe'|*/*'.bat')
+      test -e "${F}" && rm -- "${F}" && printf %s\\n "rm -- ${F}"
+    ;;
+  esac
+done
+
+for F in $(globstar 'lib/'); do
+  test -n "${GLOBIGNORE}" && { smatch-list "${F}" "${GLOBIGNORE}" && continue;}
+  case ${F} in
+    */*'.pyc'|*/*'.pyo'|*/*'.exe'|*/*'.bat')
+      test -e "${F}" && rm -- "${F}" && printf %s\\n "rm -- ${F}"
+    ;;
+  esac
+done

@@ -1,0 +1,29 @@
+#!/bin/sh
+# Usage: F=$(vsrcname ${F})
+# Date: 2024-10-06 22:00 UTC - last change
+
+F=${1:-$F}
+F=${F:-$I}
+
+: ${F:?}  # filename <PF>
+
+if test "_${CATEGORY}" = '_dev-python'; then  # testing 2024.10.06
+  # <PN> - it due be only there.
+  PN=${PN#py[2-4][0-9]-}
+  PN=${PN#py[2-4]-}
+  PN=${PN#py-}
+fi
+
+test -n "${PV}"        && F="${F//'${PV}'/${PV}}"               # no posix
+test -n "${OLDPN}"     && F="${F//'${PN}'/${OLDPN}}"            # no posix, for pkgver
+test -n "${PN}"        && F="${F//'${PN}'/${PN}}"               # no posix
+test -n "${PV}"        && F="${F//'${P}'/${PN}-${PV}}"          # no posix
+test -n "${XPN}"       && F="${F//'${XPN}'/${XPN}}"             # no posix
+test -n "${XPV}"       && F="${F//'${XPV}'/${XPV}}"             # no posix
+test -n "${CATEGORY}"  && F="${F//'${CATEGORY}'/${CATEGORY}}"   # no posix
+test -n "${GITHASH}"   && F="${F//'${GITHASH}'/${GITHASH}}"     # no posix
+test -n "${GITCOMMIT}" && F="${F//'${GITCOMMIT}'/${GITCOMMIT}}" # no posix
+test -n "${COMMIT}"    && F="${F//'${COMMIT}'/${COMMIT}}"       # no posix
+test -n "${HASH}"      && F="${F//'${HASH}'/${HASH}}"           # no posix
+
+printf %s\\n "${F:?}"

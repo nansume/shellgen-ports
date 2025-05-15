@@ -1,0 +1,40 @@
+#!/bin/sh
+# Copyright (C) 2021-2024 Artjom Slepnjov, Shellgen
+# Date: 2024-03-02 11:00 UTC - last change
+
+IFS="$(printf '\n\t')"; IFS="${IFS%?} "
+PKG_DIR=${PKG_DIR:-/pkg} XABI=${INST_ABI} XDIR= COLNORM= COLRED= ITEM= XITEM= PKGS=
+
+ED=${INSTALL_DIR}  # compat for old build-script
+
+{ test "X${USER}" != 'Xroot' || test "0${BUILD_CHROOT}" -ne '0' ;} && exit
+
+test -d "${ED}" || exit
+
+if test -n "${BUILDLIST}"; then
+  return
+else
+  cd "${ED}/"
+fi
+: ${XABI:?}
+
+use 'cxz' && PKGS="${PKGS:+${PKGS} }app-arch/xz"
+
+test -n "${PKGS}" && ABI=${ABI_BUILD} spkg-dep ${PKGS} ||:
+
+# create package
+test -d "${PKG_DIR}" || mkdir -m 0755 "${PKG_DIR}/"
+test -d "${PKG_DIR}/${CATEGORY}" || mkdir -m 0755 "${PKG_DIR}/${CATEGORY}/"
+
+{ ! emptydir ${PWD} ;} &&
+{
+if use 'clz'; then
+  ZCOMP="clz"
+  find . | cpio -H newc -o | lzop -6 -c > ${PKG_DIR}/${CATEGORY}/${PN}_${PV}_${XABI}.clz
+elif use 'cgz'; then
+  ZCOMP="cgz"
+  find . | cpio -H newc -o | gzip -4 -c > ${PKG_DIR}/${CATEGORY}/${PN}_${PV}_${XABI}.cgz
+fi
+} && printf '%s \e[0;31m%s\e[m\n' "create:" "${CATEGORY}/${PN}_${PV}_${XABI}.${ZCOMP}" ||:
+
+cpuonline '0'

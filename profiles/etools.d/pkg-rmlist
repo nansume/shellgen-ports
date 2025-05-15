@@ -1,0 +1,37 @@
+#!/bin/sh
+# Copyright (C) 2021-2023 Artjom Slepnjov, Shellgen
+# License GPLv3: GNU GPL version 3 only
+# http://www.gnu.org/licenses/gpl-3.0.html
+# Date: 2023-12-04 16:00 UTC - last change
+# no-posix: ${X/a/b} ${X//a/b}
+
+: ${DPREFIX:?} ${INSTALL_DIR:?} ${XPN:?} ${PKGNAME:?} ${LIB_DIR:?}
+
+IFS="$(printf '\n\t')"; IFS=${IFS%?}; DPREFIX=${DPREFIX#/}
+
+cd "${INSTALL_DIR}/" || exit
+
+test "X${USER}" != 'Xroot' || exit
+
+if test -n "${RMLIST}"; then
+  set -- "${PDIR%/}/lst.d/rmlist_pkg.lst"
+  printf %s\\n "${RMLIST#${RMLIST%%[![:space:]]*}}" > "${1}"
+else
+  set -- "${PDIR%/}/lst.d/"[!.]*[_-]"rmlist_"*".lst"
+fi
+
+RMLIST=
+for X in ${@}; do
+  test -e "${X}" || continue
+  while IFS= read -r X; do
+    X="${X#${X%%[![:space:]]*}}"
+    test -n "${X%%#*}" || continue
+    X=${X//<PN>/$XPN}
+    X=${X/<PKGNAME>/$PKGNAME}
+    X=${X/<DPREFIX>/$DPREFIX}
+    X=${X/<LIB_DIR>/$LIB_DIR}
+    RMLIST="${RMLIST:+${RMLIST}${IFS}}${X%%  \# *}"
+  done < ${X}
+done
+
+printf %s\\n "${RMLIST}"

@@ -1,0 +1,21 @@
+#!/bin/sh
+# Copyright (C) 2023 Artjom Slepnjov, Shellgen
+# License GPLv3: GNU GPL version 3 only
+# http://www.gnu.org/licenses/gpl-3.0.html
+# Date: 2023-11-12 14:00 UTC - last change
+
+: ${BUILD_USER:?}
+
+test "${BUILD_CHROOT:=0}" -ne '0' || exit 0
+test "X${USER}" != 'Xroot' && exit
+
+for X in /[s]bin/ldconfig; do
+  test -e "${X}" || continue
+  test -L "${X}" && continue
+  rm -- "${X}"
+  cp -n "${PDIR}/misc.d/${X##*/}" "${PDIR}/bin/${X##*/}"
+done
+
+for X in /etc/ld.so[.]conf; do
+  test -e "${X}" && chown ${BUILD_USER}:${BUILD_USER} "${X}"
+done

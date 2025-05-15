@@ -1,0 +1,21 @@
+#!/bin/sh
+# Copyright (C) 2021-2023 Artjom Slepnjov, Shellgen
+# License GPLv3: GNU GPL version 3 only
+# http://www.gnu.org/licenses/gpl-3.0.html
+# Date: 2023-10-09 16:00 UTC - fix: near to compat-posix, no-posix: local VAR
+
+: ${INSTALL_DIR:?}
+
+IFS="$(printf '\n\t')"; IFS=${IFS%?}
+
+test "X${USER}" != 'Xroot' || exit
+
+test -d "${INSTALL_DIR}" || exit
+cd "${INSTALL_DIR}/"
+
+for P in $(globstar); do
+  test -e "${P}" || continue
+  test -w "${P}" || test -L "${P}" || {
+    chmod +w ${P} && printf %s\\n "chmod +w ${P}"
+  }
+done

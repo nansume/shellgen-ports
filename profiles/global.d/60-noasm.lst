@@ -1,0 +1,7 @@
+# disable asm for support x32
+app-arch/unzip:                  --disable-asm
+#dev-libs/openssl-compat:         --disable-asm
+dev-libs/libressl-compat:        --disable-asm
+dev-libs/libressl:               --disable-asm
+media-libs/libass:               --disable-asm
+media-video/ffmpeg:              --disable-asm

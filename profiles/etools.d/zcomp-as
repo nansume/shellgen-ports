@@ -1,0 +1,36 @@
+#!/bin/sh
+# Copyright (C) 2023 Artjom Slepnjov, Shellgen
+# License GPLv3: GNU GPL version 3 only
+# http://www.gnu.org/licenses/gpl-3.0.html
+# Date: 2023-11-11 23:00 UTC - last change
+
+: ${1:?required filename}
+
+ZCOMP=
+EXTF=${1##*.}
+EXTF=${EXTF#[tc]}
+
+case ${EXTF} in
+  'bz2'|'bz')
+    ZCOMP=$(type 'bunzip2' 'bzip2' 2>/dev/null)
+  ;;
+  'gz')
+    ZCOMP=$(type 'gunzip' 'gzip' 2>/dev/null)
+  ;;
+  'lz')
+    # Lzip - LZMA lossless data compressor
+    # https://www.nongnu.org/lzip/lzip.html
+    ZCOMP=$(type 'lzip' 2>/dev/null)
+  ;;
+  'lzma'|'xz')
+    ZCOMP=$(type "un${EXTF}" "${EXTF}" "unxz" "xz")
+  ;;
+  *)
+    #exit 1
+  ;;
+esac
+ZCOMP=${ZCOMP%%[[:cntrl:]]*}
+ZCOMP=${ZCOMP##* }
+ZCOMP=${ZCOMP##*/}
+
+printf %s\\n "${ZCOMP:?}"

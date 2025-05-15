@@ -1,0 +1,209 @@
+#!/bin/sh
+# 2023-2024
+# https://devmanual.gentoo.org/eclass-reference/flag-o-matic.eclass/index.html
+# Date: 2024-05-19 10:00 UTC - last change
+
+loadfunc() {
+  local IFS="$(printf '\n\t') "
+  local F
+  for F in ${1}/*; do
+    test -x "${F}" && continue
+    test -f "${F}" || continue
+    . ${F}
+  done
+}
+
+inherit() {
+  local IFS="$(printf '\n\t') "
+  local PDIR=${PDIR%/}
+  local D
+  for D in ${*:?Usage: inherit <list>... Error}; do
+    test -n "${D%${D##*[![:space:]]}}" || continue
+    D="${PDIR}/ecompat.d/${D}"
+    test -d "${D}" || { D="${D}.eclass"; test -d "${D}" ;} || continue
+    export PATH="${PATH}${PATH:+:}${D}"
+    loadfunc ${D}
+  done
+}
+
+# add build dir lib
+bdirlib() {
+  local IFS="$(printf '\n\t') "
+  local BUILD_DIR="${BUILD_DIR:-$WORKDIR}/"
+  local WORKDIR="${WORKDIR}/"
+  local D
+
+  test "x${WORKDIR}" = "x${BUILD_DIR}" && WORKDIR=
+
+  for D in ${WORKDIR} ${BUILD_DIR}/*/; do
+    D=${D%/}; D=${D##*\*}
+    test -n "${D}" || continue
+    test -d "${D}" || continue
+    export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}${LD_LIBRARY_PATH:+:}${D}"
+  done
+}
+
+typeis() {
+  set -- "$(type ${1} 2>/dev/null)"
+  set -- "${1#*: not found}"
+  set -- "${1%%[[:cntrl:]]*}"
+  set -- "${1##* }"
+  test -n "${1}"
+}
+
+typeis 'alias' && alias tc-chost='tc_chost'
+
+append_cflags() {
+  test "X${USER}" != 'Xroot' || return 0
+
+  local IFS="$(printf '\n\t')"; IFS=" ${IFS%?}"
+  local X
+
+  printf %s\\n "append_cflags: '${*}'"
+
+  for X in ${@}; do
+    export CFLAGS="${CFLAGS:+${CFLAGS} }${X}"
+  done
+}
+
+append_cxxflags() {
+  test "X${USER}" != 'Xroot' || return 0
+
+  local IFS="$(printf '\n\t')"; IFS=" ${IFS%?}"
+  local X
+
+  printf %s\\n "append_cxxflags: '${*}'"
+
+  for X in ${@}; do
+    export CXXFLAGS="${CXXFLAGS:+${CXXFLAGS} }${X}"
+  done
+}
+
+append_cppflags() {
+  test "X${USER}" != 'Xroot' || return 0
+
+  local IFS="$(printf '\n\t')"; IFS=" ${IFS%?}"
+  local X
+
+  printf %s\\n "append_cppflags: '${*}'"
+
+  for X in ${@}; do
+    export CPPFLAGS="${CPPFLAGS:+${CPPFLAGS} }${X}"
+  done
+}
+
+append_ldflags() {
+  test "X${USER}" != 'Xroot' || return 0
+
+  local IFS="$(printf '\n\t')"; IFS=" ${IFS%?}"
+  local X
+
+  printf %s\\n "append_ldflags: '${*}'"
+
+  for X in ${@}; do
+    export LDFLAGS="${LDFLAGS:+${LDFLAGS} }${X}"
+  done
+}
+
+#append-flags <flags>
+#Add extra <flags> to your current {C,CXX,F,FC}FLAGS
+append_flags() {
+  test "X${USER}" != 'Xroot' || return 0
+
+  local IFS="$(printf '\n\t')"; IFS=" ${IFS%?}"
+  local X
+
+  printf %s\\n "append-flags: '${*}'"
+
+  for X in ${@}; do
+    export CFLAGS="${CFLAGS:+${CFLAGS} }${X}"
+    export CXXFLAGS="${CXXFLAGS:+${CXXFLAGS} }${X}"
+    export FFLAGS="${FFLAGS:+${FFLAGS} }${X}"
+    export FCFLAGS="${FCFLAGS:+${FCFLAGS} }${X}"
+  done
+}
+
+replace_flags() {
+  test "X${USER}" != 'Xroot' || return 0
+
+  CFLAGS=$(printf " ${CFLAGS} " | sed "s/ ${1} / ${2}${2:+ }/;s/^ //;s/ $//")
+  CXXFLAGS=$(printf " ${CXXFLAGS} " | sed "s/ ${1} / ${2}${2:+ }/;s/^ //;s/ $//")
+  LDFLAGS=$(printf " ${LDFLAGS} " | sed "s/ ${1} / ${2}${2:+ }/;s/^ //;s/ $//")
+  MAKEFLAGS=$(printf " ${MAKEFLAGS} " | sed "s/ ${1} / ${2}${2:+ }/;s/^ //;s/ $//")
+  #MAKEFLAGS=$(mapsetre ${1}" ${2} ${MAKEFLAGS})
+}
+
+filter_flags() {
+  test "X${USER}" != 'Xroot' || return 0
+
+  local IFS="$(printf '\n\t')"; IFS=" ${IFS%?}"
+  local X
+
+  for X in ${@}; do
+    replace_flags "${1}" ""
+    #CFLAGS=$(mapsetre "${1}" "" ${CFLAGS})
+    #CXXFLAGS=$(mapsetre "${1}" "" ${CXXFLAGS})
+    #LDFLAGS=$(mapsetre "${1}" "" ${LDFLAGS})
+    #MAKEFLAGS=$(mapsetre "${1}" "" ${MAKEFLAGS})
+  done
+}
+
+die() {
+  printf %s\\n "${*:-Failed: ${_} build... error}" >&2
+  exit 1
+}
+
+strip() {
+  local IFS="$(printf '\n\t')"; IFS=" ${IFS%?}"
+  local OPTS X F
+
+  test "X${USER}" != 'Xroot' || return 0
+  use 'strip' || return 0
+
+  #X="${*#${*%% [!- ]*}}
+
+  for X in ${*}; do
+    case ${X} in
+      -*) OPTS="${OPTS:+${OPTS} }${X}"; shift;;
+       *) test -e "${X}" && F="${F:+${F} }${X}"; shift;;
+    esac
+  done
+
+  command 'strip' ${OPTS} ${F}
+  printf %s\\n "strip ${OPTS} ${F}"
+}
+
+rechost() {
+  test "X${USER}" != 'Xroot' || return 0
+  case $(exec tc-chost) in
+    *'-muslx32')
+      tc_chost(){ printf %s 'x86_64-linux-gnux32';}
+      typeis 'alias' && { alias tc-chost='tc_chost'; return;}
+      typeis 'alias' || tc-chost(){ tc_chost $@;}
+    ;;
+  esac
+}
+
+
+# hush - not implementation <alias> - replace to: func name no posix
+if typeis 'alias'; then
+  alias append-cflags='append_cflags'
+  alias append-cxxflags='append_cxxflags'
+  alias append-cppflags='append_cppflags'
+  alias append-ldflags='append_ldflags'
+  alias append-flags='append_flags'
+  alias replace-flags='replace_flags'
+  alias filter-flags='filter_flags'
+fi
+# name func no-posix
+if ! typeis 'alias'; then
+  append-cflags() { append_cflags $@;}
+  append-cxxflags() { append_cxxflags $@;}
+  append-cppflags() { append_cppflags $@;}
+  append-ldflags() { append_ldflags $@;}
+  append-flags() { append_flags $@;}
+  replace-flags() { replace_flags $@;}
+  filter-flags() { filter_flags $@;}
+fi
+
+typeis 'alias' && unalias 'tc-chost'
