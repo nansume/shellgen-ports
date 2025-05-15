@@ -1,0 +1,6 @@
+app-misc/getopt
+app-text/build-docbook-catalog
+dev-libs/libxml2
+
+sys-devel/make
+sys-libs/musl

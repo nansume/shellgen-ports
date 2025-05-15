@@ -1,0 +1,4 @@
+https://github.com/oneapi-src/oneTBB/archive/refs/tags/v2021.13.0.tar.gz -> ${PN}-2021.13.0.tar.gz
+
+#http://data.gpo.zugaina.org/gentoo/dev-cpp/tbb/files/tbb-2021.8.0-gcc-13.patch
+#http://data.gpo.zugaina.org/gentoo/dev-cpp/tbb/files/tbb-2021.13.0-test-atomics.patch

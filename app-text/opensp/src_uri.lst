@@ -1,0 +1,4 @@
+https://downloads.sourceforge.net/project/openjade/opensp/1.5.2/OpenSP-1.5.2.tar.gz
+http://data.gpo.zugaina.org/gentoo/app-text/opensp/files/opensp-1.5.2-fix-segfault.patch
+http://data.gpo.zugaina.org/gentoo/app-text/opensp/files/opensp-1.5.2-c11-using.patch
+http://data.gpo.zugaina.org/gentoo/app-text/opensp/files/opensp-1.5.2-configure-clang16.patch

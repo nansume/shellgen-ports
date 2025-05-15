@@ -1,0 +1,6 @@
+ftp://ftp.gnu.org/gnu/aspell/aspell-0.60.8.1.tar.gz
+#http://data.gpo.zugaina.org/gentoo/app-text/aspell/files/aspell-0.60.5-nls.patch
+##http://data.gpo.zugaina.org/gentoo/app-text/aspell/files/aspell-0.60.5-solaris.patch
+##http://data.gpo.zugaina.org/gentoo/app-text/aspell/files/aspell-0.60.6-darwin-bundles.patch
+##http://data.gpo.zugaina.org/gentoo/app-text/aspell/files/aspell-0.60.6.1-clang.patch
+#http://data.gpo.zugaina.org/gentoo/app-text/aspell/files/aspell-0.60.6.1-unicode.patch

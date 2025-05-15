@@ -1,0 +1,12 @@
+dev-libs/cxx-boost
+dev-libs/icu59
+dev-libs/librevenge
+dev-util/pkgconf
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc9
+sys-devel/libtool  # required for autotools
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib

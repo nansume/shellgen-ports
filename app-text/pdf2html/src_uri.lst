@@ -1,0 +1,4 @@
+rsync://mirror.bytemark.co.uk/gentoo/distfiles/*/pdf2html-1.4.tgz
+#ftp://atrey.karlin.mff.cuni.cz/pub/local/clock/pdf2html/pdf2html-1.4.tgz
+http://data.gpo.zugaina.org/gentoo/app-text/pdf2html/files/pdf2html-1.4-gentoo.patch
+http://data.gpo.zugaina.org/gentoo/app-text/pdf2html/files/pdf2html-1.4-libpng15.patch

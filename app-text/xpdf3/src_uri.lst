@@ -1,0 +1,12 @@
+http://dl.xpdfreader.com/old/xpdf-3.04.tar.gz
+#http://dl.xpdfreader.com/old/xpdf-4.04.tar.gz
+#http://data.gpo.zugaina.org/gentoo/app-text/xpdf/files/xpdf-automagic.patch
+#http://data.gpo.zugaina.org/gentoo/app-text/xpdf/files/xpdf-visibility.patch
+#http://data.gpo.zugaina.org/gentoo/app-text/xpdf/files/xpdf-shared-libs.patch
+#http://data.gpo.zugaina.org/gentoo/app-text/xpdf/files/xpdf-4.04-libpaper-2.patch
+#http://data.gpo.zugaina.org/gentoo/app-text/xpdf/files/xpdf-4.04-font-paths.patch
+#http://data.gpo.zugaina.org/gentoo/app-text/xpdf/files/xpdf.desktop
+
+#https://dl.xpdfreader.com/xpdf-cyrillic.tar.gz
+#https://dl.xpdfreader.com/xpdf-japanese.tar.gz -> xpdf-japanese-20201222.tar.gz
+#https://dl.xpdfreader.com/xpdf-latin2.tar.gz

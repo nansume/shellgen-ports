@@ -1,0 +1,25 @@
+app-text/djvu
+app-text/mupdf
+dev-libs/openssl  # BUG: required by mupdf
+dev-util/pkgconf
+
+media-libs/freetype  # BUG: required by mupdf
+media-libs/openjpeg  # BUG: required by mupdf
+media-libs/libjpeg-turbo  # deps: djvu
+media-libs/libpng  # deps: mupdf
+media-libs/tiff  # deps: djvu
+
+sys-devel/binutils
+sys-devel/gcc9
+sys-devel/make
+sys-kernel/linux-headers-musl
+sys-libs/musl
+sys-libs/zlib  # deps: mupdf
+
+x11-base/xorg-proto  # deps: mupdf
+
+x11-libs/libx11  # deps: mupdf
+x11-libs/libxau  # deps: mupdf
+x11-libs/libxcb  # deps: mupdf
+x11-libs/libxdmcp  # deps: mupdf
+x11-libs/libxext  # deps: mupdf

@@ -1,0 +1,7 @@
+dev-lang/python38
+dev-libs/expat  # for python
+dev-libs/libffi  # for python
+dev-python/py38-setuptools
+
+sys-libs/musl
+sys-libs/zlib  # for setuptools

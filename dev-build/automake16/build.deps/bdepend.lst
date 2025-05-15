@@ -1,0 +1,7 @@
+dev-lang/perl  # required for autotools
+dev-util/byacc  # alternative a bison
+sys-devel/autoconf  # required for autotools
+sys-devel/lex  # alternative a flex
+sys-devel/m4  # required for autotools
+sys-devel/make
+sys-libs/musl

@@ -1,0 +1,19 @@
+dev-lang/perl  # required for autotools
+dev-libs/cxx-boost
+dev-libs/librevenge
+#dev-libs/libxml2
+#dev-util/cmake
+#dev-util/gperf
+#dev-util/ninja
+dev-util/pkgconf
+
+sys-apps/file
+sys-devel/autoconf  # required for autotools
+sys-devel/automake  # required for autotools
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/libtool  # required for autotools
+sys-devel/m4  # required for autotools
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib

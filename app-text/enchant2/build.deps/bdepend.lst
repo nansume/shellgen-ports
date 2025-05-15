@@ -1,0 +1,13 @@
+app-text/aspell
+dev-libs/glib-compat
+dev-libs/libffi  # for glib
+dev-util/pkgconf
+
+sys-apps/file
+sys-apps/groff
+sys-devel/binutils
+sys-devel/gcc
+#sys-devel/libtool
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # for glib

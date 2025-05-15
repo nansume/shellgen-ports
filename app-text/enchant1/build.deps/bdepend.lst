@@ -1,0 +1,13 @@
+app-text/aspell
+app-text/hunspell  # hard-deps it bug, required fix
+dev-libs/glib-compat
+dev-libs/libffi  # for glib
+dev-util/pkgconf
+
+sys-apps/file
+sys-apps/groff
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # for glib

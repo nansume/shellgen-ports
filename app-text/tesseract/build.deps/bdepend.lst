@@ -1,0 +1,29 @@
+app-text/asciidoc
+#app-text/docbook-xsl-stylesheets
+app-text/tessdata-fast
+
+dev-lang/perl  # required for autotools
+dev-lang/python3
+dev-libs/libffi  # for glib,python (optional)
+dev-libs/libxml2  # for libxslt
+dev-libs/libxslt
+#dev-util/cmake
+dev-util/pkgconf
+
+media-libs/giflib  # for leptonica
+media-libs/leptonica
+media-libs/libjpeg-turbo  # for leptonica
+media-libs/libpng  # for leptonica
+media-libs/libwebp # for leptonica
+media-libs/tiff  # for leptonica
+
+sys-apps/file
+sys-devel/autoconf  # required for autotools
+sys-devel/automake  # required for autotools
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/libtool  # required for autotools
+sys-devel/m4  # required for autotools
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # for leptonica

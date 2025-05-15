@@ -1,0 +1,13 @@
+app-text/aspell
+dev-libs/glib  # SLOT: glib2
+dev-libs/libffi  # for glib
+dev-libs/pcre  # optional (internal pcre glib-2.68.4)
+dev-util/pkgconf
+
+sys-apps/file
+sys-apps/groff
+sys-devel/binutils
+sys-devel/gcc9
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # for glib

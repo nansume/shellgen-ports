@@ -1,0 +1,9 @@
+dev-libs/libxml2
+dev-util/pkgconf
+
+sys-apps/file  # required
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/libtool  # required
+sys-devel/make
+sys-libs/musl

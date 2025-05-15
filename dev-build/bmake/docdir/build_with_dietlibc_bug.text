@@ -1,0 +1,19 @@
+86-64 -I. -I/build/bmake-src -DHAVE_CONFIG_H -O2 -msse2 -fno-stack-protector -g0 -march=x86-64 -DMAKE_NATIVE -DUSE_META
+-DBMAKE_PATH_MAX=1024 -o var.o /build/bmake-src/var.c
+/build/bmake-src/var.c: In function 'TryParseSize':
+/build/bmake-src/var.c:2237:10: error: 'SIZE_MAX' undeclared (first use in this function)
+ 2237 |  if (n > SIZE_MAX)
+      |          ^~~~~~~~
+/build/bmake-src/var.c:148:1: note: 'SIZE_MAX' is defined in header '<stdint.h>'; did you forget to '#include <stdint.h>'?
+  147 | #include "metachar.h"
+  +++ |+#include <stdint.h>
+  148 |
+/build/bmake-src/var.c:2237:10: note: each undeclared identifier is reported only once for each function it appears in
+ 2237 |  if (n > SIZE_MAX)
+      |          ^~~~~~~~
+/build/bmake-src/var.c: In function 'ShuffleSubstrings':
+/build/bmake-src/var.c:3311:27: warning: implicit declaration of function 'random'; did you mean 'rand_r'? [-Wimplicit-function-declaration]
+ 3311 |   size_t rndidx = (size_t)random() % (i + 1);
+      |                           ^~~~~~
+      |                           rand_r
+make: *** [makefile:12: build] Error 1

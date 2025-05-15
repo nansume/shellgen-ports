@@ -1,0 +1,4 @@
+dev-lang/perl
+sys-devel/m4  # deps perl
+sys-devel/make
+sys-libs/musl0

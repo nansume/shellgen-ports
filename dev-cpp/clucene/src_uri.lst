@@ -1,0 +1,10 @@
+https://downloads.sourceforge.net/clucene/${PN}-core-2.3.3.4.tar.gz
+
+http://data.gpo.zugaina.org/gentoo/dev-cpp/clucene/files/clucene-2.3.3.4-fix-clang.patch
+http://data.gpo.zugaina.org/gentoo/dev-cpp/clucene/files/clucene-2.3.3.4-contrib.patch
+http://data.gpo.zugaina.org/gentoo/dev-cpp/clucene/files/clucene-2.3.3.4-pkgconfig.patch
+http://data.gpo.zugaina.org/gentoo/dev-cpp/clucene/files/clucene-2.3.3.4-gcc6.patch
+http://data.gpo.zugaina.org/gentoo/dev-cpp/clucene/files/clucene-2.3.3.4-gmtime.patch
+http://data.gpo.zugaina.org/gentoo/dev-cpp/clucene/files/clucene-2.3.3.4-musl-pthread.patch
+http://data.gpo.zugaina.org/gentoo/dev-cpp/clucene/files/clucene-2.3.3.4-libcxx.patch
+http://data.gpo.zugaina.org/gentoo/dev-cpp/clucene/files/clucene-2.3.3.4-fix-binary-function.patch

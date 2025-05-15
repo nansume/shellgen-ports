@@ -1,0 +1,8 @@
+app-text/texlive-core
+dev-libs/kpathsea
+dev-util/pkgconf
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl

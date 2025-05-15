@@ -1,0 +1,7 @@
+dev-lang/python3
+dev-libs/libffi  # for python?
+dev-libs/libxml2  # for gettext
+
+sys-devel/gettext  # required
+sys-devel/make
+sys-libs/musl  # required for python

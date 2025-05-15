@@ -1,0 +1,39 @@
+app-text/djvu
+dev-libs/glib-compat  # for qt4
+dev-libs/icu-compat  # for qt4
+dev-libs/libffi  # for qt4
+#dev-libs/openssl-compat  # for qt4
+dev-libs/openssl  # for qt4
+dev-qt/qt4
+#dev-qt/qtcore4
+dev-util/pkgconf
+
+media-libs/giflib  # for qt4
+media-libs/libjpeg-turbo  # for djvu
+media-libs/tiff  # for djvu
+
+sys-apps/dbus  # for qt4
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # for qt4
+
+x11-base/xorg-proto  # for qt4
+
+x11-libs/libice  # for qt4
+x11-libs/libsm  # for qt4
+x11-libs/libx11  # for qt4
+x11-libs/libxau  # for qt4
+x11-libs/libxcb  # for qt4
+x11-libs/libxcursor
+x11-libs/libxdmcp  # for qt4
+x11-libs/libxext  # for qt4 (optional)
+x11-libs/libxfixes  # for qt4
+x11-libs/libxi  # for qt4
+x11-libs/libxinerama  # for qt4 (optional)
+x11-libs/libxrandr  # for qt4
+x11-libs/libxrender  # for qt4
+x11-libs/libxv  # for qt4 (optional)
+x11-libs/libxt  # for qt4

@@ -1,0 +1,13 @@
+app-misc/getopt
+app-shells/bash
+app-text/build-docbook-catalog
+app-text/docbook-xsl-stylesheets
+app-text/docbook-xml-dtd45
+
+sys-devel/binutils
+sys-devel/gcc9
+sys-devel/lex
+sys-devel/make
+sys-libs/musl
+
+#www-client/elinks  # optional

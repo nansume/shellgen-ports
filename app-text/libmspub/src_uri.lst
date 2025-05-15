@@ -1,0 +1,3 @@
+https://dev-www.libreoffice.org/src/${PN}/libmspub-0.1.4.tar.xz
+http://data.gpo.zugaina.org/gentoo/app-text/libmspub/files/libmspub-0.1.4-gcc10.patch
+http://data.gpo.zugaina.org/gentoo/app-text/libmspub/files/libmspub-0.1.4-gcc15.patch

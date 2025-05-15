@@ -1,0 +1,4 @@
+https://github.com/tesseract-ocr/tessdata_fast/raw/4.1.0/eng.traineddata -> eng.traineddata-tessdata_fast-4.1.0
+#https://github.com/tesseract-ocr/tessdata_fast/raw/4.1.0/est.traineddata -> est.traineddata-tessdata_fast-4.1.0
+#https://github.com/tesseract-ocr/tessdata_fast/raw/4.1.0/jpn.traineddata -> jpn.traineddata-tessdata_fast-4.1.0
+#https://github.com/tesseract-ocr/tessdata_fast/raw/4.1.0/rus.traineddata -> rus.traineddata-tessdata_fast-4.1.0

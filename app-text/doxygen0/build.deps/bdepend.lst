@@ -1,0 +1,15 @@
+app-text/ghostscript-gpl
+dev-lang/perl
+dev-lang/python2
+#dev-libs/xapian  # buildopts: <doxysearch>
+
+media-libs/libpng
+
+sys-devel/binutils
+sys-devel/bison
+sys-devel/flex0
+sys-devel/gcc
+sys-devel/m4
+sys-devel/make
+sys-devel/patch  # for patch with fuzz and offset.
+sys-libs/zlib  # for libpng

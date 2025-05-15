@@ -1,0 +1,3 @@
+https://github.com/AbiWord/enchant/archive/refs/tags/enchant-1-6-1.tar.gz -> enchant-1.6.1.tar.gz
+http://data.gpo.zugaina.org/gentoo/app-text/enchant/files/enchant-1.6.0-hunspell150_fix.patch
+https://669162.bugs.gentoo.org/attachment.cgi?id=552038 -> enchant-1.6.1-fix-clang-build.patch

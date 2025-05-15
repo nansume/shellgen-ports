@@ -1,0 +1,10 @@
+dev-lang/perl
+#dev-lang/tk
+dev-perl/file-mmagic
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+#www-client/lynx

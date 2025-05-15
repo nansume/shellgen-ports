@@ -1,0 +1,5 @@
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-devel/patch
+sys-libs/musl

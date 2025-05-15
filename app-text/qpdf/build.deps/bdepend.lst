@@ -1,0 +1,19 @@
+dev-lang/perl
+dev-libs/gmp  # for gnutls
+dev-libs/libgcrypt  # for gnutls (optional)
+dev-libs/libgpg-error  # for gnutls (optional)
+dev-libs/libtasn1  # for gnutls
+dev-libs/libunistring  # for gnutls
+dev-libs/nettle  # for gnutls
+dev-util/cmake
+dev-util/pkgconf
+
+net-libs/gnutls
+
+media-libs/libjpeg-turbo
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # for gnutls

@@ -1,0 +1,4 @@
+dev-libs/libxml2  # for gettext
+
+sys-libs/musl  # for libxml2
+#sys-libs/zlib  # for libxml2 (optional)

@@ -1,0 +1,80 @@
+app-accessibility/at-spi2-core
+app-accessibility/at-spi2-atk  # required
+app-text/aspell  # deps enchant2
+# ERR: pkg needed (glib-2.0 >= 2.44  gtk-3.0 >= 3.20  enchant-2 >= 2.1.3 icu-uc) not found
+#app-text/enchant2  # BUG: change deps: glib-compat -> glib 
+app-text/enchant2-2
+#app-text/poppler
+#dev-lang/perl  # required for autotools
+dev-lang/python3
+dev-libs/atk
+#dev-libs/cxx-boost
+dev-libs/expat  # for fontconfig or python bundled
+dev-libs/fribidi  # for pango (required remove)
+#dev-libs/glib-compat
+dev-libs/glib
+dev-libs/icu64
+dev-libs/libffi  # for glib
+dev-libs/libgcrypt  # deps libgpg-error
+dev-libs/libgpg-error
+dev-libs/libxml2  # for gettext
+dev-libs/libxslt  # required
+dev-libs/pcre  # optional (internal pcre glib-2.68.4)
+dev-libs/libcroco  # deps librsvg
+dev-util/byacc
+dev-util/pkgconf
+gnome-extra/libgsf
+gnome-base/librsvg
+media-libs/libepoxy  # required
+media-libs/freetype
+media-libs/fontconfig
+media-libs/harfbuzz2  # for pango
+media-libs/libjpeg-turbo  # for gdk-pixbuf or bundled-libs
+media-libs/libpng  # for pango or bundled-libs
+media-libs/mesa  # deps libepoxy
+media-libs/tiff  # for gdk-pixbuf
+sys-apps/dbus  # deps at-spi2-atk
+
+sys-apps/file
+#sys-devel/autoconf  # required for autotools
+#sys-devel/automake  # required for autotools
+sys-devel/binutils
+sys-devel/gcc9
+sys-devel/gettext  # required for autotools (optional)
+sys-devel/lex
+#sys-devel/libtool  # required for autotools
+#sys-devel/m4  # required for autotools
+sys-devel/make
+sys-kernel/linux-headers-musl  # testing
+sys-libs/musl
+sys-libs/zlib  # for glib or bundled-libs
+x11-base/xorg-proto  # deps for gtk
+x11-libs/cairo  # deps for gtk
+#x11-libs/goffice10
+x11-libs/libdrm  # for mesa
+x11-libs/libpciaccess  # for mesa
+x11-libs/libvdpau  # for mesa
+x11-libs/libice  # deps for gtk
+x11-libs/libsm  # deps for gtk
+x11-libs/libx11  # deps for gtk
+x11-libs/libxau  # deps for gtk
+x11-libs/libxcb  # deps for gtk
+x11-libs/libxcomposite  # deps for gtk
+x11-libs/libxcursor  # deps for gtk
+x11-libs/libxdamage  # required
+x11-libs/libxdmcp  # deps for gtk
+x11-libs/libxext  # deps for gtk
+x11-libs/libxfixes  # deps for gtk
+
+x11-libs/libxft  # deps for gtk
+x11-libs/libxi  # required
+x11-libs/libxrandr  # required
+x11-libs/libxrender  # deps for gtk
+x11-libs/libxshmfence  # for mesa
+x11-libs/libxxf86vm  # for mesa
+x11-libs/libxt  # deps at-spi2-atk
+x11-libs/pango  # deps for gtk
+x11-libs/pixman  # deps for gtk
+x11-libs/gdk-pixbuf  # deps for gtk2
+x11-libs/gtk2
+x11-libs/gtk3

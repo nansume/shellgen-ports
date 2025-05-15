@@ -1,0 +1,7 @@
+https://mupdf.com/downloads/archive/mupdf-1.15.0-source.tar.xz
+
+https://gitweb.gentoo.org/repo/gentoo.git/plain/app-text/mupdf/files/mupdf-1.15-CFLAGS.patch?id=b451e991a41390d90b59e558ba77ce0efc0e1950 -> mupdf-1.15-CFLAGS.patch
+https://gitweb.gentoo.org/repo/gentoo.git/plain/app-text/mupdf/files/mupdf-1.15-Makefile.patch?id=b451e991a41390d90b59e558ba77ce0efc0e1950 -> mupdf-1.15-Makefile.patch
+https://gitweb.gentoo.org/repo/gentoo.git/plain/app-text/mupdf/files/mupdf-1.10a-add-desktop-pc-xpm-files.patch?id=b451e991a41390d90b59e558ba77ce0efc0e1950 -> mupdf-1.10a-add-desktop-pc-xpm-files.patch
+#https://gitweb.gentoo.org/repo/gentoo.git/plain/app-text/mupdf/files/mupdf-1.15-openssl-x11.patch?id=b451e991a41390d90b59e558ba77ce0efc0e1950 -> mupdf-1.15-openssl-x11.patch
+https://gitweb.gentoo.org/repo/gentoo.git/plain/app-text/mupdf/files/mupdf-1.3-zoom-2.patch?id=b451e991a41390d90b59e558ba77ce0efc0e1950 -> mupdf-1.3-zoom-2.patch

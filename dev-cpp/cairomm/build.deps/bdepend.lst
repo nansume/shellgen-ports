@@ -1,0 +1,50 @@
+#app-text/doxygen  # doxygen[dot]
+dev-build/meson6  # build tool
+dev-build/samurai  # alternative for ninja
+#dev-cpp/mm-common
+dev-lang/python3  # for meson
+dev-libs/cxx-boost
+dev-libs/expat  # for freetype,python
+dev-libs/glib  # deps: cairo
+dev-libs/libffi  # deps: cairo
+dev-libs/lzo  # deps: cairo
+dev-libs/libxslt
+dev-libs/libsigcxx3
+dev-libs/pcre  # deps: cairo
+dev-python/importlib-resources  # for meson (build tool)
+dev-python/mako
+dev-python/py3-setuptools  # for meson (build tool)
+dev-python/zipp  # for meson (build tool)
+dev-util/cmake  # it optional?
+dev-util/pkgconf
+
+media-libs/fontconfig
+media-libs/freetype  # deps: cairo,fontconfig
+media-libs/libpng  # deps: cairo
+media-libs/mesa  # deps: cairo
+
+sys-devel/binutils
+sys-devel/gcc9
+sys-devel/m4  # required for ninja
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # deps: cairo
+
+x11-base/xorg-proto  # deps: cairo
+
+x11-libs/cairo
+x11-libs/libdrm  # deps: cairo
+x11-libs/libpciaccess  # deps: cairo
+x11-libs/libvdpau  # deps: cairo
+x11-libs/libx11  # deps: cairo
+x11-libs/libxau  # deps: cairo
+x11-libs/libxcb  # deps: cairo
+x11-libs/libxdamage  # deps: cairo
+x11-libs/libxdmcp  # deps: cairo
+x11-libs/libxext  # deps: cairo
+x11-libs/libxfixes  # deps: cairo
+x11-libs/libxrandr  # deps: cairo
+x11-libs/libxrender  # deps: cairo
+x11-libs/libxshmfence  # deps: cairo
+x11-libs/libxxf86vm  # deps: cairo
+x11-libs/pixman  # deps: cairo

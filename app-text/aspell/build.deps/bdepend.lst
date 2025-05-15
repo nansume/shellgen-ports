@@ -1,0 +1,10 @@
+dev-lang/perl  # required for autotools
+dev-util/pkgconf
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+#sys-devel/libtool
+sys-devel/make
+sys-libs/musl
+sys-libs/netbsd-curses  # for static build, with ncurses shared lib collision
+#sys-libs/ncurses  # no build

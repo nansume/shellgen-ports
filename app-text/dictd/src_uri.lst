@@ -1,0 +1,7 @@
+https://downloads.sourceforge.net/dict/dictd-1.13.1.tar.gz
+http://data.gpo.zugaina.org/gentoo/app-text/dictd/files/dictd-1.10.11-colorit-nopp-fix.patch
+http://data.gpo.zugaina.org/gentoo/app-text/dictd/files/dictd-1.12.0-build.patch
+http://data.gpo.zugaina.org/gentoo/app-text/dictd/files/dictd-1.13.0-lex.patch
+http://data.gpo.zugaina.org/gentoo/app-text/dictd/files/dictd-1.13.0-libtool.patch
+http://data.gpo.zugaina.org/gentoo/app-text/dictd/files/dictd-1.13.1-version.patch
+http://data.gpo.zugaina.org/gentoo/app-text/dictd/files/dictd-1.13.0-stack-smashing.patch

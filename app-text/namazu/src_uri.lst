@@ -1,0 +1,6 @@
+http://www.namazu.org/test/namazu-2.0.22pre8.tar.gz
+#http://www.namazu.org/stable/namazu-2.0.21.tar.gz
+http://data.gpo.zugaina.org/gentoo/app-text/namazu/files/namazu-gentoo.patch
+http://data.gpo.zugaina.org/gentoo/app-text/namazu/files/namazu-configure.patch
+http://data.gpo.zugaina.org/gentoo/app-text/namazu/files/namazu-tests.patch
+http://data.gpo.zugaina.org/gentoo/app-text/namazu/files/namazu-underlinking.patch

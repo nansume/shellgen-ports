@@ -1,0 +1,4 @@
+https://github.com/tdf/${PN}/archive/v0.6.2.tar.gz -> libcmis-0.6.2.tar.gz
+
+http://data.gpo.zugaina.org/gentoo/dev-cpp/libcmis/files/libcmis-0.6.2-libxml2-2.12.patch
+http://data.gpo.zugaina.org/gentoo/dev-cpp/libcmis/files/libcmis-0.6.2-boost-1.86.patch

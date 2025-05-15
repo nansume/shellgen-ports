@@ -1,0 +1,15 @@
+dev-lang/perl  # required for autotools
+dev-libs/libxml2  # for gettext
+
+sys-apps/file
+sys-devel/autoconf  # required for autotools
+sys-devel/automake  # required for autotools
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/gettext
+sys-devel/libtool  # required for autotools
+sys-devel/m4  # required for autotools
+sys-devel/make
+sys-libs/musl
+sys-libs/netbsd-curses  # for static build, with ncurses shared lib collision
+sys-libs/readline

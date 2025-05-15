@@ -1,0 +1,9 @@
+app-i18n/uchardet
+dev-util/pkgconf
+
+sys-apps/groff
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib

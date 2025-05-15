@@ -1,0 +1,32 @@
+app-text/libpaper
+
+dev-libs/expat  # for fontconfig
+dev-libs/libxml2  # for gettext
+
+media-libs/fontconfig
+media-libs/freetype  # for fontconfig
+media-libs/libjpeg-turbo
+media-libs/libpng
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+#sys-devel/patch
+sys-libs/musl
+sys-libs/zlib  # for libpng
+
+x11-base/xorg-proto
+
+x11-libs/libice  # for libxmu
+x11-libs/libsm  # for libxmu
+x11-libs/libx11  # for x11
+x11-libs/libxau  # for x11
+x11-libs/libxcb  # for x11
+x11-libs/libxdmcp  # for x11
+x11-libs/libxext
+x11-libs/libxft
+x11-libs/libxrender  # for libxft
+x11-libs/libxmu
+x11-libs/libxpm
+x11-libs/libxt  # for x11
+x11-libs/motif

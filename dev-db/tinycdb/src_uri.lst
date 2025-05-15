@@ -1,0 +1,3 @@
+http://www.corpit.ru/mjt/${PN}/${PN}-0.81.tar.gz
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-gentoo.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-uclibc.patch

@@ -1,0 +1,1 @@
+MYCONF=$(mapsetre '--includedir=*' '' ${MYCONF})

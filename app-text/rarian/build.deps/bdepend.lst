@@ -1,0 +1,11 @@
+dev-libs/libxml2  # for libxslt
+dev-libs/libxslt
+dev-libs/tinyxml
+dev-util/pkgconf
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # for libxslt

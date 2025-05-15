@@ -1,0 +1,7 @@
+app-text/libpaper
+dev-lang/perl
+#dev-perl/ipc-run3
+#sys-devel/binutils
+#sys-devel/gcc
+sys-devel/make
+sys-libs/musl

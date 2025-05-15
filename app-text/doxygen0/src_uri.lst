@@ -1,0 +1,8 @@
+https://github.com/doxygen/doxygen/archive/refs/tags/Release_1_8_9_1.tar.gz -> doxygen-1.8.9.1.tar.gz
+#http://doxygen.nl/files/doxygen-1.8.9.1.src.tar.gz
+#ftp://ftp.stack.nl/pub/doxygen/doxygen-1.8.9.1.src.tar.gz
+#ftp://ftp.stack.nl/pub/users/dimitri/doxygen-1.8.9.1.src.tar.gz
+#http://dev.gentoo.org/~xarthisius/distfiles/doxywizard.png
+http://data.gpo.zugaina.org/argent-main/app-doc/doxygen/files/doxygen-1.8.1-prefix-misc-alt.patch
+http://data.gpo.zugaina.org/argent-main/app-doc/doxygen/files/doxygen-1.8.9.1-empty-line-sigsegv.patch
+#http://data.gpo.zugaina.org/argent-main/app-doc/doxygen/files/doxygen-1.8.10-fix_flex_check.patch

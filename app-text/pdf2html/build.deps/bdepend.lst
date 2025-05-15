@@ -1,0 +1,31 @@
+#app-text/djvu  # for imagemagick
+#app-text/ghostscript-gpl
+
+#dev-libs/expat  # for imagemagick
+#dev-libs/libxml2  # for imagemagick
+
+#media-gfx/imagemagick
+#media-libs/fontconfig  # for imagemagick
+#media-libs/freetype  # for imagemagick
+#media-libs/lcms2  # for imagemagick
+#media-libs/libjpeg-turbo  # for imagemagick
+media-libs/libpng
+#media-libs/libwebp  # for imagemagick
+#media-libs/tiff  # for imagemagick
+
+#net-misc/rsync  # download source archive
+
+sys-devel/binutils
+sys-devel/gcc9
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # for libpng
+
+#x11-libs/libice  # for imagemagick
+#x11-libs/libsm  # for imagemagick
+#x11-libs/libx11  # for imagemagick
+#x11-libs/libxau  # for imagemagick
+#x11-libs/libxcb  # for imagemagick
+#x11-libs/libxdmcp  # for imagemagick
+#x11-libs/libxext  # for imagemagick
+#x11-libs/libxt  # for imagemagick

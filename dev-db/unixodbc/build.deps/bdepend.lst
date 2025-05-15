@@ -1,0 +1,13 @@
+#dev-libs/editline
+sys-apps/file
+sys-devel/binutils
+sys-devel/bison
+#sys-devel/flex
+sys-devel/gcc
+sys-devel/lex
+#sys-devel/libtool
+sys-devel/make
+sys-libs/musl
+#sys-libs/ncurses
+#sys-libs/netbsd-curses
+#sys-libs/readline
