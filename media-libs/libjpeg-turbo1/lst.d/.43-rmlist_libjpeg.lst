@@ -1,0 +1,4 @@
+bin/*
+lib*/libjpeg.so
+lib*/libturbojpeg.so*
+<DPREFIX>/share/*

@@ -1,0 +1,3 @@
+mirror://xiph/speex/${PN}-1.2.1.tar.gz
+#http://downloads.xiph.org/releases/speex/${PN}-1.2.1.tar.gz
+#http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-1.2.0-configure.patch

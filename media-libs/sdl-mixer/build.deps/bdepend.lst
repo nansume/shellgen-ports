@@ -1,0 +1,15 @@
+#app-alternatives/ncursesw
+#dev-libs/directfb
+dev-util/pkgconf
+
+media-libs/alsa-lib
+#media-libs/libcaca
+media-libs/sdl
+
+media-sound/mpg123
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl

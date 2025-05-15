@@ -1,0 +1,17 @@
+#dev-lang/nasm  # for asm (bug: no support x32)
+
+dev-libs/expat
+dev-libs/fribidi
+dev-libs/glib-compat
+dev-libs/pcre
+dev-util/pkgconf
+
+media-libs/freetype
+media-libs/fontconfig
+media-libs/harfbuzz
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl

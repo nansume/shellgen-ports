@@ -1,0 +1,3 @@
+https://github.com/xiph/${PN}/archive/1.2.2.tar.gz -> ${PN}-1.2.2.tar.gz
+#mirror://xiph/ao/${PN}-1.2.2.tar.gz
+#https://downloads.xiph.org/releases/ao/${PN}-1.2.2.tar.gz

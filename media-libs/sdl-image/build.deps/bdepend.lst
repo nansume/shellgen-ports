@@ -1,0 +1,17 @@
+dev-util/pkgconf
+
+media-libs/alsa-lib
+media-libs/freetype
+media-libs/libjpeg-turbo3
+media-libs/libpng
+media-libs/libwebp
+media-libs/sdl
+media-libs/tiff
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc9
+sys-devel/make
+sys-libs/musl0
+
+sys-libs/zlib

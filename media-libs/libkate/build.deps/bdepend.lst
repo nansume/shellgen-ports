@@ -1,0 +1,13 @@
+dev-util/byacc  # alternative a bison
+dev-util/pkgconf
+
+media-libs/libpng
+media-libs/libogg
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/lex
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # for png

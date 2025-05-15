@@ -1,0 +1,11 @@
+dev-util/pkgconf
+
+media-libs/libogg
+media-libs/opus
+dev-libs/openssl3  # use: <http>
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl

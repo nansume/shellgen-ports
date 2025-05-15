@@ -1,0 +1,21 @@
+dev-lang/perl  # required for autotools
+dev-libs/expat  # for fontconfig
+dev-util/pkgconf
+
+media-libs/fontconfig
+media-libs/freetype  # for fontconfig
+media-libs/libjpeg-turbo
+media-libs/libpng
+media-libs/libwebp
+media-libs/tiff
+
+sys-apps/file
+sys-devel/autoconf  # required for autotools
+sys-devel/automake  # required for autotools
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/libtool  # required for autotools
+sys-devel/m4  # required for autotools
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # for libpng

@@ -1,0 +1,17 @@
+dev-db/sqlite
+dev-util/pkgconf
+
+media-libs/alsa-lib
+media-libs/flac  # !minimal (optional)
+media-libs/libogg  # !minimal (optional)
+media-libs/libvorbis  # !minimal (optional)
+media-libs/opus  # !minimal (optional)
+media-sound/lame  # !minimal (optional)
+media-sound/mpg123  # !minimal (optional)
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-kernel/linux-headers-musl
+sys-libs/musl

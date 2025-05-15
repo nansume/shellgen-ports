@@ -1,0 +1,18 @@
+dev-libs/glib74
+#dev-libs/icu59  # add 24.10.21, needed for webkitgtk, mplayer and others no required it, is needed fix in pkgs.
+dev-libs/icu64
+dev-libs/libffi  # for glib
+#dev-libs/pcre  # optional (internal pcre glib-2.68.4)
+dev-libs/pcre2  # for glib74
+
+dev-util/pkgconf
+
+#media-libs/fontconfig
+media-libs/freetype
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc9
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # for glib

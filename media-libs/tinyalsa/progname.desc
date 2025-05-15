@@ -1,0 +1,10 @@
+# Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
+# -static +static-libs +shared +nopie -lfs -upx -patch -doc -man -xstub -diet +musl -stest +strip +x32
+
+# https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=tinyalsa-git
+# alpinelinux-aports/aports-3.21.3/community/tinyalsa/APKBUILD
+
+DESCRIPTION="A small library to interface with ALSA in the Linux kernel."
+HOMEPAGE="https://github.com/tinyalsa/tinyalsa/"
+LICENSE="BSD-3-Clause"
+IUSE="+static-libs +shared +nopie -doc (+musl) -stest +strip"

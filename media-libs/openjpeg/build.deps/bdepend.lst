@@ -1,0 +1,13 @@
+dev-util/cmake
+dev-util/pkgconf
+
+media-libs/lcms2
+media-libs/libjpeg-turbo
+media-libs/libpng
+media-libs/tiff
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib

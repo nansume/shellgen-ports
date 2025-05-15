@@ -1,0 +1,26 @@
+dev-util/pkgconf
+
+media-libs/mesa
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+
+x11-base/xorg-proto  # for x11
+
+x11-libs/libdrm
+x11-libs/libpciaccess
+x11-libs/libvdpau
+x11-libs/libx11  # for x11
+x11-libs/libxau  # for x11
+x11-libs/libxcb  # for x11
+x11-libs/libxdamage
+x11-libs/libxdmcp  # for x11
+x11-libs/libxext  # optional
+x11-libs/libxfixes
+x11-libs/libxrandr
+x11-libs/libxrender  # for libxft
+x11-libs/libxshmfence
+x11-libs/libxxf86vm

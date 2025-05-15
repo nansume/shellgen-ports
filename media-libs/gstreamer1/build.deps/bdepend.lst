@@ -1,0 +1,19 @@
+dev-lang/perl
+dev-lang/python3
+
+dev-libs/expat  # python no-bundled
+dev-libs/glib
+dev-libs/libffi  # for glib
+dev-libs/libxml2
+dev-libs/pcre  # for glib(optional)
+dev-util/pkgconf
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/bison
+sys-devel/flex
+sys-devel/gcc
+sys-devel/m4
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # for glib[meson]

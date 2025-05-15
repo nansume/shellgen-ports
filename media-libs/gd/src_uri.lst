@@ -1,0 +1,3 @@
+https://github.com/libgd/libgd/releases/download/gd-2.3.3/libgd-2.3.3.tar.xz
+http://data.gpo.zugaina.org/gentoo/media-libs/gd/files/gd-2.3.0-disable-flaky-tests.patch
+http://data.gpo.zugaina.org/gentoo/media-libs/gd/files/gd-2.3.3-GD_BICUBIC.patch

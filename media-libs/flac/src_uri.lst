@@ -1,0 +1,2 @@
+mirror://xiph/${PN}/${PN}-1.4.3.tar.xz
+#https://downloads.xiph.org/releases/${PN}/${PN}-1.4.3.tar.xz

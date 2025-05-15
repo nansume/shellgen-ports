@@ -1,0 +1,3 @@
+mirror://sourceforge/${PN}/glew-2.1.0.tgz
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/glew-2.0.0-install-headers.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/glew-2.1.0-mesa-compat.patch

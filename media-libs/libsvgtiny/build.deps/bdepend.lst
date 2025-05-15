@@ -1,0 +1,13 @@
+dev-lang/perl
+dev-libs/expat
+dev-libs/libwapcaplet
+dev-libs/libparserutils
+dev-util/gperf
+dev-util/nsbuildsystem
+dev-util/pkgconf
+net-libs/libdom
+net-libs/libhubbub
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl

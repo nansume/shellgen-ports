@@ -1,0 +1,7 @@
+#app-alternatives/ncursesw
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+sys-libs/ncurses

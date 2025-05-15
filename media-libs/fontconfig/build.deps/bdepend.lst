@@ -1,0 +1,15 @@
+dev-libs/expat  # for freetype
+#dev-lang/python3
+#dev-libs/libffi
+#dev-python/py3-fonttools
+#dev-python/py3-unicodedata2
+dev-util/gperf
+dev-util/pkgconf
+
+media-libs/freetype
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl

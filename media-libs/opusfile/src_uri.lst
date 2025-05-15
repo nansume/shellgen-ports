@@ -1,0 +1,3 @@
+mirror://xiph/opus/${PN}-0.12.tar.gz
+#http://downloads.xiph.org/releases/opus/${PN}-0.12.tar.gz
+#http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-0.12-configure-clang16.patch

@@ -1,0 +1,30 @@
+dev-util/pkgconf
+
+media-libs/alsa-lib
+media-libs/freetype
+media-libs/libjpeg-turbo
+media-libs/libpng
+media-libs/libwebp
+media-libs/sdl
+media-libs/tiff
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+
+sys-libs/zlib  # for libpng
+
+#x11-base/xcb-proto  # for libxt 
+#x11-base/xorg-proto  # for libxt
+
+#x11-libs/libice  # for libxt
+#x11-libs/libsm  # for libxt
+#x11-libs/libx11  # for libxt
+#x11-libs/libxau  # for libxt
+#x11-libs/libxcb  # for libxt
+#x11-libs/libxdmcp  # for libxt
+#x11-libs/libxext  # for libxt
+#x11-libs/libxt  # for x11 support (optional)
+#x11-libs/xtrans  # for libxt

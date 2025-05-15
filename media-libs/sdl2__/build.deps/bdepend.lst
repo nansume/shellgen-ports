@@ -1,0 +1,12 @@
+dev-util/pkgconf
+
+media-libs/alsa-lib
+
+# is required add <opengl> for <games-emulation/mednafen>
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-kernel/linux-headers
+sys-libs/musl

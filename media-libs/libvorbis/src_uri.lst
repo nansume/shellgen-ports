@@ -1,0 +1,3 @@
+mirror://xiph/vorbis/${PN}-1.3.7.tar.xz
+#http://downloads.xiph.org/releases/vorbis/${PN}-1.3.7.tar.xz
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-1.3.7-macro-wstrict-prototypes.patch

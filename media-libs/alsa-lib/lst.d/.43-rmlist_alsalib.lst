@@ -1,0 +1,44 @@
+# add support - generic simple audio - intel-hd-generic
+# bug: generic HDA audio - no work
+#  fix: remove /usr/share/alsa/pcm/dsnoop.conf
+bin/*
+lib*/libasound.so
+<PKG_CONFIG_LIBDIR>/<PN>-topology.pc
+<DPREFIX>/share/<PN>/*/*
+
+<DPREFIX>/share/alsa/alsa.conf.d/*
+<DPREFIX>/share/alsa/cards/AACI.conf
+<DPREFIX>/share/alsa/cards/ATIIXP-*.conf
+<DPREFIX>/share/alsa/cards/AU88*0.conf
+<DPREFIX>/share/alsa/cards/Au*.conf
+<DPREFIX>/share/alsa/cards/C*.conf
+<DPREFIX>/share/alsa/cards/E*.conf
+<DPREFIX>/share/alsa/cards/F*.conf
+<DPREFIX>/share/alsa/cards/GUS.conf
+<DPREFIX>/share/alsa/cards/HdmiLpeAudio.conf
+<DPREFIX>/share/alsa/cards/IC*.conf
+<DPREFIX>/share/alsa/cards/Loopback.conf
+<DPREFIX>/share/alsa/cards/Maestro3.conf
+<DPREFIX>/share/alsa/cards/NFORCE.conf
+<DPREFIX>/share/alsa/cards/PC-Speaker.conf
+<DPREFIX>/share/alsa/cards/PMac*.conf
+<DPREFIX>/share/alsa/cards/PS3.conf
+<DPREFIX>/share/alsa/cards/RME96*.conf
+<DPREFIX>/share/alsa/cards/S*.conf
+<DPREFIX>/share/alsa/cards/TRID4DWAVENX.conf
+<DPREFIX>/share/alsa/cards/USB-Audio.conf
+<DPREFIX>/share/alsa/cards/V*.conf
+<DPREFIX>/share/alsa/cards/YMF744.conf
+<DPREFIX>/share/alsa/cards/pistachio-card.conf
+<DPREFIX>/share/alsa/cards/vc4-hdmi.conf
+<DPREFIX>/share/alsa/pcm/center_lfe.conf
+<DPREFIX>/share/alsa/pcm/dpl.conf
+<DPREFIX>/share/alsa/pcm/dsnoop.conf
+<DPREFIX>/share/alsa/pcm/front.conf
+<DPREFIX>/share/alsa/pcm/hdmi.conf
+<DPREFIX>/share/alsa/pcm/iec958.conf
+<DPREFIX>/share/alsa/pcm/modem.conf
+<DPREFIX>/share/alsa/pcm/rear.conf
+<DPREFIX>/share/alsa/pcm/s*.conf
+<DPREFIX>/share/alsa/ucm/*
+<DPREFIX>/share/alsa/topology

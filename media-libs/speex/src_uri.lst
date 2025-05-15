@@ -1,0 +1,5 @@
+mirror://xiph/${PN}/${PN}-1.2.1.tar.gz
+#http://downloads.xiph.org/releases/${PN}/${PN}-1.2.1.tar.gz
+#http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-1.2.0-configure.patch
+#http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-1.2.1-vla-detection.patch
+#http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-1.2.1-valgrind.patch

@@ -1,0 +1,2 @@
+https://github.com/${PN}/${PN}/archive/v1.13.1.tar.gz -> ${PN}-1.13.1.tar.gz
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-1.13.1-pkgconfig.patch

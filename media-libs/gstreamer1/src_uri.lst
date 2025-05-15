@@ -1,0 +1,4 @@
+https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.6.3.tar.xz
+http://shellgen.mooo.com/pub/distfiles/patch/gstreamer-1.6.3/gstreamer-1.6.3-fix-strsignal.patch
+http://shellgen.mooo.com/pub/distfiles/patch/gstreamer-1.6.3/gstreamer-1.6.3-musl2.patch
+http://shellgen.mooo.com/pub/distfiles/patch/gstreamer-1.6.3/gstreamer-1.6.3-musl3.patch

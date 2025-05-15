@@ -1,0 +1,3 @@
+https://github.com/g-truc/${PN}/archive/1.0.1.tar.gz -> glm-1.0.1.tar.gz
+http://data.gpo.zugaina.org/gentoo/media-libs/glm/files/glm-0.9.9.6-simd.patch
+http://data.gpo.zugaina.org/gentoo/media-libs/glm/files/glm.pc.in
