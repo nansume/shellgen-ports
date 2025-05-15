@@ -1,0 +1,13 @@
+dev-lang/python3
+dev-lang/swig
+
+dev-libs/expat  # python bundled
+dev-libs/libffi
+dev-libs/openssl-compat
+
+dev-python/py3-setuptools
+
+sys-devel/binutils
+sys-devel/gcc
+sys-libs/musl
+sys-libs/zlib

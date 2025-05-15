@@ -1,0 +1,5 @@
+dev-lang/perl
+dev-perl/exporter-tiny
+dev-perl/list-moreutils-xs
+sys-devel/make
+sys-libs/musl

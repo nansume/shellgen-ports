@@ -1,0 +1,16 @@
+dev-libs/glib74
+dev-libs/libffi  # for glib
+dev-libs/libxml2-1  # for xslt
+dev-libs/libxslt
+dev-libs/pcre2  # for glib74
+dev-util/pkgconf
+
+sys-apps/file  # optional
+sys-devel/binutils
+sys-devel/bison
+sys-devel/flex
+sys-devel/gcc9
+sys-devel/m4
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # for glib

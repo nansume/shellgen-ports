@@ -1,0 +1,9 @@
+dev-lang/perl
+dev-perl/crypt-rc4
+dev-perl/digest-perl-md5
+dev-perl/ole-storagelite
+dev-perl/io-stringy
+dev-perl/text-csv-xs
+dev-perl/unicode-map
+sys-devel/make
+sys-libs/musl

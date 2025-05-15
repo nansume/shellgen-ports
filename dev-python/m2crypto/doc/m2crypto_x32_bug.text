@@ -1,0 +1,4 @@
+# BUG: m2crypto - no build with x32abi 
+--------------------------------------
+# FIX: setup.py: platform.machine
+--------------------------------------

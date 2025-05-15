@@ -1,0 +1,13 @@
+dev-lang/python3
+
+dev-libs/gmp
+dev-libs/libffi
+dev-libs/libtomcrypt
+#dev-libs/openssl-compat
+dev-libs/openssl
+
+dev-python/py3-cffi
+
+sys-devel/binutils
+sys-devel/gcc
+sys-libs/musl

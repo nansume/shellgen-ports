@@ -1,0 +1,3 @@
+dev-lang/python38
+dev-libs/libffi
+sys-libs/musl

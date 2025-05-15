@@ -1,0 +1,12 @@
+dev-lang/python38
+
+dev-libs/expat  # python bundled
+dev-libs/libffi
+
+dev-python/py38-setuptools
+dev-python/py38-pycparser
+
+sys-devel/binutils
+sys-devel/gcc
+sys-libs/musl
+sys-libs/zlib

@@ -1,0 +1,7 @@
+dev-lang/perl
+dev-perl/perl-io-string
+
+#sys-devel/binutils
+#sys-devel/gcc
+sys-devel/make
+sys-libs/musl

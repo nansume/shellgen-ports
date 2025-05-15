@@ -1,0 +1,11 @@
+#dev-libs/expat  # python bundled 
+dev-libs/libffi
+dev-lang/python2
+
+dev-python/py2-setuptools
+dev-python/py2-pycparser
+
+sys-devel/binutils
+sys-devel/gcc
+sys-libs/musl
+sys-libs/zlib

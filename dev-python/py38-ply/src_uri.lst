@@ -1,0 +1,3 @@
+https://files.pythonhosted.org/packages/source/p/ply/ply-3.11.tar.gz
+http://data.gpo.zugaina.org/gentoo/dev-python/ply/files/3.6-picklefile-IOError.patch
+https://dev.gentoo.org/~sam/distfiles/${CATEGORY}/${PN}/${PN}-3.11-py3.12-assert.patch.xz

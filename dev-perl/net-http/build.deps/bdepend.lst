@@ -1,0 +1,12 @@
+dev-lang/perl
+dev-libs/openssl
+dev-perl/io-socket-inet6
+dev-perl/io-socket-ssl
+dev-perl/module-build
+dev-perl/mozilla-ca
+dev-perl/net-ssleay
+dev-perl/socket6
+dev-perl/regexp-ipv6
+dev-perl/uri
+sys-devel/make
+sys-libs/musl

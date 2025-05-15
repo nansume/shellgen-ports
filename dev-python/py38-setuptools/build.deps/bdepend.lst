@@ -1,0 +1,7 @@
+dev-lang/python38
+
+dev-libs/expat  # required for python
+dev-libs/libffi
+
+sys-libs/musl
+sys-libs/zlib  # required

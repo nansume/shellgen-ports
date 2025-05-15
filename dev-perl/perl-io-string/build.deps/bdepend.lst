@@ -1,0 +1,6 @@
+dev-lang/perl
+
+#sys-devel/binutils
+#sys-devel/gcc
+sys-devel/make
+sys-libs/musl

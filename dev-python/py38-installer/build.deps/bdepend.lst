@@ -1,0 +1,10 @@
+dev-lang/python38
+
+dev-python/py38-flitcore   # uncomment for >=py-installer-0.7.0  # min ver
+dev-python/py38-installer  # uncomment for >=py-installer-0.7.0  # min ver
+dev-libs/expat  # python bundled
+dev-libs/libffi
+dev-python/py38-setuptools
+
+sys-libs/musl
+sys-libs/zlib

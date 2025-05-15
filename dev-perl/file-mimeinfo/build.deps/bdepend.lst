@@ -1,0 +1,15 @@
+dev-lang/perl
+dev-libs/glib-compat
+dev-libs/libffi  # for glib
+#dev-libs/pcre  # for glib
+dev-perl/encode-locale
+dev-perl/file-basedir
+dev-perl/file-desktopentry
+dev-perl/ipc-system-simple
+dev-perl/regexp-ipv6
+dev-perl/uri
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # for glib
+
+x11-misc/shared-mime-info

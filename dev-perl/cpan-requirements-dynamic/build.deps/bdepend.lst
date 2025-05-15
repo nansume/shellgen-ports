@@ -1,0 +1,6 @@
+dev-lang/perl
+dev-perl/cpan-meta-requirements
+dev-perl/extutils-config
+dev-perl/extutils-hascompiler
+sys-devel/make
+sys-libs/musl

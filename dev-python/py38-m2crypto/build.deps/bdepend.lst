@@ -1,0 +1,13 @@
+dev-lang/python38
+dev-lang/swig
+
+dev-libs/expat  # python bundled
+dev-libs/libffi
+dev-libs/openssl3
+
+dev-python/py38-setuptools
+
+sys-devel/binutils
+sys-devel/gcc
+sys-libs/musl
+sys-libs/zlib

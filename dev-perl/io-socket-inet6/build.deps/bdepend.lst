@@ -1,0 +1,5 @@
+dev-lang/perl
+dev-perl/module-build
+dev-perl/socket6
+sys-devel/make
+sys-libs/musl

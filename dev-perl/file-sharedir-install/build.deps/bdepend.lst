@@ -1,0 +1,4 @@
+dev-lang/perl
+# missing in your kit: .proverc
+sys-devel/make
+sys-libs/musl

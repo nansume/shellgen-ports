@@ -1,0 +1,10 @@
+# Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
+# -static -static-libs +shared +/-nopie -lfs -upx -patch -doc -man -xstub -diet +musl +stest +strip +x32
+
+# HASH=4feb5a146859680eafac17f950765f9a9fba0f6f
+# https://gitweb.gentoo.org/repo/gentoo.git/plain/dev-python/pycryptodomex/pycryptodomex-3.9.9.ebuild?id={HASH}
+
+DESCRIPTION="A self-contained cryptographic library for Python"
+HOMEPAGE="https://github.com/Legrandin/pycryptodome/ https://pypi.org/project/pycryptodomex/"
+LICENSE="BSD-2 Unlicense"
+IUSE=""

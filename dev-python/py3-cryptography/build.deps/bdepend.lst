@@ -1,0 +1,15 @@
+dev-lang/python3
+
+dev-libs/expat  # python bundled
+dev-libs/libffi
+dev-libs/openssl-compat
+
+dev-python/py3-cffi
+dev-python/py3-pycparser
+dev-python/py3-setuptools
+dev-python/zipp
+
+sys-devel/binutils
+sys-devel/gcc
+sys-libs/musl
+sys-libs/zlib  # deps zipp

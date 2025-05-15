@@ -1,0 +1,14 @@
+dev-lang/python38
+
+dev-libs/expat  # python bundled
+dev-libs/libffi
+
+dev-python/py38-cffi
+dev-python/py38-flitcore  # deps: py*-installer
+dev-python/py38-installer  # deps: pip3
+dev-python/py38-pycparser
+dev-python/py38-setuptools
+dev-python/py38-zipp
+
+sys-libs/musl
+sys-libs/zlib  # deps zipp

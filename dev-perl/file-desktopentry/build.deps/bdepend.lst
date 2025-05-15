@@ -1,0 +1,5 @@
+dev-lang/perl
+dev-perl/file-basedir
+dev-perl/uri
+sys-devel/make
+sys-libs/musl

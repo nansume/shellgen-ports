@@ -1,0 +1,4 @@
+dev-lang/perl
+dev-perl/ipc-system-simple
+sys-devel/make
+sys-libs/musl

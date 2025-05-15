@@ -1,0 +1,6 @@
+dev-lang/perl
+dev-libs/openssl
+dev-perl/mozilla-ca
+dev-perl/net-ssleay
+sys-devel/make
+sys-libs/musl

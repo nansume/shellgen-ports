@@ -1,0 +1,12 @@
+dev-lang/python38
+
+dev-libs/gmp
+dev-libs/libffi
+dev-libs/libtomcrypt
+dev-libs/openssl3
+
+dev-python/py38-cffi
+
+sys-devel/binutils
+sys-devel/gcc
+sys-libs/musl

@@ -1,0 +1,9 @@
+dev-lang/python38
+
+dev-libs/expat  # deps >=setuptools-59.6.0  # minimum version
+dev-libs/libffi  # for python,glib
+
+dev-python/py38-setuptools  # for meson (build tool)
+
+sys-libs/musl
+sys-libs/zlib  # deps: setuptools,zipp[meson],glib

@@ -1,0 +1,9 @@
+dev-lang/python38
+
+dev-libs/expat  # python bundled
+dev-libs/libffi
+dev-python/py38-flitcore
+dev-python/py38-installer
+
+sys-libs/musl
+sys-libs/zlib

@@ -1,0 +1,4 @@
+dev-lang/perl
+# Cannot find unicore/EastAsianWidth.txt
+sys-devel/make
+sys-libs/musl

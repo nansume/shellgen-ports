@@ -1,0 +1,12 @@
+dev-lang/perl
+dev-libs/glib-compat
+dev-libs/libffi  # for glib
+dev-perl/extutils-depends
+dev-perl/extutils-pkgconfig
+dev-perl/log-agent
+dev-util/pkgconf
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # for glib

@@ -1,0 +1,14 @@
+dev-db/sqlite3
+dev-lang/python38
+#dev-lang/swig  # wrong?
+
+dev-libs/expat  # python bundled
+dev-libs/libffi
+#dev-libs/openssl3  # wrong?
+
+dev-python/py38-setuptools
+
+sys-devel/binutils
+sys-devel/gcc9
+sys-libs/musl
+sys-libs/zlib  # deps: setuptools

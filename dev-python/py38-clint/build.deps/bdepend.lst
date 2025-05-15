@@ -1,0 +1,4 @@
+dev-lang/python3-8
+dev-libs/expat  # python bundled
+dev-python/py38-setuptools
+sys-libs/musl

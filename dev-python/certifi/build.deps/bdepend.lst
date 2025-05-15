@@ -1,0 +1,3 @@
+dev-lang/python3
+dev-libs/libffi
+sys-libs/musl

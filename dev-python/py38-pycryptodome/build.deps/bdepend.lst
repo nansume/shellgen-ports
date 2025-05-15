@@ -1,0 +1,16 @@
+dev-lang/python3-8
+
+#dev-libs/expat  # python bundled
+#dev-libs/gmp  # deps openssl
+dev-libs/libffi
+#dev-libs/libtomcrypt  # no-bundled
+dev-libs/openssl3
+
+dev-python/py38-cffi
+#dev-python/py38-pycparser
+#dev-python/py38-setuptools
+
+sys-devel/binutils
+sys-devel/gcc9
+sys-libs/musl
+#sys-libs/zlib

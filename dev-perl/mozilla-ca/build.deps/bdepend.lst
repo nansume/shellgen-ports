@@ -1,0 +1,5 @@
+app-misc/ca-certificates
+dev-lang/perl
+# missing: .editorconfig
+sys-devel/make
+sys-libs/musl

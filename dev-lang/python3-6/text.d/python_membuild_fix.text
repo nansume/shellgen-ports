@@ -1,0 +1,10 @@
+# MemAvailable
+mapfile -n 2 -s 1 MEMSIZE < /proc/meminfo || return
+declare -i SIZE=${MEMSIZE[0]//[^0-9]/}
+if (( SIZE <= 1500000 )); then
+#CFLAGS="$CFLAGS -fno-tree-vectorize"
+CFLAGS=${CFLAGS/ -ftree-vectorize/}
+#CFLAGS=${CFLAGS/ -pipe/}
+CXXFLAGS=$CFLAGS
+#CFLAGS="-O2 -msse3 -ftree-vectorize -pipe -g0"
+#CXXFLAGS="${CFLAGS}"

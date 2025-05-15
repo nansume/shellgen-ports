@@ -1,0 +1,4 @@
+dev-lang/perl
+#dev-util/pkgconf
+sys-devel/make
+sys-libs/musl

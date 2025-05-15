@@ -1,0 +1,7 @@
+dev-lang/python38
+dev-libs/libffi
+
+sys-devel/binutils
+sys-devel/gcc
+sys-libs/musl
+sys-libs/zlib

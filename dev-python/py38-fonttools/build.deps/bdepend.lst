@@ -1,0 +1,10 @@
+dev-lang/python38
+
+dev-libs/expat  # python bundled
+dev-libs/libffi
+
+dev-python/py38-setuptools
+dev-python/py38-unicodedata2
+
+sys-libs/musl
+sys-libs/zlib  # deps: setuptools,zipp[meson],glib

@@ -1,0 +1,9 @@
+dev-lang/perl
+dev-perl/cpan-meta-requirements
+dev-perl/cpan-requirements-dynamic
+dev-perl/extutils-config
+dev-perl/extutils-hascompiler
+dev-perl/extutils-helpers
+dev-perl/extutils-installpaths
+sys-devel/make
+sys-libs/musl

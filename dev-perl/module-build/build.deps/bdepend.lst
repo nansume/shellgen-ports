@@ -1,0 +1,4 @@
+dev-lang/perl
+#inc_bundling_support....disabled - requires: inc::latest is not installed
+sys-devel/make
+sys-libs/musl

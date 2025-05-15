@@ -1,0 +1,9 @@
+dev-lang/perl
+dev-libs/expat
+dev-libs/libxml2
+dev-perl/perl-xml-parser
+dev-perl/xml-namespacesupport
+dev-perl/xml-sax-base
+dev-perl/xml-sax
+sys-devel/make
+sys-libs/musl

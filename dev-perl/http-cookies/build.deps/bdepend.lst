@@ -1,0 +1,11 @@
+dev-lang/perl
+dev-perl/clone
+dev-perl/encode-locale
+dev-perl/http-date
+dev-perl/http-message
+dev-perl/io-html
+dev-perl/lwp-mediatypes
+dev-perl/regexp-ipv6
+dev-perl/uri
+sys-devel/make
+sys-libs/musl

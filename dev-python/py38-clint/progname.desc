@@ -1,0 +1,9 @@
+# Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
+# -static -static-libs -shared -nopie -lfs -upx +patch -doc -man -xstub -diet +musl -stest -strip +noarch
+
+# https://gitweb.gentoo.org/repo/gentoo.git/plain/dev-python/clint/clint-0.5.1-r4.ebuild
+
+DESCRIPTION="Python Command-line Application Tools"
+HOMEPAGE="https://github.com/kennethreitz/clint/ https://pypi.org/project/clint/"
+LICENSE="ISC"
+IUSE="-examples"

@@ -1,0 +1,16 @@
+dev-lang/python38
+
+dev-libs/expat  # python bundled
+dev-libs/libffi
+
+ dev-python/py38-flitcore
+ dev-python/py38-installer
+ dev-python/py38-packaging
+dev-python/py38-setuptools
+dev-python/py38-setuptools-scm
+ dev-python/py38-tomli
+ #dev-python/py38-tomli-w
+ dev-python/py38-typing-extensions
+
+sys-libs/musl0
+sys-libs/zlib  # deps: setuptools

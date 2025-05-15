@@ -1,0 +1,13 @@
+dev-lang/perl
+dev-perl/archive-zip
+dev-perl/capture-tiny
+dev-perl/ffi-checklib
+dev-perl/file-chdir
+dev-perl/file-which
+dev-perl/path-tiny
+dev-perl/unicode-utf8
+dev-util/pkgconf
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl

@@ -1,0 +1,20 @@
+dev-lang/python38
+
+dev-libs/expat  # deps >=setuptools-59.6.0  # minimum version
+dev-libs/libffi  # for python,glib
+
+dev-python/py38-olefile
+dev-python/py38-setuptools  # for meson (build tool)
+dev-python/py38-wheel
+
+dev-util/pkgconf
+
+media-libs/freetype
+media-libs/libjpeg-turbo
+media-libs/libwebp
+media-libs/tiff
+
+sys-devel/binutils
+sys-devel/gcc9
+sys-libs/musl
+sys-libs/zlib  # deps: setuptools,zipp[meson],glib

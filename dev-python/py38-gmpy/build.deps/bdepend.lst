@@ -1,0 +1,14 @@
+dev-lang/python38
+
+dev-libs/expat  # python bundled
+dev-libs/gmp
+dev-libs/libffi
+dev-libs/mpc
+dev-libs/mpfr
+
+dev-python/py38-setuptools
+
+sys-devel/binutils
+sys-devel/gcc9
+sys-libs/musl
+sys-libs/zlib  # deps: setuptools

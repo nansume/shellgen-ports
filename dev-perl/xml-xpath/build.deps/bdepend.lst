@@ -1,0 +1,5 @@
+dev-lang/perl
+dev-libs/expat
+dev-perl/perl-xml-parser
+sys-devel/make
+sys-libs/musl

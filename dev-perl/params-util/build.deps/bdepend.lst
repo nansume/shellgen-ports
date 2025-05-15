@@ -1,0 +1,9 @@
+dev-lang/perl
+dev-perl/capture-tiny
+dev-perl/config-autoconf
+dev-perl/file-slurper
+dev-perl/io-utf8-strict
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
