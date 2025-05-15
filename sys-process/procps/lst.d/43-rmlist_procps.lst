@@ -1,0 +1,11 @@
+bin/pkill
+bin/pmap
+bin/ps
+bin/pwait
+bin/pwdx
+bin/slabtop
+bin/tload
+bin/uptime
+bin/vmstat
+bin/w*
+sbin/sysctl

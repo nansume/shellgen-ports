@@ -1,0 +1,2 @@
+https://github.com/fenrus75/${PN}/archive/v2.15.tar.gz -> ${PN}-2.15.tar.gz
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-2.8-ncurses_tinfo.patch

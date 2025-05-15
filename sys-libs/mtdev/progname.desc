@@ -1,0 +1,9 @@
+# Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
+# -static +static-libs +shared +nopie -lfs -upx -patch -doc -man -xstub -diet +musl +stest +strip +x32
+
+# http://data.gpo.zugaina.org/gentoo/sys-libs/mtdev/mtdev-1.1.7.ebuild
+
+DESCRIPTION="Multitouch Protocol Translation Library"
+HOMEPAGE="https://bitmath.org/code/mtdev/"
+LICENSE="MIT"
+IUSE="+static-libs +shared +nopie -doc (+musl) +stest +strip"

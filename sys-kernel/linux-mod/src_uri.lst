@@ -1,0 +1,7 @@
+https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-5.8.9.tar.xz
+
+#https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/linux-5.18.tar.xz
+##https://www.kernel.org/pub/linux/kernel/v5.x/patch-5.18.16.xz
+#https://aur.archlinux.org/cgit/aur.git/plain/0301-revert-fbcon-remove-now-unusued-softback_lines-cursor-argument.patch?h=linux-acs-manjaro
+#https://aur.archlinux.org/cgit/aur.git/plain/0302-revert-fbcon-remove-no-op-fbcon_set_origin.patch?h=linux-acs-manjaro
+#https://aur.archlinux.org/cgit/aur.git/plain/0303-revert-fbcon-remove-soft-scrollback-code.patch?h=linux-acs-manjaro

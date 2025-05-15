@@ -1,0 +1,6 @@
+#sys-devel/autogen
+#app-busybox/expand
+#app-busybox/unlzma
+sys-devel/patch
+#sys-libs/ncurses
+#sys-libs/netbsd-curses

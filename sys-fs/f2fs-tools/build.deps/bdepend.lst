@@ -1,0 +1,21 @@
+#app-alternatives/libblkid
+#app-alternatives/libuuid
+
+dev-lang/perl  # required for patching
+dev-libs/glib-compat
+dev-libs/libffi
+dev-libs/pcre
+dev-util/pkgconf
+
+sys-apps/file
+sys-apps/util-linux
+sys-devel/autoconf  # required for patching
+sys-devel/automake  # required for patching
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/libtool  # required for patching
+sys-devel/m4  # required for patching
+sys-devel/make
+sys-kernel/linux-headers
+sys-libs/musl
+sys-libs/queue-standalone  # for musl

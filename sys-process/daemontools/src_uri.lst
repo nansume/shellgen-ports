@@ -1,0 +1,6 @@
+http://cr.yp.to/${PN}/${PN}-0.76.tar.gz
+http://smarden.org/pape/djb/manpages/${PN}-0.76-man-20020131.tar.gz
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/0.76-errno.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/0.76-C99-decls.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/0.76-makefile.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/0.76-implicit-func-decl-clang16.patch

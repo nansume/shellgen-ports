@@ -1,0 +1,13 @@
+#app-arch/tar  # tar: invalid option -- c
+sys-apps/findutils
+sys-devel/binutils
+sys-devel/bison
+sys-devel/flex
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+
+# http://musl.cc/x86_64-linux-muslx32-native.tgz
+#dev-libs/libffi
+#dev-libs/expat
+#dev-lang/python3

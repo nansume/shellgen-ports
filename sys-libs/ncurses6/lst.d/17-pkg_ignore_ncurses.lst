@@ -1,0 +1,12 @@
+# ncursesw
+<LIB_DIR>/pkgconfig/ncurses*
+<LIB_DIR>/pkgconfig/tinfo*
+# terminfo
+*/*/rxvt-256color
+*/*/screen.xterm-256color
+*/*/[lrs]/linux-16color
+*/*/[lrs]/linux
+*/*/[lrs]/
+<DPREFIX>/share/terminfo/l/
+<DPREFIX>/share/terminfo/r/
+<DPREFIX>/share/terminfo/s/

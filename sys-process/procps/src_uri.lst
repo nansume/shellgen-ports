@@ -1,0 +1,5 @@
+ftp://mirrors.tera-byte.com/pub/gentoo/distfiles/procps-ng-3.3.17.tar.xz
+#https://downloads.sourceforge.net/${PN}-ng/${PN}-ng-${PV}.tar.xz
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-3.3.11-sysctl-manpage.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-3.3.12-proc-tests.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-3.3.17-musl-fix.patch

@@ -1,0 +1,9 @@
+# Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
+# +static -static-libs -shared +nopie -lfs -upx -patch -doc -man -xstub -diet +musl +stest +strip +x32
+
+# http://data.gpo.zugaina.org/gentoo/sys-fs/ddrescue/ddrescue-1.29.1.ebuild
+
+DESCRIPTION="Copy data from one file or block device to another with read-error recovery"
+HOMEPAGE="https://www.gnu.org/software/ddrescue/ddrescue.html"
+LICENSE="GPL-2+"
+IUSE="+static +nopie -doc (-diet) (+musl) +stest +strip"

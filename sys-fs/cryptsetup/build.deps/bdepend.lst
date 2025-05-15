@@ -1,0 +1,17 @@
+dev-libs/gmp  # deps openssl
+dev-libs/json-c
+dev-libs/libaio  # deps lvm2
+dev-libs/popt
+dev-libs/openssl3
+dev-util/pkgconf
+
+sys-apps/util-linux
+sys-devel/binutils
+sys-devel/gcc9
+sys-devel/make
+
+sys-fs/lvm2
+
+sys-kernel/linux-headers-musl
+sys-libs/musl
+sys-libs/zlib  # deps openssl

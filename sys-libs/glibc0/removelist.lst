@@ -1,0 +1,4 @@
+lst.d/43-rmlist_static-lib.lst
+#mksrc.d/26-makeflag_cc.sh
+mksrc.d/34-pkg_configure.sh
+mksrc.d/44-post_rm.sh

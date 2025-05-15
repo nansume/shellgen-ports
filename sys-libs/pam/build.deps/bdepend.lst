@@ -1,0 +1,16 @@
+dev-libs/libxml2  # for libxslt
+dev-libs/libxslt
+dev-util/byacc  # alternative a bison
+dev-util/pkgconf
+
+#net-libs/libnsl  # nis
+#net-libs/libtirpc  # nis
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+#sys-devel/gettext
+sys-devel/lex
+sys-devel/make
+sys-kernel/linux-headers-musl
+sys-libs/musl

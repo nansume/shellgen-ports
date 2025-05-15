@@ -1,0 +1,30 @@
+MYCONF+=(
+ --with-gxx-include-dir=${INCDIR}/c++
+ --enable-languages=c,c++
+ --enable-obsolete
+ --enable-secureplt
+ --disable-werror
+ --disable-esp
+ --enable-libstdcxx-time
+ --disable-libstdcxx-pch
+ --enable-threads=posix
+ --enable-__cxa_atexit
+ --enable-clocale=gnu
+ --with-multilib-list=m${ABI}
+ --disable-altivec
+ --disable-fixed-point
+ --with-abi=m${ABI}
+ --enable-targets=all
+ --enable-libgomp
+ --disable-libmudflap
+ --disable-libssp
+ --disable-systemtap
+ --disable-vtable-verify
+ --disable-libvtv
+ --disable-libquadmath
+ --enable-lto
+ --without-isl
+ --disable-libsanitizer
+ --disable-default-pie
+ --disable-default-ssp
+)

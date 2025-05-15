@@ -1,0 +1,9 @@
+#app-arch/lzlib  # required for plzip (unpack *.lz)
+app-arch/plzip  # unpack *.lz
+
+sys-devel/binutils
+sys-devel/gcc9
+sys-devel/make
+
+sys-kernel/linux-headers-musl
+sys-libs/musl

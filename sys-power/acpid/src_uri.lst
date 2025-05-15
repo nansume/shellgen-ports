@@ -1,0 +1,4 @@
+https://downloads.sourceforge.net/${PN}2/${PN}-2.0.34.tar.xz
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-2.0.34-lfs.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-1.0.6-default.sh
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-1.0.4-default

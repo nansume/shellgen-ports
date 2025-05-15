@@ -1,0 +1,5 @@
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/libtool
+sys-devel/make
+sys-libs/musl  # required for dietlibc

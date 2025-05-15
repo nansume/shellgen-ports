@@ -1,0 +1,3 @@
+http://www.jimpryor.net/linux/releases/${PN}-4.5.tar.gz
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-4.5-ldflags.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-4.5-pidfile.patch

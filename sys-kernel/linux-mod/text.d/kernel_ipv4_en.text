@@ -1,0 +1,6 @@
+############################################
+#####  Linux Kernel make [utf-8,ipv4]  #####
+############################################
+
+# dolohow uksm-4.16.patch [utf-8,ipv4-only,ssl-noly]
+http://raw.githubusercontent.com/dolohow/uksm/master/uksm-4.16.patch

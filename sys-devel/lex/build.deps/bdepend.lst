@@ -1,0 +1,6 @@
+sys-devel/binutils
+sys-devel/bison
+sys-devel/gcc
+sys-devel/m4
+sys-devel/make
+sys-libs/musl

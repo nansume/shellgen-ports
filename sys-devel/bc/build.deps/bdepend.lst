@@ -1,0 +1,9 @@
+dev-libs/dietlibc
+#dev-libs/libedit
+dev-util/byacc  # alternative a bison
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/lex
+sys-devel/m4
+sys-devel/make
+#sys-libs/ncurses

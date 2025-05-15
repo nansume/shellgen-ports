@@ -1,0 +1,17 @@
+https://${PN}.freedesktop.org/releases/${PN}-1.4.1.tar.gz
+http://data.gpo.zugaina.org/mv/${CATEGORY}/${PN}/files/1.4.1-bluetooth-sync.patch
+http://data.gpo.zugaina.org/mv/${CATEGORY}/${PN}/files/1.4.1-disable-sata-alpm.patch
+http://data.gpo.zugaina.org/mv/${CATEGORY}/${PN}/files/1.4.1-fix-intel-audio-powersave-hook.patch
+http://data.gpo.zugaina.org/mv/${CATEGORY}/${PN}/files/1.4.1-logging-append.patch
+http://data.gpo.zugaina.org/mv/${CATEGORY}/${PN}/files/1.4.1-fix-alpm-typo.patch
+http://data.gpo.zugaina.org/mv/${CATEGORY}/${PN}/files/1.4.1-inhibit-on-right-status.patch
+http://data.gpo.zugaina.org/mv/${CATEGORY}/${PN}/files/1.4.1-ignore-led-failure.patch
+http://data.gpo.zugaina.org/mv/${CATEGORY}/${PN}/files/1.4.1-run-hook-logging.patch
+http://data.gpo.zugaina.org/mv/${CATEGORY}/${PN}/files/1.4.1-suspend-hybrid.patch
+http://data.gpo.zugaina.org/mv/${CATEGORY}/${PN}/files/1.4.1-uswsusp-hibernate-mode.patch
+http://data.gpo.zugaina.org/mv/${CATEGORY}/${PN}/files/1.4.1-xfs_buffer_arguments.patch
+http://data.gpo.zugaina.org/mv/${CATEGORY}/${PN}/files/1.4.1-echo-n.patch
+http://data.gpo.zugaina.org/mv/${CATEGORY}/${PN}/files/${PN}.logrotate
+http://data.gpo.zugaina.org/mv/${CATEGORY}/${PN}/files/sleep.d/50unload_alx
+http://data.gpo.zugaina.org/mv/${CATEGORY}/${PN}/files/power.d/pci_devices
+http://data.gpo.zugaina.org/mv/${CATEGORY}/${PN}/files/power.d/usb_bluetooth

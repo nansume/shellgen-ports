@@ -1,0 +1,7 @@
+https://smarden.org/${PN}/${PN}-2.1.2.tar.gz
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/1-2.1.2
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/2-2.1.2
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/3-2.1.2
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/ctrlaltdel
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/finish.getty
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/run.getty-2.1.2

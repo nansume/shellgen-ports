@@ -1,0 +1,199 @@
+#!ipxe
+# 2018
+
+# https://raw.githubusercontent.com/yoshi314/multi-live-usb-configs/master/pxe/menu
+# https://github.com/antonym/netboot.xyz/blob/master/src/menu.ipxe
+# https://github.com/bradgillap/IPXEBOOT/blob/master/boot.ipxe
+
+
+cpuid --ext 29 && set ARCH x86_64 || set ARCH x86
+iseq ${ARCH} x86_64 && set BITS 64 || set BITS 32
+iseq ${ARCH} x86 && set CPU_X86 [cpu_x86_32]
+
+dhcp net0
+set net0/dns 8.8.4.4
+set net0/hostname generic
+
+#isset ${KMAP} || set KMAP en
+#echo -n (en|de) KMAP=
+#read KMAP
+#isset ${COUNTRY} || set COUNTRY US
+#echo -n (US|GB) COUNTRY=
+#read COUNTRY
+
+set BOOT_URL http://boot.netboot.xyz
+set MEMDISK ${BOOT_URL}/memdisk
+set WIMBOOT ${BOOT_URL}/wimboot
+
+
+################
+:boot_menu
+################
+menu
+   item netboot_xyz      PXE netboot.xyz [webboot]
+   item ipxe_arch        arch: ${ARCH} ${CPU_X86}
+#   item gentoo           Gentoo Minimal CD 20160204 [amd64] [notest]
+   item slitaz_rolling   SliTaz 5.0 Rolling [x86]
+#   item archlinux        Arch Linux [x86_64]
+   item alpine           Alpine ram [hardened,vanilla]
+   item devuan           Devuan ascii [without systemd]
+   item debian_old       Deabian 20130613 [intel vendor-lock ahci]
+   item slackware        Slackware [current]
+#   item freedos          FreeDOS 1.2 [Lite] [bug]
+#   item gparted          GParted Live [bug]
+#   item openwrt          OpenWrt [x86] [bug]
+#   item winnt7           winnt7 [notest]
+   item ipxe_dhcp        DHCP [${net0/ip}] [${net0/dns}]
+   item ipxe_ifopen      ifopen net0 [static ip]
+   item ipxe_config      Enter iPXE config
+#   item ipxe_lang        lang: ${KMAP}_${COUNTRY}
+   item ipxe_shell       Enter iPXE shell
+
+choose --default config --timeout 30000 TARGET && goto ${TARGET}
+
+
+
+##################################
+###########   menu   #############
+##################################
+
+:netboot_xyz
+   imgfree
+   echo ip=${net0/ip}::${net0/gateway}:${net0/netmask}:${net0/hostname}:::${net0/dns}
+   chain --autofree http://boot.netboot.xyz || goto netboot_xyz
+
+:ipxe_arch
+   isset ${CPU_X86} && goto boot_menu
+   iseq ${ARCH} x86_64 && set ARCH x86 || set ARCH x86_64
+   iseq ${BITS} 64 && set BITS 32 || set BITS 64
+   goto boot_menu
+
+:gentoo
+   set URL http://sourceforge.net/projects/netboot-xyz/files/distros/gentoo/amd64/20160204
+   # Please note the gentoo ISO has been regenerated to work with iPXE
+   # using the method here: http://blog.dastrup.com/?p=12
+   kernel --name vmlinuz ${URL}/kernel/download root=/dev/ram0 init=/linuxrc loop=/image.squashfs looptype=squashfs cdroot=1 real_root=/ console=tty0
+   initrd --name initrd.img ${URL}/initrd/download
+
+:slitaz_rolling
+   echo ip=${net0/ip}::${net0/gateway}:${net0/netmask}:${net0/hostname}:::${net0/dns}
+   sanboot http://mirror1.slitaz.org/iso/rolling/slitaz-rolling-core.iso
+
+:archlinux
+   imgfree
+   #set URL http://mirror.rackspace.com/archlinux/iso/latest
+   #kernel ${URL}/arch/boot/x86_64/vmlinuz \
+   # initrd=archiso.img archiso_http_srv=${URL}/ archisobasedir=arch verify=y ip=dhcp net.ifnames=0 console=tty0 initrd=archiso.img
+   #initrd ${URL}/arch/boot/x86_64/archiso.img
+   set URL http://mirror.rackspace.com/archlinux/iso/archboot/latest
+   kernel ${URL}/boot/vmlinuz_x86_64 \
+    initrd=initramfs_x86_64.img archiso_http_srv=${URL}/ archisobasedir=arch verify=y ip=dhcp net.ifnames=0 console=tty0 initrd=initramfs_x86_64.img
+   initrd ${URL}/boot/initramfs_x86_64.img
+
+:alpine
+   set TYPE    vanilla
+   set BASEURL http://dl-cdn.alpinelinux.org/alpine/v3.8
+   set URL     ${BASEURL}/releases/${ARCH}/netboot-3.8.1
+   echo ip=${net0/ip}::${net0/gateway}:${net0/netmask}:${net0/hostname}:::${net0/dns}
+   initrd ${URL}/initramfs-${TYPE}
+   kernel ${URL}/vmlinuz-${TYPE}
+   boot   vmlinuz-${TYPE} alpine_repo=${BASEURL}/main modloop=${URL}/modloop-${TYPE}
+
+:devuan
+   imgfree
+   echo ip=${net0/ip}::${net0/gateway}:${net0/netmask}:${net0/hostname}:::${net0/dns}
+   iseq ${ARCH} x86_64 && set ARCH amd64 || set ARCH i386
+   set URL http://deb.devuan.org/devuan/dists/ascii/main/installer-${ARCH}/current/images/netboot/debian-installer/${ARCH}
+   # keymap=${KMAP} lang=${KMAP}_${COUNTRY}
+   kernel ${URL}/linux desktop=lxde ip=${net0/ip}::${net0/gateway}:${net0/netmask}:${net0/hostname}:::${net0/dns} \
+    vga=788 --- quiet nomodeset net.ifnames=0 console=tty0 initrd=initrd.gz
+   initrd ${URL}/initrd.gz
+
+:debian_old
+   imgfree
+   echo ip=${net0/ip}::${net0/gateway}:${net0/netmask}:${net0/hostname}:::${net0/dns}
+   iseq ${ARCH} x86_64 && set ARCH amd64 || set ARCH i386
+   set URL http://ftp.funet.fi/debian/dists/oldoldstable/main/installer-${ARCH}/20130613+deb7u3+b2/images/netboot/debian-installer/${ARCH}
+   kernel ${URL}/linux desktop=lxde ip=${net0/ip}::${net0/gateway}:${net0/netmask}:${net0/hostname}:::${net0/dns} \
+    vga=788 --- quiet nomodeset net.ifnames=0 console=tty0 initrd=initrd.gz
+   initrd ${URL}/initrd.gz
+   boot
+
+:slackware
+   iseq ${BITS} 64 && set SLACKNAME slackware${BITS} || set SLACKNAME slackware
+   set URL http://ftp.slackware.com/pub/slackware/${SLACKNAME}-current
+   initrd ${URL}/isolinux/initrd.img
+   chain ${URL}/kernels/huge.s/bzImage load_ramdisk=1 prompt_ramdisk=0 rw printk.time=0 nomodeset SLACK_KERNEL=huge.s
+   goto boot_menu
+
+:freedos
+   imgfree
+   kernel ${MEMDISK} iso raw
+   initrd http://www.freedos.org/download/download/FD12LITE.zip || goto freedos
+   boot
+
+# https://github.com/antonym/netboot.xyz/blob/master/src/utils.ipxe
+:gparted
+   iseq ${ARCH} x86_64 && set ARCH amd64 || set ARCH i686
+   set VER 0.33.0-1
+   set URL http://sourceforge.net/projects/gparted/files/gparted-live-stable/${VER}/gparted-live-${VER}-${ARCH}.iso/download
+   imgfree
+   kernel ${MEMDISK} iso raw
+   initrd --name gparted-live-${VER}-${ARCH}.iso ${URL} || goto gparted
+   boot
+
+# https://forum.openwrt.org/t/solved-boot-hangs-on-lede-item-in-grub-menu-on-x86-no-grub-timeout/24741
+:openwrt
+   imgfree
+   set URL http://downloads.openwrt.org/snapshots/targets/x86/generic
+   kernel ${URL}/openwrt-x86-generic-vmlinuz failsafe=true root=/dev/null console=tty0
+   #kernel ${URL}/openwrt-x86-generic-vmlinuz failsafe=true root=/dev/null rootfstype=ext4 console=tty0 noinitrd
+   initrd ${URL}/openwrt-x86-generic-rootfs.img.gz || goto openwrt
+   boot
+
+# future remove
+:winnt7
+   set URL http://www.mydomain.test/osdir
+   echo -n URL=
+   read URL
+   iseq ${ARCH} x86_64 && set ARCH x64
+   kernel ${WIMBOOT} || goto winnt7
+   initrd ${URL}/${ARCH}/bootmgr bootmgr || goto winnt7
+   initrd ${URL}/${ARCH}/boot/bcd bcd || goto winnt7
+   initrd ${URL}/${ARCH}/boot/boot.sdi boot.sdi || goto winnt7
+   initrd ${URL}/${ARCH}/sources/boot.wim boot.wim || goto winnt7
+
+:ipxe_dhcp
+   dhcp net0
+   set net0/dns 8.8.4.4
+   set net0/hostname generic
+   goto boot_menu
+
+:ipxe_ifopen
+   ###############
+   # network setup
+   ###############
+   set net0/ip 192.168.0.10
+   set net0/netmask 255.255.255.0
+   set net0/gateway 192.168.0.1
+   set net0/dns 8.8.4.4
+   set net0/hostname generic
+   config net0
+   # net up (static)
+   ifopen net0
+   goto boot_menu
+
+:ipxe_config
+   config
+   goto boot_menu
+
+:ipxe_lang
+   echo -n (en|de) KMAP=
+   read KMAP
+   echo -n (US|GB) COUNTRY=
+   read COUNTRY
+   goto boot_menu
+
+:ipxe_shell
+   shell
+   goto boot_menu

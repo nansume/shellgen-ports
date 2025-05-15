@@ -1,0 +1,8 @@
+etc/*
+
+#lib/*
+#sbin/*
+#bin/*
+#lib*/lib*.so
+#lib*/libulockmgr.so*
+#<DPREFIX>/share/*

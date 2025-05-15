@@ -1,0 +1,1 @@
+WORKDIR="/usr/ports/${P}/${SRC_DIR}/${PN%w}-${PV}"

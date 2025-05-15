@@ -1,0 +1,5 @@
+etc/ld.so.cache
+etc/ld.so.conf
+etc/rpc
+<DPREFIX>/share/i18n/locales/*
+var/db/Makefile

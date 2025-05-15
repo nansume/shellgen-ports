@@ -1,0 +1,19 @@
+dev-lang/perl  # required for autotools
+dev-libs/libnl
+dev-util/pkgconf
+
+sys-apps/file
+sys-apps/pciutils
+sys-devel/autoconf-archive  # required for autotools (optional, too rare use)
+sys-devel/autoconf  # required for autotools
+sys-devel/automake  # required for autotools
+sys-devel/binutils
+sys-devel/gcc9
+sys-devel/gettext  # required for autotools (optional)
+sys-devel/libtool  # required for autotools
+sys-devel/m4  # required for autotools
+sys-devel/make
+sys-devel/patch  # for patch with fuzz and offset.
+sys-kernel/linux-headers-musl
+sys-libs/musl
+sys-libs/ncurses

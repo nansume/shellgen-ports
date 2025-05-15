@@ -1,0 +1,12 @@
+dev-libs/glib-compat
+dev-libs/libffi
+dev-libs/pcre
+dev-util/pkgconf
+
+sys-apps/file
+sys-fs/fuse
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-kernel/linux-headers
+sys-libs/musl

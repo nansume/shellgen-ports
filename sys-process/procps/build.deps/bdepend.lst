@@ -1,0 +1,8 @@
+dev-util/pkgconf
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+#sys-libs/ncurses  # for shared build
+sys-libs/netbsd-curses  # for static build

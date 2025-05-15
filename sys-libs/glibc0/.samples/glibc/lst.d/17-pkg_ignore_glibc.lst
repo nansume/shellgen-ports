@@ -1,0 +1,11 @@
+<LIB_DIR>/libc_nonshared.a
+<LIB_DIR>/libmvec_nonshared.a
+<LIB_DIR>/*.a
+
+<DPREFIX>/share/i18n/locales/POSIX
+<DPREFIX>/share/i18n/locales/i18n*
+<DPREFIX>/share/i18n/locales/iso14651_t1*
+<DPREFIX>/share/i18n/locales/translit_*
+<DPREFIX>/share/i18n/locales/et_EE
+<DPREFIX>/share/i18n/locales/ja_JP
+<DPREFIX>/share/i18n/locales/ru_RU

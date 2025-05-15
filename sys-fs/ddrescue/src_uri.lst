@@ -1,0 +1,4 @@
+mirror://gnu/${PN}/${PN}-${PV}.tar.lz
+
+#https://github.com/brho/${PN}/archive/v${PV}.tar.gz -> ${PN}-${PV}.tar.gz
+#https://github.com/brho/${PN}/archive/master.tar.gz -> ${PN}-${PV}.tar.gz

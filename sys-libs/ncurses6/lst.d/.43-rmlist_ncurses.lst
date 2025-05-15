@@ -1,0 +1,45 @@
+# ncurses
+#bin/captoinfo
+#bin/clear
+#bin/infocmp
+#bin/infotocap
+#bin/ncurses6-config
+#bin/ncursesw6-config
+#bin/reset
+#bin/tabs
+#bin/tic
+#bin/toe
+#bin/tput
+#bin/tset
+#bin/*
+
+#<DPREFIX>/include/*
+
+#<LIB_DIR>/pkgconfig/*
+#<DPREFIX>/<LIB_DIR>/pkgconfig/*
+
+#lib*/libform*.so*
+#lib*/libmenu*.so*
+#lib*/libpanel.so*
+#lib*/libpanelw.so
+#lib*/libncurses*.so*
+#lib*/lib*.so
+#lib*/terminfo
+
+#<DPREFIX>/share/*
+#share/*
+<DPREFIX>/share/terminfo/*/
+<DPREFIX>/share/terminfo/[lrs]/*
+
+# include
+#<DPREFIX>/include/*
+#include/*
+#<LIB_DIR>/pkgconfig/*
+#<DPREFIX>/<LIB_DIR>/pkgconfig/*
+#pkgconfig/*
+
+
+# rm ncursesw
+#<LIB_DIR>/libformw.so*
+#<LIB_DIR>/libmenuw.so*
+#<LIB_DIR>/libpanelw.so*

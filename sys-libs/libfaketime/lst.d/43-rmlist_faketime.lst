@@ -1,0 +1,8 @@
+#lib*/libfaketime.so
+#lib*/libfaketimeMT.so*
+
+bin/*
+lib/*
+<LIB_DIR>/<PN>MT.so.*
+<DPREFIX>/share/*
+share/*

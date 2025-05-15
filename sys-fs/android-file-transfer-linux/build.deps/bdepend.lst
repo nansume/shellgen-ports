@@ -1,0 +1,15 @@
+dev-libs/libusb
+dev-libs/openssl  # useflag: <zune> (shared build)
+dev-util/cmake
+dev-util/pkgconf
+#media-libs/taglib  # useflag: <taglib>
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-fs/fuse  # useflag: <fuse>
+sys-kernel/linux-headers-musl
+sys-libs/musl
+#sys-libs/netbsd-curses  # for static build
+sys-libs/ncurses  # for shared build
+sys-libs/readline
