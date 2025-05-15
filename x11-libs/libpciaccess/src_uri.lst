@@ -1,0 +1,2 @@
+ftp://ftp.vectranet.pl/gentoo/distfiles/libpciaccess-0.17.tar.xz
+https://gitweb.gentoo.org/repo/gentoo.git/plain/x11-libs/libpciaccess/files/libpciaccess-0.17-musl-lfs.patch?id=04a7a91247919805725822b2b9c03b467afc0d35 -> libpciaccess-0.17-musl-lfs.patch

@@ -1,0 +1,7 @@
+dev-libs/dietlibc
+dev-util/pkgconf
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+x11-base/xorg-proto
+x11-misc/xorg-cf-files

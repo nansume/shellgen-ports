@@ -1,0 +1,33 @@
+app-text/iso-codes
+
+dev-lang/python38
+
+dev-libs/expat  # deps python
+dev-libs/glib74
+#dev-libs/gobject-introspection
+dev-libs/libffi  # for glib
+dev-libs/libxml2-1
+dev-libs/pcre2  # deps glib74
+
+dev-util/pkgconf
+
+sys-apps/file
+
+sys-devel/binutils
+sys-devel/gcc9
+sys-devel/make
+
+sys-libs/musl
+sys-libs/zlib  # deps glib
+
+x11-apps/xkbcomp
+x11-base/xorg-proto
+x11-libs/libx11
+x11-libs/libxau
+x11-libs/libxcb
+x11-libs/libxdmcp
+x11-libs/libxext
+x11-libs/libxfixes
+x11-libs/libxi
+x11-libs/libxkbfile
+x11-misc/xkeyboard-config

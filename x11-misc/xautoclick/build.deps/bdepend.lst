@@ -1,0 +1,29 @@
+dev-libs/expat  # for fontconfig,dbus
+
+media-libs/fontconfig
+media-libs/freetype  # for fontconfig
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+
+x11-base/xorg-proto  # for x11
+
+x11-libs/fltk
+x11-libs/libice
+x11-libs/libsm
+x11-libs/libx11  # for x11,dbus
+x11-libs/libxau  # for x11,dbus
+x11-libs/libxcb  # for x11,dbus
+x11-libs/libxcursor
+x11-libs/libxdmcp  # for x11,dbus
+x11-libs/libxext
+x11-libs/libxfixes
+x11-libs/libxft  # optional or --disable-xft
+x11-libs/libxi  # for libxtst (xtest)
+#x11-libs/libxinerama  # optional
+x11-libs/libxrender  # for xft (optional)
+x11-libs/libxtst
+
+#x11-misc/makedepend

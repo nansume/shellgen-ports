@@ -1,0 +1,5 @@
+ftp://ftp.vectranet.pl/gentoo/distfiles/cairo-1.14.12.tar.xz
+#http://data.gpo.zugaina.org/gentoo/x11-libs/cairo/files/cairo-1.12.18-disable-test-suite.patch
+http://data.gpo.zugaina.org/gentoo/x11-libs/cairo/files/cairo-respect-fontconfig.patch
+
+# cairo_1.16.0-r666_x32.cxz

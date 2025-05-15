@@ -1,0 +1,5 @@
+https://www.x.org/releases/individual/util/imake-1.0.10.tar.xz
+http://data.gpo.zugaina.org/gentoo/x11-misc/imake/files/imake-1.0.8-cpp-args.patch
+http://data.gpo.zugaina.org/gentoo/x11-misc/imake/files/imake-1.0.9-no-get-gcc.patch
+http://data.gpo.zugaina.org/gentoo/x11-misc/imake/files/imake-1.0.8-respect-LD.patch
+http://data.gpo.zugaina.org/gentoo/x11-misc/imake/files/imake-1.0.8-xmkmf-pass-cc-ld.patch

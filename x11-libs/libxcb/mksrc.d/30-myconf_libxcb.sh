@@ -1,0 +1,3 @@
+MYCONF="${MYCONF}
+ --without-doxygen
+"

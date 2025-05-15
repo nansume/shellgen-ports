@@ -1,0 +1,30 @@
+dev-libs/expat  # for fontconfig
+dev-util/pkgconf
+
+media-libs/freetype
+media-libs/fontconfig
+#media-libs/libjpeg-turbo  # or bundled-libs
+#media-libs/libpng  # or bundled-libs
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+#sys-libs/zlib  # or bundled-libs
+
+x11-base/xorg-proto
+
+#x11-libs/cairo  # optional
+x11-libs/libice
+x11-libs/libsm
+x11-libs/libx11
+x11-libs/libxau
+x11-libs/libxcb
+x11-libs/libxcursor
+x11-libs/libxdmcp
+x11-libs/libxext
+x11-libs/libxfixes
+x11-libs/libxft  # optional or --disable-xft
+#x11-libs/libxinerama  # optional
+x11-libs/libxrender # for xft (optional)

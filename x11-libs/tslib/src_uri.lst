@@ -1,0 +1,2 @@
+https://github.com/libts/tslib/releases/download/${PV}/${PN}-${PV}.tar.xz
+http://data.gpo.zugaina.org/gentoo/x11-libs/${PN}/files/${PN}-1.21-optional-utils.patch

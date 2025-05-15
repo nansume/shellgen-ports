@@ -1,0 +1,19 @@
+dev-util/pkgconf
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+
+x11-base/xcb-proto  # deps required check
+x11-base/xorg-proto  # deps required check
+
+x11-libs/libx11  # deps required check
+x11-libs/libxau  # deps required check
+x11-libs/libxcb  # deps required check
+x11-libs/libxdmcp  # deps required check
+
+x11-libs/xtrans  # deps required check
+
+x11-misc/util-macros  # deps required check

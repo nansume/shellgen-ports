@@ -1,0 +1,41 @@
+dev-lang/python3
+
+dev-libs/expat  # for xft (optional)
+dev-libs/fribidi  # required remove
+#dev-libs/glib-compat
+dev-libs/glib
+dev-libs/libffi  # for glib
+dev-libs/pcre  # for glib
+dev-util/pkgconf
+
+media-libs/freetype  # for xft (optional)
+media-libs/fontconfig  # for xft (optional)
+#media-libs/harfbuzz
+media-libs/harfbuzz2
+media-libs/libpng
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # for glib
+
+x11-base/xorg-proto
+
+x11-libs/cairo
+x11-libs/libx11
+x11-libs/libxau
+x11-libs/libxcb
+x11-libs/libxdmcp
+x11-libs/libxext
+x11-libs/libxft  # optional
+x11-libs/libxrender
+x11-libs/pixman  # for cairo
+
+# testing
+sys-kernel/linux-headers-musl
+sys-devel/bison
+sys-devel/flex
+sys-devel/m4
+sys-devel/libtool

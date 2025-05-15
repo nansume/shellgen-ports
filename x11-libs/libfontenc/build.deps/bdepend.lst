@@ -1,0 +1,12 @@
+dev-util/pkgconf
+media-fonts/font-util
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib
+
+x11-base/xorg-proto
+x11-misc/util-macros

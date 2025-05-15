@@ -1,0 +1,23 @@
+dev-util/pkgconf
+
+sys-apps/file
+#sys-apps/hwdata
+sys-apps/hwids  # testing
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-kernel/linux-headers
+sys-libs/musl
+sys-libs/zlib  # testing
+
+x11-base/xcb-proto  # in depend it no, remove!
+x11-base/xorg-proto  # in depend it no, remove!
+
+x11-libs/libx11  # in depend it no, remove!
+x11-libs/libxau  # in depend it no, remove!
+x11-libs/libxcb  # in depend it no, remove!
+x11-libs/libxdmcp  # in depend it no, remove!
+x11-libs/libxext  # in depend it no, remove!
+x11-libs/xtrans  # in depend it no, remove!
+
+x11-misc/util-macros  # in depend it no, remove!

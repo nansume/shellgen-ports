@@ -1,0 +1,13 @@
+dev-util/pkgconf
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+
+x11-base/xorg-proto
+
+x11-libs/libx11
+x11-libs/libxau
+x11-libs/libxcb
+x11-libs/libxdmcp

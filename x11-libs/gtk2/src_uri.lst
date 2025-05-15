@@ -1,0 +1,5 @@
+https://download.gnome.org/sources/gtk+/2.24/gtk+-2.24.33.tar.xz -> gtk-2.24.33.tar.xz
+#https://download.gnome.org/sources/gtk+/2.24/gtk+-2.24.32.tar.xz
+#https://dev.gentoo.org/~leio/distfiles/gtk+-2.24.32-patchset-r1.tar.xz
+http://data.gpo.zugaina.org/gentoo/x11-libs/gtk+/files/gtk+-2.24.24-out-of-source.patch
+#http://data.gpo.zugaina.org/gentoo/x11-libs/gtk+/files/gtk+-2.24.31-update-icon-cache.patch

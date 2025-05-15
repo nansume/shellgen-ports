@@ -1,0 +1,16 @@
+dev-util/pkgconf
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+
+x11-base/xorg-proto
+
+x11-libs/libxau  # for libxcb
+x11-libs/libxcb
+x11-libs/libxdmcp  # for libxcb
+x11-libs/xcb-util
+
+x11-misc/util-macros

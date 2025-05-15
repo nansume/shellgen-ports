@@ -1,0 +1,5 @@
+etc/*
+bin/dmenu_path
+bin/dmenu_run
+bin/stest
+<DPREFIX>/share/*

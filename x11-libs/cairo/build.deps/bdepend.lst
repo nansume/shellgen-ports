@@ -1,0 +1,47 @@
+#dev-lang/perl  # required for autotools
+dev-lang/python3  # required for glib[meson]
+dev-libs/expat  # for freetype,python
+#dev-libs/directfb
+dev-libs/glib
+dev-libs/libffi  # required for glib
+dev-libs/lzo  # optional
+dev-libs/pcre  # required for glib[meson]
+dev-util/pkgconf
+
+media-libs/fontconfig
+media-libs/freetype
+media-libs/libpng
+sys-kernel/linux-headers-musl  # optional, testing
+media-libs/mesa  # optional
+
+sys-apps/file
+#sys-devel/autoconf  # required for autotools
+#sys-devel/automake  # required for autotools
+sys-devel/binutils
+sys-devel/gcc
+#sys-devel/libtool  # required for autotools
+#sys-devel/m4  # required for autotools
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # for libpng
+
+x11-base/xcb-proto  # remove?
+x11-base/xorg-proto
+
+x11-libs/libdrm  # for mesa
+x11-libs/libpciaccess  # for mesa
+x11-libs/libvdpau  # for mesa
+x11-libs/libx11
+x11-libs/libxau
+x11-libs/libxcb
+x11-libs/libxdamage  # for mesa
+x11-libs/libxdmcp
+x11-libs/libxext
+x11-libs/libxfixes  # for mesa
+x11-libs/libxrandr  # for mesa
+x11-libs/libxrender
+x11-libs/libxshmfence  # for mesa
+x11-libs/libxxf86vm  # for mesa
+x11-libs/pixman
+
+x11-misc/util-macros

@@ -1,0 +1,9 @@
+# Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
+# -static +static-libs +shared +nopie -lfs -upx -patch -doc -man -xstub -diet +musl +stest +strip +x32
+
+# http://data.gpo.zugaina.org/gentoo/x11-libs/libxklavier/libxklavier-5.4-r1.ebuild
+
+DESCRIPTION="A library for the X Keyboard Extension (high-level API)"
+HOMEPAGE="https://www.freedesktop.org/wiki/Software/LibXklavier"
+LICENSE="LGPL-2"
+IUSE="-introspection -vala +static-libs +shared +nopie -doc +musl +strip"

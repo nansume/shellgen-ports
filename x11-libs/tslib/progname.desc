@@ -1,0 +1,9 @@
+# Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
+# -static +static-libs +shared +nopie -lfs -upx +patch -doc -man -xstub -diet +musl +stest +strip +x32
+
+# http://data.gpo.zugaina.org/gentoo/x11-libs/tslib/tslib-1.22.ebuild
+
+DESCRIPTION="Touchscreen Access Library"
+HOMEPAGE="https://github.com/kergoth/tslib"
+LICENSE="LGPL-2 uinput? ( GPL-2+ )"
+IUSE="-evdev -sdl -uinput +static-libs +shared +nopie -doc (+musl) +stest +strip"

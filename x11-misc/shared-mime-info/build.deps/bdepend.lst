@@ -1,0 +1,16 @@
+dev-lang/perl  # for intltool
+dev-libs/glib-compat
+dev-libs/expat  # for perl-xml-parser
+dev-libs/libffi  # for glib
+dev-libs/libxml2  # for gettext
+dev-libs/pcre  # for glib
+dev-perl/perl-xml-parser  # for intltool
+dev-util/intltool
+dev-util/pkgconf
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/gettext
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # for glib

@@ -1,0 +1,32 @@
+#app-arch/bzip2  # optional
+dev-libs/expat  # for xft (optional)
+
+media-libs/freetype  # for xft (optional)
+media-libs/fontconfig  # for xft (optional)
+media-libs/libjpeg-turbo  # optional
+media-libs/libpng  # optional
+media-libs/libwebp  # optional
+media-libs/tiff  # optional
+
+#sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # optional
+
+x11-base/xorg-proto
+
+#x11-libs/libice  # optional
+x11-libs/libx11
+x11-libs/libxau
+x11-libs/libxcb
+x11-libs/libxcursor
+x11-libs/libxdmcp
+x11-libs/libxext
+x11-libs/libxfixes
+x11-libs/libxft  # optional
+
+x11-libs/libxrandr
+x11-libs/libxrender  # for libxrandr
+x11-libs/libxt

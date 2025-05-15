@@ -1,0 +1,4 @@
+dev-util/pkgconf
+sys-devel/make
+sys-libs/musl
+x11-misc/util-macros

@@ -1,0 +1,21 @@
+# required for: /usr/share/xcb/*.xml (doc ?)
+#dev-lang/python2  # optimal deps [for libxcb-1.1.93] no work
+dev-lang/python3   # optimal deps [for libxcb-1.15] * find - include/<xproto.h>
+dev-libs/expat     # optimal deps - no work libxcb-1.1.93
+dev-libs/libffi    # optimal deps - no work libxcb-1.1.93
+#dev-libs/libxslt  # optimal deps (doc)
+dev-util/pkgconf
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+
+x11-base/xcb-proto
+x11-base/xorg-proto
+
+x11-libs/libxau
+x11-libs/libxcb       # libxcb-1.1.93 for bootstrap or oneself (whatever ver)
+x11-libs/libxdmcp     # recomended deps
+x11-misc/util-macros  # optimal|recomended deps [for libxcb-1.15] - No pkg 'xorg-macros' found
