@@ -1,0 +1,15 @@
+Author: Artjom Slepnjov "Shellgen"
+Description: server response drop
+Ver: webfs-1.21
+Date: 2023-06-18 14:36 UTC
+==============================================================
+--- response.c
++++ response.c
+@@ -169,7 +169,6 @@
+ 
+ #define RESPONSE_START			\
+ 	"HTTP/1.1 %s\r\n"		\
+-	"Server: %s\r\n"		\
+ 	"Connection: %s\r\n"		\
+ 	"Accept-Ranges: bytes\r\n"
+ #define BOUNDARY			\

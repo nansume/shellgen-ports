@@ -1,0 +1,44 @@
+Author: take of ciwiki-0.9
+Maintainer: Artjom Slepnjov "Shellgen"
+Description: add option version
+Ver: didiwiki-0.8
+Date: 2025-03-13 21:00 UTC
+==============================================================
+--- a/src/didi.c
++++ b/src/didi.c
+@@ -11,6 +11,7 @@
+   fprintf(stderr, "   -l, --listen <ipaddr> : specify IP address\n");
+   fprintf(stderr, "   -p, --port   <port>   : specify port number \n");
+   fprintf(stderr, "       --help            : display this help message\n");
++  fprintf(stderr, "   -v, --version         : display the version\n");
+   exit(1);
+ }
+ 
+@@ -34,6 +35,7 @@
+       static struct option long_options[] = 
+ 	{
+ 	  {"debug",  no_argument,       0, 'd'},
++	  {"version",  no_argument,     0, 'v'},
+       {"listen", required_argument, 0, 'l'},
+ 	  {"port",   required_argument, 0, 'p'},
+ 	  {"home",   required_argument, 0, 'h'},
+@@ -44,7 +46,7 @@
+       /* getopt_long stores the option index here */
+       int option_index = 0;
+       
+-      c = getopt_long (argc, argv, "dl:p:h:", long_options, &option_index);
++      c = getopt_long (argc, argv, "dl:p:h:v", long_options, &option_index);
+ 
+       /* detect the end of the options */
+       if (c == -1)
+@@ -58,6 +60,10 @@
+ 	case 'd':
+ 	  debug = 1;
+ 	  break;
++	  
++	case 'v':
++	  printf("DidiWiki - version %s\n",VERSION);
++	  return 0;
+ 	  
+ 	case 'p':
+ 	  port = atoi(optarg);

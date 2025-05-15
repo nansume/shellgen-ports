@@ -1,0 +1,34 @@
+dev-lang/perl  # required for autotools
+dev-libs/expat  # for fontconfig
+
+media-libs/freetype
+media-libs/fontconfig
+media-libs/libjpeg-turbo  # or bundled-libs
+media-libs/libpng  # or bundled-libs
+
+net-libs/mbedtls-compat
+
+sys-devel/autoconf  # required for autotools
+sys-devel/automake  # required for autotools
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/m4  # required for autotools
+sys-devel/make
+#sys-devel/patch  # for patch with fuzz and offset.
+sys-libs/musl
+sys-libs/zlib
+
+x11-base/xorg-proto
+
+x11-libs/fltk
+x11-libs/libice
+x11-libs/libsm
+x11-libs/libx11
+x11-libs/libxau
+x11-libs/libxcb
+x11-libs/libxcursor
+x11-libs/libxdmcp
+x11-libs/libxext
+x11-libs/libxfixes
+x11-libs/libxft
+x11-libs/libxrender

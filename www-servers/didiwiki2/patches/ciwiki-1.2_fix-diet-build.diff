@@ -1,0 +1,16 @@
+Author: Artjom Slepnjov "Shellgen"
+Description: fix compilation under diet libc
+Ver: didiwiki-1.2 - didiwiki-2.0.3 (didiwiki-2.0.8)
+Date: 2025-03-11 17:00 UTC
+==============================================================
+--- a/src/wiki.c
++++ b/src/wiki.c
+@@ -1037,7 +1037,7 @@
+     {           /* Super Simple Search */
+       char *data = NULL;
+       if ((data = file_read(namelist[n]->d_name)) != NULL)
+-        if (strcasestr(data, expr) == NULL)
++        if (strstr(data, expr) == NULL)
+           if (strcmp(namelist[n]->d_name, expr) != 0) 
+         goto cleanup; 
+     }

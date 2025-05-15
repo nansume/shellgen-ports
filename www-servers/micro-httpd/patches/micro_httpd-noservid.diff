@@ -1,0 +1,48 @@
+Author: Artjom Slepnjov "Shellgen"
+Description: server name response drop.
+Ver: micro-httpd-2014.08.14
+Date: 2023-12-30 23:00 UTC
+==============================================================
+--- micro_httpd.c
++++ micro_httpd.c
+@@ -37,8 +37,6 @@
+ #include <sys/stat.h>
+ 
+ 
+-#define SERVER_NAME "micro_httpd"
+-#define SERVER_URL "http://www.acme.com/software/micro_httpd/"
+ #define PROTOCOL "HTTP/1.0"
+ #define RFC1123FMT "%a, %d %b %Y %H:%M:%S GMT"
+ 
+@@ -124,10 +122,8 @@
+ 		file_details( file, dl[i]->d_name );
+ 	(void) printf( "\
+     </pre>\n\
+-    <hr>\n\
+-    <address><a href=\"%s\">%s</a></address>\n\
+   </body>\n\
+-</html>\n", SERVER_URL, SERVER_NAME );
++</html>\n" );
+ 	}
+     else
+ 	{
+@@ -180,10 +176,8 @@
+     <h4>%d %s</h4>\n", status, title, status, title );
+     (void) printf( "%s\n", text );
+     (void) printf( "\
+-    <hr>\n\
+-    <address><a href=\"%s\">%s</a></address>\n\
+   </body>\n\
+-</html>\n", SERVER_URL, SERVER_NAME );
++</html>\n" );
+     (void) fflush( stdout );
+     exit( 1 );
+     }
+@@ -196,7 +190,6 @@
+     char timebuf[100];
+ 
+     (void) printf( "%s %d %s\015\012", PROTOCOL, status, title );
+-    (void) printf( "Server: %s\015\012", SERVER_NAME );
+     now = time( (time_t*) 0 );
+     (void) strftime( timebuf, sizeof(timebuf), RFC1123FMT, gmtime( &now ) );
+     (void) printf( "Date: %s\015\012", timebuf );

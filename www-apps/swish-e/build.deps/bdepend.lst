@@ -1,0 +1,8 @@
+dev-libs/libxml2
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib

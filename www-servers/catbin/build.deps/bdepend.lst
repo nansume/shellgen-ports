@@ -1,0 +1,6 @@
+dev-libs/leveldb
+net-libs/libmicrohttpd
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl

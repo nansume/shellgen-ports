@@ -1,0 +1,17 @@
+take from here: <https://github.com/sipwise/rtpengine/commit/6d0de4d38caccf38f6dfa5bfed0a6fb3541950b8>
+Maintainer: Artjom Slepnjov "Shellgen"
+Description: fix compilation under musl libc
+Ver: ciwiki-3.0.2 - ciwiki-3.0.4
+Date: 2023-11-22 18:00 UTC
+==============================================================
+--- a/src/ci.c
++++ b/src/ci.c
+@@ -173,7 +173,7 @@
+         if( toupper(getchar()) == 'Y'){
+           create_htmlHome=1;
+           fprintf(stderr,"Redirection to /html/index.html is enabled.\n");
+-          stdin = freopen(NULL,"r",stdin); //cleanup stdin to remove \n
++          freopen(NULL,"r",stdin); //cleanup stdin to remove \n
+         }
+         else {
+           fprintf(stderr,"\nCanceled!\n");

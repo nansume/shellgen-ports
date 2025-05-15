@@ -1,0 +1,7 @@
+media-libs/libexif
+media-libs/libjpeg-turbo
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl

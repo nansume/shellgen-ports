@@ -1,0 +1,12 @@
+#######################################
+#####  Lynx [utf-8,lang-en,ipv4]  #####
+#######################################
+
+# gist.github.com - robbie-cao - lynx - web browser [utf-8,lang-en,ipv4-only,ssl]
+http://gist.github.com/robbie-cao/69fb788fa81792036ba9
+# lynx.invisible-island.net - lynx2.8.5/breakout/samples/cernrules.txt [utf-8,lang-en,ipv4]
+http://lynx.invisible-island.net/lynx2.8.5/breakout/samples/cernrules.txt
+# ftp.isc.org - lynx/current/lynx2-8-8/lynx.cfg [utf-8,lang-en,ipv4]
+ftp://ftp.isc.org/lynx/current/lynx2-8-8/lynx.cfg
+# sdf.org - gopher [utf-8,lang-en,ipv4]
+http://sdf.org/

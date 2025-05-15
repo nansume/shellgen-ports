@@ -1,0 +1,10 @@
+dev-libs/expat
+dev-libs/libical
+dev-libs/openssl3
+net-libs/libcitadel
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib

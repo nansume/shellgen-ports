@@ -1,0 +1,6 @@
+dev-libs/crc32c
+dev-libs/leveldb
+dev-libs/libgpg-error
+dev-libs/libgcrypt
+net-libs/libmicrohttpd
+www-servers/catbin

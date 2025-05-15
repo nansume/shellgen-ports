@@ -1,0 +1,4 @@
+https://www.kraxel.org/releases/webfs/webfs-1.21.tar.gz
+ftp://mirror.onet.pl/pub/mirrors/gentoo-portage/www-servers/webfs/files/webfs-1.21-CVE-2013-0347.patch --> webfs-1.21_01-CVE-2013-0347.patch
+ftp://mirror.onet.pl/pub/mirrors/gentoo-portage/www-servers/webfs/files/webfs-1.21-Variables.mk-dont-strip-binaries-on-install.patch --> webfs-1.21_02-Variables.mk-dont-strip-binaries-on-install.patch
+#https://aur.archlinux.org/cgit/aur.git/plain/webfs.patch?h=webfs

@@ -1,0 +1,7 @@
+https://downloads.sourceforge.net/${PN}/${PN}-3.2.0b6.tar.gz
+http://data.gpo.zugaina.org/gentoo/www-misc/htdig/files/htdig-3.2.0_beta6-gcc4.patch
+http://data.gpo.zugaina.org/gentoo/www-misc/htdig/files/htdig-3.2.0_beta6-as-needed.patch
+http://data.gpo.zugaina.org/gentoo/www-misc/htdig/files/htdig-3.2.0_beta6-quoting.patch
+http://data.gpo.zugaina.org/gentoo/www-misc/htdig/files/htdig-3.2.0_beta6-gcc6.patch
+http://data.gpo.zugaina.org/gentoo/www-misc/htdig/files/htdig-3.2.0_beta6-musl.patch
+http://data.gpo.zugaina.org/gentoo/www-misc/htdig/files/htdig-3.2.0_beta6-drop-bogus-assignment.patch

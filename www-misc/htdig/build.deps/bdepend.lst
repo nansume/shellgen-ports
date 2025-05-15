@@ -1,0 +1,16 @@
+dev-lang/perl  # required for autotools
+#dev-libs/gmp  # for openssl (optional)
+dev-libs/openssl3
+dev-util/byacc  # alternative a bison
+
+sys-apps/file
+sys-devel/autoconf  # required for autotools
+sys-devel/automake  # required for autotools
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/lex
+sys-devel/libtool  # required for autotools
+sys-devel/m4  # required for autotools
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # for openssl

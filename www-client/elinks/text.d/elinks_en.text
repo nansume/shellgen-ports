@@ -1,0 +1,36 @@
+##############################################
+#####  ELinks [utf-8,lang-en,ipv6,ipv4]  #####
+##############################################
+
+# ELinks: Web-browsing Made Fun [utf-8,ipv4]
+http://starshine.org/xteddy/thomas/elinks/
+# ELinks configuration file [utf-8,ipv4]
+http://pwet.fr/man/linux/formats/elinks_conf/
+# gsp.com - ELINKS.CONF [utf-8,ssl,ipv4]
+http://www.gsp.com/cgi-bin/man.cgi?topic=ELINKS.CONF
+# elinks - mime.type.application.x-bittorrent [utf-8,ssl,ipv4]
+http://damien.clauzel.eu/post/2013/06/19/Passer-les-torrents-%C3%A0-Transmission-depuis-elinks
+# elinks - mime.handler.image fbi [utf-8,ssl,ipv4]
+http://www.linuxquestions.org/questions/blog/uxrs75-534818/viewing-images-with-elinks-3057/
+# search - referer top [utf-8,ssl,ipv4]
+http://www.reliablesoft.net/top-10-search-engines-in-the-world/
+# search - referer top [utf-8,ssl,ipv4]
+http://www.searchenginejournal.com/google-top-searches-2018/282995/
+# http.user_agent - list [utf-8,ipv4]
+http://www.useragentstring.com/pages/useragentstring.php?typ=Browser
+# elinks man [utf-8,ipv4]
+http://www.kompx.com/en/elinks-configuration.htm
+# Elinks = document.uri_passing: clipboard,youtube-dl [utf-8,ssl,ipv4]
+http://wiki.archlinux.org/index.php/Elinks
+# gpm-root [utf-8,ssl,ipv6,ipv4]
+http://linux.die.net/man/1/gpm-root
+# github.com - dylex/skel - elinks conf [utf-8,ipv4-only,ssl-only]
+http://github.com/dylex/skel/blob/master/elinks/elinks.conf
+# kompx.com - ELinks. Configuration [utf-8,ipv4]
+http://www.kompx.com/en/elinks-configuration.htm
+# elinks.or.cz - elinks manual [utf-8,ipv4]
+http://elinks.or.cz/documentation/html/manual.html-chunked/index.html
+# google.com - search: elinks+image+open [utf-8,ipv6-only,ssl]
+http://ipv6.google.com/search?q=elinks+image+open&hl=en&lr=lang_en&gws_rd=nossl
+# github.com - cota - .elinks/elinks.conf [utf-8,ipv4-only,ssl-only]
+http://github.com/cota/config/blob/master/.elinks/elinks.conf

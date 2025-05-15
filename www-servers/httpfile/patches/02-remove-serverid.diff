@@ -1,0 +1,16 @@
+Maintainer: Artjom Slepnjov "Shellgen"
+Description: remove - serverid
+Ver: httpfile-20220101
+Date: 2024-02-01 15:00 UTC
+==============================================================
+--- a/httpfile.c
++++ b/httpfile.c
+@@ -200,8 +200,6 @@
+     out_puts(code);
+     out_puts(message);
+     out_putcrlf();
+-    out_puts("Server: httpfile");
+-    out_putcrlf();
+     out_puts("Accept-Ranges: bytes");
+     out_putcrlf();
+     out_puts("Date:");

@@ -1,0 +1,142 @@
+Author: Artjom Slepnjov "Shellgen"
+Description: remove cgi support + inetd support add
+Ver: webfs-1.21
+Date: 2023-06-18 11:15 UTC
+==============================================================
+--- webfsd.c
++++ webfsd.c
+@@ -36,9 +36,8 @@
+ int     max_dircache   = 128;
+ char    *doc_root      = ".";
+ char    *indexhtml     = NULL;
+-char    *cgipath       = NULL;
+ char    *listen_ip     = NULL;
+-char    *listen_port   = "8000";
++char    *listen_port   = NULL;
+ int     virtualhosts   = 0;
+ int     canonicalhost  = 0;
+ char    server_host[256];
+@@ -137,8 +136,6 @@
+ 	    "  -C file  SSL-Certificate file                [%s]\n"
+ 	    "  -P pass  SSL-Certificate password\n"
+ #endif
+-	    "  -x dir   CGI script directory (relative to\n"
+-	    "           document root)                      [%s]\n"
+ 	    "  -~ dir   user home directory (will expand\n"
+ 	    "           /~user/path to $HOME/dir/path\n",
+ 	    h ? h+1 : name,
+@@ -161,8 +158,7 @@
+ #ifdef USE_SSL
+ 	    certificate,
+ #endif
+-	    cgipath ? cgipath : "none");
+-    if (getuid() == 0) {
++    (getuid() == 0) {
+ 	pw = getpwuid(0);
+ 	gr = getgrgid(getgid());
+ 	fprintf(stderr,
+@@ -171,7 +167,6 @@
+ 		pw ? pw->pw_name : "???",
+ 		gr ? gr->gr_name : "???");
+     }
+-    exit(1);
+ }
+
+ static void run_as(int id)
+@@ -413,7 +408,6 @@
+ 	    case STATE_WRITE_BODY:
+ 	    case STATE_WRITE_FILE:
+ 	    case STATE_WRITE_RANGES:
+-	    case STATE_CGI_BODY_OUT:
+ 		FD_SET(req->fd,&wr);
+ #ifdef USE_SSL
+ 		if (with_ssl)
+@@ -422,12 +416,6 @@
+ 		if (req->fd > max)
+ 		    max = req->fd;
+ 		break;
+-	    case STATE_CGI_HEADER:
+-	    case STATE_CGI_BODY_IN:
+-		FD_SET(req->cgipipe,&rd);
+-		if (req->cgipipe > max)
+-		    max = req->cgipipe;
+-		break;
+ 	    }
+ 	}
+ 	/* go! */
+@@ -457,7 +445,6 @@
+ 		    close_on_exec(req->fd);
+ 		    fcntl(req->fd,F_SETFL,O_NONBLOCK);
+ 		    req->bfd = -1;
+-		    req->cgipipe = -1;
+ 		    req->state = STATE_READ_HEADER;
+ 		    req->ping = now;
+ 		    req->next = conns;
+@@ -500,7 +487,6 @@
+ 	    case STATE_WRITE_BODY:
+ 	    case STATE_WRITE_FILE:
+ 	    case STATE_WRITE_RANGES:
+-	    case STATE_CGI_BODY_OUT:
+ 		if (FD_ISSET(req->fd,&wr)) {
+ 		    write_request(req);
+ 		    req->ping = now;
+@@ -512,18 +498,6 @@
+ 		}
+ #endif
+ 		break;
+-	    case STATE_CGI_HEADER:
+-		if (FD_ISSET(req->cgipipe,&rd)) {
+-		    cgi_read_header(req);
+-		    req->ping = now;
+-		}
+-		break;
+-	    case STATE_CGI_BODY_IN:
+-		if (FD_ISSET(req->cgipipe,&rd)) {
+-		    write_request(req);
+-		    req->ping = now;
+-		}
+-		break;
+ 	    }
+ 
+ 	    /* check timeouts */
+@@ -577,14 +551,6 @@
+ 		    close(req->bfd);
+ 		    req->bfd  = -1;
+ 		}
+-		if (req->cgipipe != -1) {
+-		    close(req->cgipipe);
+-		    req->cgipipe  = -1;
+-		}
+-		if (req->cgipid) {
+-		    kill(req->cgipid,SIGTERM);
+-		    req->cgipid = 0;
+-		}
+ 		req->body      = NULL;
+ 		req->written   = 0;
+ 		req->head_only = 0;
+@@ -639,10 +605,6 @@
+ #endif
+ 		if (req->bfd != -1)
+ 		    close(req->bfd);
+-		if (req->cgipipe != -1)
+-		    close(req->cgipipe);
+-		if (req->cgipid)
+-		    kill(req->cgipid,SIGTERM);
+ 		if (req->dir)
+ 		    free_dir(req->dir);
+ 		curr_conn--;
+@@ -782,14 +744,6 @@
+ 	    break;
+ 	case 'e':
+ 	    lifespan = atoi(optarg);
+-	    break;
+-	case 'x':
+-	    if (optarg[strlen(optarg)-1] == '/') {
+-		cgipath = optarg;
+-	    } else {
+-		cgipath = malloc(strlen(optarg)+2);
+-		sprintf(cgipath,"%s/",optarg);
+-	    }
+ 	    break;
+ #ifdef USE_THREADS
+ 	case 'y':

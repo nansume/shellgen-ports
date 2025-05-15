@@ -1,0 +1,10 @@
+https://github.com/dillo-browser/dillo/releases/download/v3.1.1/dillo-3.1.1.tar.bz2
+#https://github.com/dillo-browser/dillo/releases/download/v3.1.0/dillo-3.1.0.tar.bz2
+#http://data.gpo.zugaina.org/gentoo/www-client/dillo/files/dillo-3.1.0-remove-floatref.patch
+
+#https://dev.gentoo.org/~jsmolic/distfiles/dillo-3.1_pre20181005.tar.xz
+#http://data.gpo.zugaina.org/KBrown-pub/www-client/dillo/files/dillo2-inbuf.patch
+#http://data.gpo.zugaina.org/KBrown-pub/www-client/dillo/files/dillo-3.0.5-fno-common.patch
+
+#http://data.gpo.zugaina.org/KBrown-pub/www-client/dillo/files/dillo-3.0.5-disable-ssl.patch
+#http://data.gpo.zugaina.org/KBrown-pub/www-client/dillo/files/dillo-3.0.5-openssl-1.1.patch

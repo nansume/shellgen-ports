@@ -1,0 +1,30 @@
+Author: Artjom Slepnjov "Shellgen"
+Description: remove - serverid
+Ver: didiwiki-0.8
+Date: 2025-03-13 21:00 UTC
+==============================================================
+--- a/src/wiki.c
++++ b/src/wiki.c
+@@ -906,8 +906,6 @@
+ void
+ wiki_show_footer(HttpResponse *res)
+ {
+-  http_response_printf(res, "%s", PAGEFOOTER);
+-
+   http_response_printf(res, 
+ 		       "</body>\n"
+ 		       "</html>\n"
+--- a/src/wikitext.h
++++ b/src/wikitext.h
+@@ -61,11 +61,6 @@
+ "<div id='wikidata'>\n"
+ 
+ 
+-#define PAGEFOOTER                                                       \
+-                                                                         \
+-"</div><div id='footer'>DidiWiki, Version: " VERSION "</div>\n"
+-
+-
+ #define CREATEFORM                                                       \
+                                                                         \
+ "<form method=POST action='Create'>\n"                                  \

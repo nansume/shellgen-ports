@@ -1,0 +1,16 @@
+Maintainer: Artjom Slepnjov "Shellgen"
+Description: fix mimetype
+Ver: httpfile-20220101
+Date: 2024-02-01 15:00 UTC
+==============================================================
+--- a/filetype.c
++++ b/filetype.c
+@@ -26,7 +26,7 @@
+         }
+     }
+     else {
+-        result = "application/octet-stream";
++        result = "text/plain";
+         /* web content */
+         if (case_equals(x, ".html")) result = "text/html";
+         if (case_equals(x, ".css")) result = "text/css";
