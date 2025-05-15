@@ -1,0 +1,8 @@
+dev-util/ctags
+dev-util/pkgconf
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+sys-libs/netbsd-curses

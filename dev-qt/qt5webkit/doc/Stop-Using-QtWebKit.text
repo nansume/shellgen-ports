@@ -1,0 +1,113 @@
+   Michael Catanzaro's Blog
+
+   On Fedora Workstation, GNOME, Epiphany, and WebKitGTK
+
+   Posted on November 4, 2022November 4, 2022 by Michael Catanzaro
+
+                                                  Stop Using QtWebKit
+
+   Today, WebKit in Linux operating systems is much more secure than it used to be. The problems that I previously
+   discussed in this old, formerly-popular blog post are nowadays a thing of the past. Most major Linux operating
+   systems now update WebKitGTK and WPE WebKit on a regular basis to ensure known vulnerabilities are fixed. (Not all
+   Linux operating systems include WPE WebKit. It's basically WebKitGTK without the dependency on GTK, and is the
+   best choice if you want to use WebKit on embedded devices.) All major operating systems have removed older,
+   insecure versions of WebKitGTK (WebKit 1) that were previously a major security problem for Linux users. And
+   today WebKitGTK and WPE WebKit both provide a webkit_web_context_set_sandbox_enabled() API which, if enabled,
+   employs Linux namespaces to prevent a compromised web content process from accessing your personal data, similar
+   to Flatpak's sandbox. (If you are a developer and your application does not already enable the sandbox, you should
+   fix that!)
+
+   Unfortunately, QtWebKit has not benefited from these improvements. QtWebKit was removed from the upstream WebKit
+   codebase back in 2013. Its current status in Fedora is, unfortunately, representative of other major Linux
+   operating systems. Fedora currently contains two versions of QtWebKit:
+
+     * The qtwebki package contains upstrem QtWebKit 2.3.4 from 2014. I believe this is used by Qt 4 applications.
+       For avoidance of doubt, you should not use applications that depend on a web engine that has not been updated
+       in eight years.
+     * The newer qt5-qtwebkit contains Konstantin Tokarev's fork of QtWebKit, which is de facto the new upstream
+       without a doubt the best version of QtWebKit available currently. Although it has received occasional updates,
+       most recently 5.212.0-alpha4 from March 2020, it's still based on WebKitGTK 2.12 from 2016, and the release
+       notes bluntly state that it's not very safe to use. Looking at WebKitGTK security advisories beginning with
+       WSA-2016-0006, I manually counted 507 CVEs that have been fixed in WebKitGTK 2.14.0 or newer.
+
+   These CVEs are mostly (but not exclusively) remote code execution vulnerabilities. Many of those CVEs no doubt
+   correspond to bugs that were introduced more recently than 2.12, but the exact number is not important: what's
+   important is that it's a lot, far too many for backporting security fixes to be practical. Since qt5-qtwebkit is
+   two years newer than qtwebkit, the qtwebkit package is no doubt in even worse shape. And because QtWebKit does not
+   have any web process sandbox, any remote code execution is game over: an attacker that exploits QtWebKit gains
+   full access to your user account on your computer, and can steal or destroy all your files, read all your
+   passwords out of your password manager, and do anything else that your user account can do with your computer. In
+   contrast, with WebKitGTK or WPE WebKit's web process sandbox enabled, attackers only get access to content that's
+   mounted within the sandbox, which is a much more limited environment without access to your home directory or
+   session bus.
+
+   In short, it's long past time for Linux operating systems to remove QtWebKit and everything that depends on it. Do
+   not feed untrusted data into QtWebKit. Don't give it any HTML that you didn't write yourself, and certainly don't
+   give it anything that contains injected data. Uninstall it and whatever applications depend on it.
+
+   Update: I forgot to mention what to do if you are a developer and your application still uses QtWebKit. You should
+   ensure it uses the most recent release of QtWebEngine for Qt 6. Do not use old versions of Qt 6, and do not use
+   QtWebEngine for Qt 5.
+
+   CategoriesFedora, GNOME, WebKit
+
+5 Replies to "Stop Using QtWebKit"
+
+    1. [a5021d9fe31c6f06063c89f96bcfc83f] Kevin Kofler says:
+       November 5, 2022 at 7:53 pm
+
+       Porting to Qt 6 is no doubt a good idea if you are upstream, but QtWebEngine 5 actually still gets security
+       backports as part of the Qt 5.15 LTS releases, and QtWebEngine is the one module for which the LTS code is
+       public (and LGPL-licensed) in git (so we can get the security updates as soon as they are released in the
+       commercial LTS and do not have to wait for the one-year-old code drops). The latest is 5.15.11 from
+       2022-10-04, which has security backports from Chromium up to 104.
+
+       (The situation is different in QtWebKit whose community branch is a one-man show and does unfortunately not
+       get any security backports whatsoever.)
+
+       And by the way, we do not yet have QtWebEngine 6 in Fedora.
+
+         1. [213b4484d2078dbdd03dcd3256564c2c] Michael Catanzaro says:
+            November 6, 2022 at 7:06 am
+
+            Looking at
+            https://code.qt.io/cgit/qt/qtwebengine-chromium.git/log/chromium?h=be349eaf62e77955791d7bf29f893f1e8a37daf,
+            I'd say it's certainly loads better than QtWebKit. They've done a *lot* of backports, that's true. But it
+            needs to be rebased way more frequently to be recommendable.
+
+            Also, compare to https://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=Chrome and it no longer looks so good...
+
+    2. [58c7eea3b2675f23eb520c81fdf045a6] hoschi says:
+       November 7, 2022 at 6:32 am
+
+       The state of QtWebKit make me sad. While I use Epiphany (Gtk3), the Otter-Browser (Qt5) is actively
+       maintained.
+
+    3. [1c1b2880db07c9b696c09b2b6d2d8566] Fabrizio Midollini says:
+       November 11, 2022 at 4:51 pm
+
+       Where i can find webkitgtk-6.0 source for mcatanzaro/webkitgtk-6.0 GNOME Web branch building?
+
+       webkitgtk-6.0 is 2.39.1 ?
+       https://webkitgtk.org/2022/11/11/webkitgtk2.39.1-released.html
+
+       In Arch i've webkit2gtk-5 => 2.38.2
+       Should I compile 2.39.1 to fix my missing dependency?
+
+       webkitgtk_dep = dependency(version: webkitgtk_requirement)
+       webkitgtk_web_extension_dep = dependency( webkitgtk-web-extension-6.0, version: webkitgtk_requirement)
+
+       Thanks
+
+         1. [213b4484d2078dbdd03dcd3256564c2c] Michael Catanzaro says:
+            November 11, 2022 at 5:35 pm
+
+            Yup, that's provided by WebKitGTK 2.39.1.
+
+   Comments are closed.
+
+References
+
+   Visible links
+   . https://blogs.gnome.org/mcatanzaro/2022/11/04/stop-using-qtwebkit/
+   . https://github.com/qtwebkit/qtwebkit/tree/qtwebkit-5.212

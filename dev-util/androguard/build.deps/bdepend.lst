@@ -1,0 +1,10 @@
+dev-lang/python3-8
+
+dev-libs/expat  # python bundled
+dev-libs/libffi
+
+dev-python/py38-clint
+dev-python/py38-setuptools
+
+sys-libs/musl
+sys-libs/zlib  # deps: setuptools

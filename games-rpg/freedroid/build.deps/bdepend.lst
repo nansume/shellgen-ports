@@ -1,0 +1,17 @@
+#app-alternatives/ncursesw
+#dev-libs/directfb
+
+#media-libs/libcaca
+media-libs/libjpeg-turbo
+media-libs/libpng
+#media-libs/libvorbis
+media-libs/sdl
+media-libs/sdl-image
+#media-libs/sdl-mixer
+media-libs/tiff
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib

@@ -1,0 +1,13 @@
+#app-alternatives/ncursesw  # for sdl
+#media-libs/libcaca  # for sdl
+
+#dev-libs/directfb  # for sdl
+
+media-libs/sdl
+media-libs/sdl-mixer
+
+sys-devel/binutils
+sys-devel/bison
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl

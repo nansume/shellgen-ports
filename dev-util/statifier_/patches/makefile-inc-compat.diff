@@ -1,0 +1,28 @@
+Author: Artjom Slepnjov "Shellgen"
+Description: fix base utils compat with busybox or posix.
+Ver: statifier-1.7.4
+Date: 2024-06-14 12:00 UTC
+==============================================================
+--- a/Makefile.include
++++ b/Makefile.include
+@@ -5,13 +5,13 @@
+ # modify it under the terms of the GNU General Public License.
+ # See LICENSE file in the doc directory.
+ 
+-MKDIR       = mkdir --parents
+-MV          = mv --force
+-RM          = rm --force
+-RMDIR       = rm --force --recursive
+-LN          = ln --symbolic --force --no-dereference
+-INSTALL_RO  = install --mode=444
+-INSTALL_RUN = install --mode=755
++MKDIR       = mkdir -p
++MV          = mv -f
++RM          = rm -f
++RMDIR       = rm -f -r
++LN          = ln -s -f -n
++INSTALL_RO  = install -m 444
++INSTALL_RUN = install -m 755
+ 
+ define MT_Make_Recursive
+    @set -e &&                                      \

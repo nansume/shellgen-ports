@@ -1,0 +1,9 @@
+# Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
+# -static -static-libs -shared -nopie -lfs -upx -patch -doc -man -xstub -diet +musl -stest -strip +noarch
+
+# /usr/ports/dev-util/androguard/androguard-2.0.ebuild
+
+DESCRIPTION="Reverse engineering, Malware and goodware analysis of Android applications ... and more (ninja !) "
+HOMEPAGE="https://github.com/androguard/androguard"
+LICENSE="CL"
+IUSE=""

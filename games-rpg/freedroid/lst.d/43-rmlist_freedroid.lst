@@ -1,0 +1,5 @@
+<DPREFIX>/share/<PN>/<PN>.*
+<DPREFIX>/share/<PN>/mac-osx/*
+<DPREFIX>/share/<PN>/sound/*
+<DPREFIX>/share/<PN>/*/Makefile*
+<DPREFIX>/share/<PN>/*/*/Makefile*

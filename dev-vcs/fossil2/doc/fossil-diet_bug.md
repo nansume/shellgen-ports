@@ -1,0 +1,33 @@
+==================================================================================================================
+dev-vcs/fossil-1.38 - undefined reference to <sincos> :: Build against dietlibc: Failed.
+==================================================================================================================
+diet -Os gcc -nostdinc -I. -I./src -Ibld -Icompat/zlib  -mx32 -msse2 -ffunction-sections -fdata-sections -Os -fno-stack-protector -no-pie -g0 -march=x86-64 -DHAVE_AUTOCONFIG_H -D_HAVE_SQLITE_CONFIG_H -mx32 -msse2 -ffunction-sections -fdata-sections -Os -fno-stack-protector -no-pie -g0 -march=x86-64 -o bld/xfer.o -c bld/xfer_.c
+diet -Os gcc -nostdinc -I. -I./src -Ibld -Icompat/zlib  -mx32 -msse2 -ffunction-sections -fdata-sections -Os -fno-stack-protector -no-pie -g0 -march=x86-64 -DHAVE_AUTOCONFIG_H -D_HAVE_SQLITE_CONFIG_H -mx32 -msse2 -ffunction-sections -fdata-sections -Os -fno-stack-protector -no-pie -g0 -march=x86-64 -o bld/xfersetup.o -c bld/xfersetup_.c
+diet -Os gcc -nostdinc -I. -I./src -Ibld -Icompat/zlib  -mx32 -msse2 -ffunction-sections -fdata-sections -Os -fno-stack-protector -no-pie -g0 -march=x86-64 -DHAVE_AUTOCONFIG_H -D_HAVE_SQLITE_CONFIG_H -mx32 -msse2 -ffunction-sections -fdata-sections -Os -fno-stack-protector -no-pie -g0 -march=x86-64 -o bld/zip.o -c bld/zip_.c
+bld/codecheck1 bld/add_.c bld/allrepo_.c bld/attach_.c bld/bag_.c bld/bisect_.c bld/blob_.c bld/branch_.c bld/browse_.c
+bld/builtin_.c bld/bundle_.c bld/cache_.c bld/captcha_.c bld/cgi_.c bld/checkin_.c bld/checkout_.c bld/clearsign_.c bld/clone_.c bld/comformat_.c bld/configure_.c bld/content_.c bld/db_.c bld/delta_.c bld/deltacmd_.c bld/descendants_.c bld/diff_.c bld/diffcmd_.c bld/dispatch_.c bld/doc_.c bld/encode_.c bld/event_.c bld/export_.c bld/file_.c bld/finfo_.c bld/foci_.c bld/fshell_.c bld/fusefs_.c bld/glob_.c bld/graph_.c bld/gzip_.c bld/http_.c bld/http_socket_.c bld/http_ssl_.c
+bld/http_transport_.c bld/import_.c bld/info_.c bld/json_.c bld/json_artifact_.c bld/json_branch_.c bld/json_config_.c bld/json_diff_.c bld/json_dir_.c bld/json_finfo_.c bld/json_login_.c bld/json_query_.c bld/json_report_.c bld/json_status_.c bld/json_tag_.c bld/json_timeline_.c bld/json_user_.c bld/json_wiki_.c bld/leaf_.c bld/loadctrl_.c bld/login_.c bld/lookslike_.c bld/main_.c bld/manifest_.c bld/markdown_.c bld/markdown_html_.c bld/md5_.c bld/merge_.c bld/merge3_.c bld/moderate_.c bld/name_.c bld/path_.c bld/piechart_.c bld/pivot_.c bld/popen_.c bld/pqueue_.c bld/printf_.c bld/publish_.c bld/purge_.c bld/rebuild_.c bld/regexp_.c bld/report_.c bld/rss_.c bld/schema_.c bld/search_.c bld/setup_.c bld/sha1_.c bld/shun_.c bld/sitemap_.c bld/skins_.c bld/sqlcmd_.c bld/stash_.c bld/stat_.c bld/statrep_.c bld/style_.c bld/sync_.c
+bld/tag_.c bld/tar_.c bld/th_main_.c bld/timeline_.c bld/tkt_.c bld/tktsetup_.c bld/undo_.c bld/unicode_.c bld/unversioned_.c bld/update_.c bld/url_.c bld/user_.c bld/utf8_.c bld/util_.c bld/verify_.c bld/vfile_.c bld/wiki_.c bld/wikiformat_.c bld/winfile_.c bld/winhttp_.c bld/wysiwyg_.c bld/xfer_.c bld/xfersetup_.c bld/zip_.c
+diet -Os gcc -nostdinc -o fossil bld/add.o bld/allrepo.o bld/attach.o bld/bag.o bld/bisect.o bld/blob.o bld/branch.o bld/browse.o bld/builtin.o bld/bundle.o bld/cache.o bld/captcha.o bld/cgi.o bld/checkin.o bld/checkout.o bld/clearsign.o bld/clone.o bld/comformat.o bld/configure.o bld/content.o bld/db.o bld/delta.o bld/deltacmd.o bld/descendants.o bld/diff.o bld/diffcmd.o bld/dispatch.o bld/doc.o bld/encode.o bld/event.o bld/export.o bld/file.o bld/finfo.o bld/foci.o bld/fshell.o bld/fusefs.o bld/glob.o bld/graph.o bld/gzip.o bld/http.o bld/http_socket.o bld/http_ssl.o bld/http_transport.o bld/import.o bld/info.o bld/json.o bld/json_artifact.o bld/json_branch.o bld/json_config.o bld/json_diff.o bld/json_dir.o bld/json_finfo.o bld/json_login.o bld/json_query.o bld/json_report.o bld/json_status.o bld/json_tag.o bld/json_timeline.o bld/json_user.o bld/json_wiki.o bld/leaf.o bld/loadctrl.o bld/login.o bld/lookslike.o bld/main.o bld/manifest.o bld/markdown.o bld/markdown_html.o bld/md5.o bld/merge.o bld/merge3.o bld/moderate.o bld/name.o bld/path.o bld/piechart.o bld/pivot.o bld/popen.o bld/pqueue.o bld/printf.o bld/publish.o bld/purge.o bld/rebuild.o bld/regexp.o bld/report.o bld/rss.o bld/schema.o bld/search.o bld/setup.o bld/sha1.o bld/shun.o bld/sitemap.o bld/skins.o bld/sqlcmd.o bld/stash.o bld/stat.o bld/statrep.o bld/style.o bld/sync.o bld/tag.o bld/tar.o bld/th_main.o bld/timeline.o bld/tkt.o bld/tktsetup.o bld/undo.o bld/unicode.o bld/unversioned.o bld/update.o bld/url.o bld/user.o bld/utf8.o bld/util.o bld/verify.o bld/vfile.o bld/wiki.o bld/wikiformat.o bld/winfile.o bld/winhttp.o bld/wysiwyg.o bld/xfer.o bld/xfersetup.o bld/zip.o bld/sqlite3.o
+bld/linenoise.o bld/shell.o bld/th.o bld/th_lang.o bld/th_tcl.o bld/cson_amalgamation.o -Wl,--gc-sections -s -static --static -static -Lcompat/zlib -lz
+/bin/ld: bld/attach.o: in function `attach_commit':
+attach_.c:(.text.attach_commit+0x23f): warning: warning: your code still has assertions enabled!
+/bin/ld: bld/allrepo.o: in function `all_cmd':
+allrepo_.c:(.text.all_cmd+0xca9): warning: warning: your code uses stdio (7+k bloat).
+/bin/ld: bld/cgi.o: in function `cgi_http_server':
+cgi_.c:(.text.cgi_http_server+0x185): warning: warning: system() is a security risk.  Use fork and execvp instead!
+/bin/ld: /opt/diet/lib-x86_64/libc.a(vfprintf.o): in function `vfprintf':
+(.text+0x25): warning: warning: the printf functions add several kilobytes of bloat.
+/bin/ld: /opt/diet/lib-x86_64/libc.a(vsscanf.o): in function `vsscanf':
+(.text+0x54): warning: warning: the scanf functions add several kilobytes of bloat.
+/bin/ld: bld/piechart.o: in function `piechart_render':
+piechart_.c:(.text.piechart_render+0x242): undefined reference to `sincos'
+/bin/ld: piechart_.c:(.text.piechart_render+0x2a7): undefined reference to `sincos'
+/bin/ld: piechart_.c:(.text.piechart_render+0x379): undefined reference to `sincos'
+/bin/ld: bld/sqlite3.o: in function `fts5Bm25Function':
+sqlite3.c:(.text.fts5Bm25Function+0x155): undefined reference to `log'
+/bin/ld: bld/sqlite3.o:(.data.aSyscall+0x4c): undefined reference to `ftruncate64'
+collect2: error: ld returned 1 exit status
+make: *** [src/main.mk:583: fossil] Error 1
+Failed make build
+==================================================================================================================

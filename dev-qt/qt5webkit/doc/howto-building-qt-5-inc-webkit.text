@@ -1,0 +1,692 @@
+                        [Howto] Building Qt 5.2.1 (including Webkit) on RHEL5 (Linux CentOS 5.7)
+
+   5 Posts 2 Posters 8.0k Views
+   Oldest to Newest
+
+       #1
+
+       Hi folks!
+
+       Just few notes on how to build Qt (+Webkit) on Red Hat Linux 5 flavors (tested on an up-to-date CentOS 5.7)
+
+       This message might be useful for folks who want to build a recent Qt version on older architectures without
+       too much troubles - the problem being that many required packages are often out-of-date (such as binutils,
+       flex, etc.)
+
+       Diagnostic messages are sometimes a bit hard to track when a dependency is missing (such as "Project ERROR:
+       Unknown module(s) in QT: quick"), and sometimes Webkit build will just be skipped, too.
+
+       You'll have to adapt the given information to your needs (especially the patches provided below), but it may
+       help people who are stuck on a build :)
+
+       Remarks, improvements and (un)successful builds reports are welcome!
+
+                                    Link to the correct compiler (ie. not GCC 4.1.*)
+
+       There is probably a much cleaner way to do this, by the way - but it will do the trick for now:
+
+       @
+       if gcc --version | grep -q 4.1 ; then
+       mkdir /tmp/gcc
+       ln -s /usr/bin/gcc44 /tmp/gcc/gcc
+       ln -s /usr/bin/g++44 /tmp/gcc/g++
+       export PATH=/tmp/gcc:$PATH
+       hash -r
+       fi
+       @
+
+       Assuming GCC 4.4 has been installed, of course
+
+                                                 Download dependencies
+
+       Some of them might be unneeded (especially certain XCB components) through...
+
+       @
+
+                                         Download packages (versions may vary)
+
+       for i in
+       http://sqlite.org/2014/sqlite-autoconf-3080300.tar.gz
+       http://download.icu-project.org/files/icu4c/50.1.2/icu4c-50_1_2-src.tgz
+       http://heanet.dl.sourceforge.net/project/flex/flex-2.5.37.tar.gz
+       http://ftp.gnu.org/gnu/gperf/gperf-3.0.4.tar.gz
+       http://xmlsoft.org/sources/libxml2-2.9.1.tar.gz
+       http://xcb.freedesktop.org/dist/xcb-proto-1.10.tar.gz
+       http://xcb.freedesktop.org/dist/libpthread-stubs-0.1.tar.gz
+       http://xorg.freedesktop.org/archive/individual/proto/xproto-7.0.25.tar.gz
+       http://xcb.freedesktop.org/dist/libxcb-1.10.tar.gz
+       http://xcb.freedesktop.org/dist/xcb-util-0.3.9.tar.gz
+       http://xcb.freedesktop.org/dist/xcb-util-image-0.3.9.tar.gz
+       http://xcb.freedesktop.org/dist/xcb-util-keysyms-0.3.9.tar.gz
+       http://xcb.freedesktop.org/dist/xcb-util-wm-0.4.0.tar.gz
+       http://xcb.freedesktop.org/dist/xcb-util-renderutil-0.3.8.tar.gz
+       http://xcb.freedesktop.org/dist/xcb-util-cursor-0.1.1.tar.gz
+       ; do
+       test -f ${i##*/} || wget $i
+       done
+       @
+
+                                           Dependencies build: gperf, icu ...
+
+       @
+
+                                                     Prepare target
+
+       TARGET=$PWD/qt5-install
+       export PATH=${TARGET}/usr/local/bin:$PATH
+       export LD_LIBRARY_PATH=${TARGET}/usr/local/lib
+       @
+
+       @
+
+                                                       Build ICU
+
+       tar xvf icu4c-50_1_2-src.tgz
+       cd icu/source
+       ./configure && make -j16 && make install DESTDIR=${TARGET}
+       cd ../..
+       @
+
+       @
+
+                                                     Build the rest
+
+       configopt=()
+       configopt['libxml2']="--without-python"
+       for i in
+       sqlite-autoconf-3080300.tar.gz
+       flex-2.5.37.tar.gz
+       gperf-3.0.4.tar.gz
+       libxml2-2.9.1.tar.gz
+       xcb-proto-1.10.tar.gz
+       libpthread-stubs-0.1.tar.gz
+       xproto-7.0.25.tar.gz
+       libxcb-1.10.tar.gz
+       xcb-util-0.3.9.tar.gz
+       xcb-util-image-0.3.9.tar.gz
+       xcb-util-keysyms-0.3.9.tar.gz
+       xcb-util-wm-0.4.0.tar.gz
+       xcb-util-renderutil-0.3.8.tar.gz
+       xcb-util-cursor-0.1.1.tar.gz
+       ; do
+       test -d ${i%..} && continue
+       log=${i%..}.log
+       printf "*** Building $i ... " >&2
+       if (
+       tar xvf $i
+       && cd ${i%..}
+       && PKG_CONFIG_PATH="${TARGET}/usr/local/lib/pkgconfig"
+       ./configure -prefix ${TARGET}/usr/local ${configopt[${i%%-*}]}
+       && make
+       && make install
+       && cd ..
+       || exit 1 ) >${log} 2>&1 ; then
+       echo "OK" >&2
+       else
+       echo "ERROR" >&2
+       cat ${log}
+       exit 1
+       fi
+       done
+       echo "All done" >&2
+       @
+
+       1 Reply Last reply
+       0
+
+       xroche
+       wrote on  last edited by
+       #2
+
+       (Part 2)
+
+                                                     Qt 5.2.1 build
+
+       @
+
+                                                     decompress qt
+
+       tar xvfz qt-everywhere-opensource-src-5.2.1.tar.gz
+       cd qt-everywhere-opensource-src-5.2.1
+       @
+
+       Unfortunately, I had to patch the sources a bit (!):
+
+          to handle old OpenSSL (0.9.*) release
+          to handle missing GCC features
+          to handle older X11 API
+          to handle some hardcoded pathes
+          to handle ar missing T flag
+          to handle old glibc insanity over pthread_xxx
+
+       Note: must be replaced by the 'at' character, because the forum doesn't seem to have a way to escape them
+       properly. Beware that some diff are broken due to tab/space being mangled by the forum, too :) See "the
+       original diff":http://private.httrack.com/patch/qt5.2.1_rhel5_build_patch.diff
+
+       @
+       patch -p0 << EOF
+       --- ./qtbase/src/testlib/3rdparty/linux_perf_event_p.h.orig 2014-02-01 20:35:39.000000000 +0100
+       +++ ./qtbase/src/testlib/3rdparty/linux_perf_event_p.h 2014-02-06 14:25:38.000000000 +0100
+       @@ -14,6 +14,7 @@
+       #ifndef _UAPI_LINUX_PERF_EVENT_H
+       #define _UAPI_LINUX_PERF_EVENT_H
+
+       +#undef STRICT_ANSI
+       #include <linux/types.h>
+       #include <linux/ioctl.h>
+       #include <asm/byteorder.h>
+       EOF
+       @
+
+       @
+       patch -p0 << EOF
+       --- ./qtbase/src/network/ssl/qsslcontext.cpp.orig 2014-02-06 14:30:24.000000000 +0100
+       +++ ./qtbase/src/network/ssl/qsslcontext.cpp 2014-02-06 14:30:35.000000000 +0100
+       @@ -311,7 +311,7 @@
+       unsigned char *data = reinterpret_cast<unsigned char *>(m_sessionASN1.data());
+       if (!q_i2d_SSL_SESSION(session, &data))
+       qWarning("could not store persistent version of SSL session");
+
+                  m_sessionTicketLifeTimeHint = session->tlsext_tick_lifetime_hint;
+
+                  //m_sessionTicketLifeTimeHint = session->tlsext_tick_lifetime_hint;
+    }
+
+            }
+            EOF
+            @
+
+       @
+       patch -p0 << EOF
+       --- ./qtbase/src/network/ssl/qsslsocket_openssl.cpp.orig 2014-02-06 14:47:04.000000000 +0100
+       +++ ./qtbase/src/network/ssl/qsslsocket_openssl.cpp 2014-02-06 14:47:19.000000000 +0100
+       @@ -1431,8 +1431,8 @@
+       if (readBufferMaxSize)
+       plainSocket->setReadBufferSize(readBufferMaxSize);
+
+            if (q_SSL_ctrl((ssl), SSL_CTRL_GET_SESSION_REUSED, 0, NULL))
+              configuration.peerSessionShared = true;
+
+          //if (q_SSL_ctrl((ssl), SSL_CTRL_GET_SESSION_REUSED, 0, NULL))
+          // configuration.peerSessionShared = true;
+
+       #ifdef QT_DECRYPT_SSL_TRAFFIC
+       if (ssl->session && ssl->s3) {
+       EOF
+       @
+
+       @
+       patch -p0 << EOF
+       --- ./qtbase/src/3rdparty/xcb/include/xcb/xcb_pixel.h.orig 2014-02-01 20:35:35.000000000 +0100
+       +++ ./qtbase/src/3rdparty/xcb/include/xcb/xcb_pixel.h 2014-02-11 11:11:18.000000000 +0100
+       @@ -33,6 +33,9 @@
+       #include <xcb/xcb_image.h>
+       #endif
+
+       +#undef _X_INLINE
+       +#define _X_INLINE
+       +
+       /**
+
+          XCB Image fast pixel ops.
+
+
+       EOF
+       @
+
+       @
+       patch -p0 << EOF
+       --- ./qtbase/src/3rdparty/xcb/include/xcb/xcb_bitops.h.orig 2014-02-01 20:35:35.000000000 +0100
+       +++ ./qtbase/src/3rdparty/xcb/include/xcb/xcb_bitops.h 2014-02-11 11:10:48.000000000 +0100
+       @@ -38,6 +38,9 @@
+
+          @{
+            */
+
+       +#undef _X_INLINE
+       +#define _X_INLINE
+       +
+
+       /**
+
+          Create a low-order bitmask.
+            EOF
+            @
+
+       @
+       patch -p0 << EOF
+       --- ./qtbase/src/plugins/platforms/offscreen/qoffscreenintegration_x11.cpp.orig 2014-02-01 20:35:39.000000000
+       +0100
+       +++ ./qtbase/src/plugins/platforms/offscreen/qoffscreenintegration_x11.cpp 2014-02-13 08:06:37.043558016 +0100
+       @@ -52,6 +52,8 @@
+       #include <qpa/qplatformsurface.h>
+       #include <qsurface.h>
+
+       +#include <stdio.h>
+       +
+       QT_BEGIN_NAMESPACE
+
+       QOffscreenIntegration *QOffscreenIntegration::createOffscreenIntegration()
+       @@ -231,7 +233,9 @@
+
+       void (*QOffscreenX11GLXContext::getProcAddress(const QByteArray &procName)) ()
+       {
+
+          return (void (*)())glXGetProcAddressARB(reinterpret_cast<const GLubyte *>(procName.constData()));
+
+          //return (void (*)())glXGetProcAddressARB(reinterpret_cast<const GLubyte *>(procName.constData()));
+          fprintf(stderr, "** QOffscreenX11GLXContext::getProcAddress() called, but no support compiled\n");
+          return NULL;
+            }
+
+       QSurfaceFormat QOffscreenX11GLXContext::format() const
+       EOF
+       @
+
+       @
+
+                                      hardcoded libxml2 include directory, sheesh
+
+       patch -p0 << EOF
+       --- ./qtwebkit/Tools/qmake/config.tests/libxml2/libxml2.pro.orig 2014-02-01 20:35:44.000000000 +0100
+       +++ ./qtwebkit/Tools/qmake/config.tests/libxml2/libxml2.pro 2014-02-12 08:09:27.000000000 +0100
+       @@ -1,9 +1,11 @@
+       CONFIG -= qt
+       SOURCES = libxml2.cpp
+       mac {
+
+           QMAKE_CXXFLAGS += -iwithsysroot /usr/include/libxml2
+
+           QMAKE_CXXFLAGS += -iwithsysroot ${TARGET}/usr/local/include/libxml2
+            LIBS += -lxml2
+            } else {
+           QMAKE_CXXFLAGS += -I ${TARGET}/usr/local/include/libxml2
+           QMAKE_LFLAGS += -L ${TARGET}/usr/local/lib
+            PKGCONFIG += libxml-2.0
+            CONFIG += link_pkgconfig
+            }
+            EOF
+            @
+
+       @
+       patch -p0 << EOF
+       --- ./qtwebkit/Tools/qmake/config.tests/libxslt/libxslt.pro.orig 2014-02-01 20:35:44.000000000 +0100
+       +++ ./qtwebkit/Tools/qmake/config.tests/libxslt/libxslt.pro 2014-02-12 08:09:59.000000000 +0100
+       @@ -1,9 +1,11 @@
+       CONFIG -= qt
+       SOURCES = libxslt.cpp
+       mac {
+
+           QMAKE_CXXFLAGS += -iwithsysroot /usr/include/libxslt -iwithsysroot /usr/include/libxml2
+
+           QMAKE_CXXFLAGS += -iwithsysroot /usr/include/libxslt -iwithsysroot ${TARGET}/usr/local/include/libxml2
+            LIBS += -lxslt
+            } else {
+           QMAKE_CXXFLAGS += -I ${TARGET}/usr/local/include/libxml2
+           QMAKE_LFLAGS += -L ${TARGET}/usr/local/lib
+            PKGCONFIG += libxslt
+            CONFIG += link_pkgconfig
+            }
+            EOF
+            @
+
+       1 Reply Last reply
+
+
+       xroche
+       wrote on  last edited by
+       #3
+
+       (part 3)
+
+       @
+       patch -p0 << EOF
+       --- qtwebkit/Source/WebCore/WebCore.pri.orig 2014-02-01 20:35:46.000000000 +0100
+       +++ qtwebkit/Source/WebCore/WebCore.pri 2014-02-12 08:10:37.000000000 +0100
+       @@ -112,9 +112,11 @@
+       enable?(XSLT) {
+       use?(LIBXML2) {
+       mac {
+
+                  QMAKE_CXXFLAGS += -iwithsysroot /usr/include/libxslt -iwithsysroot /usr/include/libxml2
+
+                  QMAKE_CXXFLAGS += -iwithsysroot /usr/include/libxslt -iwithsysroot ${TARGET}/usr/local/include/libxml2
+        LIBS += -lxml2 -lxslt
+    } else {
+
+                  QMAKE_CXXFLAGS += -I ${TARGET}/usr/local/include/libxml2
+
+                  QMAKE_LFLAGS += -L ${TARGET}/usr/local/lib
+        PKGCONFIG += libxslt libxml-2.0
+    }
+
+            } else {
+            EOF
+            @
+
+       @
+       patch -p0 << EOF
+       --- qtwebkit/Source/WebCore/Configurations/WebCore.xcconfig.orig 2014-02-01 20:35:54.000000000 +0100
+       +++ qtwebkit/Source/WebCore/Configurations/WebCore.xcconfig 2014-02-11 17:11:11.000000000 +0100
+       @@ -46,7 +46,7 @@
+       STAGED_FRAMEWORKS_SEARCH_PATH = $(STAGED_FRAMEWORKS_SEARCH_PATH_$(USE_STAGING_INSTALL_PATH));
+       STAGED_FRAMEWORKS_SEARCH_PATH_YES = $(NEXT_ROOT)$(SYSTEM_LIBRARY_DIR)/StagedFrameworks/Safari;
+
+       -HEADER_SEARCH_PATHS = ForwardingHeaders icu /usr/include/libxslt /usr/include/libxml2
+       "${BUILT_PRODUCTS_DIR}/DerivedSources/WebCore" "${BUILT_PRODUCTS_DIR}/usr/local/include"
+       $(HEADER_SEARCH_PATHS);
+       +HEADER_SEARCH_PATHS = ForwardingHeaders icu /usr/include/libxslt ${TARGET}/usr/local/include/libxml2
+       "${BUILT_PRODUCTS_DIR}/DerivedSources/WebCore" "${BUILT_PRODUCTS_DIR}/usr/local/include"
+       $(HEADER_SEARCH_PATHS);
+       INFOPLIST_FILE = Info.plist;
+       INSTALL_PATH = $(INSTALL_PATH_$(PLATFORM_NAME));
+       INSTALL_PATH_iphoneos = $(SYSTEM_LIBRARY_DIR)/PrivateFrameworks;
+       EOF
+       @
+
+       @
+
+                                 ar/binutils is too old on RH5 to support the 'T' flag
+
+       patch -p0 << EOF
+       --- qtwebkit/Source/WebKit2/GNUmakefile.am.orig 2014-02-01 20:35:59.000000000 +0100
+       +++ qtwebkit/Source/WebKit2/GNUmakefile.am 2014-02-12 11:17:13.000000000 +0100
+       @@ -588,7 +588,7 @@
+       WebCoreLayerGtk2.a: $(webcore_layer_gtk2_deps)
+       $(AM_V_GEN)
+       $(AM_V_at)$(shell rm -f $@)
+
+          $(AM_V_at)$(foreach archive, $(webcore_layer_gtk2_archives), $(shell ar t $(archive) | xargs -n50 ar cruT
+            $@))
+
+          $(AM_V_at)$(foreach archive, $(webcore_layer_gtk2_archives), $(shell ar t $(archive) | xargs -n50 ar cru
+            $@))
+
+       DISTCLEANFILES +=
+       $(top_builddir)/WebCoreLayerGtk2.a
+       EOF
+       @
+
+       @
+       patch -p0 << EOF
+       --- qtwebkit/Tools/TestWebKitAPI/GNUmakefile.am.orig 2014-02-01 20:35:44.000000000 +0100
+       +++ qtwebkit/Tools/TestWebKitAPI/GNUmakefile.am 2014-02-12 11:18:28.000000000 +0100
+       @@ -122,7 +122,7 @@
+       WebCoreLayer.a: $(webcore_layer_deps)
+       $(AM_V_GEN)
+       $(AM_V_at)$(shell rm -f $@)
+
+          $(AM_V_at)$(foreach archive, $(webcore_layer_archives), $(shell ar t $(archive) | xargs -n50 ar cruT $@))
+
+          $(AM_V_at)$(foreach archive, $(webcore_layer_archives), $(shell ar t $(archive) | xargs -n50 ar cru $@))
+
+       DISTCLEANFILES +=
+       $(top_builddir)/WebCoreLayer.a
+       EOF
+       @
+
+       @
+       patch -p0 << EOF
+       --- qtwebkit/Tools/qmake/mkspecs/features/default_post.prf.orig 2014-02-01 20:35:44.000000000 +0100
+       +++ qtwebkit/Tools/qmake/mkspecs/features/default_post.prf 2014-02-12 11:22:10.000000000 +0100
+       @@ -275,7 +275,7 @@
+       # Replace the hardcoded archiver command line
+       # options to use GNU ar's thin archive format.
+       AR_COMMAND = $$split(QMAKE_AR, " ")
+
+              QMAKE_AR = \$\$member(AR_COMMAND, 0) cruT
+
+              QMAKE_AR = \$\$member(AR_COMMAND, 0) cru
+
+            }
+
+            isEmpty(DESTDIR): DESTDIR = $$targetSubDir()
+            EOF
+            @
+
+       @
+       patch -p0 << EOF
+       --- qtwebkit/Source/autotools/SetupLibtool.m4.orig 2014-02-01 20:35:58.000000000 +0100
+       +++ qtwebkit/Source/autotools/SetupLibtool.m4 2014-02-12 11:23:09.000000000 +0100
+       @@ -6,7 +6,7 @@
+       AC_SUBST([LIBWEBKIT2GTK_VERSION])
+
+       if test -z "$AR_FLAGS"; then
+
+          • AR_FLAGS="cruT"
+
+          • AR_FLAGS="cru"
+            fi
+
+       DOLT
+       EOF
+       @
+
+       @
+
+                                              missing O_CLOEXEC/FD_CLOEXEC
+
+       patch -p0 << EOF
+       --- qtwebkit/Source/WebKit2/Platform/unix/SharedMemoryUnix.cpp.orig 2014-02-01 20:35:59.000000000 +0100
+       +++ qtwebkit/Source/WebKit2/Platform/unix/SharedMemoryUnix.cpp 2014-02-12 14:54:53.357149313 +0100
+       #include <linux/ashmem.h>
+       #endif
+
+       +#ifndef O_CLOEXEC
+       +#define O_CLOEXEC 02000000 /* set close_on_exec /
+       +#endif
+       +#ifndef FD_CLOEXEC
+       +#define FD_CLOEXEC 1 / actually anything with low bit set goes */
+       +#endif
+       +
+       namespace WebKit {
+
+       SharedMemory::Handle::Handle()
+       EOF
+       @
+
+       @
+
+                                         fixing GCC weird issue (possible bug)
+
+       patch -p0 << EOF
+       --- ./qtbase/src/corelib/tools/qmap.h.orig 2014-02-01 20:35:38.000000000 +0100
+       +++ ./qtbase/src/corelib/tools/qmap.h 2014-02-13 11:42:06.000000000 +0100
+       QMapNode<Key, T> *lowerBound(const Key &key);
+       QMapNode<Key, T> *upperBound(const Key &key);
+
+       -private:
+       +//private:
+       +///QtCore/qmap.h:112: error: 'struct QMapNode<Key, T>' only defines private constructors and has no friends
+       QMapNode() Q_DECL_EQ_DELETE;
+       +private:
+       Q_DISABLE_COPY(QMapNode)
+       };
+       @
+
+       1 Reply Last reply
+
+       xroche
+       wrote on  last edited by
+       #4
+
+       (part 4)
+
+       (continuing patch)
+
+       @
+       cat << EOF > ${TARGET}/usr/local/include/pthread.h
+       #ifndef X_PTHREAD_PRIVATE_OVERRIDE
+       #define X_PTHREAD_PRIVATE_OVERRIDE
+       /* Override pthread_equal() to avoid missing symbol at link.
+
+          Possibly related to https://bugzilla.redhat.com/show_bug.cgi?id=102098
+            */
+            #include "/usr/include/pthread.h"
+            #undef pthread_equal
+            #define pthread_equal pthread_equal_inlined
+            static int pthread_equal (pthread_t thread1, pthread_t thread2) attribute ((unused));
+            static int pthread_equal (pthread_t thread1, pthread_t thread2) {
+            return thread1 == thread2;
+            }
+            #endif
+            EOF
+            @
+
+       If you want to use --disable-rpath in configure scripts (-no-rpath with the Qt configure script), you also
+       have to slightly patch the build scripts:
+
+       @
+
+                                 being able to use --disable-rpath in configure scripts
+
+       patch -p0 << EOF
+       --- qtbase/mkspecs/linux-g++/qmake.conf.orig 2014-02-01 20:35:40.000000000 +0100
+       +++ qtbase/mkspecs/linux-g++/qmake.conf 2014-02-13 10:38:31.000000000 +0100
+       CONFIG += incremental gdb_dwarf_index
+       QMAKE_INCREMENTAL_STYLE = sublib
+
+       +QMAKE_LFLAGS = -Wl,-rpath-link=${TARGET}/usr/local/lib
+       +
+       include(../common/linux.conf)
+       include(../common/gcc-base-unix.conf)
+       include(../common/g++-unix.conf)
+       EOF
+       @
+
+       @
+       patch -p0 << EOF
+       --- qtbase/mkspecs/linux-g++-64/qmake.conf.orig 2014-02-01 20:35:40.000000000 +0100
+       +++ qtbase/mkspecs/linux-g++-64/qmake.conf 2014-02-13 10:36:00.000000000 +0100
+       QMAKE_INCREMENTAL_STYLE = sublib
+
+       QMAKE_CFLAGS = -m64
+       -QMAKE_LFLAGS = -m64
+       +QMAKE_LFLAGS = -m64 -Wl,-rpath-link=${TARGET}/usr/local/lib
+
+       include(../common/linux.conf)
+       include(../common/gcc-base-unix.conf)
+       EOF
+       @
+
+       And the final build:
+
+       @
+
+                                                       configure
+
+       ./configure -v -shared -opensource -release -optimized-qmake -separate-debug-info -fontconfig -qt-libjpeg
+       -qt-libpng -no-audio-backend -no-compile-examples -no-c++11 -icu -xcb -xcb-xlib
+       -prefix ${TARGET}
+       -I ${TARGET}/usr/local/include
+       -I ${TARGET}/usr/local/include/libxml2
+       -L ${TARGET}/usr/local/lib
+
+                                                         build
+
+       make -j16 && make install || echo "failed to build"
+       @
+
+       1 Reply Last reply
+
+
+       aluchko
+       wrote on  last edited by
+       #5
+
+       Thanks for the instructions but I haven't quite been able to get them working on a fresh CentOS 5.7 install on
+       VirtualBox.
+
+       I collected them into a single script for convenience and reproducibility.
+       http://pastebin.com/8E9Tn2Nq
+
+       I added the packages gcc, gcc-c++, and libXau-devel
+
+       In addition I needed to add python 2.6 to the list of packages since it's required by a couple of the added
+       dependencies.
+
+       Unfortunately this is still insufficient to create a functioning build and it fails with the following
+       message.
+
+       @g++ -c -pipe -g -ffunction-sections -O2 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -fno-exceptions
+       -Wall -W -D_REENTRANT -D QT_NO_MTDEV -DQT_NO_LIBUDEV -DQT_BOOTSTRAPPED -DQT_LITE_UNICODE -DQT_NO_CAST_TO_ASCII
+       -DQT_NO_CODECS -DQT_NO_DATASTREAM -DQT_NO_LIBRAR Y -DQT_NO_QOBJECT -DQT_NO_SYSTEMLOCALE -DQT_NO_THREAD
+       -DQT_NO_UNICODETABLES -DQT_NO_USING_NAMESPACE -DQT_NO_DEPRECATED -DQT_NO_TRANSLA TION
+       -DQT_QMAKE_LOCATION="/home/vagrant/qt/qt-everywhere-opensource-src-5.2.1/qtbase/bin/qmake"
+       -DQT_CRYPTOGRAPHICHASH_ONLY_SHA1 -DQ T_NO_CAST_FROM_ASCII -DQT_BUILD_BOOTSTRAP_LIB -DQT_BUILDING_QT
+       -DQT_ASCII_CAST_WARNINGS -DQT_MOC_COMPAT -DQT_USE_QSTRINGBUILDER -DQT_D EPRECATED_WARNINGS
+       -DQT_DISABLE_DEPRECATED_BEFORE=0x050000 -DQT_NO_EXCEPTIONS -D_LARGEFILE64_SOURCE -D_LARGEFILE_SOURCE
+       -DQT_NO_DEBUG -I../../../mkspecs/linux-g++ -I. -I/home/vagrant/qt/qt5-install/usr/local/include
+       -I/home/vagrant/qt/qt5-install/usr/local/include/lib xml2 -I../../../include -I../../../include/QtCore
+       -I../../../include/QtXml -I../../../include/QtCore/5.2.1 -I../../../include/QtCore/5 .2.1/QtCore
+       -I/home/vagrant/qt/qt-everywhere-opensource-src-5.2.1/qtbase/include/QtXml/5.2.1
+       -I/home/vagrant/qt/qt-everywhere-opensour ce-src-5.2.1/qtbase/include/QtXml/5.2.1/QtXml -I../../3rdparty/zlib
+       -o .obj/qjsonparser.o ../../corelib/json/qjsonparser.cpp
+       make[3]: *** [.obj/qtextcodec.o] Killed
+       make[3]: *** Deleting file .obj/qtextcodec.o' make[3]: *** Waiting for unfinished jobs.... make[3]: ***
+       [.obj/qutfcodec.o] Killed make[3]: *** Deleting file .obj/qutfcodec.o'
+       make[3]: *** [.obj/qglobal.o] Killed
+       make[3]: *** Deleting file .obj/qglobal.o' make[3]: *** [.obj/qlogging.o] Killed make[3]: *** Deleting file
+       .obj/qlogging.o'
+       make[3]: *** [.obj/qfileinfo.o] Killed
+       make[3]: *** Deleting file .obj/qfileinfo.o' make[3]: *** [.obj/qfilesystemengine.o] Killed make[3]: ***
+       Deleting file .obj/qfilesystemengine.o'
+       make[3]: *** [.obj/qcoreapplication.o] Killed
+       make[3]: *** Deleting file .obj/qcoreapplication.o' make[3]: *** [.obj/qvariant.o] Killed make[3]: ***
+       Deleting file .obj/qvariant.o'
+       make[3]: *** [.obj/qdatetime.o] Killed
+       make[3]: *** Deleting file .obj/qdatetime.o' make[3]: *** [.obj/qhash.o] Killed make[3]: *** Deleting file
+       .obj/qhash.o'
+       {standard input}: Assembler messages:
+       {standard input}:14755: Warning: end of file not at end of a line; newline inserted
+       {standard input}:16308: Error: invalid character '_' in mnemonic
+       g++: Internal error: Killed (program cc1plus)
+       Please submit a full bug report.
+       See URL:http://bugzilla.redhat.com/bugzilla for instructions.
+       make[3]: *** [.obj/qstring.o] Error 1
+       ../../corelib/json/qjson_p.h: In member function QString QJsonPrivate::String::toString() const:
+       ../../corelib/json/qjson_p.h:359: warning: dereferencing type-punned pointer will break strict-aliasing rules
+       ../../corelib/json/qjsonvalue.cpp: In member function int QJsonValue::toInt(int) const:
+       ../../corelib/json/qjsonvalue.cpp:462: warning: converting to int from const double
+       ../../corelib/json/qjson_p.h: In member function QString QJsonPrivate::String::toString() const:
+       ../../corelib/json/qjson_p.h:359: warning: dereferencing type-punned pointer will break strict-aliasing rules
+       ../../corelib/json/qjson_p.h: In member function QString QJsonPrivate::String::toString() const:
+       ../../corelib/json/qjson_p.h:359: warning: dereferencing type-punned pointer will break strict-aliasing rules
+       ../../corelib/json/qjson_p.h: In member function QString QJsonPrivate::String::toString() const:
+       ../../corelib/json/qjson_p.h:359: warning: dereferencing type-punned pointer will break strict-aliasing rules
+       make[3]: Leaving directory /home/vagrant/qt/qt-everywhere-opensource-src-5.2.1/qtbase/src/tools/bootstrap'
+       make[2]: *** [sub-bootstrap-make_first] Error 2 make[2]: Leaving directory
+       /home/vagrant/qt/qt-everywhere-opensource-src-5.2.1/qtbase/src'
+       make[1]: *** [sub-src-make_first] Error 2
+       make[1]: Leaving directory `/home/vagrant/qt/qt-everywhere-opensource-src-5.2.1/qtbase'
+       make: *** [module-qtbase-make_first] Error 2
+
+          echo 'failed to build'
+            failed to build
+            @
+
+       Do you have any ideas on how to proceed?
+
+       1 Reply Last reply
+
+References
+
+   Visible links
+   . https://forum.qt.io/topic/37757/howto-building-qt-5-2-1-including-webkit-on-rhel5-linux-centos-5-7
+   . http://sqlite.org/2014/sqlite-autoconf-3080300.tar.gz
+   . http://download.icu-project.org/files/icu4c/50.1.2/icu4c-50_1_2-src.tgz
+   . http://heanet.dl.sourceforge.net/project/flex/flex-2.5.37.tar.gz
+   . http://ftp.gnu.org/gnu/gperf/gperf-3.0.4.tar.gz
+   . http://xmlsoft.org/sources/libxml2-2.9.1.tar.gz
+   . http://xcb.freedesktop.org/dist/xcb-proto-1.10.tar.gz
+   . http://xcb.freedesktop.org/dist/libpthread-stubs-0.1.tar.gz
+   . http://xorg.freedesktop.org/archive/individual/proto/xproto-7.0.25.tar.gz
+   . http://xcb.freedesktop.org/dist/libxcb-1.10.tar.gz
+   . http://xcb.freedesktop.org/dist/xcb-util-0.3.9.tar.gz
+   . http://xcb.freedesktop.org/dist/xcb-util-image-0.3.9.tar.gz
+   . http://xcb.freedesktop.org/dist/xcb-util-keysyms-0.3.9.tar.gz
+   . http://xcb.freedesktop.org/dist/xcb-util-wm-0.4.0.tar.gz
+   . http://xcb.freedesktop.org/dist/xcb-util-renderutil-0.3.8.tar.gz
+   . http://xcb.freedesktop.org/dist/xcb-util-cursor-0.1.1.tar.gz
+   . http://private.httrack.com/patch/qt5.2.1_rhel5_build_patch.diff
+   . https://bugzilla.redhat.com/show_bug.cgi?id=102098

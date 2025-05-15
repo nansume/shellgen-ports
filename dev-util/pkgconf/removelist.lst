@@ -1,0 +1,5 @@
+mksrc.d/33-pre_configure.sh
+mksrc.d/34-pkg_configure.sh
+mksrc.d/36-pkg_compile.sh
+mksrc.d/40-pre_makeinstall.sh
+mksrc.d/42-pre_install.sh

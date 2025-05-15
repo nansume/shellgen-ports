@@ -1,0 +1,6 @@
+app-shells/bash
+sys-apps/coreutils
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl

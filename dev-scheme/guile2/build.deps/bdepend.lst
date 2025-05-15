@@ -1,0 +1,16 @@
+#app-busybox/hexdump
+#app-busybox/test
+
+dev-libs/bdwgc
+dev-libs/gmp
+dev-libs/libffi
+dev-libs/libunistring
+dev-scheme/guile2
+dev-util/pkgconf
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/libtool
+sys-devel/make
+sys-libs/musl

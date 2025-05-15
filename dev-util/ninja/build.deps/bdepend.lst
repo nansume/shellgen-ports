@@ -1,0 +1,17 @@
+# build use: <python> or <cmake>
+
+# build use python
+#dev-lang/python3
+#dev-libs/expat
+#dev-libs/libffi
+
+# build use cmake
+#dev-libs/libressl-compat
+dev-util/cmake
+
+dev-util/re2c
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl

@@ -1,0 +1,5 @@
+bin/bomtool
+<LIB_DIR>/*
+<DPREFIX>/include/*
+<DPREFIX>/share/doc/*
+<DPREFIX>/share/man/*

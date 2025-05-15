@@ -1,0 +1,11 @@
+dev-lang/perl
+
+dev-util/pkgconf
+
+sys-devel/autoconf
+sys-devel/automake
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/m4
+sys-devel/make
+sys-libs/musl

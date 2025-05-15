@@ -1,0 +1,186 @@
+                               Facing issue while building QT 5.15.0 with openssl-linked
+
+   5 Posts 2 Posters 1.7k Views
+   Oldest to Newest
+
+       RobertB
+       wrote on  last edited by RobertB
+       #1
+
+       My ./configure with -static -openssl-linked yields:
+
+ ERROR: Feature 'openssl-linked' was enabled, but the pre-condition '!features.securetransport && !features.schannel && libs.openssl' failed.
+
+       I installed OpenSSL like this:
+
+ wget https://www.openssl.org/source/openssl-1.1.1g.tar.gz
+ tar -xzf openssl-1.1.1g.tar.gz
+ cd openssl-1.1.1g
+ CFLAGS='-fPIC' CXXFLAGS='-fPIC' ./config no-asm no-shared no-zlib-dynamic --openssldir=/usr
+ make -j6
+ make -j6 install
+
+       Which produces:
+
+ /usr/local/include/openssl/  <== header files
+ /usr/local/lib/libcrypto.a
+ /usr/local/lib/libssl.a
+
+       How do I tell Qt where my OpenSSL installation is?
+
+       My full configure command:
+
+ OPENSSL_LIBS="-lssl -lcrypto" OPENSSL_PREFIX="/usr/local/include/openssl" ./configure
+ --prefix=/usr -platform linux-g++-64 -static -opensource -confirm-license -release -no-avx
+ -no-opengl -qpa xcb -openssl-linked -system-freetype -fontconfig -glib -no-dbus -no-sql-sqlite
+ -no-use-gold-linker -no-kms -qt-harfbuzz -qt-libjpeg -qt-libpng -qt-pcre -qt-zlib -skip qt3d
+ -skip qtandroidextras -skip qtcanvas3d -skip qtcharts -skip qtconnectivity -skip qtdatavis3d
+ -skip qtdoc -skip qtquickcontrols -skip qtquickcontrols2 -skip qtspeech  -skip qtgamepad
+ -skip qtlocation -skip qtmacextras -skip qtnetworkauth -skip qtpurchasing -optimize-size
+ -skip qtscript -skip qtscxml -skip qtsensors -skip qtserialbus -skip qtserialport -skip qtspeech
+ -skip qttools -skip qtvirtualkeyboard -skip qtwayland -skip qtwebchannel -skip qtwebengine
+ -skip qtwebview -skip qtwinextras -skip qtx11extras -skip gamepad -skip serialbus -skip location
+ -skip webengine -skip qtdeclarative -skip qtmultimedia -no-feature-cups -no-feature-ftp
+ -no-feature-pdf -no-feature-animation -nomake examples -nomake tests -nomake tools
+
+
+       RobertB
+       wrote on  last edited by RobertB
+       #2
+
+       Some more information from config.log:
+
+ looking for library openssl
+ Trying source 0 (type openssl) of library openssl ...
+ + cd /qt-everywhere-src-5.15.0/config.tests/openssl && /qt-everywhere-src-5.15.0/qtbase/bin/qmake "CONFIG -= qt debug_and_release app_bundle lib_bundle" "CONFIG += static warn_off console single_arch" 'QMAKE_USE += openssl' 'QMAKE_LIBS_OPENSSL = -lssl -lcrypto' /qt-everywhere-src-5.15.0/config.tests/openssl
+ + cd /qt-everywhere-src-5.15.0/config.tests/openssl && MAKEFLAGS= /usr/bin/make clean && MAKEFLAGS= /usr/bin/make
+ > rm -f main.o
+ > rm -f *~ core *.core
+ > g++ -c -m64 -pipe -O2 -w -fPIC  -I. -I/qt-everywhere-src-5.15.0/qtbase/mkspecs/linux-g++-64 -o main.o main.cpp
+ > g++ -m64 -Wl,-O1 -o openssl main.o   -lssl -lcrypto -lpthread
+ > //usr/local/lib/libcrypto.a(dso_dlfcn.o): In function `dlfcn_load':
+ > dso_dlfcn.c:(.text+0x111): undefined reference to `dlopen'
+ > dso_dlfcn.c:(.text+0x142): undefined reference to `dlerror'
+ > dso_dlfcn.c:(.text+0x1f7): undefined reference to `dlclose'
+ > //usr/local/lib/libcrypto.a(dso_dlfcn.o): In function `dlfcn_unload':
+ > dso_dlfcn.c:(.text+0x2bd): undefined reference to `dlclose'
+ > //usr/local/lib/libcrypto.a(dso_dlfcn.o): In function `dlfcn_bind_func':
+ > dso_dlfcn.c:(.text+0x3b7): undefined reference to `dlsym'
+ > dso_dlfcn.c:(.text+0x3ea): undefined reference to `dlerror'
+ > //usr/local/lib/libcrypto.a(dso_dlfcn.o): In function `dlfcn_pathbyaddr':
+ > dso_dlfcn.c:(.text+0x787): undefined reference to `dladdr'
+ > dso_dlfcn.c:(.text+0x7f2): undefined reference to `dlerror'
+ > //usr/local/lib/libcrypto.a(dso_dlfcn.o): In function `dlfcn_globallookup':
+ > dso_dlfcn.c:(.text+0x849): undefined reference to `dlopen'
+ > dso_dlfcn.c:(.text+0x867): undefined reference to `dlsym'
+ > dso_dlfcn.c:(.text+0x877): undefined reference to `dlclose'
+ > collect2: error: ld returned 1 exit status
+ > Makefile:67: recipe for target 'openssl' failed
+ > make: *** [openssl] Error 1
+  => source failed verification.
+ Trying source 1 (type inline) of library openssl ...
+   => source failed condition 'config.win32'.
+ Trying source 2 (type inline) of library openssl ...
+   => source failed condition 'config.msvc'.
+ Trying source 3 (type inline) of library openssl ...
+   => source failed condition 'config.android'.
+ Trying source 4 (type inline) of library openssl ...
+ + cd /qt-everywhere-src-5.15.0/config.tests/openssl && /qt-everywhere-src-5.15.0/qtbase/bin/qmake "CONFIG -= qt debug_and_release app_bundle lib_bundle" "CONFIG += static warn_off console single_arch" 'QMAKE_USE += openssl' 'QMAKE_LIBS_OPENSSL = -lssl -lcrypto' /qt-everywhere-src-5.15.0/config.tests/openssl
+ + cd /qt-everywhere-src-5.15.0/config.tests/openssl && MAKEFLAGS= /usr/bin/make clean && MAKEFLAGS= /usr/bin/make
+ > rm -f main.o
+ > rm -f *~ core *.core
+ > g++ -c -m64 -pipe -O2 -w -fPIC  -I. -I/qt-everywhere-src-5.15.0/qtbase/mkspecs/linux-g++-64 -o main.o main.cpp
+ > g++ -m64 -Wl,-O1 -o openssl main.o   -lssl -lcrypto
+ > //usr/local/lib/libcrypto.a(threads_pthread.o): In function `CRYPTO_THREAD_lock_new':
+ > threads_pthread.c:(.text+0x3d): undefined reference to `pthread_rwlock_init'
+ > //usr/local/lib/libcrypto.a(threads_pthread.o): In function `CRYPTO_THREAD_read_lock':
+ > threads_pthread.c:(.text+0x7e): undefined reference to `pthread_rwlock_rdlock'
+ > //usr/local/lib/libcrypto.a(threads_pthread.o): In function `CRYPTO_THREAD_write_lock':
+ > threads_pthread.c:(.text+0xa8): undefined reference to `pthread_rwlock_wrlock'
+ > //usr/local/lib/libcrypto.a(threads_pthread.o): In function `CRYPTO_THREAD_unlock':
+ > threads_pthread.c:(.text+0xd2): undefined reference to `pthread_rwlock_unlock'
+ > //usr/local/lib/libcrypto.a(threads_pthread.o): In function `CRYPTO_THREAD_lock_free':
+ > threads_pthread.c:(.text+0x103): undefined reference to `pthread_rwlock_destroy'
+ > //usr/local/lib/libcrypto.a(threads_pthread.o): In function `CRYPTO_THREAD_run_once':
+ > threads_pthread.c:(.text+0x144): undefined reference to `pthread_once'
+ > //usr/local/lib/libcrypto.a(threads_pthread.o): In function `CRYPTO_THREAD_init_local':
+ > threads_pthread.c:(.text+0x179): undefined reference to `pthread_key_create'
+ > //usr/local/lib/libcrypto.a(threads_pthread.o): In function `CRYPTO_THREAD_get_local':
+ > threads_pthread.c:(.text+0x1a4): undefined reference to `pthread_getspecific'
+ > //usr/local/lib/libcrypto.a(threads_pthread.o): In function `CRYPTO_THREAD_set_local':
+ > threads_pthread.c:(.text+0x1ca): undefined reference to `pthread_setspecific'
+ > //usr/local/lib/libcrypto.a(threads_pthread.o): In function `CRYPTO_THREAD_cleanup_local':
+ > threads_pthread.c:(.text+0x1f5): undefined reference to `pthread_key_delete'
+ > //usr/local/lib/libcrypto.a(threads_pthread.o): In function `fork_once_func':
+ > threads_pthread.c:(.text+0x28f): undefined reference to `pthread_atfork'
+ > //usr/local/lib/libcrypto.a(threads_pthread.o): In function `openssl_init_fork_handlers':
+ > threads_pthread.c:(.text+0x2a9): undefined reference to `pthread_once'
+ > //usr/local/lib/libcrypto.a(dso_dlfcn.o): In function `dlfcn_load':
+ > dso_dlfcn.c:(.text+0x111): undefined reference to `dlopen'
+ > dso_dlfcn.c:(.text+0x142): undefined reference to `dlerror'
+ > dso_dlfcn.c:(.text+0x1f7): undefined reference to `dlclose'
+ > //usr/local/lib/libcrypto.a(dso_dlfcn.o): In function `dlfcn_unload':
+ > dso_dlfcn.c:(.text+0x2bd): undefined reference to `dlclose'
+ > //usr/local/lib/libcrypto.a(dso_dlfcn.o): In function `dlfcn_bind_func':
+ > dso_dlfcn.c:(.text+0x3b7): undefined reference to `dlsym'
+ > dso_dlfcn.c:(.text+0x3ea): undefined reference to `dlerror'
+ > //usr/local/lib/libcrypto.a(dso_dlfcn.o): In function `dlfcn_pathbyaddr':
+ > dso_dlfcn.c:(.text+0x787): undefined reference to `dladdr'
+ > dso_dlfcn.c:(.text+0x7f2): undefined reference to `dlerror'
+ > //usr/local/lib/libcrypto.a(dso_dlfcn.o): In function `dlfcn_globallookup':
+ > dso_dlfcn.c:(.text+0x849): undefined reference to `dlopen'
+ > dso_dlfcn.c:(.text+0x867): undefined reference to `dlsym'
+ > dso_dlfcn.c:(.text+0x877): undefined reference to `dlclose'
+ > collect2: error: ld returned 1 exit status
+ > Makefile:67: recipe for target 'openssl' failed
+ > make: *** [openssl] Error 1
+  => source failed verification.
+ test config.qtbase_network.libraries.openssl FAILED
+
+
+       sierdzio Moderators
+       wrote on  last edited by
+       #3
+
+       Not sure if it still works (I have this script for Qt 5.9...), but try these flags:
+
+ -openssl-linked \
+ -I /path-to-includes/include \
+ -L /path-to-libs/lib \
+ OPENSSL_LIBS="-l/path-to-libs/lib/libcrypto.a -l/path-to-libs/lib/libssl.a"
+
+       The line with capital L is most probably unnecessary.
+
+       (Z(:^
+
+
+       RobertB
+       wrote on  last edited by
+       #4
+
+       Was able to solve this by appending -lpthread -ldl to OPENSSL_LIBS:
+
+       OPENSSL_LIBS="-lssl -lcrypto -lpthread -ldl" OPENSSL_PREFIX="/usr/local/include/openssl" ./configure -static
+       -openssl-linked [...]
+
+
+       RobertB
+       replied to sierdzio on  last edited by RobertB
+       #5
+
+       @sierdzio said in Facing issue while building QT 5.15.0 with openssl-linked:
+
+       > Not sure if it still works (I have this script for Qt 5.9...), but try these flags:
+
+   -openssl-linked \
+   -I /path-to-includes/include \
+   -L /path-to-libs/lib \
+   OPENSSL_LIBS="-l/path-to-libs/lib/libcrypto.a -l/path-to-libs/lib/libssl.a"
+
+       > The line with capital L is most probably unnecessary.
+
+       Thanks! will try later. Ill resolve this thread in the meantime.
+
+
+   Visible links
+   . https://forum.qt.io/topic/118551/facing-issue-while-building-qt-5-15-0-with-openssl-linked
