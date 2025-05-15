@@ -1,0 +1,17 @@
+#!/bin/sh
+# Usage: CXX=$(tc-getCXX)
+# Return: printf CXX |  Exitcode: [true]/[false]
+
+test "X${USER}" = 'Xroot' && return
+
+: ${PATH:?}
+
+CXX=$(type 'g++' 'c++' 2>/dev/null)
+CXX=${CXX#*: not found}
+CXX=${CXX%%[[:cntrl:]]*}
+CXX=${CXX##* }
+CXX=${CXX##*/}
+
+test -n "${CXX}" && true
+
+printf %s\\n "${CXX:?}"

@@ -1,0 +1,50 @@
+#!/bin/sh
+# Copyright (C) 2025 Artjom Slepnjov, Shellgen
+# License GPLv3: GNU GPL version 3 only
+# http://www.gnu.org/licenses/gpl-3.0.html
+# Usage: CHOST=$(rechost {chost})
+# Return: printf CHOST |  Exitcode: [true]/[false]
+# Sample[chost]: gnu-chost: x86_64-linux-muslx32 -> x86_64-pc-linux-gnux32
+# Test: PDIR=/usr/ports/profiles CATEGORY=dev-lang PN=yasm /usr/ports/profiles/misc.d/rechost {chost}
+# Date: 2025-04-15 12:00 UTC - last change
+
+IFS="$(printf '\n\t')"; IFS=" ${IFS%?}"
+CHOST=${1}
+LIST= S= X=
+
+[ "_${XPN+set}" = _set ] && PN=${XPN}
+
+: ${CHOST:?} ${PDIR:?} ${CATEGORY:?} ${PN:?}
+
+# .global-flag.d
+for S in "${PDIR%/}/global.d/"*".lst"; do
+  test -f "${S}" &&
+  while IFS= read -r S; do
+    S=${S%%#*}
+    S="${S%${S##*[![:space:]]}}"
+    X=${S%%: *}
+    test -n "${S}" &&
+    case ":${CATEGORY}/${PN}:" in
+      :${S%%: *}: | :${S%/\*: *}/*: | ${S%\*/\*: *}:*/*: | :*/${X#\*/}: )
+        S="${S#${S%%: *}:}"
+        LIST="${LIST:+${LIST} }${S#${S%%[![:space:]]*}}"
+      ;;
+    esac
+  done < ${S}
+done
+
+for X in ${LIST}; do
+  case ${X} in
+    'gnu-chost'|'chost-musl-gnu')
+      CHOST=$(printf '%s' "${CHOST}" | sed '/-linux-musl/ s/-linux-musl/-pc-linux-gnu/')
+    ;;
+    'chost-diet-musl')
+      CHOST=$(printf '%s' "${CHOST}" | sed 's/-pc-linux-dietlibc/-linux-musl/')
+    ;;
+    'chost-diet-gnu')
+      CHOST=$(printf '%s' "${CHOST}" | sed 's/-pc-linux-dietlibc/-pc-linux-gnu/')
+    ;;
+  esac
+done
+
+printf %s\\n "${CHOST:?}"

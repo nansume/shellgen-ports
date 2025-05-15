@@ -1,0 +1,11 @@
+#!/bin/sh
+# Usage: linux-config-check <ARG>
+# Return: True / False
+# Date: 2024-09-19 14:00 UTC - last change
+# Kernel the Linux config check option is.
+
+: ${1:?Required <kern-opt>}
+
+grep -q "${1}" < /lib/modules/${KVER}/.config \
+&& printf %s\\n "${1} - Found... ok"
+|| printf %s\\n "${1} - Not Found... error"

@@ -1,0 +1,17 @@
+#!/bin/sh
+# Usage: export AR=$(tc-getAR)
+# Return: printf AR |  Exitcode: [true]/[false]
+
+test "X${USER}" = 'Xroot' && return
+
+: ${PATH:?}
+
+AR=$(type 'ar' 2>/dev/null)
+AR=${AR#*: not found}
+AR=${AR%%[[:cntrl:]]*}
+AR=${AR##* }
+AR=${AR##*/}
+
+test -n "${AR}" && true
+
+printf %s\\n "${AR:?}"

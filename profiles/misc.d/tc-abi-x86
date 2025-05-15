@@ -1,0 +1,40 @@
+#!/bin/sh
+# Usage: ABI_X86=$(tc-abi-x86)
+# Return: printf ABI_X86 |  Exitcode: [true]/[false]
+# Date: 2023-12-07 22:00 UTC - last change
+
+ABI=${EABI:-$ABI}
+
+test -z "${ABI}" &&
+
+case $(tc-getCC 2>/dev/null) in
+  'gcc')
+    CC_ARCH=$(gcc -dumpmachine)
+  ;;
+  'tcc')
+    CC_ARCH=$(tcc --version)
+    CC_ARCH=${CC_ARCH#*[(]}
+    CC_ARCH=${CC_ARCH%[)]*}
+  ;;
+  *)
+    CC_ARCH='i686'
+  ;;
+esac
+
+case $(arch) in
+  i?86*)
+    ABI_X86='32'
+  ;;
+  'x86_64'*|'x86-64'*)
+    #ABI_X86=64
+    #ABI_X86=x32
+    #ABI_X86=32
+    test -z "${ABI_X86}" && ABI_X86='64'
+    use 'x32' && ABI_X86='x32'
+  ;;
+  *)
+    ABI_X86=${ABI_X86:-$ABI}
+  ;;
+esac
+
+printf %s\\n "${ABI_X86:?}"

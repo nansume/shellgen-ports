@@ -1,0 +1,46 @@
+#!/bin/sh
+# 2023-2024
+# Usage: LIBDIR=${SPREFIX%/}/$(get_libdir)
+# The get_libdir function prints the basename of the libdir path.
+# https://wiki.gentoo.org/wiki/Project:Eselect/Developer_guide
+# Date: 2023-11-28 22:00 UTC - pre change
+# Date: 2024-06-22 14:00 UTC - last change (fix for: build-script.sh)
+
+XLIBABI='lib'
+
+# replace to: $(tc-arch)
+case $(tc-chost) in
+  'x32'|'x86_64-'*'x32')
+    test -x "/bin/cc" && XLIBABI='libx32'
+    test -x "/bin/gcc" && XLIBABI='libx32'
+    test -x "/libx32/libc.so" && XLIBABI='libx32'
+    # 2024.07.12 testing for bugfix pre pkginst
+    test -x "/lib/libc.so" || { test "X${USER}" = 'Xroot' && XLIBABI='libx32' ;}
+  ;;
+  'x86'|'i686-'*)
+    test -x "/bin/cc" && XLIBABI='lib32'
+    test -x "/bin/gcc" && XLIBABI='lib32'
+    test -x "/lib32/libc.so" && XLIBABI='lib32'
+    # 2024.07.12 testing for bugfix pre pkginst
+    test -x "/lib/libc.so" || { test "X${USER}" = 'Xroot' && XLIBABI='lib32' ;}
+  ;;
+  'amd64'|'x86_64-'*)
+    test -x "/bin/cc" && XLIBABI='lib64'
+    test -x "/bin/gcc" && XLIBABI='lib64'
+    test -x "/lib64/libc.so" && XLIBABI='lib64'
+    # 2024.07.12 testing for bugfix pre pkginst
+    test -x "/lib/libc.so" || { test "X${USER}" = 'Xroot' && XLIBABI='lib64' ;}
+  ;;
+  *)
+  	test -n "${LIB_DIR}" && XLIBABI=${LIB_DIR}
+  	if test -x "/libx32/libc.so"; then
+  	  XLIBABI='libx32'
+  	elif test -x "/lib32/libc.so"; then
+  	  XLIBABI='lib32'
+  	elif test -x "/lib64/libc.so"; then
+  	  XLIBABI='lib64'
+    fi
+  ;;
+esac
+
+printf %s\\n "${XLIBABI}"

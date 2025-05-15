@@ -1,0 +1,9 @@
+#app-busybox/ftpget
+sys-devel/make
+dev-libs/gmp
+dev-libs/mpc
+dev-libs/mpfr
+sys-devel/binutils
+sys-kernel/linux-headers
+
+sys-devel/gcc

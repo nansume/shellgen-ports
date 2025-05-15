@@ -1,0 +1,19 @@
+#dev-libs/libcss/user:           --makeflag_netsurf
+#dev-libs/libnsfb/user:          --makeflag_netsurf --makeflag_include_i
+#dev-libs/libnsutils/user:       --makeflag_netsurf
+#dev-libs/libparserutils/user:   --makeflag_netsurf
+#dev-libs/libutf8proc/user:      --makeflag_netsurf
+#dev-libs/libwapcaplet/user:     --makeflag_netsurf
+#net-libs/libdom/user:           --makeflag_netsurf
+#net-libs/libhubbub/user:        --makeflag_netsurf
+#www-client/netsurf/user:        --makeflag_netsurf
+
+sys-process/lsof/user:           --makeflag_cc --pkg_install_bin_pn
+media-gfx/fbvis/user:            --pkg_install_bin_pn
+net-analyzer/nc/user:            --pkg_install_bin_pn
+net-proxy/polipo/user:           --pkg_install_bin_pn
+
+#sys-devel/binutils/user:         --pre_install_strip
+#sys-devel/gcc/user:              --pre_install_strip
+#sys-devel/libtool/user:          --pre_install_strip
+sys-kernel/linux-firmware/user:  --pre_install_strip

@@ -1,0 +1,26 @@
+#!/bin/sh
+# required rename: usex_makeconfig --> makeconfig_have
+# Usage: usex_makeconfig {useflag} {config} {true} {false} {make-conf-file}
+# Date: 2023-11-12 13:00 UTC - fix: near to compat-posix
+
+USEFLAG=${1:?required global useflag}
+LOFLAG="${2:?required make config flag}"
+
+# defaults set
+CONFIG_FILE='Make.config'
+YES='yes'
+NO='no'
+
+test -n "${4}" && { YES=${3-yes} NO=${4-no}; set -- "${5}";}
+
+set -- "${*}"
+set -- "${1#* * }"
+set -- "${1##*[[:space:]]}"
+test -f "${1}" && CONFIG_FILE=${1:-Make.config}
+
+option=${NO}
+
+use ${USEFLAG} && option=${YES}
+
+printf %s\\n "sed -i -e s|HAVE_${LOFLAG}.*|HAVE_${LOFLAG} := ${option}| ${CONFIG_FILE}"
+sed -i -e "s|HAVE_${LOFLAG}.*|HAVE_${LOFLAG} := ${option}|" "${CONFIG_FILE}" || exit

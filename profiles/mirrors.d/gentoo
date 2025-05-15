@@ -1,0 +1,16 @@
+rsync://mirrors.tera-byte.com/pub/gentoo/distfiles/
+#ftp://mirrors.tera-byte.com/pub/gentoo/distfiles/
+rsync://ftp.vectranet.pl/gentoo/distfiles/
+#ftp://ftp.vectranet.pl/gentoo/distfiles/
+rsync://mirrors.xtom.ee/gentoo/distfiles/
+#http://mirrors.xtom.ee/gentoo/distfiles/
+rsync://distfiles.gentoo.org/distfiles/
+#https://distfiles.gentoo.org/distfiles/
+rsync://gentoo.osuosl.org/distfiles/
+#https://gentoo.osuosl.org/distfiles/
+http://ftp.dk.debian.org/gentoo/distfiles/
+ftp://ftp.dk.debian.org/gentoo/distfiles/
+rsync://ftp.halifax.rwth-aachen.de/gentoo/distfiles/
+#https://ftp.halifax.rwth-aachen.de/gentoo/distfiles/
+rsync://ftp.fau.de/gentoo/distfiles/
+#https://ftp.fau.de/gentoo/distfiles/

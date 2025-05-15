@@ -1,0 +1,161 @@
+#!/bin/sh
+# Copyright (C) 2022-2024 Artjom Slepnjov, Shellgen
+# License GPLv3: GNU GPL version 3 only
+# http://www.gnu.org/licenses/gpl-3.0.html
+# Date: 2024-04-11 15:00 UTC - last change
+# Date: 2024-11-02 14:00 UTC - last change
+# 1=XPWD 2=BUILD_CHROOT 3=USE_BUILD_ROOT 4=PDIR 5=DISTSOURCE 6=DISTDIR 7=HOME 8=USER 9=LOGNAME 10=PWD
+# 11=PV 12=PN 13=XPN 14=XPV 15=CATEGORY 16=GITHASH 17=HASH
+
+RUN=${0##*[/-]} HOST= I= X= F=
+ERRO="\e[0;31m +\e[0;36m ${RUN}\e[m: \e[0;34m${1}\e[m... \e[0;31merror\e[m\n"
+
+XPWD=${1:?required <XPWD>}
+BUILD_CHROOT=${2:?required <BUILD_CHROOT>}
+USE_BUILD_ROOT=${3:?required <USE_BUILD_ROOT>}
+PDIR=${4:?required <PDIR>}
+DISTSOURCE=${5:?required <DISTSOURCE>}
+DISTDIR=${6:?required <DISTDIR>}
+HOME=${7:?required <HOME>}
+USER=${8:?required <USER>}
+LOGNAME=${9:?required <LOGNAME>}
+PWD=${10:?required <PWD>}
+PV=${11:?required <PV>}
+PN=${12:?required <PN>}
+XPN=${13}
+XPV=${14}
+CATEGORY=${15:?required <CATEGORY>}
+GITHASH=${16}
+HASH=${17}
+SRCLIST="src_uri.lst"
+
+test "X${USER}" != 'Xroot' || exit
+
+USE_BUILD_ROOT='0'
+
+use 'bundled' && SRCLIST="src_uri_bundled.lst"
+
+test -x '/bin/sha256sum' || { printf %s\\n 'sha256sum... not found' >&2; exit 1;}
+# Source Get (network)
+
+mkdir -pm '0755' "${DISTSOURCE}/"
+
+cd "${DISTSOURCE}/"
+
+if test "_${CATEGORY}" = '_dev-python'; then  # testing 2024.10.06
+  # <PN> - it due be only there.
+  PN=${PN#py[2-4][0-9]-}
+  PN=${PN#py[2-4]-}
+  PN=${PN#py-}
+fi
+
+test -f "${PDIR%/}/${SRCLIST}" &&
+{
+test -f "gitcommit" && read -r GITHASH < 'gitcommit'
+test -f "version"   && read -r PV < 'version'
+
+test -w "${PDIR%/}/${SRCLIST}" &&
+{
+test -n "${GITHASH}" &&
+sed \
+  -e "s/\${GITCOMMIT}/${GITHASH}/g" \
+  -e "s/\${GITHASH}/${GITHASH}/g" \
+  -e "s/\${COMMIT}/${GITHASH}/g" \
+  -e "s/\${HASH}/${GITHASH}/g" \
+  -i "${PDIR%/}/${SRCLIST}"
+
+test -n "${PV}" && sed -e "s/\${PV}/${PV}/g" -i "${PDIR%/}/${SRCLIST}"
+}
+
+while IFS= read -r I; do
+  I="${I#${I%%[![:space:]]*}}"
+  I="${I%% #*}"                 # FIX: remove the comment
+  I="${I%${I##*[![:space:]]}}"  # FIX: remove a whitespace to end the string
+  test -n "${I%%#*}" || continue
+  test -n "${PV}"        && I="${I//'${PV}'/${PV}}"               # no posix
+  test -n "${PN}"        && I="${I//'${PN}'/${PN}}"               # no posix
+  test -n "${PV}"        && I="${I//'${P}'/${PN}-${PV}}"          # no posix
+  test -n "${XPN}"       && I="${I//'${XPN}'/${XPN}}"             # no posix
+  test -n "${XPV}"       && I="${I//'${XPV}'/${XPV}}"             # no posix
+  test -n "${CATEGORY}"  && I="${I//'${CATEGORY}'/${CATEGORY}}"   # no posix
+  test -n "${GITCOMMIT}" && I="${I//'${GITCOMMIT}'/${GITCOMMIT}}" # no posix
+  test -n "${GITHASH}"   && I="${I//'${GITHASH}'/${GITHASH}}"     # no posix
+  test -n "${COMMIT}"    && I="${I//'${COMMIT}'/${COMMIT}}"       # no posix
+  test -n "${HASH}"      && I="${I//'${HASH}'/${HASH}}"           # no posix
+  F=${I##*[/ ]}
+  F=${F%\?id=*}  # remove in filename a hash/commit - match1
+  F=${F%\?h=*}  # remove in filename a hash/commit - match2
+  #F=${F%\?[A-z]=*}
+  ERRO="Usage: fglob <distdir> <filename> - reqired: <filename>... Error"
+  test -n "${F}" || { printf %s\\n "${ERRO}" >&2; exit 1;}
+  X=$(fglob "${DISTDIR}" "${F}")
+  if test ! -f "${F}" && test -e "${X}"; then
+    ln -s "${X}" .
+  fi
+  test -e "${F}" || {
+  case "${I%${I#*://}}" in
+    'file://') continue;;  # skip for patches into build dir.
+    'mirror://'|'mirror+rsync://')
+      I=$(getmirror "${I}")
+    ;;
+  esac
+  case "${I%${I#*://}}" in
+    'rsync://')
+      test -x '/bin/rsync' || { printf %s\\n 'rsync... not found' >&2; exit 1;}
+      X=${I% -> *}
+      X=${X% --> *}
+      HOST=${I#*://}
+      HOST=${HOST%%/*}
+      if test -n "${X#*\**}"; then
+        . 'runverb' rsync --include="${F}" --exclude=/* rsync://${HOST}/"${X#*://${HOST}/}" "${F}"
+      else
+        X=${X#*://*/}
+        X=${X%/*}
+        #X=${X%/\*}
+        # only for <gentoo-distfiles> and similar distfiles
+        #. 'runverb' rsync --include="${F}" --exclude=/* rsync://${HOST}/"${X}"/*/* .
+        #. 'runverb' rsync --include="${F}" --exclude=/* rsync://${HOST}/"${X}"/* .
+        . 'runverb' rsync --include="${F}" --exclude=/* rsync://${HOST}/"${X}"/* "${F}"
+      fi
+    ;;
+    'http://'|'https://')
+      test -x '/bin/wget' || { printf %s\\n 'wget... not found' >&2; exit 1;}
+      X=${I% -> *}
+      # wget -v -nc --max-redirect=0 -i "${PDIR}/src_uri.lst
+      . 'runverb' wget --no-check-certificate "${X% --> *}" -O "${F}" ||
+      {
+        X=${X#*://}; nslookup "${X%%/*}"; exit 1
+      }
+    ;;
+    'ftp://')
+      test -x '/bin/ftpget' || { printf %s\\n 'ftpget... not found' >&2; exit 1;}
+      X=${I% -> *}
+      X=${X% --> *}
+      HOST=${I#*://}
+      HOST=${HOST%%/*}
+      . 'runverb' ftpget "${HOST}" "${F}" "${X#*://$HOST/}" || exit
+    ;;
+  esac
+  test -e "${F}" || { printf %s\\n "file: ${F}... not found" >&2; exit 1;}
+  mv -vn "${F}" -t ${DISTDIR}/
+  ln -s "${DISTDIR}/${F}"
+  }
+  if { test ! -f "${F}.sha256" && test -e "${PDIR%/}/checksums.d/${F}.sha256" ;} ;then
+    ln -s "..${PDIR%/}/checksums.d/${F}.sha256" .
+  fi
+  if test -e "${F}.sha256"; then
+    test "x$(cat ${F}.sha256)  -" = "x$(sha256sum < ${F})" ||
+    { printf "\e[0;36m +\e[0;31m ${F}\e[m: checksum... \e[0;31mfailed\e[m\n" >&2; exit 1;}
+    printf "\e[0;36m +\e[0;31m ${F}\e[m: checksum... \e[1;32mok\e[m\n"
+  elif test -r "${F}"; then
+    { IFS=' '; printf $(sha256sum < "${F}") > "${F}.sha256" ;} ||
+    { printf %s\\n "sha256sum: ${F}.sha256... error" >&2; exit 1;}
+    printf "\e[0;36m +\e[0;31m ${F}\e[m: hash add... \e[1;32mok\e[m\n"
+  else
+    printf %s\\n "can't open ${F}: Permission denied... Failed" >&2
+    exit 1
+  fi
+done < "${PDIR%/}/${SRCLIST}"
+}
+printf %s\\n "PDIR='${PDIR}'" "DISTSOURCE='${DISTSOURCE}'" "DISTDIR='${DISTDIR}'"
+printf %s\\n "HOME='${HOME}'" "USER='${USER}'" "LOGNAME='${LOGNAME}'" "PWD='${PWD}'"

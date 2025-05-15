@@ -1,0 +1,2 @@
+# the drop [no] <++*> or the accept [yes] <--*>
+sys-kernel/linux-headers-musl/user:  ++src_patch ++pkg_compile --pre_install

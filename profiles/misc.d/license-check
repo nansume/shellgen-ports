@@ -1,0 +1,28 @@
+#!/bin/sh
+# Usage: license-check {license+name}
+# Return printf: fsf / osi / unknow / proprietary
+# Date: 2023-12-03 16:00 UTC - last change
+
+LICENSE=${1:?required license name}
+S='/usr/share/license-db/license-type.lst'
+
+test -f "${S}" &&
+while IFS= read -r S; do
+  S=${S%%#*}
+  S="${S%${S##*[![:space:]]}}"
+  test -n "${S}" &&
+  case ":${LICENSE}:" in
+    :${S%% *}:) S=${S##* }; break;;
+  esac
+  S=
+done < ${S} || S=
+
+printf %s\\n "${S:=unknown}"
+
+case ${S} in
+  'fsf' | 'osi')
+    # in OSI may - lack of liberty.
+  ;;
+  *) ! true
+  ;;
+esac

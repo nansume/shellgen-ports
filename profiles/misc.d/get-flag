@@ -1,0 +1,15 @@
+#!/bin/sh
+# Usage: get-flag {flag}
+# Return: Exitcode: [true]/[false]
+
+IFS="$(printf '\n\t')"; IFS=" ${IFS%?}"
+
+: ${1:?required flag}
+
+for FLAG in ${CFLAGS} ${CXXFLAGS}; do
+  case ${FLAG} in
+    "${1}") exit;;
+  esac
+done
+
+! true

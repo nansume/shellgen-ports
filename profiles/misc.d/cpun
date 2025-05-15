@@ -1,0 +1,28 @@
+#!/bin/sh
+# Usage: CPUN=$(cpun)
+# Return: printf CPUN |  Exitcode: [true]/[false]
+# Date: 2023-12-09 12:00 UTC - last change
+
+CPUN='1'
+
+#{ test "X${USER}" = 'Xroot' || test "${BUILD_CHROOT:=0}" -eq '0' ;} && exit 1
+
+#if test ! -d '/sys'; then
+#  mkdir -pm 0755 '/sys/'
+#  mount -t 'sysfs' -nio 'ro,noatime,nosuid,noexec,nodev' sysfs '/sys/'
+#fi
+
+for X in '/sys/devices/system/cpu/cpu'*'/online'; do
+  case ${X} in '/'*'/cpu0/online') continue;; esac
+  test -r "${X}" || break
+  IFS= read -r SET  < "${X}"
+  test "0${SET}" -ne '0' &&
+  CPUN=$(expr "0${CPUN}" + '1')
+done
+
+#if test -d '/sys'; then
+#  umount '/sys/'
+#  rmdir '/sys/'
+#fi
+
+printf %s\\n "${CPUN:?}"

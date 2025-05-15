@@ -1,0 +1,45 @@
+#!/bin/sh
+# Usage: tc-bootstrap-musl $(arch)-linux-musl*-native.tgz
+
+{ test "X${USER}" = 'Xroot' && test "${BUILD_CHROOT:=0}" -ne '0' ;} || exit 0
+
+: ${PDIR:?} ${EABI:?}
+
+test -z "${1}" && set -- "$(arch)-linux-musl$(usex x32 x32 '')-native.tgz"
+
+BOOTSTRAP="usr/distfiles/${1}"
+
+set -- "${BOOTSTRAP%.*}"
+set -- "${1##*/}"
+
+cd "${PDIR}"
+
+printf %s\\n "gunzip -dc ${BOOTSTRAP} | tar -C . -xf -"
+gunzip -dc "${BOOTSTRAP}" | tar -C . -xf -
+
+mkdir -pm 0755 "usr/share/" "usr/include/"
+
+cp -lrp "${1}/bin/"* bin/
+cp -lrp "${1}/lib/"* lib/
+mv -n "${1}/usr/"*-linux-musl* usr/
+cp -lrp "${1}/usr/include/"* usr/include/
+mv -n "${1}/usr/libexec" usr/
+cp -lrp "${1}/usr/share/"* usr/share/
+
+ln -sf usr/include .
+ln -sf usr/*-linux-musl* .
+ln -sf usr/libexec .
+ln -sf usr/share .
+
+test -d "$(get_libdir)" && rmdir "$(get_libdir)/"
+ln -vsf "lib" "$(get_libdir)"
+ln -sf "../$(get_libdir)/libc.so" bin/ldd
+
+rm -r -- "${1:?}"
+
+test -d 'lib/bfd-plugins' && rm -r -- 'lib/bfd-plugins/'
+
+set -- usr/*-linux-musl*/bin/ld.gold
+
+test -x "${1}" && rm -- "${1}"
+test -x 'bin/ld.gold' && rm -- 'bin/ld.gold'

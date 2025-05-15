@@ -1,0 +1,9 @@
+ftp://ftp.gnu.org/gnu/
+ftp://www.mirrorservice.org/sites/ftp.gnu.org/gnu/
+rsync://rsync.mirrorservice.org/ftp.gnu.org/gnu/
+https://mirror.tochlab.net/pub/gnu/
+http://mirror.tochlab.net/pub/gnu/
+http://ftp.dk.debian.org/ftp.gnu.org/gnu/
+https://ftp.acc.umu.se/mirror/gnu.org/gnu/
+http://ftp.acc.umu.se/mirror/gnu.org/gnu/
+rsync://ftp.acc.umu.se/mirror/gnu.org/gnu/

@@ -1,0 +1,5 @@
+#dev-libs/pcre
+#dev-libs/glib
+
+#dev-util/pkg-config
+dev-util/pkgconf

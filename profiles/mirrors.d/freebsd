@@ -1,0 +1,5 @@
+# https://docs.freebsd.org/en/books/handbook/mirrors/
+
+ftp://ftp.fi.freebsd.org/pub/FreeBSD/distfiles/
+
+http://distcache.freebsd.org/ports-distfiles/

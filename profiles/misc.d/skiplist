@@ -1,0 +1,27 @@
+#!/bin/sh
+# $1=match $2=exitcode
+# Usage: skiplist {match}
+# Date: 2023-11-07 21:00 UTC - last change
+
+set -- "${1:?required match}" '1'
+
+X='removelist.lst'
+
+test -s "${X}" &&
+while IFS= read -r X; do
+  X=${X%%#*}
+  X="${X%${X##*[![:space:]]}}"
+  X="${X#${X%%[![:space:]]*}}"
+  test -n "${X}" &&
+  case ${1} in
+     */${X} | ${X} ) set -- "${1}" '0'; break;;
+  esac
+done < ${X}
+
+test "${2}" -eq '0'
+
+# remove list check - if exists [ok] --> skip
+#case "${NL}${SKIPLIST%%#*}${NL} in
+#  *"${NL}${F#${PDIR%/}/}${NL}*) continue 2;;
+#esac
+#skiplist ${F#${PDIR%/}/} && continue 2

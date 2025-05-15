@@ -1,0 +1,39 @@
+#!/bin/sh
+
+{ test "X${USER}" = 'Xroot' && test "${BUILD_CHROOT:=0}" -ne '0' && use 'static' ;} || exit 0
+
+EXIT="exit"
+X=${*}
+IFS="$(printf '\n\t')"; IFS="${IFS%?} "
+BUNDLED_DIR="/bundled"
+IUSE="${IUSE} -static +static-libs -shared +bundled"
+PKGS="${X%${X##*[![:space:]]}}"
+
+printf %s\\n "USER='${USER}'" "BUILD_CHROOT='${BUILD_CHROOT}'"
+
+test -d "/bundled" || mkdir -m 0755 "/bundled"
+
+case ${PKGS} in
+  '@'*)
+    PKG=${PKGS%% *}; PKGS=${PKGS#$PKG}; PKGS="${PKGS#${PKGS%%[![:space:]]*}}"; PKG=${PKG#@}
+    for S in "${PORTS_DIR}/sets/"${PKG}*; do
+      test -f "${S}" &&
+      while IFS= read -r PKG; do
+        PKG=${PKG%%#*}
+        PKG="${PKG%${PKG##*[![:space:]]}}"
+        test -n "${PKG}" || continue
+        PKGS="${PKGS:+${PKGS} }${PKG#${PKG%%[![:space:]]*}}"
+      done < ${S}
+    done
+  ;;
+esac
+printf %s\\n "static-build: PKGS='${PKGS}'"
+
+for PKG in ${PKGS}; do
+  CATEGORY=${PKG%/*}
+  PN=${PKG#$CATEGORY/}
+  if test -x "depend-build/${PN}.sh"; then
+    printf %s\\n "./depend-build/${PN}.sh 2>&1"
+    ./depend-build/${PN}.sh 2>&1
+  fi
+done

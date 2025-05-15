@@ -1,0 +1,9 @@
+#!/bin/sh
+# Usage: makeconfig_option {option} {config} {make-conf-file}
+
+set=${1:?required option set}
+OPTNAME=${2:?required optname}
+CONFIG_FILE=${3:?required file config}
+
+printf %s\\n "sed -i -e s|.*CONFIG_${OPTNAME}.*|CONFIG_${OPTNAME}=${set}| ${CONFIG_FILE}"
+sed -i -e "s|.*CONFIG_${OPTNAME}.*|CONFIG_${OPTNAME}=${set}|" "${CONFIG_FILE}" || exit

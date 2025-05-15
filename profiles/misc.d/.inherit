@@ -1,0 +1,8 @@
+#!/bin/sh
+
+sfunc(){ SCNAME=${1} F= . ${@} || return;}
+
+
+for F in ${PWD%/}"/build-helper/"*; do
+  test -f "${F}" && sfunc ${F} ${@} || continue
+done

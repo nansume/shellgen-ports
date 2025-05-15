@@ -1,0 +1,49 @@
+#!/bin/sh
+# buildphase {CATEGORY}:{PN}:{USER}:{CHROOT}:{FILE} || ! true
+# Date: 2023-10-10 16:00 UTC - fix: near to compat-posix
+
+IFS=: S=${@}; set -- ${S}; : ${PDIR:?required root dir <PDIR>}
+
+NL="$(printf '\n\t')"; NL=${NL%?}; IFS=${NL} EXITCODE='0'
+
+CATEGORY=${1:?required CATEGORY} PN=${2:?required PN} CDPHASEUSER=${3:?required CDPHASEUSER}
+BUILD_CHROOT=${4:?required BUILD_CHROOT} F=${5:?required <file>}
+
+P=${F%.*}
+
+test "x${CDPHASEUSER}" = 'xroot' || CDPHASEUSER='user'
+{ test "x${CDPHASEUSER}" = 'xroot' && test "${BUILD_CHROOT:=0}" -ne '0' ;} && CDPHASEUSER='chroot'
+
+BUILDPHASE=
+for S in "${PDIR%/}/buildphase.d/"*".lst"; do
+  test -f "${S}" &&
+  while IFS= read -r S; do
+    S=${S%%#*}
+    S="${S%${S##*[![:space:]]}}"
+    X=${S%%: *}
+    test -n "${S}" &&
+    # CDPHASE: root/chroot/user[chroot]
+    case ":${CATEGORY}/${PN}/${CDPHASEUSER}:" in
+      :${S%%: *}: | :${S%/\*: *}/*: | :${S%/\*/\*: *}/*/*: | :*/${X#\*/}: |\
+      ${S%\*/\*/\*: *}:*/*/*: | :*/*/${X#\*/\*/}: | :${S%/\*: *}/*/${X#\*/}: )
+        S="${S#${S%%: *}: }"
+        BUILDPHASE="${BUILDPHASE:+${BUILDPHASE} }${S#${S%%[![:space:]]*}}"
+      ;;
+    esac
+  done < ${S}
+done
+
+IFS=' '
+# bug: required exclude BUILDPHASE scripts auto(all) in pkg build dir
+for S in ${BUILDPHASE}; do
+  case ${S} in
+    "--${P#*/[0-9][0-9]-}")
+      EXITCODE='0'
+    ;;
+    "++${P#*/[0-9][0-9]-}")
+      #printf %s\n STRING=${S}
+      EXITCODE='1'
+    ;;
+  esac
+done
+test "${EXITCODE}" -eq '0' && printf %s\\n "${F}"

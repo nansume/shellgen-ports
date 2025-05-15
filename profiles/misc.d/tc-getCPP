@@ -1,0 +1,18 @@
+#!/bin/sh
+# Usage: CPP=$(tc-getCPP)
+# Return: printf CPP |  Exitcode: [true]/[false]
+
+test "X${USER}" = 'Xroot' && return
+
+: ${PATH:?}
+
+# ${GCC_VER} ${CHOST}-cpp
+CPP=$(type 'cpp' 2>/dev/null)
+CPP=${CPP#*: not found}
+CPP=${CPP%%[[:cntrl:]]*}
+CPP=${CPP##* }
+CPP=${CPP##*/}
+
+test -n "${CPP}" && true
+
+printf %s\\n "${CPP:?}"

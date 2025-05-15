@@ -1,0 +1,91 @@
+#!/bin/sh
+# Copyright (C) 2023-2025 Artjom Slepnjov, Shellgen
+# Support [experimental]: EAPI-3 (minimal)
+# Usage: usex {useflag-global} {true} {false}
+# Return: {yes} / {no}  |  Exitcode: [true]/[false]
+# Test: PDIR=/ CATEGORY=net-libs PN=neon USE=+doc /usr/ports/profiles/misc.d/usex doc true false
+# https://devmanual.gentoo.org/eclass-reference/ebuild/index.html
+# Date: 2023-12-16 22:00 UTC - last change
+
+# BUG: nocompat with EAPI-3, because should return: yes no
+# TODO: ON OFF --> yes no
+
+: ${PDIR:?} ${CATEGORY:?} ${PN:?}
+
+USEFLAG=${1:?required global useflag} #YES=${2-ON}
+
+#{ test -z "${3}" && test -n "${2}" ;} || NO=${3-OFF}
+
+if [ -x "/bin/cmake" ]; then
+  YES=${2-ON}
+elif [ -x "/bin/meson" ]; then
+  YES=${2-yes}
+else
+  YES=${2-yes}
+fi
+
+if [ "${3+set}" = set ]; then
+  NO=${3}
+elif [ "_${YES}" = _ON ]; then
+  NO="OFF"
+elif [ "_${YES}" = _OFF ]; then
+  NO="ON"
+elif [ "_${YES}" = _YES ]; then
+  NO="NO"
+elif [ "_${YES}" = _NO ]; then
+  NO="YES"
+elif [ "_${YES}" = _yes ]; then
+  NO="no"
+elif [ "_${YES}" = _no ]; then
+  NO="yes"
+elif [ "_${YES}" = _true ]; then
+  NO="false"
+elif [ "_${YES}" = _false ]; then
+  NO="true"
+elif [ "_${YES}" = _enabled ]; then
+  NO="disabled"
+elif [ "_${YES}" = _disabled ]; then
+  NO="enabled"
+elif [ "_${YES}" = _1 ]; then
+  NO="0"
+elif [ "_${YES}" = _0 ]; then
+  NO="1"
+fi
+
+test -d "${PDIR%/}/package.use" || PDIR='/'
+
+FLAGS=
+for S in "${PDIR%/}/package.use/"*; do
+  test -f "${S}" &&
+  while IFS= read -r S; do
+    S=${S%%#*}
+    S="${S%${S##*[![:space:]]}}"
+    X=${S%%: *}
+    test -n "${S}" &&
+    case ":${CATEGORY}/${PN}:" in
+      :${S%%: *}:|:${S%/\**}/*|${S%\*/\**}:*/*|*/${X#*\*/}:)
+        S="${S#${S%%: *}: }"
+        FLAGS="${FLAGS:+${FLAGS} }${S#${S%%[![:space:]]*}}"
+      ;;
+    esac
+  done < ${S}
+done
+
+IFS=' '
+for S in ${IUSE} ${FLAGS} ${USE}; do
+  case ${S} in
+    "+${USEFLAG}")
+      REPLY=${YES}  # on
+    ;;
+    "-${USEFLAG}")
+      REPLY=${NO}   # off
+    ;;
+    "+${USEFLAG#!}")
+      REPLY=${NO}   # off
+    ;;
+    "-${USEFLAG#!}")
+      REPLY=${YES}  # on
+    ;;
+  esac
+done
+printf %s\\n "${REPLY=${NO}}"; test "x${REPLY}" = "x${YES}"

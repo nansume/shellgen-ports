@@ -1,0 +1,14 @@
+ftp://mirrors.kernel.org/sourceware/
+http://mirrors.kernel.org/sourceware/
+http://mirror.aarnet.edu.au/pub/sourceware/
+https://mirrors.tuna.tsinghua.edu.cn/sourceware/
+rsync://mirrors.tuna.tsinghua.edu.cn/sourceware/
+https://mirrors.mirrorz.org/sourceware/
+ftp://ftp-stud.fht-esslingen.de/pub/Mirrors/sourceware.org/
+http://ftp-stud.fht-esslingen.de/pub/Mirrors/sourceware.org/
+https://sourceware.mirror.garr.it/
+ftp://ftp.twaren.net/Unix/sourceware.org/
+http://ftp.twaren.net/Unix/sourceware.org/
+ftp://ftp.mirrorservice.org/sites/sourceware.org/pub/
+http://www.mirrorservice.org/sites/sourceware.org/pub/
+rsync://rsync.mirrorservice.org/sourceware.org/pub/

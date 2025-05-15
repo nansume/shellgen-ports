@@ -1,0 +1,16 @@
+# the accept <--*>  //  <--*>: yes / <++*>: no
+*/*/user:  --build_trap --pkg_base --lib_bash --pre_env --pkgver
+*/*/user:  --pkg_tools --sh_profile_tools --pre_env_chroot --ldpath_apply
+*/*/user:  --path_apply --prefix_cmake --python --incdir --workdir
+*/*/user:  --drop_ldconfig --drop_python
+*/*/user:  --gen_variables --hostname --ldconfig --pkg_unpack
+*/*/user:  --src_patch --src_sed --makeflag_find_workdir --makeflag_instdir
+*/*/user:  --makeflag_shared --pkg_builddir --pre_myconf --global_flag
+*/*/user:  --pkg_defconfig
+*/*/user:  --pkg_menuconf --pre_configure --pkg_compile --pre_makeinstall
+*/*/user:  --pre_install --pkg_rename_progdir --post_inst_perm --pre_rmlist
+*/*/user:  --pkg_rm --post_rm
+*/*/user:  --pkg_rm_empty --pkg_strip --pre_perm --makeflag_cc
+
+*/*/*:     ++makeflag_find_workdir
+*/*/*:     ++pre_install_strip ++pkg_install_bin_pn ++pkg_rename_pn

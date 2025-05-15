@@ -1,0 +1,53 @@
+#!/bin/sh
+# Check if it useflag exists is then true otherwise...
+# Usage: useis {useflag-global} {true} {false}
+# Return: {yes} / {no}  |  Exitcode: [true]/[false]
+# https://devmanual.gentoo.org/eclass-reference/ebuild/index.html
+# Date: 2024-05-13 17:00 UTC - last change
+
+: ${PDIR:?} ${CATEGORY:?} ${PN:?}
+
+USEFLAG=${1:?required global useflag} YES=${2-ON}
+
+{ test -z "${3}" && test -n "${2}" ;} || NO=${3-OFF}
+
+test -d "${PDIR%/}/package.use" || PDIR='/'
+
+FLAGS=
+for S in "${PDIR%/}/package.use/"*; do
+  test -f "${S}" &&
+  while IFS= read -r S; do
+    S=${S%%#*}
+    S="${S%${S##*[![:space:]]}}"
+    X=${S%%: *}
+    test -n "${S}" &&
+    case ":${CATEGORY}/${PN}:" in
+      :${S%%: *}:|:${S%/\**}/*|${S%\*/\**}:*/*|*/${X#*\*/}:)
+        S="${S#${S%%: *}: }"
+        FLAGS="${FLAGS:+${FLAGS} }${S#${S%%[![:space:]]*}}"
+      ;;
+    esac
+  done < ${S}
+done
+
+IFS=' '
+for S in ${IUSE} ${FLAGS} ${USE}; do
+  case ${S} in
+    "%${USEFLAG}")
+      REPLY=; break # without
+    ;;
+    "+${USEFLAG}")
+      REPLY=${YES}  # on
+    ;;
+    "-${USEFLAG}")
+      REPLY=${NO}   # off
+    ;;
+    "+${USEFLAG#!}")
+      REPLY=${NO}   # off
+    ;;
+    "-${USEFLAG#!}")
+      REPLY=${YES}  # on
+    ;;
+  esac
+done
+test -n "${REPLY}"

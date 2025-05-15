@@ -1,0 +1,40 @@
+#!/bin/sh
+# Usage: ABI=$(tc-abi)
+# Return: printf ABI |  Exitcode: [true]/[false]
+# Date: 2023-12-07 08:00 UTC - last change
+
+ABI=${ABI:-$EABI}
+
+test -z "${ABI}" &&
+
+case $(tc-getCC 2>/dev/null) in
+  'gcc')
+    CC_ARCH=$(gcc -dumpmachine)
+  ;;
+  'tcc')
+    CC_ARCH=$(tcc --version)
+    CC_ARCH=${CC_ARCH#*[(]}
+    CC_ARCH=${CC_ARCH%[)]*}
+  ;;
+  *)
+    CC_ARCH='i686'
+  ;;
+esac
+
+case $(arch) in
+  i?86*)
+    ABI='x86'
+  ;;
+  'x86_64'*|'x86-64'*)
+    #ABI=amd64
+    #ABI=x32
+    #ABI=x86
+    test -z "${ABI}" && ABI='amd64'
+    use 'x32' && ABI='x32'
+  ;;
+  *)
+    ABI=${ABI}
+  ;;
+esac
+
+printf %s\\n "${ABI:?}"

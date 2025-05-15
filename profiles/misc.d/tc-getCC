@@ -1,0 +1,22 @@
+#!/bin/sh
+# Usage: CC=$(tc-getCC)
+# Return: printf CC |  Exitcode: [true]/[false]
+
+IFS="$(printf '\n\t')"; IFS=${IFS%?}
+
+test "X${USER}" = 'Xroot' && exit
+
+: ${PATH:?}
+
+for CC in $(type 'tcc' 'musl-gcc' 'gcc' 'cc' 2>/dev/null); do
+  CC=${CC#*: not found}
+  test -n "${CC}" && break
+done
+
+CC=${CC%%[[:cntrl:]]*}
+CC=${CC##* }
+CC=${CC##*/}
+
+test -n "${CC}" && true
+
+printf %s\\n "${CC:?}"

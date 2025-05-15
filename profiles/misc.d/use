@@ -1,0 +1,9 @@
+#!/bin/sh
+# Usage: use {useflag-global}
+# Return: Exitcode: [true]/[false]
+
+: ${PDIR?} ${CATEGORY:?} ${PN:?} ${1:?required global useflag}
+
+test -z "${PDIR}" && PDIR="/usr/ports/${CATEGORY}/${PN}"
+
+usex "${1}" >/dev/null

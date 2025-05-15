@@ -1,0 +1,34 @@
+# the drop <++*>
+app-alternatives/libbz2/*:          ++pre_install ++makeflag_find_workdir
+app-arch/unzip/*:                   ++makeflag_find_workdir ++pkg_configure
+#app-arch/upx-ucl/*:                 ++pre_install ++pkg_install_bin_pn
+app-arch/zstd/*:                    ++pre_install
+app-shells/bash/*:                  ++pre_install ++pkg_strip
+dev-libs/cxx-boost/*:               ++makeflag_find_workdir
+dev-util/ninja/*:                   ++pre_install
+net-proxy/polipo/*:                 ++pre_install
+net-vpn/i2pd/*:                     ++pre_install
+sys-apps/fbset/*:                   ++pre_install
+#sys-devel/binutils/*:               ++pre_install ++pkg_strip
+#sys-devel/gcc/*:                    ++pre_install ++pkg_strip
+#sys-devel/libtool/*:                ++pre_install ++pkg_strip
+sys-firmware/seabios/*:             ++pre_install
+sys-kernel/linux-*/*:               ++pre_install ++pkg_strip
+sys-kernel/linux-mod/*:             ++sw_user ++pkg_defconfig
+
+dev-db/bdb/*:                       ++pkg_configure
+dev-lang/perl/*:                    ++pkg_configure
+dev-lang/tcl/*:                     ++pkg_configure ++makeflag_find_workdir
+
+dev-scheme/guile*/*:                ++pkg_strip
+app-alternatives/busybox-static/*:  ++pkg_rename_pn
+net-firewall/ipset/*:               ++pkg_rename_pn
+#sys-libs/ncurses*/*:                ++incdir
+#www-client/elinks/*:                ++pre_configure
+
+sys-libs/glibc*/*:                  ++pkg_configure ++post_rm --pkg_strip
+#sys-libs/glibc*/*:                  ++pre_install ++pkg_strip  # test
+
+net-dns/dnsmasq/*:                  ++pkg_rm_empty
+
+net-wireless/wireless-regdb/*:      ++pkg_compile

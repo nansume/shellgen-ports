@@ -1,0 +1,49 @@
+#!/bin/sh
+# Date: 2023-12-03 14:00 UTC - last change
+# Usage [EAPI-3]: use_enable {useflag-global} {useflag-local:optional}
+# not support - [EAPI-4]: use_enable <USE item> [configure name] [configure opt]
+# not support - [EAPI-?]: use_enable !<USE item> [configure name] [configure opt]
+# Return: --enable-${useflag} / --disable-${useflag}  |  Exitcode: [true]/[false]
+# https://devmanual.gentoo.org/eclass-reference/ebuild/index.html
+
+: ${PDIR:?} ${CATEGORY:?} ${PN:?} ${1:?required global useflag}
+
+IFS="$(printf '\n\t')"; IFS=${IFS%?}
+LOFLAG="${2-${1}}"
+OPT="${3}"
+
+test -d "${PDIR%/}/package.use" || PDIR='/'  # may the no need?
+
+FLAGS=
+for S in "${PDIR%/}/package.use/"*; do
+  test -f "${S}" &&
+  while IFS= read -r S; do
+    S=${S%%#*}
+    S="${S%${S##*[![:space:]]}}"
+    X=${S%%: *}
+    test -n "${S}" &&
+    case ":${CATEGORY}/${PN}:" in
+      :${S%%: *}:|:${S%/\**}/*|${S%\*/\**}:*/*|*/${X#*\*/}:)
+        S="${S#${S%%: *}: }"
+        FLAGS="${FLAGS:+${FLAGS} }${S#${S%%[![:space:]]*}}"
+      ;;
+    esac
+  done < ${S}
+done
+
+IFS=" ${IFS%?}"
+
+for S in ${IUSE} ${FLAGS} ${USE}; do
+  case ${S} in
+    "+${1}") BUILDFLAG="--enable-${LOFLAG}${OPT:+=${OPT}}"
+    ;;
+    "-${1}") BUILDFLAG="--disable-${LOFLAG}"
+    ;;
+    "+${1#!}") BUILDFLAG="--disable-${LOFLAG}"
+    ;;
+    "-${1#!}") BUILDFLAG="--enable-${LOFLAG}${OPT:+=${OPT}}"
+    ;;
+  esac
+done
+
+printf %s\\n "${BUILDFLAG:=--disable-${LOFLAG}}"; test "x${BUILDFLAG-}" = "x--enable-${LOFLAG}"

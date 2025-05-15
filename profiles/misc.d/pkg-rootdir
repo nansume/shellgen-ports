@@ -1,0 +1,11 @@
+#!/bin/sh
+# Usage: PDIR=$(pkg-rootdir)
+# Date: 2023-12-18 14:00 UTC - last change
+
+PDIR=${PDIR:-$PWD}
+
+if test "${BUILD_CHROOT:=0}" -ne '0'; then
+  PDIR="/"
+fi
+
+printf %s\\n "${PDIR:?}"

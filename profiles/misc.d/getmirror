@@ -1,0 +1,38 @@
+#!/bin/sh
+# Usage: getmirror <uri>
+# Sample: getmirror mirror://<mirror-name>/<url>
+# Date: 2024-05-19 18:00 UTC - last change
+
+: ${PDIR:?} ${1:?reqiured <URI>... Error}
+
+IFS="$(printf '\n\t') " SC=${0##*/} PDIR=${PDIR%/} URI=${1} N="0"
+
+test "${#}" -lt '2' || exit
+
+test -d "${PDIR}/mirrors.d" || PDIR=
+
+for S in "${PDIR}/mirrors.d/"*; do
+  test -f "${S}" || continue
+  I=${S##*/}
+  I=${I%.lst}
+  case ${URI} in
+    *"://${I}/"*)
+      NUML=$(wc -l < ${S})
+      XRANDOM=$(shuf -n '1' -i 1-${NUML})
+      while IFS= read -r S; do
+        S=${S%%#*}
+        S="${S%${S##*[![:space:]]}}"
+        S="${S#${S%%[![:space:]]*}}"
+        S=${S%/}
+        N=$(expr "0${N}" + '1')
+        test "0${N}" -ge ${NUML} && break
+        test "0${N}" -ge ${XRANDOM} && break
+      done < ${S}
+      test -n "${S}" && printf "${URI/mirror:\/\/${I}/${S}}"
+      exit
+    ;;
+  esac
+done
+
+printf %s\\n "$SC: ${URI}: No match... Error"
+exit 1

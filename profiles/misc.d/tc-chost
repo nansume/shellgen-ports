@@ -1,0 +1,80 @@
+#!/bin/sh
+# 2023-2025
+# Date: 2023-11-28 16:00 UTC - last change
+# Usage: CHOST=$(tc-chost {useflag} {chost})
+# Return: printf CHOST |  Exitcode: [true]/[false]
+
+: ${EABI:?}
+
+ABI=${EABI:-$ABI}
+
+#test "X${USER}" = 'Xroot' && return
+test "${BUILD_CHROOT:=0}" -eq '0' && return
+
+export ABI_BUILD=${ABI_BUILD:=x32}
+export ABI=${ABI:=x32}
+test "${BUILD_CHROOT:=0}" -ne '0' && ABI=${ABI_BUILD:-$ABI}
+export XABI=${XABI:=x32}
+
+USE=$(type 'use' 2>/dev/null)
+USE=${USE#*: not found}
+USE=${USE%%[[:cntrl:]]*}
+USE=${USE##* }
+USE=${USE:-false}
+
+HOSTTYPE=$(uname -m)
+OSTYPE=$(uname -s)
+
+case ${ABI} in
+  'x86')
+    HOSTTYPE='i686'
+    OSTYPE='linux-musl'
+    CHOST="${HOSTTYPE}-${OSTYPE}"
+    if { ${USE} 'diet' || test -x "/opt/diet/bin/diet" ;} && ${USE} !musl; then  # 2025.04.17 FIX: check no-musl
+      OSTYPE="linux-dietlibc"
+    fi
+  ;;
+  'x32')
+    test "x${OSTYPE}" = 'xLinux' && OSTYPE="linux-muslx32"
+    if { check-pkg 'sys-libs/glibc' ${ABI} || check-pkg 'sys-libs/glibc-compat' ${ABI} ;} >/dev/null; then
+      OSTYPE="linux-gnux32"
+    elif { check-pkg 'sys-glibc/glibc' ${ABI} || check-pkg 'sys-glibc/glibc-compat' ${ABI} ;} >/dev/null; then
+      OSTYPE="linux-gnux32"
+    elif ${USE} 'glibc'; then
+      OSTYPE="linux-gnux32"
+    elif { ${USE} 'diet' || test -x "/opt/diet/bin/diet" ;} && ${USE} !musl; then  # 2025.04.17 FIX: check no-musl
+      OSTYPE="linux-dietlibcx32"
+    elif check-pkg "sys-libs/musl" ${ABI} >/dev/null; then
+      OSTYPE="linux-muslx32"
+    elif ${USE} 'musl'; then
+      OSTYPE="linux-muslx32"
+    fi
+
+    if test "X${OSTYPE}" = 'Xlinux-gnux32'; then
+      CHOST="${HOSTTYPE}-pc-${OSTYPE}"
+    else
+      CHOST="${HOSTTYPE}-${OSTYPE}"
+    fi
+  ;;
+  'amd64')
+    HOSTTYPE='x86_64'
+    OSTYPE='linux-musl'
+    CHOST="${HOSTTYPE}-${OSTYPE}"
+    if { ${USE} 'diet' || test -x "/opt/diet/bin/diet" ;} && ${USE} !musl; then  # 2025.04.17 FIX: check no-musl
+      OSTYPE="linux-dietlibc"
+    fi
+  ;;
+esac
+
+case ${CHOST} in
+	*'-muslx32')
+		test "X${1}" = 'Xmusl' && {
+		test -n "${1}" && { ${USE} ${1} && OSTYPE="linux-gnux32";}
+    CHOST="${HOSTTYPE}-pc-${OSTYPE}"
+    }
+	;;
+esac
+
+CHOST=$(rechost "${CHOST}")
+
+printf %s\\n "${CHOST:?}"

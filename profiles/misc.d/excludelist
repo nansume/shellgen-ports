@@ -1,0 +1,32 @@
+#!/bin/sh
+# Copyright (C) 2021-2023 Artjom Slepnjov, Shellgen
+# License GPLv3: GNU GPL version 3 only
+# http://www.gnu.org/licenses/gpl-3.0.html
+# Date: 2023-10-05 16:00 UTC - fix: near to compat-posix
+# no-posix: X=${X//a/b} X=${X/a/b} - sh: syntax error: bad substitution
+
+IFS="$(printf '\n\t')"; IFS=${IFS%?} DPREFIX=${DPREFIX#/}
+
+LIST=
+for X in "${PDIR}/lst.d/"*"_ignore_"*".lst"; do
+  test -f "${X}" &&
+  while IFS= read -r X; do
+    X=${X%%#*}
+    X="${X%${X##*[![:space:]]}}"
+    test -n "${X}" || continue
+    X=$(printf %s "${X}" | sed "s/<PN>/${PN}/g")
+    X=$(printf %s "${X}" | sed "s/<PV>/${PV}/g")
+    X=$(printf %s "${X}" | sed "s/<DPREFIX>/${DPREFIX}/")
+    X=$(printf %s "${X}" | sed "s/<KMAP>/${KMAP}/g")
+    X=$(printf %s "${X}" | sed "s/<LIB_DIR>/${LIB_DIR}/")
+    #LIST="${LIST:+${LIST}:}${X}"
+    LIST="${LIST:+${LIST}${IFS}}${X}"
+  done < ${X}
+done
+
+for X in '' ${LIST}; do
+  test -z "${X}" && { LIST=; continue;}
+  test -n "${X}" && LIST="${LIST:+${LIST}:}${X}"
+done
+
+printf %s\\n "${LIST}"
