@@ -1,0 +1,9 @@
+dev-libs/libusb
+dev-util/pkgconf
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-fs/eudev
+sys-kernel/linux-headers-musl
+sys-libs/musl

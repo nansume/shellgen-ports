@@ -1,0 +1,7 @@
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-devel/patch  # for patch with fuzz and offset.
+sys-kernel/linux-headers-musl
+sys-libs/musl

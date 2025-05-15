@@ -1,0 +1,14 @@
+#app-alternatives/libuuid
+#app-arch/upx-ucl
+app-arch/upx
+dev-lang/nasm
+dev-lang/perl
+dev-libs/ucl
+
+sys-apps/util-linux
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-kernel/linux-headers
+sys-libs/musl
+sys-libs/zlib

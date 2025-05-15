@@ -1,0 +1,7 @@
+https://downloads.sourceforge.net/heirloom/heirloom/070715/heirloom-070715.tar.bz2
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-070715-major.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-070715-makefile.patch
+#http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-070715-glibc-2.30.patch
+#http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-070715-glibc-2.31.patch
+#http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-070715-gcc-10.patch
+#http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-070715-clang.patch

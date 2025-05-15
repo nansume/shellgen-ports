@@ -1,0 +1,10 @@
++httpd_helpers.sh
++httpd_indexcgi.c
+
+-# CONFIG_EJECT is not set
+-# CONFIG_FEATURE_EJECT_SCSI is not set
+-# CONFIG_FEATURE_VOLUMEID_MINIX is not set
+
+-hush
+
+-setserial

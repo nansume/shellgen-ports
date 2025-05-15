@@ -1,0 +1,27 @@
+dev-lang/python38
+
+dev-libs/expat  # for freetype,python
+#dev-libs/libffi  # for flitcore
+dev-libs/gmp  # deps openssl
+dev-libs/libgcrypt
+dev-libs/libgpg-error
+dev-libs/libnl  # libnl3
+dev-libs/openssl3  # for py38-m2crypto
+
+#dev-python/py38-flitcore
+#dev-python/py38-installer  # for flitcore
+dev-python/py38-m2crypto
+dev-python/py38-setuptools
+
+dev-util/pkgconf
+
+net-wireless/wireless-regdb
+
+sys-devel/binutils
+sys-devel/gcc9
+sys-devel/make
+sys-devel/patch  # for patch with fuzz and offset.
+
+sys-kernel/linux-headers-musl
+sys-libs/musl
+sys-libs/zlib  # deps openssl

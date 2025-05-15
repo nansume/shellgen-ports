@@ -1,0 +1,4 @@
+bin/sensors-conf-convert
+sbin/fancontrol
+sbin/pwmconfig
+sbin/sensors-detect

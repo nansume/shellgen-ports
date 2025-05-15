@@ -1,0 +1,18 @@
+test "${BUILD_CHROOT:=0}" -ne '0' || return 0
+{ test "x${USER}" != 'xroot' || test "${USE_BUILD_ROOT:=0}" -ne '0' ;} || return 0
+
+test -d "${WORKDIR}" || exit
+cd ${WORKDIR}/
+
+printf '%s' "
+CONFIG_BACKEND=file
+CONFIG_CTRL_IFACE=y
+CONFIG_DEBUG_FILE=y
+CONFIG_DEBUG_SYSLOG=y
+CONFIG_DEBUG_SYSLOG_FACILITY=LOG_DAEMON
+#CONFIG_DRIVER_NL80211=y
+CONFIG_DRIVER_WEXT=y
+CONFIG_DRIVER_WIRED=y
+#CONFIG_LIBNL32=y
+CONFIG_READLINE=y
+" > .config

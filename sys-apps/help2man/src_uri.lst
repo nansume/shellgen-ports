@@ -1,0 +1,2 @@
+mirror://gnu/${PN}/${PN}-1.49.3.tar.xz
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-1.46.1-linguas.patch

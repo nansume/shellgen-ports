@@ -1,0 +1,6 @@
+dev-libs/dietlibc
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-kernel/linux-headers-musl
+sys-libs/musl  # required for dietlibc

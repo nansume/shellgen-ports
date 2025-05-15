@@ -1,0 +1,10 @@
+dev-util/pkgconf
+
+sys-apps/file
+sys-apps/util-linux
+
+sys-devel/binutils
+sys-devel/gcc9
+sys-devel/make
+sys-kernel/linux-headers-musl
+sys-libs/musl0

@@ -1,0 +1,97 @@
+   Link: Gentoo's Bugzilla (search)
+   [gentoo_org.png]
+   Go to: Gentoo Home Documentation Forums Lists Bugs Planet Store Wiki Get Gentoo!
+   Gentoo's Bugzilla - Bug 792567 sys-boot/lilo does not build with musl? Last modified: 2022-05-19 15:49:18 UTC node
+   [vulture]
+
+   Bug 792567 - sys-boot/lilo does not build with musl?
+   Summary: sys-boot/lilo does not build with musl?
+
+       Status:     UNCONFIRMED
+       Alias:      None
+      Product:     Gentoo Linux                                 Reported:         2021-05-28 01:14 UTC by hacatu5000
+   Classification: Unclassified                                 Modified:         2022-05-19 15:49 UTC (History)
+     Component:    Current packages (show other bugs)                             3 users (show)
+      Hardware:    All Linux                                    CC List:          bugzilla
+     Importance:   Normal normal (vote)                                           musl
+      Assignee:    Joshua Kinard                                                  sam
+        URL:                                                    See Also:
+     Whiteboard:                                              Package list:
+      Keywords:    PATCH                                Runtime testing required: ---
+     Depends on:   741912
+       Blocks:     musl-porting
+                   Show dependency tree
+
+                                                    Attachments
+   Patch to define O_NOACCESS as O_RDONLY instead of O_ACCMODE (file_792567.txt,217 bytes, patch) Details | Diff
+   2022-05-19 11:54 UTC, Sebastian Melzer
+   View All Add an attachment (proposed patch, testcase, etc.)
+
+   Note You need to log in before you can comment on or make changes to this bug.
+
+Description hacatu5000  2021-05-28 01:14:18 UTC
+
+LILO 24.2 fails to build when using musl with the overlay instead of glibc.  LILO warns that glibc 2.1 or later is recommended, then fails with `edit.c:195:31: error: initializer element is not a compile-time constant`.  The musl overlay has an ostensible patch for LILO 24.1, but doing `emerge =sys-boot/lilo-24.1` fails for the same reason.
+
+Comment 1 hacatu5000  2021-05-28 02:46:57 UTC
+
+I'm also using clang to compile which could be the cause of the issue.
+
+If I
+-add `<stddef.h>` to the imports in `edit.c`
+-change `edit.c:195` to `(void*)((char*)&tm + (offsetof(MENUTABLE, row) - offsetof(BITMAPLILOHEADER, row)));`
+-replace the `printf` in `lilo.c` that references `__GLIBC__` with one that just prints `"Using musl libc`
+
+then the build succeeds, but trying to actually install with `/sbin/lilo` fails with `Fatal: geo_query_dev HDIO_GETGEO (dev 0x0800)L Bad file descriptor`.  Subsequent attempts fail with `Warning: LBA32 addressing assumed` followed by the same error.  I have found all locations which print this error are in `geometry.c`, but I'm still tracking down which one it is.
+
+Comment 2 Mike Gilbert [bugs-rank-dev.png] 2021-05-30 22:40:34 UTC
+
+Please provide emerge --info and build logs for each version you tested.
+
+Comment 3 Joshua Kinard [bugs-rank-dev.png] 2021-06-06 20:28:54 UTC
+
+Are you by chance the poster at this URL?:
+https://www.reddit.com/r/Gentoo/comments/nmq5o1/help_with_installing_a_bootloader_on_a_clangmusl/
+
+If so, could you expand more on how the the change to edit.c:195 fixes the issue versus removing the 'static' initializer would?  I found this comment while researching possible solutions for Bug #741912.  I don't have a working clang compiler to test it with, though gcc-11 seems content with that change.
+
+The printf() issue should be addressed in a recent commit that closed Bug #715580.
+
+The issue with geometry.c sounds like something that either clang or musl could have introduced.  Since the error is reproducible while the system is up and running, you might try building lilo with -ggdb3 and using GDB to trace the faulting code down.
+
+Comment 4 Joshua Kinard [bugs-rank-dev.png] 2022-04-20 00:34:41 UTC
+
+Marking NEEDINFO until reporter provides requested information.
+
+Comment 5 Sebastian Melzer  2022-05-19 11:54:33 UTC
+
+Created attachment 779519 [details, diff]
+Patch to define O_NOACCESS as O_RDONLY instead of O_ACCMODE
+
+24.2-r1 builds under GCC; the geometry.c issue appears to be caused by the fact that O_ACCMODE includes O_PATH now. While I have no idea why Lilo passes O_ACCMODE to open() to begin with, the attached patch fixes the problem.
+
+
+References
+
+   Visible links
+   . https://www.gentoo.org/support/documentation/
+   . https://forums.gentoo.org/
+   . https://planet.gentoo.org/
+   . https://www.gentoo.org/inside-gentoo/stores/
+   . https://wiki.gentoo.org/
+   . https://bugs.gentoo.org/show_bug.cgi?id=792567
+   . CONFIRMED - [TRACKER] sys-libs/musl porting
+	https://bugs.gentoo.org/show_bug.cgi?id=430702
+   . https://bugs.gentoo.org/showdependencytree.cgi?id=792567&hide_resolved=1
+   . https://bugs.gentoo.org/show_activity.cgi?id=792567
+   . View the content of the attachment
+	https://bugs.gentoo.org/attachment.cgi?id=779519
+   . Go to the comment associated with the attachment
+   . https://www.reddit.com/r/Gentoo/comments/nmq5o1/help_with_installing_a_bootloader_on_a_clangmusl/
+   . CONFIRMED - sys-boot/lilo-24.2: edit.c:195:31: error: initializer element is not a compile-time constant
+	https://bugs.gentoo.org/show_bug.cgi?id=741912
+   . RESOLVED FIXED - sys-boot/lilo-24.2 : lilo.c: error: _GLIBC_ undeclared (first use in this function)
+	https://bugs.gentoo.org/show_bug.cgi?id=715580
+   . Patch to define O_NOACCESS as O_RDONLY instead of O_ACCMODE
+	https://bugs.gentoo.org/attachment.cgi?id=779519
+   . Patch to define O_NOACCESS as O_RDONLY instead of O_ACCMODE

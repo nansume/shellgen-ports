@@ -1,0 +1,2 @@
+mirror://sourceforge/project/heirloom/${PN}/070527/${PN}-070527.tar.bz2
+http://data.gpo.zugaina.org/qsx/${CATEGORY}/${PN}/files/no-make.patch -> ${PN}-no-make.patch

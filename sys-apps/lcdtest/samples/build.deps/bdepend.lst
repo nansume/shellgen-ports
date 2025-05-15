@@ -1,0 +1,29 @@
+dev-lang/python3
+dev-libs/expat  # for python
+dev-libs/libffi  # for python
+dev-python/importlib-resources
+dev-python/py3-flitcore
+dev-python/py3-installer
+dev-python/py3-setuptools
+#dev-util/pkgconf
+dev-util/scons
+
+#gnome2-utils
+
+media-libs/alsa-lib
+media-libs/freetype
+media-libs/libjpeg-turbo
+media-libs/libpng
+media-libs/libwebp
+media-libs/sdl
+media-libs/sdl-image
+media-libs/sdl-ttf
+media-libs/tiff
+
+#sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+
+sys-libs/zlib  # for libpng,setuptools

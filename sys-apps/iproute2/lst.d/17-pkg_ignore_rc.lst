@@ -1,0 +1,4 @@
+etc/rc.boot
+sbin/rc.d
+etc/rc.boot/*
+sbin/rc.d/*

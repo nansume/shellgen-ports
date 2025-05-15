@@ -1,0 +1,10 @@
+# Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
+# -static -static-libs +shared +nopie -lfs -upx +patch -doc -man -xstub -diet +musl +stest +strip +x32
+
+# https://www.mizrahi.com.ve/crux/ports/crda/Pkgfile
+# http://data.gpo.zugaina.org/pentoo/net-wireless/crda/crda-4.14.ebuild
+
+DESCRIPTION="Central Regulatory Domain Agent for wireless networks"
+HOMEPAGE="https://wireless.wiki.kernel.org/en/developers/regulatory/crda"
+LICENSE="ISC"
+IUSE="+gcrypt -pentoo +shared +nopie -doc (+musl) +stest +strip"

@@ -1,0 +1,9 @@
+# Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
+# +static -static-libs -shared +nopie -lfs -upx -patch -doc -man -xstub -diet +musl +stest +strip +x32
+
+# http://data.gpo.zugaina.org/gentoo/sci-mathematics/calc/calc-2.13.0.1.ebuild
+
+DESCRIPTION="Arbitrary precision C-like arithmetic system"
+HOMEPAGE="http://www.isthe.com/chongo/tech/comp/calc/"
+LICENSE="LGPL-2"
+IUSE="+static -static-libs -shared +nopie -doc (+musl) +stest +strip"

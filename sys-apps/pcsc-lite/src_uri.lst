@@ -1,0 +1,8 @@
+https://pcsclite.apdu.fr/files/${PN}-2.0.1.tar.bz2
+#https://github.com/LudovicRousseau/PCSC/archive/refs/tags/2.0.1.tar.gz -> ${PN}-2.0.1.tar.gz
+#rsync://mirror.bytemark.co.uk/gentoo/distfiles/*/${PN}-2.0.1.tar.xz
+http://data.gpo.zugaina.org/gentoo/sys-apps/pcsc-lite/files/pcsc-lite-1.8.11-polkit-pcscd.patch
+http://data.gpo.zugaina.org/gentoo/sys-apps/pcsc-lite/files/99-pcscd-hotplug-r2.rules
+http://data.gpo.zugaina.org/gentoo/sys-apps/pcsc-lite/files/pcscd-init.7
+http://data.gpo.zugaina.org/gentoo/sys-apps/pcsc-lite/files/pcscd-udev
+http://data.gpo.zugaina.org/gentoo/sys-apps/pcsc-lite/files/pcscd.conf

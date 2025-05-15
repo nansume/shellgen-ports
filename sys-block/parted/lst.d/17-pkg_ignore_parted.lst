@@ -1,0 +1,4 @@
+bin/<PN>
+sbin/<PN>
+<LIB_DIR>/lib<PN>.so*
+lib/lib<PN>.so*

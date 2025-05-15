@@ -1,0 +1,14 @@
+#dev-libs/dietlibc
+
+dev-util/pkgconf
+
+sys-apps/sed
+
+sys-devel/binutils
+sys-devel/gcc9
+sys-devel/make
+#sys-devel/patch  # for patch with fuzz and offset.
+
+sys-libs/musl
+sys-libs/ncurses
+sys-libs/readline8

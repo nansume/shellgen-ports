@@ -1,0 +1,16 @@
+#dev-lang/python3  # for meson
+dev-libs/libusb
+dev-util/pkgconf
+
+#net-misc/rsync
+
+sys-apps/file
+#sys-auth/polkit
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/lex  # alternative a flex
+sys-devel/make
+sys-devel/patch  # for patch with fuzz and offset.
+#sys-fs/eudev
+sys-kernel/linux-headers-musl
+sys-libs/musl

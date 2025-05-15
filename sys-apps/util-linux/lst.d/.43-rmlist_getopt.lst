@@ -1,0 +1,4 @@
+bin/*
+<LIB_DIR>/*
+sbin/*
+<DPREFIX>/*

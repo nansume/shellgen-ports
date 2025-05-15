@@ -1,0 +1,10 @@
+dev-lang/perl
+dev-libs/libx86emu
+sys-apps/util-linux
+sys-devel/binutils
+sys-devel/flex
+sys-devel/gcc
+sys-devel/m4
+sys-devel/make
+sys-kernel/linux-headers-musl
+sys-libs/musl

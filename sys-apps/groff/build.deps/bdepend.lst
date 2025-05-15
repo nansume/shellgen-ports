@@ -1,0 +1,15 @@
+app-i18n/uchardet
+app-text/ghostscript-gpl
+dev-lang/perl
+dev-util/byacc  # alternative a bison
+dev-util/pkgconf
+
+media-fonts/urw-fonts
+#media-libs/netpbm  # optional
+
+sys-apps/texinfo
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/m4  # required for byacc
+sys-devel/make
+sys-libs/musl

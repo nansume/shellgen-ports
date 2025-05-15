@@ -1,0 +1,7 @@
+https://github.com/lcn2/calc/archive/refs/tags/v${PV}.tar.gz -> ${PN}-${PV}.tar.gz
+#https://mirrors.mit.edu/macports/distfiles/calc/${PN}-${PV}.tar.bz2
+#https://github.com/lcn2/calc/archive/refs/tags/v${PV}.tar.gz -> ${PN}-${PV}.tar.gz
+
+#http://www.isthe.com/chongo/src/calc/${PN}-${PV}.tar.bz2
+#http://data.gpo.zugaina.org/gentoo/sci-mathematics/calc/files/calc-2.13.0.1-RPATH.patch
+#http://data.gpo.zugaina.org/gentoo/sci-mathematics/calc/files/calc-2.13.0.1-respect-LDFLAGS.patch

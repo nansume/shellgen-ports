@@ -1,0 +1,8 @@
+######################################
+#####  Sed [utf-8,lang-en,ipv4]  #####
+######################################
+
+# sed Find and Replace ASCII Control Codes / Nonprintable Characters [utf-8,lang-en,ipv4,ssl]
+http://www.cyberciti.biz/faq/unix-linux-sed-ascii-control-codes-nonprintable/
+# gnu.org - manual: sed, a stream editor [utf-8,lang-en,ipv4,ssl]
+http://www.gnu.org/software/sed/manual/sed.html

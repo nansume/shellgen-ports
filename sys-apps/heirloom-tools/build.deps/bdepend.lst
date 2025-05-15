@@ -1,0 +1,10 @@
+dev-libs/dietlibc
+dev-util/byacc  # alternative a bison
+dev-util/pkgconf
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/lex
+sys-devel/make
+#sys-libs/ncurses  # shared or static
+#sys-libs/netbsd-curses  # for static (optional) - nocompat
+#sys-libs/zlib  # optional

@@ -1,0 +1,17 @@
+dev-lang/perl  # required for autotools
+dev-libs/libx86
+dev-util/pkgconf
+
+sys-apps/file
+sys-devel/autoconf  # required for autotools
+sys-devel/automake  # required for autotools
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/libtool  # required for autotools
+sys-devel/m4  # required for autotools
+sys-devel/make
+sys-kernel/linux-headers-musl
+sys-libs/musl
+sys-libs/zlib
+
+x11-libs/libpciaccess

@@ -1,0 +1,6 @@
+https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/keyutils.git/snapshot/${PN}-1.6.3.tar.gz
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-1.6-makefile-fixup.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-1.5.10-disable-tests.patch
+#http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-1.5.9-header-extern-c.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-1.6.3-fix-rpmspec-check.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-1.6.3-tests.patch

@@ -1,0 +1,5 @@
+################################
+#####  grub2 [utf-8,ipv4]  #####
+################################
+
+# install GRUB to disk without parted (FS create to self device)? [utf-8,ipv4-only,ssl-only]

@@ -1,0 +1,11 @@
+#app-busybox/gzip
+dev-libs/dietlibc  # BUG: loadkeys: Unable to open file: -C
+dev-util/byacc  # alternative a bison (posix)
+dev-util/pkgconf
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc9
+sys-devel/lex  # alternative a flex (posix)
+sys-devel/make
+sys-kernel/linux-headers-musl
+#sys-libs/musl  # BUG: ignore opt: -C

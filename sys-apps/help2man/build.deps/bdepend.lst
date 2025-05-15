@@ -1,0 +1,6 @@
+dev-lang/perl  # required for autotools
+sys-devel/binutils  # required for configure ( why? )
+sys-devel/gcc  # required for configure ( why? )
+sys-devel/make
+sys-devel/patch  # for patch with fuzz and offset.
+sys-libs/musl  # required for perl

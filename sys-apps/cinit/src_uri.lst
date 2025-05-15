@@ -1,0 +1,3 @@
+rsync://mirror.bytemark.co.uk/gentoo/distfiles/*/${PN}-0.2.1.tar.bz2
+#http://linux.schottelius.org/${PN}/archives/${PN}-0.2.1.tar.bz2
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-0.2.1-musl-clang16-build-fix.patch

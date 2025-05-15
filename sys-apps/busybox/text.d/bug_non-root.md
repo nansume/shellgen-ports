@@ -1,0 +1,1 @@
+Chroots to DIR, this fails (run by non-root).

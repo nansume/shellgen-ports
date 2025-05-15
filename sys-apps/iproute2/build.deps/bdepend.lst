@@ -1,0 +1,17 @@
+#app-busybox/find
+
+dev-libs/glib-compat
+dev-libs/libffi
+dev-libs/pcre
+dev-util/pkgconf
+
+#sys-apps/findutils
+
+sys-devel/binutils
+sys-devel/bison
+sys-devel/flex
+sys-devel/gcc
+sys-devel/m4
+sys-devel/make
+sys-kernel/linux-headers
+sys-libs/musl

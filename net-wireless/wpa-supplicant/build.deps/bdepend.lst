@@ -1,0 +1,12 @@
+dev-libs/libressl-compat
+#dev-libs/openssl-compat
+dev-libs/libnl
+#sys-kernel/linux-mod
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-kernel/linux-headers
+sys-libs/musl
+sys-libs/ncurses
+sys-libs/readline

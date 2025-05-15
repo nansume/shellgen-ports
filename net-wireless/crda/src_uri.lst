@@ -1,0 +1,9 @@
+https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/crda.git/snapshot/${PN}-${PV}.tar.gz
+http://data.gpo.zugaina.org/pentoo/net-wireless/crda/files/crda-no-ldconfig.patch
+http://data.gpo.zugaina.org/pentoo/net-wireless/crda/files/crda-no-werror.patch
+http://data.gpo.zugaina.org/pentoo/net-wireless/crda/files/crda-cflags.patch
+http://data.gpo.zugaina.org/pentoo/net-wireless/crda/files/crda-libreg-link.patch
+http://data.gpo.zugaina.org/pentoo/net-wireless/crda/files/crda-4.14-python-3.patch
+http://data.gpo.zugaina.org/pentoo/net-wireless/crda/files/crda-4.14-openssl-1.1.0-compatibility.patch
+http://data.gpo.zugaina.org/pentoo/net-wireless/crda/files/crda-ldflags.patch
+http://data.gpo.zugaina.org/pentoo/net-wireless/crda/files/crda-4.14-do-not-compress-doc.patch

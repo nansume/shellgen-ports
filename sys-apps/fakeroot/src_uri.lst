@@ -1,0 +1,9 @@
+ftp://ftp.vectranet.pl/gentoo/distfiles/fakeroot_1.8.1.tar.gz
+#http://ftp.debian.org/debian/pool/main/f/fakeroot/fakeroot_1.23.orig.tar.xz
+#ftp://ftp.vectranet.pl/gentoo/distfiles/fakeroot_1.30.1.orig.tar.gz
+#https://gitweb.gentoo.org/proj/musl.git/plain/sys-apps/fakeroot/files/fakeroot-1.19-no-acl_h.patch
+#https://gitweb.gentoo.org/proj/musl.git/plain/sys-apps/fakeroot/files/fakeroot-1.20.2-glibc-2.24.patch
+#https://gitweb.gentoo.org/proj/musl.git/plain/sys-apps/fakeroot/files/fakeroot-1.22-no64.patch
+#https://gitweb.gentoo.org/proj/musl.git/plain/sys-apps/fakeroot/files/fakeroot-1.22-xstatjunk.patch
+#https://git.alpinelinux.org/aports/plain/main/fakeroot/busybox-getopt.patch?h=3.8-stable
+#https://git.alpinelinux.org/aports/plain/main/fakeroot/fakeroot-no-ldlibrarypath.patch?h=3.9-stable --> fakeroot-no-ldlibrarypath.patch

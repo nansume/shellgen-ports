@@ -1,0 +1,6 @@
+bin/<PN>?*
+bin/*?<PN>
+bin/*?<PN>?*
+sbin/<PN>?*
+sbin/*?<PN>
+sbin/*?<PN>?*

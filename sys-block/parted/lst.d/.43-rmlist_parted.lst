@@ -1,0 +1,9 @@
+#lib*/libparted-fs-resize.so*
+#lib*/libparted.so
+#sbin/partprobe
+#<DPREFIX>/share/*
+
+<LIB_DIR>/*
+sbin/*
+<DPREFIX>/*
+<DPREFIX>/*/

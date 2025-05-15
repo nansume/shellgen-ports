@@ -1,0 +1,7 @@
+ftp://mirrors.tera-byte.com/pub/gentoo/distfiles/lilo-24.2.tar.gz
+http://data.gpo.zugaina.org/gentoo/sys-boot/lilo/files/lilo-24.1-novga.patch
+http://data.gpo.zugaina.org/gentoo/sys-boot/lilo/files/lilo-24.2-add-nvme-support.patch
+http://data.gpo.zugaina.org/gentoo/sys-boot/lilo/files/lilo-24.x-fix-gcc-10.patch
+http://data.gpo.zugaina.org/gentoo/sys-boot/lilo/files/lilo-24.x-check-for-__GLIBC__.patch
+https://792567.bugs.gentoo.org/attachment.cgi?id=779519 -> lilo-24.2-fix-O_ACCMODE.patch
+http://data.gpo.zugaina.org/gentoo/sys-boot/lilo/files/lilo.conf

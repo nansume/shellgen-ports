@@ -1,0 +1,12 @@
+###################################
+#####  Coreboot [utf-8,ipv4]  #####
+###################################
+
+me_cleaner (intel me)
+usb ch341a soic8 - flashrom
+ThinkPad x230 coreboot whitelist
+Lenovo G505S A10-5750M (support: coreboot)
+ath9k
+
+# flashrom.org - Supported_hardware [utf-8,ipv4-only,ssl]
+http://www.flashrom.org/Supported_hardware

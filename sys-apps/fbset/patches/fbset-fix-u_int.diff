@@ -1,0 +1,36 @@
+Author: Artjom Slepnjov "Shellgen"
+Description: replace <u_int> to <unsigned int>
+Ver: fbset-2.1
+Date: 2024-09-20 18:00 UTC
+===================================================================================
+--- a/fbset.c
++++ b/fbset.c
+@@ -521,7 +521,7 @@
+ 
+ static void ModifyVideoMode(struct VideoMode *vmode)
+ {
+-    u_int hstep = 8, vstep = 2;
++    unsigned int hstep = 8, vstep = 2;
+ 
+     if (Opt_xres)
+ 	vmode->xres = strtoul(Opt_xres, NULL, 0);
+@@ -611,7 +611,7 @@
+ 
+ static void DisplayVModeInfo(struct VideoMode *vmode)
+ {
+-    u_int res, sstart, send, total;
++    unsigned int res, sstart, send, total;
+ 
+     puts("");
+     if (!Opt_xfree86) {
+@@ -800,8 +800,8 @@
+ 
+ static int FillScanRates(struct VideoMode *vmode)
+ {
+-    u_int htotal = vmode->left+vmode->xres+vmode->right+vmode->hslen;
+-    u_int vtotal = vmode->upper+vmode->yres+vmode->lower+vmode->vslen;
++    unsigned int htotal = vmode->left+vmode->xres+vmode->right+vmode->hslen;
++    unsigned int vtotal = vmode->upper+vmode->yres+vmode->lower+vmode->vslen;
+ 
+     if (vmode->dblscan)
+ 	vtotal <<= 2;

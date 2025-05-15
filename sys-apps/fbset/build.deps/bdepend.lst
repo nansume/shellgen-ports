@@ -1,0 +1,8 @@
+dev-libs/dietlibc
+sys-devel/binutils
+sys-devel/bison
+sys-devel/gcc
+sys-devel/lex
+sys-devel/m4
+sys-devel/make
+sys-kernel/linux-headers-musl
