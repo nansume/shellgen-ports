@@ -1,0 +1,30 @@
+#######################################################################
+#####  Netfilter ipv4/ipv6 (nftables/iptables) [utf-8,ipv4,ipv6]  #####
+#######################################################################
+
+# nftables wiki [utf-8,ipv4,ssl]
+http://wiki.nftables.org/
+# Nftables/Examples - Gentoo Wiki [utf-8,ipv4,ipv6,ssl]
+http://wiki.gentoo.org/wiki/Nftables/Examples
+# Nftables - Gentoo Wiki [utf-8,ipv4,ipv6,ssl]
+http://wiki.gentoo.org/wiki/Nftables
+# nftables - ArchWiki [utf-8,ipv4,ipv6,ssl]
+http://wiki.archlinux.org/index.php/nftables
+# netfilter/iptables project homepage - The netfilter.org [utf-8,ipv4,ssl]
+http://www.netfilter.org/projects/nftables/
+# Man page of nft [utf-8,ipv4]
+http://www.netfilter.org/projects/nftables/manpage.html
+# nftables - Debian Wiki [utf-8,ipv4,ssl]
+http://wiki.debian.org/nftables
+# Nftables quick howto - To Linux and beyond [utf-8,ipv4,ssl]
+http://home.regit.org/netfilter-en/nftables-quick-howto/
+# port forwarding - iptables redirect outside requests to 127.0.0.1
+https://unix.stackexchange.com/questions/111433/iptables-redirect-outside-requests-to-127-0-0-1
+# [net-next] ipv4: Add interface option to enable routing of 127.0.0.0/8 - Patchwork
+http://patchwork.ozlabs.org/project/netdev/patch/c716369f398f118cbd049aa149495494faef6478.1339106943.git.tgraf@suug.ch/
+# How to redirect requests on port 80 to localhost:3000 using nftables?
+https://serverfault.com/questions/1021798/how-to-redirect-requests-on-port-80-to-localhost3000-using-nftables
+# Difference beetween DNAT and REDIRECT in IPTABLES
+https://serverfault.com/questions/179200/difference-beetween-dnat-and-redirect-in-iptables
+
+==========================================================================

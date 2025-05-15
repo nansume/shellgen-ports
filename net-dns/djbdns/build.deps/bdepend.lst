@@ -1,0 +1,8 @@
+dev-libs/dietlibc0
+sys-devel/binutils
+sys-devel/gcc9
+#sys-devel/libtool
+sys-devel/make
+sys-devel/patch
+#sys-libs/musl
+sys-libs/musl-legacy-error

@@ -1,0 +1,3 @@
+http://dns.measurement-factory.com/tools/${PN}/src/${PN}-20140915.tar.gz
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-20140915-pkg-config.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-20140915-musl-fix.patch

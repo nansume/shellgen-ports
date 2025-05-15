@@ -1,0 +1,3 @@
+https://github.com/fwdillema/${PN}/archive/refs/tags/1.5.3.tar.gz -> ${PN}-1.5.3.tar.gz
+#http://mortzu.andromeda.hostedinspace.de/aur/${PN}/${PN}-1.5.1.tar.xz
+#http://www.dillema.net/software/${PN}/${PN}-1.5.1.tar.gz

@@ -1,0 +1,5 @@
+#bin/mpg123-*
+bin/out123
+lib*/libmpg123.so
+lib*/libout123.so
+<DPREFIX>/share/*

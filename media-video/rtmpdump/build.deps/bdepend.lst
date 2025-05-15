@@ -1,0 +1,18 @@
+dev-libs/gmp  # for gnutls,openssl
+#dev-libs/libgcrypt  # for use <gnutls> (optional)
+#dev-libs/libgpg-error  # for use <gnutls> (optional)
+#dev-libs/libtasn1  # for use <gnutls>
+#dev-libs/libunistring  # for use <gnutls>
+#dev-libs/nettle  # for use <gnutls>
+#dev-libs/openssl-compat  # for use <ssl>
+dev-libs/openssl  # for use <ssl>
+
+#net-libs/gnutls  # for use <gnutls> -  no build!
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+#sys-devel/patch
+sys-kernel/linux-headers-musl
+sys-libs/musl
+sys-libs/zlib  # for gnutls,openssl

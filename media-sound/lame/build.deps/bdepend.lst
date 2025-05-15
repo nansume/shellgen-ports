@@ -1,0 +1,13 @@
+dev-lang/nasm  # for x86asm (optional) ignore?
+dev-util/pkgconf
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-devel/patch  # for patch with fuzz and offset.
+sys-kernel/linux-headers-musl
+sys-libs/musl
+#sys-libs/ncurses  # for frontend (cui)
+
+#x11-libs/gtk1  # for frontend (gui)

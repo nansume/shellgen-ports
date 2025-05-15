@@ -1,0 +1,22 @@
+dev-libs/openssl3
+dev-util/pkgconf
+
+net-misc/curl
+
+media-libs/libao  # use: <ogg123>
+media-libs/flac  # optional
+media-libs/libkate  # (optional) use: <kate>
+media-libs/libpng  # for libkate
+media-libs/libvorbis
+media-libs/libogg  # for vorbis,speex
+media-libs/opus
+media-libs/opusfile
+media-libs/speex
+media-libs/speexdsp
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # for libkate,curl

@@ -1,0 +1,9 @@
+mirror://debian/pool/main/e/ez-ipupdate/${PN}_3.0.11b8.orig.tar.gz -> ${PN}_3.0.11b8.tar.gz
+mirror://debian/pool/main/e/ez-ipupdate/${PN}_3.0.11b8-13.4.1.diff.gz
+
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-3.0.11.13.3_beta8-3322.diff
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-3.0.11.13.3_beta8-dnsexit.diff
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-3.0.11.13.3_beta8-linux.diff
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-3.0.11.13.3_beta8-ipv6.diff
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-3.0.11.13.3_beta8-fix-format-mask.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-3.0.11.13.3_beta8-clang16.patch

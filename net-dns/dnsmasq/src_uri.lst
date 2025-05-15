@@ -1,0 +1,11 @@
+https://thekelleys.org.uk/dnsmasq/dnsmasq-2.90.tar.xz
+
+#https://thekelleys.org.uk/dnsmasq/dnsmasq-2.85.tar.xz
+#https://raw.githubusercontent.com/lixingcong/dnsmasq-regex/b150a801e2d4665338f438e1a9b1e5f6ed01c90c/patches/001-regex-server.patch --> dnsmasq-2.85-p001-regex-server.patch
+
+#https://thekelleys.org.uk/dnsmasq/dnsmasq-2.86.tar.xz
+#https://raw.githubusercontent.com/lixingcong/dnsmasq-regex/978d5457b332b8989685f737d54e6abec77431f3/patches/001-regex-server.patch --> dnsmasq-2.86-p001-regex-server.patch
+
+#https://github.com/lixingcong/dnsmasq-regex/raw/master/patches/001-regex-server.patch
+#https://thekelleys.org.uk/dnsmasq/dnsmasq-2.80.tar.xz
+#http://localhost/dnsmasq-2.80p1-regex-server.diff

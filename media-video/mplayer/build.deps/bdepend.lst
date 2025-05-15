@@ -1,0 +1,25 @@
+#dev-libs/directfb
+
+dev-libs/expat
+
+#dev-libs/gmp  # for gnutls
+#dev-libs/libtasn1  # for gnutls
+#dev-libs/libunistring  # for gnutls
+#dev-libs/nettle  # for gnutls
+
+dev-util/pkgconf
+
+media-libs/alsa-lib
+media-libs/freetype
+media-libs/fontconfig
+#media-sound/mpg123
+media-video/ffmpeg
+
+#net-libs/gnutls
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-kernel/linux-headers
+sys-libs/musl
+sys-libs/zlib  # libavcodec/mwsc.c:31:10: fatal error: zlib.h: No such file

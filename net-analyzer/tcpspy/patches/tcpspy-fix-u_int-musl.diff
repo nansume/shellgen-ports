@@ -1,0 +1,265 @@
+Author: Artjom Slepnjov "Shellgen"
+Description: replace to uint*_t
+Ver: tcpspy-1.7d-15
+Date: 2024-08-31 22:00 UTC
+===================================================================================
+--- a/rule.c
++++ b/rule.c
+@@ -66,20 +66,20 @@
+  * Exported functions.
+  */
+ void rule_gen_user (uid_t uid);
+-void rule_gen_lport (u_int16_t low, u_int16_t high);
+-void rule_gen_rport (u_int16_t low, u_int16_t high);
+-void rule_gen_laddr (u_int32_t addr, u_int32_t mask);
+-void rule_gen_raddr (u_int32_t addr, u_int32_t mask);
+-void rule_gen_laddr6 (u_int32_t addr[4], u_int32_t mask[4]);
+-void rule_gen_raddr6 (u_int32_t addr[4], u_int32_t mask[4]);
++void rule_gen_lport (uint16_t low, uint16_t high);
++void rule_gen_rport (uint16_t low, uint16_t high);
++void rule_gen_laddr (uint32_t addr, uint32_t mask);
++void rule_gen_raddr (uint32_t addr, uint32_t mask);
++void rule_gen_laddr6 (uint32_t addr[4], uint32_t mask[4]);
++void rule_gen_raddr6 (uint32_t addr[4], uint32_t mask[4]);
+ void rule_gen_ip (void);
+ void rule_gen_ip6 (void);
+ void rule_gen_exe (unsigned long estrid);
+ void rule_gen_or (void);
+ void rule_gen_and (void);
+ void rule_gen_not (void);
+-int rule_eval (int maf, uid_t r_uid, u_int32_t *laddr, u_int16_t lport, 
+-		u_int32_t *raddr, u_int16_t rport, const char *mexe);
++int rule_eval (int maf, uid_t r_uid, uint32_t *laddr, uint16_t lport, 
++		uint32_t *raddr, uint16_t rport, const char *mexe);
+ void rule_parse (const char *r);
+ unsigned long st_store (const char *s);
+ 
+@@ -150,7 +150,7 @@
+  *
+  * Generate a local port comparison.
+  */
+-void rule_gen_lport (u_int16_t low, u_int16_t high)
++void rule_gen_lport (uint16_t low, uint16_t high)
+ {
+ 	add_code (BC_LPORT);
+ 	add_code ((bytecode_t) low);
+@@ -162,7 +162,7 @@
+  *
+  * Generate a remote port comparison.
+  */
+-void rule_gen_rport (u_int16_t low, u_int16_t high)
++void rule_gen_rport (uint16_t low, uint16_t high)
+ {
+ 	add_code (BC_RPORT);
+ 	add_code ((bytecode_t) low);
+@@ -174,7 +174,7 @@
+  *
+  * Generate a local address comparison.
+  */
+-void rule_gen_laddr (u_int32_t addr, u_int32_t mask)
++void rule_gen_laddr (uint32_t addr, uint32_t mask)
+ {
+ 	add_code (BC_LADDR);
+ 	add_code ((bytecode_t) addr);
+@@ -186,7 +186,7 @@
+  *
+  * Generate a remote address comparison.
+  */
+-void rule_gen_raddr (u_int32_t addr, u_int32_t mask)
++void rule_gen_raddr (uint32_t addr, uint32_t mask)
+ {
+ 	add_code (BC_RADDR);
+ 	add_code ((bytecode_t) addr);
+@@ -198,7 +198,7 @@
+  *
+  * Generate a local IPv6 address comparison.
+  */
+-void rule_gen_laddr6 (u_int32_t addr[4], u_int32_t mask[4])
++void rule_gen_laddr6 (uint32_t addr[4], uint32_t mask[4])
+ {
+ 	add_code (BC_LADDR6);
+ 	add_code ((bytecode_t) addr[0]);
+@@ -216,7 +216,7 @@
+  *
+  * Generate a remote IPv6 address comparison.
+  */
+-void rule_gen_raddr6 (u_int32_t addr[4], u_int32_t mask[4])
++void rule_gen_raddr6 (uint32_t addr[4], uint32_t mask[4])
+ {
+ 	add_code (BC_RADDR6);
+ 	add_code ((bytecode_t) addr[0]);
+@@ -348,8 +348,8 @@
+  *
+  * Returns nonzero if the connection matches the rule, zero otherwise.
+  */
+-int rule_eval (int maf, uid_t muid, u_int32_t *mladdr, u_int16_t mlport, 
+-		u_int32_t *mraddr, u_int16_t mrport, const char *mexe)
++int rule_eval (int maf, uid_t muid, uint32_t *mladdr, uint16_t mlport, 
++		uint32_t *mraddr, uint16_t mrport, const char *mexe)
+ {
+ 	size_t ip = 0;
+ 	unsigned int c;
+@@ -387,10 +387,10 @@
+ 				 * Local port comparison.
+ 				 */
+ 				{
+-				u_int16_t hiport, loport;
++				uint16_t hiport, loport;
+ 
+-				loport = (u_int16_t) NEXTCODE;
+-				hiport = (u_int16_t) NEXTCODE;
++				loport = (uint16_t) NEXTCODE;
++				hiport = (uint16_t) NEXTCODE;
+ 
+ 				SHORTCIRCUIT;
+ 
+@@ -403,10 +403,10 @@
+ 				 * Remote port comparison.
+ 				 */
+ 				{
+-				u_int16_t hiport, loport;
++				uint16_t hiport, loport;
+ 
+-				loport = (u_int16_t) NEXTCODE;
+-				hiport = (u_int16_t) NEXTCODE;
++				loport = (uint16_t) NEXTCODE;
++				hiport = (uint16_t) NEXTCODE;
+ 
+ 				SHORTCIRCUIT;
+ 
+@@ -419,10 +419,10 @@
+ 				 * Local address comparison.
+ 				 */
+ 				{
+-				u_int32_t addr, mask;
++				uint32_t addr, mask;
+ 
+-				addr = (u_int32_t) NEXTCODE;
+-				mask = (u_int32_t) NEXTCODE;
++				addr = (uint32_t) NEXTCODE;
++				mask = (uint32_t) NEXTCODE;
+ 
+ 				SHORTCIRCUIT;
+ 
+@@ -436,10 +436,10 @@
+ 				 * Remote address comparison.
+ 				 */
+ 				{
+-				u_int32_t addr, mask;
++				uint32_t addr, mask;
+ 
+-				addr = (u_int32_t) NEXTCODE;
+-				mask = (u_int32_t) NEXTCODE;
++				addr = (uint32_t) NEXTCODE;
++				mask = (uint32_t) NEXTCODE;
+ 
+ 				SHORTCIRCUIT;
+ 
+@@ -453,13 +453,13 @@
+ 				 * Local IPv6 address comparison.
+ 				 */
+ 				{
+-				u_int32_t addr[4], mask[4], patch[4];
++				uint32_t addr[4], mask[4], patch[4];
+ 				int j;
+ 
+ 				for (j = 0; j < 4; ++j)
+-					addr[j] = (u_int32_t) NEXTCODE;
++					addr[j] = (uint32_t) NEXTCODE;
+ 				for (j = 0; j < 4; ++j)
+-					mask[j] = (u_int32_t) NEXTCODE;
++					mask[j] = (uint32_t) NEXTCODE;
+ 
+ 				SHORTCIRCUIT;
+ 
+@@ -476,13 +476,13 @@
+ 				 * Remote IPv6 address comparison.
+ 				 */
+ 				{
+-				u_int32_t addr[4], mask[4], patch[4];
++				uint32_t addr[4], mask[4], patch[4];
+ 				int j;
+ 
+ 				for (j = 0; j < 4; ++j)
+-					addr[j] = (u_int32_t) NEXTCODE;
++					addr[j] = (uint32_t) NEXTCODE;
+ 				for (j = 0; j < 4; ++j)
+-					mask[j] = (u_int32_t) NEXTCODE;
++					mask[j] = (uint32_t) NEXTCODE;
+ 
+ 				SHORTCIRCUIT;
+ 
+--- a/rule.h
++++ b/rule.h
+@@ -40,20 +40,20 @@
+ #include <unistd.h>
+ 
+ void rule_gen_user (uid_t uid);
+-void rule_gen_lport (u_int16_t low, u_int16_t high);
+-void rule_gen_rport (u_int16_t low, u_int16_t high);
+-void rule_gen_laddr (u_int32_t addr, u_int32_t mask);
+-void rule_gen_raddr (u_int32_t addr, u_int32_t mask);
+-void rule_gen_laddr6 (u_int32_t addr6[4], u_int32_t mask6[4]);
+-void rule_gen_raddr6 (u_int32_t addr6[4], u_int32_t mask6[4]);
++void rule_gen_lport (uint16_t low, uint16_t high);
++void rule_gen_rport (uint16_t low, uint16_t high);
++void rule_gen_laddr (uint32_t addr, uint32_t mask);
++void rule_gen_raddr (uint32_t addr, uint32_t mask);
++void rule_gen_laddr6 (uint32_t addr6[4], uint32_t mask6[4]);
++void rule_gen_raddr6 (uint32_t addr6[4], uint32_t mask6[4]);
+ void rule_gen_ip (void);
+ void rule_gen_ip6 (void);
+ void rule_gen_exe (unsigned long estrid);
+ void rule_gen_or (void);
+ void rule_gen_and (void);
+ void rule_gen_not (void);
+-int rule_eval (int maf, uid_t muid, u_int32_t *mladdr, u_int16_t mlport,
+-		u_int32_t *mraddr, u_int16_t mrport, const char *mexe);
++int rule_eval (int maf, uid_t muid, uint32_t *mladdr, uint16_t mlport,
++		uint32_t *mraddr, uint16_t mrport, const char *mexe);
+ void rule_parse (const char *r);
+ void rule_parse_file (FILE *fp);
+ 
+--- a/rule_grammar.y
++++ b/rule_grammar.y
+@@ -52,13 +52,13 @@
+ 	unsigned short boolean;
+ 	uid_t user;
+ 	struct {
+-		u_int16_t low, high;
++		uint16_t low, high;
+ 	} port;
+ 	struct {
+-		u_int32_t addr, mask;
++		uint32_t addr, mask;
+ 	} addr;
+ 	struct {
+-		u_int32_t addr[4], mask[4];
++		uint32_t addr[4], mask[4];
+ 	} addr6;
+ 	unsigned long exe;
+ }
+--- a/rule_lexer.l
++++ b/rule_lexer.l
+@@ -146,7 +146,7 @@
+ 			yytext[yyleng - 1] = '\0';
+ 			if ((se = getservbyname (yytext + 1, "tcp")) == NULL)
+ 				YY_FATAL_ERROR ("unknown service");
+-			rulelval.port.low = rulelval.port.high = (u_int16_t) ntohs (se->s_port);
++			rulelval.port.low = rulelval.port.high = (uint16_t) ntohs (se->s_port);
+ 			return PORT_SPEC;
+ 			}
+ 
+--- a/tcpspy.c
++++ b/tcpspy.c
+@@ -420,8 +420,8 @@
+ 	assert (action != NULL);
+ 
+ 	if ((gotrule != 0) &&
+-		(rule_eval (c->af, c->uid, (u_int32_t *) c->lcl6, c->lclp,
+-				(u_int32_t *) c->rmt6, c->rmtp, (showprocs != 0) ? c->exe : NULL) == 0))
++		(rule_eval (c->af, c->uid, (uint32_t *) c->lcl6, c->lclp,
++				(uint32_t *) c->rmt6, c->rmtp, (showprocs != 0) ? c->exe : NULL) == 0))
+ 		return;
+ 
+ 	if ((inet_ntop (c->af, c->lcl6, laddr, sizeof (laddr)) == NULL) && (errno == ENOSPC))

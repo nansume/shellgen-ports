@@ -1,0 +1,11 @@
+dev-util/pkgconf
+
+net-libs/libmnl
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-kernel/linux-headers
+#sys-kernel/linux-mod
+sys-libs/musl

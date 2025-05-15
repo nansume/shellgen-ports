@@ -1,0 +1,5 @@
+mirror://xiph/vorbis/${PN}-1.4.2.tar.gz
+#http://downloads.xiph.org/releases/vorbis/${PN}-1.4.2.tar.gz
+#http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-1.4.2-r3-docdir.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-1.4.2-clang16.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-1.4.2-fix-buffer-overflow.patch

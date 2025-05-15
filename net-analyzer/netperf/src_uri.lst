@@ -1,0 +1,8 @@
+https://github.com/HewlettPackard/netperf/archive/netperf-2.7.0/netperf-netperf-2.7.0.tar.gz -> netperf-2.7.0.tar.gz
+#ftp://ftp.netperf.org/${PN}/${PN}-2.7.0.tar.bz2
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-fix-scripts.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-2.6.0-log-dir.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-2.7.0-includes.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-2.7.0-space.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-2.7.0-inline.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-2.7.0-fcommon.patch

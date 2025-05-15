@@ -1,0 +1,14 @@
+dev-libs/glib-compat
+dev-libs/libffi
+#dev-libs/libressl-compat  # for cmake
+dev-libs/pcre
+
+dev-util/cmake
+dev-util/pkgconf
+
+media-libs/alsa-lib
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl

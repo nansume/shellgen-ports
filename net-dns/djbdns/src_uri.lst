@@ -1,0 +1,21 @@
+http://cr.yp.to/${PN}/${PN}-1.05.tar.gz
+#http://smarden.org/pape/djb/manpages/${PN}-1.05-man.tar.gz
+
+http://data.gpo.zugaina.org/gentoo/net-dns/${PN}/files/dnsroots.patch
+http://data.gpo.zugaina.org/gentoo/net-dns/${PN}/files/dnstracesort.patch
+#http://data.gpo.zugaina.org/gentoo/net-dns/${PN}/files/string_length_255.patch
+#http://data.gpo.zugaina.org/gentoo/net-dns/${PN}/files/srv_record_support.patch
+#http://data.gpo.zugaina.org/gentoo/net-dns/${PN}/files/increase-cname-recustion-depth.patch
+#http://data.gpo.zugaina.org/gentoo/net-dns/${PN}/files/CVE2009-0858_0001-check-response-domain-name-length.patch
+#http://data.gpo.zugaina.org/gentoo/net-dns/${PN}/files/CVE2012-1191_0001-ghost-domain-attack.patch
+#http://data.gpo.zugaina.org/gentoo/net-dns/${PN}/files/AR-and-RANLIB-support.patch
+#http://data.gpo.zugaina.org/gentoo/net-dns/${PN}/files/tinydns-softlimit.patch
+#http://data.gpo.zugaina.org/gentoo/net-dns/${PN}/files/${PN}-dnscache-configurable-truncate-manpages.patch
+
+# The big ipv6 patch.
+http://www.fefe.de/dns/${PN}-1.05-test32.diff.xz
+
+# Fix CVE2008-4392 (ipv6)
+#http://data.gpo.zugaina.org/gentoo/net-dns/${PN}/files/CVE2008-4392_0001-dnscache-merge-similar-outgoing-queries-ipv6-test32.patch
+#http://data.gpo.zugaina.org/gentoo/net-dns/${PN}/files/CVE2008-4392_0002-dnscache-cache-soa-records-ipv6-test29.patch
+#http://data.gpo.zugaina.org/gentoo/net-dns/${PN}/files/${PN}-dnscache-configurable-truncate-size-v6.patch

@@ -1,0 +1,8 @@
+http://deb.debian.org/debian/pool/main/r/${PN}/${PN}_2.4+20151223.gitfa8646d.1.orig.tar.gz -> ${PN}-2.4p20151223.tar.gz
+#https://git.ffmpeg.org/gitweb/${PN}.git/snapshot/f1b83c10d8beb43fcc70a6e88cf4325499f25857.tar.gz -> ${PN}-2.4p20210219.tar.gz
+http://deb.debian.org/debian/pool/main/r/${PN}/${PN}_2.4+20151223.gitfa8646d.1-2.debian.tar.xz
+#http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-swf_vertification_type_2.patch
+#http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-swf_vertification_type_2_part_2.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-fix-chunk-size.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-2.4_p20210219-gcc-11-missing-include.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-openssl-1.1-v2.patch

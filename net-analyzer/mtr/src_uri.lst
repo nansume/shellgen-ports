@@ -1,0 +1,3 @@
+https://github.com/traviscross/${PN}/archive/v0.95.tar.gz -> ${PN}-0.95.tar.gz
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-0.88-tinfo.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-0.95-fortify-source-3.patch

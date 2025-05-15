@@ -1,0 +1,7 @@
+https://downloads.sourceforge.net/${PN}/lame-3.100.tar.gz
+http://data.gpo.zugaina.org/gentoo/media-sound/lame/files/lame-3.96-ccc.patch
+http://data.gpo.zugaina.org/gentoo/media-sound/lame/files/lame-3.98-gtk-path.patch
+http://data.gpo.zugaina.org/gentoo/media-sound/lame/files/lame-3.99.5-tinfo.patch
+http://data.gpo.zugaina.org/gentoo/media-sound/lame/files/lame-3.99.5-msse.patch
+http://data.gpo.zugaina.org/gentoo/media-sound/lame/files/lame-3.100-symbols.patch
+http://data.gpo.zugaina.org/gentoo/media-sound/lame/files/lame-3.100-pkgconfig.patch

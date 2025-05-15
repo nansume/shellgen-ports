@@ -1,0 +1,9 @@
+http://www.ex-parrot.com/pdw/${PN}/download/${PN}-1.0pre4.tar.gz
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-1.0_pre4-configure.ac.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-1.0_pre4-Makefile.am.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-1.0_pre4-tsent-set-but-not-used.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-1.0_pre4-ip6.arpa.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-1.0_pre4-fix-MAC-formatting.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-1.0_pre4-fno-common.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-1.0_pre4-allow-scales-beyond-1gbps.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/iftoprc

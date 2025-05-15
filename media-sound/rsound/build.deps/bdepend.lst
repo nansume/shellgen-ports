@@ -1,0 +1,7 @@
+media-libs/alsa-lib
+media-libs/libsamplerate
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl

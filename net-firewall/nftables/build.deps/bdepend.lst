@@ -1,0 +1,12 @@
+dev-libs/gmp
+dev-util/pkgconf
+net-libs/libmnl
+net-libs/libnftnl
+sys-apps/file
+sys-devel/binutils
+sys-devel/bison
+sys-devel/flex
+sys-devel/gcc
+sys-devel/make
+sys-kernel/linux-headers
+sys-libs/musl

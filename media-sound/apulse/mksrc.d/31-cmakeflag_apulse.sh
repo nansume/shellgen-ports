@@ -1,0 +1,1 @@
+CMAKEFLAGS="${CMAKEFLAGS} -DAPULSEPATH=/$(get_libdir)"

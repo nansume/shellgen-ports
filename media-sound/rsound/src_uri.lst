@@ -1,0 +1,2 @@
+https://github.com/Themaister/RSound/archive/refs/tags/v1.1.tar.gz -> ${PN}-1.1.tar.gz
+http://data.gpo.zugaina.org/proaudio-gentoo/${CATEGORY}/${PN}/files/${PN}-1.1_lib-path.patch

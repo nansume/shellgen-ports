@@ -1,0 +1,16 @@
+Author: Artjom Slepnjov "Shellgen"
+Description: fix <sort> utils compat with busybox
+Ver: dnsmasq-2.85 - dnsmasq-2.89
+Date: 2023-11-23 18:00 UTC
+==============================================================
+--- a/bld/get-version
++++ b/bld/get-version
+@@ -31,7 +31,7 @@
+      vers=`cat $1/VERSION | sed 's/[(), ]/,/ g' | tr ',' '\n' | grep ^v[0-9]`
+ 
+      if [ $? -eq 0 ]; then
+-         echo "${vers}" | sort -k1.2,1.5Vr -k1.6,1.6 -k1.8,1.9Vr -k1.10,1.11Vr | head -n 1 | sed 's/^v//'
++         echo "${vers}" | sort -k 1.2,1.5 -Vr -k 1.6,1.6 -k 1.8,1.9 -Vr -k 1.10,1.11 -Vr | head -n 1 | sed 's/^v//'
+      else
+          cat $1/VERSION
+      fi

@@ -1,0 +1,17 @@
+#dev-util/byacc  # for nftables
+dev-util/pkgconf
+
+net-libs/libnetfilter_conntrack
+#net-libs/libnfnetlink
+
+#net-libs/libmnl  # for nftables
+#net-libs/libnftnl  # for nftables
+#net-libs/libpcap  # pcap
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+#sys-devel/lex  # for nftables
+sys-devel/make
+sys-kernel/linux-headers-musl
+sys-libs/musl
