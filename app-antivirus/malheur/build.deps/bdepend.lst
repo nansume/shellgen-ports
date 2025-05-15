@@ -1,0 +1,20 @@
+app-arch/bzip2
+app-arch/libarchive
+app-arch/xz
+app-crypt/libb2
+dev-libs/libconfig
+dev-libs/uthash
+
+dev-lang/perl  # required for autotools
+dev-util/pkgconf
+
+sys-apps/file
+sys-devel/autoconf  # required for autotools
+sys-devel/automake  # required for autotools
+sys-devel/binutils
+sys-devel/gcc9
+sys-devel/libtool  # required for autotools
+sys-devel/m4  # required for autotools
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib

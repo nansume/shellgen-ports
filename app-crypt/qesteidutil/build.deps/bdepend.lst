@@ -1,0 +1,55 @@
+dev-libs/expat  # icu,freetype,libass
+dev-libs/fribidi  # deps libass
+dev-libs/glib-compat
+dev-libs/libffi  # for glib
+dev-libs/icu-compat  # deps qt5base
+dev-libs/libxml2
+dev-libs/libxslt
+dev-libs/libusb
+dev-libs/openssl-compat
+dev-qt/qt5base
+dev-qt/qt5declarative  # extensions?
+dev-qt/qt5svg
+dev-qt/qt5x11extras
+dev-qt/qt5tools
+dev-util/cmake
+dev-util/ninja
+dev-util/pkgconf
+media-libs/alsa-lib
+media-video/ffmpeg
+media-libs/freetype  # fontconfig
+media-libs/fontconfig
+media-libs/harfbuzz  # deps libass
+media-libs/libass
+media-libs/taglib
+media-libs/mesa  # for opengl
+sys-apps/file
+sys-apps/pcsc-lite
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-kernel/linux-headers-musl
+sys-libs/musl
+sys-libs/zlib
+x11-base/xorg-proto
+x11-libs/libdrm  # for opengl
+x11-libs/libice
+
+x11-libs/libpciaccess  # for opengl
+x11-libs/libsm
+x11-libs/libvdpau  # for opengl
+x11-libs/libx11
+x11-libs/libxau
+x11-libs/libxcb
+x11-libs/libxcursor
+x11-libs/libxdamage  # for opengl
+x11-libs/libxdmcp
+x11-libs/libxext
+x11-libs/libxfixes
+x11-libs/libxft
+x11-libs/libxi
+x11-libs/libxrandr
+x11-libs/libxrender
+x11-libs/libxv  # optional
+x11-libs/libxshmfence
+x11-libs/libxxf86vm

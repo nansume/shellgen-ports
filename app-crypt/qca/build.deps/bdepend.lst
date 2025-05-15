@@ -1,0 +1,39 @@
+app-crypt/gnupg
+dev-libs/glib-compat
+dev-libs/icu-compat
+dev-libs/libffi  # for glib
+dev-libs/libgcrypt  # optional
+dev-libs/libgpg-error  # optional
+#dev-libs/openssl-compat
+dev-libs/openssl
+dev-qt/qt4
+dev-qt/qtcore4
+dev-util/cmake
+dev-util/pkgconf
+
+media-libs/giflib
+
+sys-apps/dbus
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # for glib
+
+x11-base/xorg-proto  # for x11
+
+x11-libs/libice  # for libxmu
+x11-libs/libsm  # for libxmu
+x11-libs/libx11  # for x11,dbus
+x11-libs/libxau  # for x11,dbus
+x11-libs/libxcb  # for x11,dbus
+x11-libs/libxcursor
+x11-libs/libxdmcp  # for x11,dbus
+x11-libs/libxext  # optional
+x11-libs/libxfixes
+x11-libs/libxi
+x11-libs/libxinerama  # optional
+x11-libs/libxrandr
+x11-libs/libxrender  # for libxft
+x11-libs/libxv  # optional
+x11-libs/libxt  # for x11,dbus

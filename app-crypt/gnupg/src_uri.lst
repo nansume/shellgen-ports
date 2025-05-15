@@ -1,0 +1,3 @@
+https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-2.3.8.tar.bz2
+# required version no less <libgpg-error-1.46>
+#https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-2.4.5.tar.bz2

@@ -1,0 +1,5 @@
+https://download.kde.org/stable/qca/2.1.3/src/qca-2.1.3.tar.xz
+#https://download.kde.org/stable/qca/2.1.1/src/qca-2.1.1.tar.xz
+http://shellgen.mooo.com/pub/distfiles/patch/qca-2.1.3/qca-2.1.3-c++11.patch
+#http://shellgen.mooo.com/pub/distfiles/patch/qca-2.1.3/qca-2.1.3-deps.patch
+#http://shellgen.mooo.com/pub/distfiles/patch/qca-2.1.3/qca-disable-pgp-test.patch

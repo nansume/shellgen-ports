@@ -1,0 +1,24 @@
+#dev-lang/perl  # required for autotools
+dev-libs/libxml2
+dev-libs/openssl3
+dev-libs/openssl
+dev-libs/pcre  # for vala,glib(optional)
+#dev-libs/pcre2
+dev-libs/tomsfastmath
+dev-util/pkgconf
+
+net-misc/curl
+
+sys-apps/file
+#sys-devel/autoconf  # required for autotools
+#sys-devel/automake  # required for autotools
+sys-devel/binutils
+sys-devel/bison
+sys-devel/gcc
+sys-devel/lex
+#sys-devel/libtool  # required for autotools
+sys-devel/make
+sys-kernel/linux-headers-musl
+sys-libs/fts-standalone
+sys-libs/musl
+sys-libs/zlib

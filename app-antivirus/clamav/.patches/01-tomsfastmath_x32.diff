@@ -1,0 +1,211 @@
+Author: Artjom Slepnjov "Shellgen"
+Description: x32 support - asm
+Date: 2024-06-05 22:00 UTC
+===================================================================================
+--- a/libclamav/tomsfastmath/mont/fp_montgomery_reduce.c
++++ b/libclamav/tomsfastmath/mont/fp_montgomery_reduce.c
+@@ -53,105 +53,105 @@
+ 
+ #define INNERMUL                                          \
+ asm(                                                      \
+-   "movq %5,%%rax \n\t"                                   \
+-   "mulq %4       \n\t"                                   \
+-   "addq %1,%%rax \n\t"                                   \
+-   "adcq $0,%%rdx \n\t"                                   \
+-   "addq %%rax,%0 \n\t"                                   \
+-   "adcq $0,%%rdx \n\t"                                   \
+-   "movq %%rdx,%1 \n\t"                                   \
++   "mov %5,%%rax \n\t"                                   \
++   "mul %4       \n\t"                                   \
++   "add %1,%%rax \n\t"                                   \
++   "adc $0,%%rdx \n\t"                                   \
++   "add %%rax,%0 \n\t"                                   \
++   "adc $0,%%rdx \n\t"                                   \
++   "mov %%rdx,%1 \n\t"                                   \
+ :"=g"(_c[LO]), "=r"(cy)                                   \
+ :"0"(_c[LO]), "1"(cy), "r"(mu), "r"(*tmpm++)              \
+ : "%rax", "%rdx", "cc")
+ 
+ #define INNERMUL8 \
+  asm(                  \
+- "movq 0(%5),%%rax    \n\t"  \
+- "movq 0(%2),%%r10    \n\t"  \
+- "movq 0x8(%5),%%r11  \n\t"  \
+- "mulq %4             \n\t"  \
+- "addq %%r10,%%rax    \n\t"  \
+- "adcq $0,%%rdx       \n\t"  \
+- "movq 0x8(%2),%%r10  \n\t"  \
+- "addq %3,%%rax       \n\t"  \
+- "adcq $0,%%rdx       \n\t"  \
+- "movq %%rax,0(%0)    \n\t"  \
+- "movq %%rdx,%1       \n\t"  \
++ "mov 0(%5),%%rax    \n\t"  \
++ "mov 0(%2),%%r10    \n\t"  \
++ "mov 0x8(%5),%%r11  \n\t"  \
++ "mul %4             \n\t"  \
++ "add %%r10,%%rax    \n\t"  \
++ "adc $0,%%rdx       \n\t"  \
++ "mov 0x8(%2),%%r10  \n\t"  \
++ "add %3,%%rax       \n\t"  \
++ "adc $0,%%rdx       \n\t"  \
++ "mov %%rax,0(%0)    \n\t"  \
++ "mov %%rdx,%1       \n\t"  \
+  \
+- "movq %%r11,%%rax    \n\t"  \
+- "movq 0x10(%5),%%r11 \n\t"  \
+- "mulq %4             \n\t"  \
+- "addq %%r10,%%rax    \n\t"  \
+- "adcq $0,%%rdx       \n\t"  \
+- "movq 0x10(%2),%%r10 \n\t"  \
+- "addq %3,%%rax       \n\t"  \
+- "adcq $0,%%rdx       \n\t"  \
+- "movq %%rax,0x8(%0)  \n\t"  \
+- "movq %%rdx,%1       \n\t"  \
++ "mov %%r11,%%rax    \n\t"  \
++ "mov 0x10(%5),%%r11 \n\t"  \
++ "mul %4             \n\t"  \
++ "add %%r10,%%rax    \n\t"  \
++ "adc $0,%%rdx       \n\t"  \
++ "mov 0x10(%2),%%r10 \n\t"  \
++ "add %3,%%rax       \n\t"  \
++ "adc $0,%%rdx       \n\t"  \
++ "mov %%rax,0x8(%0)  \n\t"  \
++ "mov %%rdx,%1       \n\t"  \
+  \
+- "movq %%r11,%%rax    \n\t"  \
+- "movq 0x18(%5),%%r11 \n\t"  \
+- "mulq %4             \n\t"  \
+- "addq %%r10,%%rax    \n\t"  \
+- "adcq $0,%%rdx       \n\t"  \
+- "movq 0x18(%2),%%r10 \n\t"  \
+- "addq %3,%%rax       \n\t"  \
+- "adcq $0,%%rdx       \n\t"  \
+- "movq %%rax,0x10(%0) \n\t"  \
+- "movq %%rdx,%1       \n\t"  \
++ "mov %%r11,%%rax    \n\t"  \
++ "mov 0x18(%5),%%r11 \n\t"  \
++ "mul %4             \n\t"  \
++ "add %%r10,%%rax    \n\t"  \
++ "adc $0,%%rdx       \n\t"  \
++ "mov 0x18(%2),%%r10 \n\t"  \
++ "add %3,%%rax       \n\t"  \
++ "adc $0,%%rdx       \n\t"  \
++ "mov %%rax,0x10(%0) \n\t"  \
++ "mov %%rdx,%1       \n\t"  \
+  \
+- "movq %%r11,%%rax    \n\t"  \
+- "movq 0x20(%5),%%r11 \n\t"  \
+- "mulq %4             \n\t"  \
+- "addq %%r10,%%rax    \n\t"  \
+- "adcq $0,%%rdx       \n\t"  \
+- "movq 0x20(%2),%%r10 \n\t"  \
+- "addq %3,%%rax       \n\t"  \
+- "adcq $0,%%rdx       \n\t"  \
+- "movq %%rax,0x18(%0) \n\t"  \
+- "movq %%rdx,%1       \n\t"  \
++ "mov %%r11,%%rax    \n\t"  \
++ "mov 0x20(%5),%%r11 \n\t"  \
++ "mul %4             \n\t"  \
++ "add %%r10,%%rax    \n\t"  \
++ "adc $0,%%rdx       \n\t"  \
++ "mov 0x20(%2),%%r10 \n\t"  \
++ "add %3,%%rax       \n\t"  \
++ "adc $0,%%rdx       \n\t"  \
++ "mov %%rax,0x18(%0) \n\t"  \
++ "mov %%rdx,%1       \n\t"  \
+  \
+- "movq %%r11,%%rax    \n\t"  \
+- "movq 0x28(%5),%%r11 \n\t"  \
+- "mulq %4             \n\t"  \
+- "addq %%r10,%%rax    \n\t"  \
+- "adcq $0,%%rdx       \n\t"  \
+- "movq 0x28(%2),%%r10 \n\t"  \
+- "addq %3,%%rax       \n\t"  \
+- "adcq $0,%%rdx       \n\t"  \
+- "movq %%rax,0x20(%0) \n\t"  \
+- "movq %%rdx,%1       \n\t"  \
++ "mov %%r11,%%rax    \n\t"  \
++ "mov 0x28(%5),%%r11 \n\t"  \
++ "mul %4             \n\t"  \
++ "add %%r10,%%rax    \n\t"  \
++ "adc $0,%%rdx       \n\t"  \
++ "mov 0x28(%2),%%r10 \n\t"  \
++ "add %3,%%rax       \n\t"  \
++ "adc $0,%%rdx       \n\t"  \
++ "mov %%rax,0x20(%0) \n\t"  \
++ "mov %%rdx,%1       \n\t"  \
+  \
+- "movq %%r11,%%rax    \n\t"  \
+- "movq 0x30(%5),%%r11 \n\t"  \
+- "mulq %4             \n\t"  \
+- "addq %%r10,%%rax    \n\t"  \
+- "adcq $0,%%rdx       \n\t"  \
+- "movq 0x30(%2),%%r10 \n\t"  \
+- "addq %3,%%rax       \n\t"  \
+- "adcq $0,%%rdx       \n\t"  \
+- "movq %%rax,0x28(%0) \n\t"  \
+- "movq %%rdx,%1       \n\t"  \
++ "mov %%r11,%%rax    \n\t"  \
++ "mov 0x30(%5),%%r11 \n\t"  \
++ "mul %4             \n\t"  \
++ "add %%r10,%%rax    \n\t"  \
++ "adc $0,%%rdx       \n\t"  \
++ "mov 0x30(%2),%%r10 \n\t"  \
++ "add %3,%%rax       \n\t"  \
++ "adc $0,%%rdx       \n\t"  \
++ "mov %%rax,0x28(%0) \n\t"  \
++ "mov %%rdx,%1       \n\t"  \
+  \
+- "movq %%r11,%%rax    \n\t"  \
+- "movq 0x38(%5),%%r11 \n\t"  \
+- "mulq %4             \n\t"  \
+- "addq %%r10,%%rax    \n\t"  \
+- "adcq $0,%%rdx       \n\t"  \
+- "movq 0x38(%2),%%r10 \n\t"  \
+- "addq %3,%%rax       \n\t"  \
+- "adcq $0,%%rdx       \n\t"  \
+- "movq %%rax,0x30(%0) \n\t"  \
+- "movq %%rdx,%1       \n\t"  \
++ "mov %%r11,%%rax    \n\t"  \
++ "mov 0x38(%5),%%r11 \n\t"  \
++ "mul %4             \n\t"  \
++ "add %%r10,%%rax    \n\t"  \
++ "adc $0,%%rdx       \n\t"  \
++ "mov 0x38(%2),%%r10 \n\t"  \
++ "add %3,%%rax       \n\t"  \
++ "adc $0,%%rdx       \n\t"  \
++ "mov %%rax,0x30(%0) \n\t"  \
++ "mov %%rdx,%1       \n\t"  \
+  \
+- "movq %%r11,%%rax    \n\t"  \
+- "mulq %4             \n\t"  \
+- "addq %%r10,%%rax    \n\t"  \
+- "adcq $0,%%rdx       \n\t"  \
+- "addq %3,%%rax       \n\t"  \
+- "adcq $0,%%rdx       \n\t"  \
+- "movq %%rax,0x38(%0) \n\t"  \
+- "movq %%rdx,%1       \n\t"  \
++ "mov %%r11,%%rax    \n\t"  \
++ "mul %4             \n\t"  \
++ "add %%r10,%%rax    \n\t"  \
++ "adc $0,%%rdx       \n\t"  \
++ "add %3,%%rax       \n\t"  \
++ "adc $0,%%rdx       \n\t"  \
++ "mov %%rax,0x38(%0) \n\t"  \
++ "mov %%rdx,%1       \n\t"  \
+  \
+ :"=r"(_c), "=r"(cy)                    \
+ : "0"(_c),  "1"(cy), "g"(mu), "r"(tmpm)\
+@@ -160,9 +160,9 @@
+ 
+ #define PROPCARRY                           \
+ asm(                                        \
+-   "addq   %1,%0    \n\t"                   \
+-   "setb   %%al     \n\t"                   \
+-   "movzbq %%al,%1 \n\t"                    \
++   "add   %1,%0    \n\t"                   \
++   "set   %%al     \n\t"                   \
++   "movzb %%al,%1 \n\t"                    \
+ :"=g"(_c[LO]), "=r"(cy)                     \
+ :"0"(_c[LO]), "1"(cy)                       \
+ : "%rax", "cc")

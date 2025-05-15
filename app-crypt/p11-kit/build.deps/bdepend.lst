@@ -1,0 +1,19 @@
+app-alternatives/mktemp-utils  # required for: <update-ca-certificates>
+app-misc/ca-certificates
+app-text/docbook-xsl-stylesheets
+dev-lang/python3
+dev-libs/expat  # for fontconfig,dbus
+dev-libs/libffi  # for glib
+dev-libs/libressl  # fix: openssl: command not found
+dev-libs/libtasn1
+dev-libs/libxslt
+dev-python/py3-cffi
+dev-python/py3-cryptography
+dev-python/py3-six
+dev-util/pkgconf
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc9
+sys-devel/make
+sys-libs/musl0

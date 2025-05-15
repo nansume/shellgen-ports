@@ -1,0 +1,26 @@
+app-text/docbook-xml-dtd
+dev-lang/perl  # required for autotools
+dev-lang/python3  # required? (deps glib-2.68.4)
+dev-libs/expat  # for fontconfig,dbus
+dev-libs/pcre  # required for glib-2.68.4
+dev-libs/glib69
+#dev-libs/glib57
+dev-libs/libffi  # for glib
+dev-libs/libgcrypt  # for useflag crypt (optional)
+dev-libs/libgpg-error  # for useflag crypt (optional)
+dev-libs/libxml2  # for gettext
+dev-libs/libxslt  # for vala
+dev-perl/perl-xml-parser
+#dev-util/gdbus-codegen
+#dev-util/glib-utils
+dev-util/intltool
+dev-util/pkgconf
+
+sys-apps/dbus  # required?
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc9
+sys-devel/gettext
+sys-devel/make
+sys-libs/musl0
+sys-libs/zlib  # for glib

@@ -1,0 +1,12 @@
+dev-lang/perl
+dev-libs/libusb
+dev-util/pkgconf
+
+sys-apps/file
+sys-apps/pcsc-lite
+sys-devel/binutils
+sys-devel/gcc9
+sys-devel/lex  # alternative a flex
+sys-devel/make
+sys-libs/musl0
+sys-libs/zlib

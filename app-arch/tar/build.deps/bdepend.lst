@@ -1,0 +1,6 @@
+sys-devel/binutils
+sys-devel/bison
+sys-devel/gcc9
+sys-devel/make
+sys-kernel/linux-headers  # TODO: replace to: linux-headers-musl
+sys-libs/musl0

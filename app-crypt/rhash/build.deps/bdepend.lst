@@ -1,0 +1,6 @@
+#dev-libs/openssl3
+dev-libs/openssl
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl

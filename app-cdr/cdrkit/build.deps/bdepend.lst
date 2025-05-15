@@ -1,0 +1,13 @@
+#app-alternatives/libbz2
+app-arch/bzip2
+#dev-build/samurai  # alternative for ninja (optional)
+dev-util/cmake
+#dev-util/pkgconf
+#sys-apps/file  # (optional)
+sys-devel/binutils
+sys-devel/gcc9
+sys-devel/make
+sys-libs/libcap
+sys-kernel/linux-headers-musl
+sys-libs/musl0
+sys-libs/zlib

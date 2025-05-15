@@ -1,0 +1,13 @@
+dev-libs/libassuan
+dev-libs/libgcrypt
+dev-libs/libgpg-error
+dev-libs/libksba
+dev-libs/npth
+dev-util/pkgconf
+
+sys-devel/binutils
+sys-devel/gcc9
+sys-devel/make
+sys-kernel/linux-headers  # TODO: replace to: linux-headers-musl
+sys-libs/musl0
+sys-libs/zlib

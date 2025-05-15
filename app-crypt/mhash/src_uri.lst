@@ -1,0 +1,12 @@
+https://downloads.sourceforge.net/mhash/mhash-0.9.9.9.tar.gz
+http://data.gpo.zugaina.org/gentoo/app-crypt/mhash/files/mhash-0.9.9-fix-mem-leak.patch
+http://data.gpo.zugaina.org/gentoo/app-crypt/mhash/files/mhash-0.9.9-fix-snefru-segfault.patch
+http://data.gpo.zugaina.org/gentoo/app-crypt/mhash/files/mhash-0.9.9-fix-whirlpool-segfault.patch
+#http://data.gpo.zugaina.org/gentoo/app-crypt/mhash/files/mhash-0.9.9-autotools-namespace-stomping.patch
+http://data.gpo.zugaina.org/gentoo/app-crypt/mhash/files/mhash-0.9.9.9-remove_premature_free.patch
+http://data.gpo.zugaina.org/gentoo/app-crypt/mhash/files/mhash-0.9.9.9-force64bit-tiger.patch
+http://data.gpo.zugaina.org/gentoo/app-crypt/mhash/files/mhash-0.9.9.9-align.patch
+http://data.gpo.zugaina.org/gentoo/app-crypt/mhash/files/mhash-0.9.9.9-alignment.patch
+http://data.gpo.zugaina.org/gentoo/app-crypt/mhash/files/mhash-0.9.9.9-no-malloc-check.patch
+http://data.gpo.zugaina.org/gentoo/app-crypt/mhash/files/mhash-0.9.9.9-hmac-uaf-test.patch
+http://data.gpo.zugaina.org/gentoo/app-crypt/mhash/files/mhash-0.9.9.9-cast-temp-64bit.patch

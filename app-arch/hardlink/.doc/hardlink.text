@@ -1,0 +1,14 @@
+#!/lib/shell/env
+
+
+
+################################################################
+# app-arch/hardlink - build fail (xattr.h [header]: not found)
+################################################################
+hardlink.c:89:10: fatal error: attr/xattr.h: No such file or directory
+
+deps reqired:
+   sys-apps/attr
+
+
+fix: installed - sys-apps/attr

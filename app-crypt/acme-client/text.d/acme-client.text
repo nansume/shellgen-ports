@@ -1,0 +1,33 @@
+# acme-client - OpenBSD
+https://kristaps.bsd.lv/acme-client/
+# acme-client - secure ACME client - MAN
+https://kristaps.bsd.lv/acme-client/acme-client.1.html
+# download another versions 
+https://kristaps.bsd.lv/acme-client/snapshots/
+# Fork: acme-client-1.3.0 ebuild
+http://gpo.zugaina.org/app-crypt/acme-client
+# acme-client(1) - OpenBSD manual pages
+https://man.openbsd.org/acme-client.1
+https://man.openbsd.org/acme-client.conf.5
+
+https://romanzolotarev.com/openbsd/acme-client.html
+https://github.com/Duncaen/acme-client-portable/blob/master/dnsproc.c
+
+# AUR (en) - deacme-git (openssl)
+https://aur.archlinux.org/packages/deacme-git
+# AUR (en) - uacme (gnutls)
+https://aur.archlinux.org/packages/uacme
+# uacme-1.7.4
+
+https://en.wikipedia.org/wiki/Let's_Encrypt
+
+# le/le.sh at master * omega8cc/le
+https://github.com/omega8cc/le/blob/master/le.sh
+# acme.sh: A pure Unix shell script implementing ACME client protocol
+https://github.com/acmesh-official/acme.sh
+# letsencrypt.sh/letsencrypt.sh at ssh_hook * digint/letsencrypt.sh
+https://github.com/digint/letsencrypt.sh/blob/ssh_hook/letsencrypt.sh
+# letsencrypt.sh/letsencrypt.sh at master * drwetter/letsencrypt.sh
+https://github.com/drwetter/letsencrypt.sh/blob/master/letsencrypt.sh
+# getssl: obtain free SSL certificates from letsencrypt ACME server
+https://github.com/srvrco/getssl

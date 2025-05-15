@@ -1,0 +1,4 @@
+http://ponce.cc/slackware/sources/repo/cdrkit-1.1.11.tar.gz
+https://git.alpinelinux.org/aports/plain/community/cdrkit/gcc10.patch
+https://git.alpinelinux.org/aports/plain/community/cdrkit/implicit.patch
+https://git.alpinelinux.org/aports/plain/community/cdrkit/werrorformat.patch

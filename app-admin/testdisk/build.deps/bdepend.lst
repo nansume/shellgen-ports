@@ -1,0 +1,16 @@
+dev-libs/libffi
+dev-libs/pcre
+dev-libs/glib57
+dev-util/pkgconf
+media-libs/libjpeg-turbo1
+sys-apps/util-linux
+sys-devel/binutils
+sys-devel/gcc9
+sys-devel/make
+sys-fs/e2fsprogs
+sys-fs/fuse2
+sys-fs/ntfs3g
+sys-kernel/linux-headers  # TODO: replace to: linux-headers-musl
+sys-libs/musl
+#sys-libs/netbsd-curses  # bug: collision - with sys-libs/ncurses
+sys-libs/ncurses

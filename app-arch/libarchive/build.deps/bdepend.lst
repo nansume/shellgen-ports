@@ -1,0 +1,15 @@
+#app-arch/bzip2
+#app-arch/xz
+#app-crypt/libb2
+#dev-libs/expat  # optional
+#dev-libs/libxml2  # only if !expat
+#dev-libs/openssl3
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc9
+sys-devel/make
+#sys-kernel/linux-headers
+sys-kernel/linux-headers-musl  # testing
+sys-libs/musl0
+sys-libs/queue-standalone  # for musl to gnu-compat
+#sys-libs/zlib

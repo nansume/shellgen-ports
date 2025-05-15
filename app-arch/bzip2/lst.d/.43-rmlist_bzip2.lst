@@ -1,0 +1,3 @@
+bin/bunzip2
+bin/bzcat
+usr/*

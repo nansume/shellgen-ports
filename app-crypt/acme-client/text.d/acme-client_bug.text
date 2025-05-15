@@ -1,0 +1,58 @@
+##############################
+###  The dir is required:  ###
+##############################
+#mkdir -pm 0755 ${WWWROOT}/acme/ /var/empty/
+#mkdir -pm 0700 ${WWWROOT}/acme/ /etc/acme/ /etc/ssl/acme/private/
+=================================================================================
+
+
+################################################################################
+###  bug: acme-client-0.1.16: letsencrypt.org - drop support - acme v01 api  ###
+################################################################################
+
+acme-client -C /home/httpd/acme -vNn sample.test www.sample.test
+=================================================================================
+  acme-client: /etc/ssl/acme/private/privkey.pem: domain key exists (not creating)
+  acme-client: /etc/acme/privkey.pem: generating RSA account key
+  acme-client: adding SAN: www.sample.test
+  acme-client: https://acme-v01.api.letsencrypt.org/directory: directories
+  acme-client: https://acme-v01.api.letsencrypt.org/directory: bad comm
+  acme-client: bad exit: netproc(5320): 1
+=================================================================================
+
+
+###########################################################################
+####  fix: acme-client-1.30: letsencrypt.org - support - acme v02 api  ####
+###########################################################################
+The working.
+
+acme-client -v -f /etc/acme-client.conf www.sample.test:
+=================================================================================
+  acme-client: https://acme-v02.api.letsencrypt.org/directory: directories
+  acme-client: acme-v02.api.letsencrypt.org: DNS: 172.65.32.248
+  acme-client: dochngreq: https://acme-v02.api.letsencrypt.org/acme/authz-v3/XXXXXXXXXXXX
+  acme-client: challenge, token: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX, uri: https://acme-v02.api.letsencrypt.org/acme/chall-v3/XXXXXXXXXXXX/XXXXXX, status: 0
+  acme-client: ${WWWROOT}/.well-known/acme-challenge//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX: created
+  acme-client: dochngreq: https://acme-v02.api.letsencrypt.org/acme/authz-v3/XXXXXXXXXXXX
+  acme-client: challenge, token: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX, uri: https://acme-v02.api.letsencrypt.org/acme/chall-v3/XXXXXXXXXXXX/XXXXXX, status: 0
+  acme-client: ${WWWROOT}/.well-known/acme-challenge//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX: created
+  acme-client: https://acme-v02.api.letsencrypt.org/acme/chall-v3/XXXXXXXXXXXX/XXXXXX: challenge
+  acme-client: https://acme-v02.api.letsencrypt.org/acme/chall-v3/XXXXXXXXXXXX/XXXXXX: challenge
+  acme-client: order.status 0
+  acme-client: dochngreq: https://acme-v02.api.letsencrypt.org/acme/authz-v3/XXXXXXXXXXXX
+  acme-client: challenge, token: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX, uri: https://acme-v02.api.letsencrypt.org/acme/chall-v3/XXXXXXXXXXXX/XXXXXX, status: 0
+  acme-client: ${WWWROOT}/.well-known/acme-challenge//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX: created
+  acme-client: dochngreq: https://acme-v02.api.letsencrypt.org/acme/authz-v3/XXXXXXXXXXXX
+  acme-client: challenge, token: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX, uri: https://acme-v02.api.letsencrypt.org/acme/chall-v3/XXXXXXXXXXXX/XXXXXX, status: 0
+  acme-client: ${WWWROOT}/.well-known/acme-challenge//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX: created
+  acme-client: https://acme-v02.api.letsencrypt.org/acme/chall-v3/XXXXXXXXXXXX/XXXXXX: challenge
+  acme-client: https://acme-v02.api.letsencrypt.org/acme/chall-v3/XXXXXXXXXXXX/XXXXXX: challenge
+  acme-client: order.status 1
+  acme-client: https://acme-v02.api.letsencrypt.org/acme/finalize/XXXXXXXXXX/XXXXXXXXXXXXXX: certificate
+  acme-client: order.status 3
+  acme-client: https://acme-v02.api.letsencrypt.org/acme/cert/XXXXXXXXXXXXXXXXXXXXXXXXXXXXX: certificate
+  acme-client: /etc/ssl/www.sample.test.crt: created
+  acme-client: /etc/ssl/www.sample.test.pem: created
+=================================================================================
+
+Successful... ok
