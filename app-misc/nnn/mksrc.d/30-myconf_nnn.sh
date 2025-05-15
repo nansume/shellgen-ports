@@ -1,0 +1,1 @@
+use 'musl' && append-flags "-lfts"

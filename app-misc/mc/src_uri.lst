@@ -1,0 +1,5 @@
+ftp://ftp.midnight-commander.org/pub/midnightcommander/mc-4.8.25.tar.xz
+#ftp://ftp.midnight-commander.org/pub/midnightcommander/mc-4.8.27.tar.xz
+# ${_DISTDIR}/${PN}-${PV}-tabs.diff - mc-4.8.20-tabs.diff
+#ftp://shellgen.mooo.com/patches/mc-4.8.25-tabs-shadows.diff
+ftp://shellgen.mooo.com/patches/mc-4.8.25-tabs.diff

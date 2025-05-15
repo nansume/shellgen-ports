@@ -1,0 +1,21 @@
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+
+x11-base/xorg-proto  # for x11
+
+x11-libs/libice  # for libxmu
+x11-libs/libsm  # for libxmu
+x11-libs/libx11  # for x11
+x11-libs/libxau  # for x11
+x11-libs/libxaw
+x11-libs/libxcb  # for x11
+x11-libs/libxdmcp  # for x11
+x11-libs/libxext  # optional
+x11-libs/libxmu
+x11-libs/libxpm
+x11-libs/libxt  # for x11
+
+x11-misc/imake
+x11-misc/xorg-cf-files

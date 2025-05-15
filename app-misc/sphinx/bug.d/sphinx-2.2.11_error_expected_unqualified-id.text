@@ -1,0 +1,138 @@
+   Link: Gentoo's Bugzilla (search)
+   [gentoo_org.png]
+   Go to: Gentoo Home Documentation Forums Lists Bugs Planet Store Wiki Get Gentoo!
+   Gentoo's Bugzilla - Bug 712864 app-misc/sphinx-2.2.11-r5 : sphinx.cpp: error: expected unqualified-id before
+   numeric constant Last modified: 2022-01-03 20:43:59 UTC node [vulture]
+
+   Bug 712864 - app-misc/sphinx-2.2.11-r5 : sphinx.cpp: error: expected unqualified-id before numeric constant
+   Summary: app-misc/sphinx-2.2.11-r5 : sphinx.cpp: error: expected unqualified-id before...
+
+       Status:     CONFIRMED
+       Alias:      None
+      Product:     Gentoo Linux                                 Reported:         2020-03-16 13:29 UTC by Toralf
+   Classification: Unclassified                                                   Förster
+     Component:    Current packages (show other bugs)           Modified:         2022-01-03 20:43 UTC (History)
+      Hardware:    All Linux                                    CC List:          1 user (show)
+     Importance:   Normal normal (vote)                                           graaff
+      Assignee:    Gentoo musl team                             See Also:
+        URL:                                                  Package list:
+     Whiteboard:                                        Runtime testing required: ---
+      Keywords:
+     Depends on:
+       Blocks:
+                                                      Attachments
+   emerge-info.txt (emerge-info.txt,15.91 KB, text/plain)                                                    Details
+   2020-03-16 13:29 UTC, Toralf Förster
+   app-misc:sphinx-2.2.11-r2:20200316-080123.log (app-misc:sphinx-2.2.11-r2:20200316-080123.log,18.47 KB,
+   text/plain)                                                                                               Details
+   2020-03-16 13:29 UTC, Toralf Förster
+   emerge-history.txt (emerge-history.txt,176.29 KB, text/plain)                                             Details
+   2020-03-16 13:29 UTC, Toralf Förster
+   environment (environment,89.35 KB, text/plain)                                                            Details
+   2020-03-16 13:29 UTC, Toralf Förster
+   etc.portage.tbz2 (etc.portage.tbz2,20.34 KB, application/x-bzip)                                          Details
+   2020-03-16 13:29 UTC, Toralf Förster
+   logs.tbz2 (logs.tbz2,15.62 KB, application/x-bzip)                                                        Details
+   2020-03-16 13:29 UTC, Toralf Förster
+   temp.tbz2 (temp.tbz2,27.03 KB, application/x-bzip)                                                        Details
+   2020-03-16 13:29 UTC, Toralf Förster
+   View All Add an attachment (proposed patch, testcase, etc.)
+
+   Note You need to log in before you can comment on or make changes to this bug.
+
+Description Toralf Förster [bugs-rank-dev.png] 2020-03-16 13:29:19 UTC
+
+                 from sphinx.h:48,
+                 from sphinx.cpp:16:
+sphinx.cpp:8949:20: error: expected unqualified-id before numeric constant
+ 8949 |  static const int  PAGE_SIZE = 1<<MAX_BITS;
+      |                    ^~~~~~~~~
+make[2]: *** [Makefile:396: sphinx.o] Error 1
+
+  -------------------------------------------------------------------
+
+  This is an unstable amd64 chroot image at a tinderbox (==build bot)
+  name: 17.0_musl-20200311-204810
+
+  -------------------------------------------------------------------
+
+gcc-config -l:
+ [1] x86_64-gentoo-linux-musl-9.2.0 *
+ [2] x86_64-gentoo-linux-musl-9.3.0
+clang version 10.0.0
+Target: x86_64-gentoo-linux-musl
+Thread model: posix
+InstalledDir: /usr/lib/llvm/10/bin
+/usr/lib/llvm/10
+10.0.0
+Available Python interpreters, in order of preference:
+  [1]   python3.8
+  [2]   python3.7
+  [3]   python3.6
+  [4]   python2.7 (fallback)
+Available Ruby profiles:
+  [1]   ruby24 (with Rubygems)
+  [2]   ruby25 (with Rubygems) *
+Available Rust versions:
+  [1]   rust-bin-1.41.1
+  [2]   rust-1.41.1 *
+The following VMs are available for generation-2:
+
+repository:
+==> /var/db/repos/gentoo/metadata/timestamp.chk <==
+Mon, 16 Mar 2020 06:38:32 +0000
+emerge -qpvO app-misc/sphinx
+[ebuild  N    ] app-misc/sphinx-2.2.11-r2  USE="id64 -debug -mariadb -mysql -odbc -postgres -re2 -stemmer -syslog -xml"
+
+Comment 1 Toralf Förster [bugs-rank-dev.png] 2020-03-16 13:29:22 UTC
+
+Created attachment 620482 [details]
+emerge-info.txt
+
+Comment 2 Toralf Förster [bugs-rank-dev.png] 2020-03-16 13:29:25 UTC
+
+Created attachment 620484 [details]
+app-misc:sphinx-2.2.11-r2:20200316-080123.log
+
+Comment 3 Toralf Förster [bugs-rank-dev.png] 2020-03-16 13:29:27 UTC
+
+Created attachment 620486 [details]
+emerge-history.txt
+
+Comment 4 Toralf Förster [bugs-rank-dev.png] 2020-03-16 13:29:30 UTC
+
+Created attachment 620488 [details]
+environment
+
+Comment 5 Toralf Förster [bugs-rank-dev.png] 2020-03-16 13:29:33 UTC
+
+Created attachment 620490 [details]
+etc.portage.tbz2
+
+Comment 6 Toralf Förster [bugs-rank-dev.png] 2020-03-16 13:29:36 UTC
+
+Created attachment 620492 [details]
+logs.tbz2
+
+Comment 7 Toralf Förster [bugs-rank-dev.png] 2020-03-16 13:29:39 UTC
+
+Created attachment 620494 [details]
+temp.tbz2
+
+Comment 8 Toralf Förster [bugs-rank-dev.png] 2020-03-16 16:12:36 UTC
+
+The first attempt to tinderbox a musl image failed at all.
+
+I'll mass close therefore all filed bug reports of the last days related to this tinderbox image.
+
+Please feel free to re-open if you think that the bug is real in musl and not fixed by the musl overlay.
+
+Comment 9 Agostino Sarubbo [bugs-rank-dev.png] 2022-01-03 20:43:59 UTC
+
+tinderbox_musl has reproduced this issue with version 2.2.11-r5 - Updating summary.
+
+
+References
+
+   Visible links
+   . https://bugs.gentoo.org/show_bug.cgi?id=712864

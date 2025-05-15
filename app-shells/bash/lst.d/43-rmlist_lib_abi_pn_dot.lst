@@ -1,0 +1,2 @@
+<LIB_DIR>/<PN>/*.*
+<DPREFIX>/<LIB_DIR>/<PN>/*.*

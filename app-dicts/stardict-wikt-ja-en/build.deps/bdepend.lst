@@ -1,0 +1,5 @@
+# for dictzip
+app-text/dictd
+dev-libs/libmaa3
+sys-libs/musl
+sys-libs/zlib

@@ -1,0 +1,6 @@
+<DPREFIX>/libexe[c]/<PN>/ext.d/*
+<DPREFIX>/libexe[c]/<PN>/extfs.d/*
+<DPREFIX>/shar[e]/<PN>/examples/
+<DPREFIX>/shar[e]/<PN>/help/
+<DPREFIX>/shar[e]/<PN>/hints/
+<DPREFIX>/shar[e]/<PN>/skins/*

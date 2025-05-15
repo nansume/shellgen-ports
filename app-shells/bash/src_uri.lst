@@ -1,0 +1,2 @@
+http://ftp.gnu.org/gnu/bash/bash-5.2.tar.gz
+https://git.buildroot.net/buildroot/plain/package/bash/0003-configure-invert-condition-for-strtoimax-builtin.patch

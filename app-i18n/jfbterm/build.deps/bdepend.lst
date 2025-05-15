@@ -1,0 +1,26 @@
+dev-build/autoconf69  # required for autotools
+dev-build/automake15  # required for autotools
+dev-lang/perl  # required for autotools
+
+#dev-libs/expat
+#media-libs/fontconfig
+#media-libs/freetype
+
+#dev-libs/glib57
+#dev-libs/pcre
+#dev-util/pkgconf
+
+media-fonts/font-misc-misc
+media-fonts/intlfonts
+media-fonts/unifont
+
+sys-devel/binutils
+sys-devel/gcc9
+sys-devel/libtool  # required for autotools
+sys-devel/m4  # required for autotools
+sys-devel/make
+sys-kernel/linux-headers-musl
+#sys-kernel/mini-lkh  # error: unknown type name '__u32
+sys-libs/gpm  # optional
+sys-libs/musl0
+sys-libs/ncurses

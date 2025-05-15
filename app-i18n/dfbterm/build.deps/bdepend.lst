@@ -1,0 +1,17 @@
+dev-libs/directfb  # directfb1
+
+dev-libs/lite
+
+dev-util/pkgconf
+
+media-libs/freetype  # deps directfb
+#media-libs/libjpeg-turbo1  # deps directfb
+media-libs/libpng  # deps directfb
+
+sys-devel/binutils
+sys-devel/gcc9
+sys-devel/make
+
+sys-kernel/linux-headers-musl
+sys-libs/musl0
+sys-libs/zlib  # for libpng

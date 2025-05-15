@@ -1,0 +1,16 @@
+#app-alternatives/ncursesw
+
+dev-libs/glib-compat
+dev-libs/libffi
+dev-libs/pcre
+dev-util/pkgconf
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/fts-standalone
+sys-libs/musl
+sys-libs/ncurses
+
+#dev-libs/editline
+sys-libs/readline

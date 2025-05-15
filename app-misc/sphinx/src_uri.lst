@@ -1,0 +1,4 @@
+https://sphinxsearch.com/files/sphinx-2.2.11-release.tar.gz
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/${PN}-2.2.11-automake-1.16.patch
+https://git.alpinelinux.org/aports/plain/community/sphinx/sphinx-pagesize.patch
+https://git.alpinelinux.org/aports/plain/community/sphinx/CVE-2020-29050.patch

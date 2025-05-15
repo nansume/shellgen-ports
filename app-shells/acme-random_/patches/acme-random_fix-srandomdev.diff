@@ -1,0 +1,16 @@
+Author: Artjom Slepnjov "Shellgen"
+Description: replace <srandomdev> to compatible
+Ver: random-14Aug2014
+Date: 2024-09-16 19:00 UTC
+===================================================================================
+--- a/random.c
++++ b/random.c
+@@ -29,6 +29,8 @@
+ #include <stdlib.h>
+ #include <string.h>
+ 
++#define srandomdev()
++
+ int
+ main( int argc, char** argv )
+     {

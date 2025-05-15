@@ -1,0 +1,4 @@
+ftp://mirrors.tera-byte.com/pub/gentoo/distfiles/fbterm-1.7_p20190503.tar.gz
+
+#https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/${PN}/${PN}-1.7.0.tar.gz
+#https://gitweb.gentoo.org/repo/gentoo.git/plain/app-i18n/fbterm/files/fbterm-gcc6.patch?id=${HASH}

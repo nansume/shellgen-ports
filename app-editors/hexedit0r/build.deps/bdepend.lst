@@ -1,0 +1,5 @@
+sys-devel/binutils
+sys-devel/gcc9
+sys-devel/make
+sys-libs/musl
+sys-libs/ncurses  # ncurses-6.3

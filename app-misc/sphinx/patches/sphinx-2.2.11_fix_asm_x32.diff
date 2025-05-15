@@ -1,0 +1,15 @@
+Author: Artjom Slepnjov "Shellgen"
+Description: x32 support - asm
+Date: 2024-10-22 18:00 UTC
+===================================================================================
+--- a/src/sphinxutils.cpp
++++ b/src/sphinxutils.cpp
+@@ -2136,7 +2136,7 @@
+ 
+ #ifdef __x86_64__
+ #define SIGRETURN_FRAME_OFFSET 23
+-		__asm __volatile__ ( "movq %%rbp,%0":"=r"(pFramePointer):"r"(pFramePointer) );
++		__asm __volatile__ ( "mov %%rbp,%q0":"=r"(pFramePointer):"r"(pFramePointer) );
+ #endif
+ 
+ #ifndef SIGRETURN_FRAME_OFFSET

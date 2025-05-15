@@ -1,0 +1,9 @@
+# Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
+# -static -static-libs +shared +nopie -lfs -upx +patch -doc -man -xstub -diet +musl +stest +strip +x32
+
+# https://gist.githubusercontent.com/shizeeg/5476334/raw/a2603331c0fca373df48d6e61d1a85e42fd8299e/PKGBUILD
+
+DESCRIPTION="DFBTerm - terminal application for DirectFB"
+HOMEPAGE="https://t2sde.org/packages/dfbterm"
+LICENSE="MIT"
+IUSE="-static +shared +nopie -doc -man (+musl) +stest +strip"

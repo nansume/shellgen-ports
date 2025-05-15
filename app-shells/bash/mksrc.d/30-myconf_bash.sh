@@ -1,0 +1,14 @@
+MYCONF="${MYCONF}
+ #--enable-static-link
+ #--disable-largefile
+ #--disable-bang-history
+ #--disable-brace-expansion
+ #--disable-function-import
+ #--disable-help-builtin
+ #--disable-job-control
+ --disable-debugger
+ --disable-directory-stack
+ --disable-restricted
+ --disable-select
+ --disable-threads
+"

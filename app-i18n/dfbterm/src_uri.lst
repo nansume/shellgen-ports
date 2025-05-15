@@ -1,0 +1,3 @@
+http://shellgen.mooo.com/pub/distfiles/DFBTerm-${PV}.tar.bz2
+http://shellgen.mooo.com/pub/distfiles/DFBTerm-122212a.tar.gz
+file://${BUILD_DIR}/DFBTerm-font.patch

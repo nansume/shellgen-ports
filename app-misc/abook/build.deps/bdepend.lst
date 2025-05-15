@@ -1,0 +1,16 @@
+dev-lang/perl  # required for autotools
+dev-libs/libvformat
+dev-util/pkgconf
+sys-devel/autoconf-archive  # required for autotools (optional, too rare use)
+sys-devel/autoconf  # required for autotools
+sys-devel/automake  # required for autotools
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/gettext  # required for autotools
+sys-devel/libtool  # required for autotools
+sys-devel/m4  # required for autotools
+sys-devel/make
+sys-libs/musl
+sys-libs/netbsd-curses  # for static build
+#sys-libs/ncurses  # for shared build (optional)
+sys-libs/readline

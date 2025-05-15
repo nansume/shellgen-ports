@@ -1,0 +1,2 @@
+<LIB_DIR>/pkgconfig/*
+<DPREFIX>/<LIB_DIR>/pkgconfig/*

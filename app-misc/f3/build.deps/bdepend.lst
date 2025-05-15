@@ -1,0 +1,10 @@
+#dev-libs/dietlibc0  # undefined reference to `__dietlibc_statfs64 and libs build against diet
+sys-block/parted
+sys-apps/util-linux
+sys-devel/binutils
+sys-devel/gcc9
+sys-devel/make
+sys-fs/eudev
+sys-kernel/linux-headers-musl
+sys-libs/argp-standalone  # required build against diet
+sys-libs/musl0

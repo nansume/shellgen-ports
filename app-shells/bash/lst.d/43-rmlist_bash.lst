@@ -1,0 +1,13 @@
+<LIB_DIR>/*/accept
+<LIB_DIR>/*/basename
+<LIB_DIR>/*/dirname
+#<LIB_DIR>/*/id
+<LIB_DIR>/*/logname
+<LIB_DIR>/*/mypid
+<LIB_DIR>/*/print*
+<LIB_DIR>/*/push
+<LIB_DIR>/*/realpath
+<LIB_DIR>/*/seq
+<LIB_DIR>/*/truefalse
+<LIB_DIR>/*/uname
+<LIB_DIR>/*/whoami

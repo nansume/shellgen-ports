@@ -1,0 +1,12 @@
+dev-lang/perl  # required for autotools
+sys-devel/autoconf  # required for autotools
+sys-devel/automake  # required for autotools
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/libtool  # required for autotools
+sys-devel/m4  # required for autotools
+sys-devel/make
+sys-devel/patch  # for patch with fuzz and offset.
+sys-libs/musl
+sys-libs/ncurses  # for shared build
+#sys-libs/netbsd-curses  # static build: failed, shared build: ok

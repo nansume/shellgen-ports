@@ -1,0 +1,4 @@
+https://abook.sourceforge.net/devel/${PN}-0.6.1.tar.gz
+http://data.gpo.zugaina.org/gentoo/app-misc/abook/files/abook-0.6.1-use-PKG_CHECK_MODULES-for-ncurses.patch
+http://data.gpo.zugaina.org/gentoo/app-misc/abook/files/abook-0.6.1-use-newer-macro-for-readline.patch
+http://data.gpo.zugaina.org/gentoo/app-misc/abook/files/abook-0.6.1-vformat.patch

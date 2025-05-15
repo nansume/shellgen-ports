@@ -1,0 +1,211 @@
+Author: Artjom Slepnjov "Shellgen"
+Description: add support <lzop> and etc
+Ver: mc-4.8.25
+Date: 2023-11-03 15:50 UTC
+==============================================================
+--- a/filehighlight.ini
++++ b/filehighlight.ini
+@@ -28,16 +28,16 @@
+     regexp=(^#.*|.*~$)
+ 
+ [archive]
+-    extensions=7z;Z;ace;apk;arc;arj;ark;bz2;cab;cpio;deb;gz;lha;lz;lz4;lzh;lzma;rar;rpm;tar;tbz;tbz2;tgz;tlz;txz;tzst;xz;zip;zoo;zst
++    extensions=7z;Z;ace;apk;arc;arj;ark;bz2;cab;cpio;cgz;clz;cxz;czst;deb;gz;lha;lz;lz4;lzop;lzh;lzma;rar;rpm;tar;tbz;tbz2;tgz;tlz;txz;tzst;xz;zip;zoo;zst
+ 
+ [doc]
+-    extensions=chm;css;ctl;diz;doc;docm;docx;dtd;htm;html;letter;lsm;mail;man;me;msg;nroff;odp;ods;odt;pdf;po;ppt;pptm;pptx;ps;rtf;sgml;shtml;tex;text;txt;xls;xlsm;xlsx;xml;xsd;xslt
++    extensions=chm;css;ctl;diz;doc;docm;docx;dtd;htm;html;letter;lsm;lst;mail;man;md;mkd;me;msg;nroff;odp;ods;odt;pdf;po;ppt;pptm;pptx;ps;rtf;sgml;shtml;tex;text;txt;xls;xlsm;xlsx;xml;xsd;xslt
+ 
+ [source]
+-    extensions=ada;asm;awk;bash;c;caml;cc;cgi;cpp;cxx;diff;erl;go;h;hh;hi;hpp;hs;inc;jasm;jav;java;js;m4;mak;mjs;ml;mli;mll;mlp;mly;pas;patch;php;phps;pl;pm;prg;py;rb;s;sas;sh;sl;st;tcl;tk;xq
++    extensions=ada;arg;asm;awk;bash;c;caml;cc;cgi;conf;cpp;cxx;diff;erl;go;h;hh;hi;hpp;hs;inc;ipxe;jasm;jav;java;js;m4;mak;mjs;ml;mli;mll;mlp;mly;nft;pas;patch;php;phps;pl;pm;prg;py;rb;s;sas;sed;sh;sl;st;tcl;tk;xq;env;ebuild
+ 
+ [media]
+-    extensions=3gp;aac;ac3;ape;asf;avi;dts;flac;flv;it;m3u;m4a;m4v;med;mid;midi;mkv;mod;mol;mov;mp2;mp3;mp4;mpeg;mpg;mpl;ogg;ogv;opus;s3m;ts;umx;vob;wav;webm;wma;wmv;xm
++    extensions=3gp;aac;ac3;ape;asf;avi;dts;flac;flv;it;m3u;m4a;m4v;med;mid;midi;mkv;mod;mol;mov;mp2;mp3;mp4;mpeg;mpg;mpl;ogg;ogm;ogv;opus;s3m;ts;umx;vob;wav;webm;wma;wmv;xm
+ 
+ [graph]
+     extensions=ai;bmp;cdr;eps;gif;ico;jpeg;jpg;omf;pcx;pic;png;rle;svg;tif;tiff;webp;wmf;xbm;xcf;xpm
+--- a/mc.ext.in
++++ b/mc.ext.in
+@@ -141,6 +141,11 @@
+ 	Open=%cd %p/utar://
+ 	View=%view{ascii} @EXTHELPERSDIR@/archive.sh view tar.lz
+ 
++# .tar.lzop
++shell/.tar.lzop
++  Open=%cd %p/utar://
++  View=%view{ascii} @EXTHELPERSDIR@/archive.sh view tar.lzop
++
+ # .tar.lz4, .tlz4
+ regex/\.t(ar\.lz4|lz4)$
+ 	Open=%cd %p/utar://
+@@ -210,19 +215,23 @@
+ 	Open=%cd %p/ucpio://
+ 	View=%view{ascii} @EXTHELPERSDIR@/archive.sh view cpio.lz
+ 
++regex/\.c(pio\.lzop|lz)$
++  Open=%cd %p/ucpio://
++  View=%view{ascii} @EXTHELPERSDIR@/archive.sh view cpio.lzop
++
+ shell/.cpio.lz4
+ 	Open=%cd %p/ucpio://
+ 	View=%view{ascii} @EXTHELPERSDIR@/archive.sh view cpio.lz4
+ 
+-shell/.cpio.xz
++regex/\.c(pio\.xz|xz)$
+ 	Open=%cd %p/ucpio://
+ 	View=%view{ascii} @EXTHELPERSDIR@/archive.sh view cpio.xz
+ 
+-shell/.cpio.zst
++regex/\.c(pio\.zst|zst)$
+ 	Open=%cd %p/ucpio://
+ 	View=%view{ascii} @EXTHELPERSDIR@/archive.sh view cpio.zst
+ 
+-shell/.cpio.gz
++regex/\.c(pio\.gz|gz)$
+ 	Open=%cd %p/ucpio://
+ 	View=%view{ascii} @EXTHELPERSDIR@/archive.sh view cpio.gz
+ 
+@@ -429,14 +438,18 @@
+ type/^GIF
+ 	Include=image
+ 
+-type/^JPEG
+-	View=%view{ascii} @EXTHELPERSDIR@/image.sh view jpeg
++shell/i/.jpg
++	View=%view{ascii} @EXTHELPERSDIR@/media.sh view jpeg
+ 	Include=image
+ 
++shell/i/.jpeg
++  View=%view{ascii} @EXTHELPERSDIR@/media.sh view jpeg
++  Include=image
++
+ type/^PC\ bitmap
+ 	Include=image
+ 
+-type/^PNG
++shell/i/.png
+ 	Include=image
+ 
+ type/^JNG
+@@ -490,7 +503,7 @@
+ 	Open=@EXTHELPERSDIR@/sound.sh open wav22
+ 
+ shell/i/.mp3
+-	Open=@EXTHELPERSDIR@/sound.sh open mp3
++	Open=exec @EXTHELPERSDIR@/media.sh open mp3
+ 	View=%view{ascii} @EXTHELPERSDIR@/sound.sh view mp3
+ 
+ regex/i/\.og[gax]$
+@@ -532,7 +545,7 @@
+ shell/i/.mkv
+ 	Include=video
+ 
+-regex/i/\.(mov|qt)$
++regex/i/\.(ogm|mov|qt)$
+ 	Include=video
+ 
+ regex/i/\.(mp4|m4v|mpe?g)$
+@@ -801,6 +814,11 @@
+ 	Open=@EXTHELPERSDIR@/archive.sh view lz4 %var{PAGER:more}
+ 	View=%view{ascii} @EXTHELPERSDIR@/archive.sh view lz4
+ 
++# lzop
++type/^LZOP
++  Open=@EXTHELPERSDIR@/archive.sh view lzop %var{PAGER:more}
++  View=%view{ascii} @EXTHELPERSDIR@/archive.sh view lzop
++
+ # lzma
+ regex/\.lzma$
+ 	Open=@EXTHELPERSDIR@/archive.sh view lzma %var{PAGER:more}
+@@ -825,23 +843,23 @@
+ # includes should be at end of bindings
+ 
+ include/editor
+-	Open=%var{EDITOR:vi} %f
++	Open=%var{EDITOR:nano} %f
+ 
+ include/image
+-	Open=@EXTHELPERSDIR@/image.sh open ALL_FORMATS
++	Open=@EXTHELPERSDIR@/media.sh open ALL_FORMATS
+ 	View=%view{ascii} @EXTHELPERSDIR@/image.sh view ALL_FORMATS
+ 
+ include/video
+-	Open=@EXTHELPERSDIR@/video.sh open ALL_FORMATS
++	Open=@EXTHELPERSDIR@/media.sh open ALL_FORMATS
+ 	View=%view{ascii} @EXTHELPERSDIR@/video.sh view ALL_FORMATS
+ 
+ 
+ ### Default ###
+ 
+ # Default target for anything not described above
+-default/*
+-	Open=
+-	View=
++default/.text
++	Open=editor
++	View=editor
+ 
+ 
+ ### EOF ###
+--- a/ext.d/archive.sh
++++ b/ext.d/archive.sh
+@@ -29,6 +29,9 @@
+     lz4)
+         lz4 -dc "${MC_EXT_FILENAME}" 2>/dev/null
+         ;;
++    lzop)
++        lzop -dc "${MC_EXT_FILENAME}" 2>/dev/null
++        ;;
+     lzma)
+         lzma -dc "${MC_EXT_FILENAME}" 2>/dev/null
+         ;;
+@@ -61,6 +64,10 @@
+         lz4 -dc "${MC_EXT_FILENAME}" 2>/dev/null | \
+             tar tvvf -
+         ;;
++    tar.lzop)
++        lzop -dc "${MC_EXT_FILENAME}" 2>/dev/null | \
++            tar tvvf -
++        ;;
+     tar.lzma)
+         lzma -dc "${MC_EXT_FILENAME}" 2>/dev/null | \
+             tar tvvf -
+@@ -102,7 +109,7 @@
+     alz)
+         unalz -l "${MC_EXT_FILENAME}"
+         ;;
+-    cpio.z|cpio.gz)
++    cpio.z|cpio.gz|cgz)
+         gzip -dc "${MC_EXT_FILENAME}" | \
+             cpio -itv 2>/dev/null
+         ;;
+@@ -114,11 +121,15 @@
+         lz4 -dc "${MC_EXT_FILENAME}" | \
+             cpio -itv 2>/dev/null
+         ;;
+-    cpio.xz)
++    cpio.lzop|clz)
++        lzop -dc "${MC_EXT_FILENAME}" | \
++            cpio -itv 2>/dev/null
++        ;;
++    cpio.xz|cxz)
+         xz -dc "${MC_EXT_FILENAME}" | \
+             cpio -itv 2>/dev/null
+         ;;
+-    cpio.zst)
++    cpio.zst|czst)
+         zstd -dc "${MC_EXT_FILENAME}" | \
+             cpio -itv 2>/dev/null
+         ;;
+@@ -170,6 +181,9 @@
+         ;;
+     lz4)
+         lz4 -dc "${MC_EXT_FILENAME}" | ${pager}
++        ;;
++    lzop)
++        lzop -dc "${MC_EXT_FILENAME}" | ${pager}
+         ;;
+     lzma)
+         lzma -dc "${MC_EXT_FILENAME}" | ${pager}

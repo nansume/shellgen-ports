@@ -1,0 +1,16 @@
+dev-libs/expat
+dev-libs/libffi
+dev-lang/python3
+dev-libs/openssl-compat
+dev-python/py3-cffi
+dev-python/py3-cryptography
+dev-python/py3-six
+
+app-alternatives/mktemp-utils  # required for: <update-ca-certificates>
+sys-apps/findutils
+dev-libs/libressl  # fix: openssl: command not found
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl

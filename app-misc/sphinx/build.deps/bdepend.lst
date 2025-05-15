@@ -1,0 +1,14 @@
+#dev-lang/perl  # required for autotools
+#dev-libs/expat  # it bundled (optional)
+
+sys-apps/file
+#sys-devel/autoconf  # required for autotools
+#sys-devel/automake  # required for autotools
+sys-devel/binutils
+sys-devel/gcc
+#sys-devel/gettext  # required for autotools (optional)
+#sys-devel/libtool  # required for autotools
+#sys-devel/m4  # required for autotools
+sys-devel/make
+#sys-kernel/linux-headers-musl
+sys-libs/musl

@@ -1,0 +1,44 @@
+############################################
+#####  Bash [utf-8,lang-en,ipv6,ipv4]  #####
+############################################
+
+# Connector-bash/shell_connector.bash at master F-Hauri/Connector-bash [utf-8,lang-en,ipv4-only,ssl-only]
+http://raw.githubusercontent.com/F-Hauri/Connector-bash/master/shell_connector.bash
+# Bash regex capture group - ${BASH_REMATCH} [utf-8,lang-en,ipv4-only,ssl-only]
+http://unix.stackexchange.com/questions/251013/bash-regex-capture-group
+# Shell Scripting: Convert Uppercase to Lowercase - nixCraft [utf-8,lang-en,ipv6,ssl]
+http://www.cyberciti.biz/faq/linux-unix-shell-programming-converting-lowercase-uppercase
+# Forward SIGTERM to child in Bash - bash child pid [utf-8,lang-en,ipv4-only,ssl-only]
+http://unix.stackexchange.com/questions/146756/forward-sigterm-to-child-in-bash
+# google.github.io - Shell Style Guide [utf-8,lang-en,ipv4,ssl-only]
+http://google.github.io/styleguide/shell.xml
+# ShellCheck - shell script analysis tool [utf-8,lang-en,ipv4,ssl]
+http://www.shellcheck.net
+# shell script - dialog menu to display files manager [utf-8,lang-en,ipv4,ssl-only]
+http://unix.stackexchange.com/questions/155636/dialog-menu-to-display-files-and-select-one-of-them
+# Remove the last line from a file in Bash - Stack Overflow [utf-8,lang-en,ipv4-only,ssl-only]
+http://stackoverflow.com/questions/4881930/remove-the-last-line-from-a-file-in-bash
+# pubs.opengroup.org - Shell Command Language [utf-8,lang-en,ipv4]
+http://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_13_03
+# Hidden features of Bash - Stack Overflow [utf-8,lang-en,ipv4-only,ssl-only]
+http://stackoverflow.com/questions/211378/hidden-features-of-bash
+# commandlinefu.com - All commands [utf-8,lang-en,ipv4,ssl]
+http://www.commandlinefu.com/commands/browse
+# faqs.org - Csh Programming Considered Harmful [utf-8,lang-en,ipv4]
+http://www.faqs.org/faqs/unix-faq/shell/csh-whynot/
+# tldp.org - Advanced Bash-Scripting Guide [utf-8,lang-en,ipv4]
+http://tldp.org/LDP/abs/html/
+# What is the ^M character called? - Unix & Linux Stack Exchange [utf-8,lang-en,ipv4-only,ssl-only]
+http://unix.stackexchange.com/questions/134695/what-is-the-m-character-called
+# IFS-separated items in loop - Super User [utf-8,lang-en,ipv4-only,ssl-only]
+http://superuser.com/questions/781766/ifs-separated-items-in-loop
+# tldp.org - Internal Variables [utf-8,lang-en,ipv4]
+http://tldp.org/LDP/abs/html/internalvariables.html#BASHPIDREF
+# How to sort files in Bash with ddmmyy timestamps in name [utf-8,lang-en,ipv4-only,ssl-only]
+http://unix.stackexchange.com/questions/273460/how-to-sort-files-in-bash-with-ddmmyy-timestamps-in-name
+# Why is /etc/profile not invoked for non-login shells? - run non-interactive shell [utf-8,lang-en,ipv4,ssl]
+http://askubuntu.com/questions/247738/why-is-etc-profile-not-invoked-for-non-login-shells
+# How do I get the parent process ID of a given child process? - Ask Ubuntu [utf-8,lang-en,ipv4,ssl]
+http://askubuntu.com/questions/153976/how-do-i-get-the-parent-process-id-of-a-given-child-process
+# Shell script templates - Stack Overflow [utf-8,lang-en,ipv4-only,ssl-only]
+http://stackoverflow.com/questions/430078/shell-script-templates

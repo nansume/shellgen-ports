@@ -1,0 +1,6 @@
+https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/${PN}/0.4.7-9/${PN}_0.4.7.orig.tar.gz -> ${PN}_0.4.7.tar.gz
+
+https://gitweb.gentoo.org/repo/gentoo.git/plain/app-i18n/${PN}/files/${PN}-0.4.7-gentoo.patch?id=${HASH}
+https://gitweb.gentoo.org/repo/gentoo.git/plain/app-i18n/${PN}/files/${PN}-0.4.7-no-kernel-headers.patch?id=${HASH}
+https://gitweb.gentoo.org/repo/gentoo.git/plain/app-i18n/${PN}/files/${PN}-0.4.7-sigchld-debian.patch?id=${HASH}
+https://gitweb.gentoo.org/repo/gentoo.git/plain/app-i18n/${PN}/files/${PN}-0.4.7-wrong-inline-gcc5.patch?id=${HASH}
