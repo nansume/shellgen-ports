@@ -1,0 +1,13 @@
+dev-libs/openssl3
+dev-libs/libbsd
+dev-libs/libevent
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/bison
+sys-devel/gcc
+sys-devel/m4
+sys-devel/make
+sys-libs/fts-standalone
+sys-libs/musl
+sys-libs/zlib

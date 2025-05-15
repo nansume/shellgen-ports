@@ -1,0 +1,3 @@
+https://github.com/pts/${PN}/archive/b953f63307c4a83fa4615a4863e3fb250205cd98.tar.gz -> ${PN}-0.49.4_p20190718.tar.gz
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/sam2p-build-fixes.patch
+http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files/sam2p-0.49.4_p20190718-fix-configure-clang.patch

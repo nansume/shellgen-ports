@@ -1,0 +1,12 @@
+#app-alternatives/getopt-utils
+#app-busybox/tee
+media-libs/giflib
+media-libs/libjpeg-turbo
+media-libs/libpng
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+sys-kernel/linux-headers
+sys-libs/zlib  # for libpng

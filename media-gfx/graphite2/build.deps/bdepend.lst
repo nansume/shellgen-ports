@@ -1,0 +1,9 @@
+dev-util/cmake
+dev-util/pkgconf
+
+media-libs/freetype
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl

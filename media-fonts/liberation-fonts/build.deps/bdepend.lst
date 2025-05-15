@@ -1,0 +1,13 @@
+dev-libs/expat
+dev-libs/libffi
+dev-lang/python3
+dev-python/py3-fonttools
+#dev-python/py3-setuptools
+dev-python/py3-unicodedata2
+
+media-gfx/fontforge
+media-libs/freetype
+media-libs/libjpeg-turbo
+media-libs/libpng
+
+media-libs/tiff

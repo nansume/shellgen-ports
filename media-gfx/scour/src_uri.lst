@@ -1,0 +1,2 @@
+https://github.com/${PN}-project/${PN}/archive/v${PV}.tar.gz -> ${PN}-0.38.2.tar.gz
+#mirror://githubcl/${PN}-project/${PN}/tar.gz/v0.38.2 -> scour-0.38.2.tar.gz

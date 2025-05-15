@@ -1,0 +1,41 @@
+dev-lang/python3
+dev-lang/vala
+dev-libs/expat  # for cairo
+dev-libs/fribidi  # for pango (required remove)
+dev-libs/glib
+dev-libs/libcroco
+dev-libs/libffi  # for glib
+dev-libs/pcre  # optional (internal pcre glib-2.68.4)
+dev-libs/libxml2  # for vala
+dev-libs/libxslt  # for vala
+dev-util/pkgconf
+
+media-libs/fontconfig  # for cairo
+media-libs/freetype  # for cairo
+media-libs/harfbuzz2  # for pango
+media-libs/libjpeg-turbo  # for gdk-pixbuf or bundled-libs
+media-libs/libpng  # for cairo
+media-libs/tiff  # for gdk-pixbuf
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-kernel/linux-headers-musl  # testing
+sys-libs/musl
+sys-libs/zlib  # for glib
+
+x11-base/xorg-proto  # for cairo
+
+x11-libs/cairo
+x11-libs/gdk-pixbuf
+x11-libs/libx11  # for cairo
+x11-libs/libxau  # for cairo
+x11-libs/libxcb  # for cairo
+x11-libs/libxdmcp  # for cairo
+x11-libs/libxext  # for cairo
+x11-libs/libxrender  # for cairo
+x11-libs/pango
+x11-libs/pixman  # for cairo
+
+x11-misc/shared-mime-info

@@ -1,0 +1,29 @@
+dev-libs/expat  # for fontconfig
+dev-util/ninja
+dev-util/pkgconf
+
+media-libs/fontconfig
+media-libs/freetype  # for fontconfig
+media-libs/libjpeg-turbo
+media-libs/libpng
+media-libs/libwebp
+media-libs/tiff
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # for libpng
+
+x11-base/xorg-proto  # for x11
+
+x11-libs/libx11  # for x11
+x11-libs/libxau  # for x11
+x11-libs/libxcb  # for x11
+x11-libs/libxcursor
+x11-libs/libxdmcp  # for x11
+x11-libs/libxext  # optional
+x11-libs/libxfixes
+x11-libs/libxrender  # for libxft
+
+x11-themes/hicolor-icon-theme

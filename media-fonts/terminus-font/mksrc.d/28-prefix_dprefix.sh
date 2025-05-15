@@ -1,0 +1,1 @@
+MYCONF="--prefix=${DPREFIX}"

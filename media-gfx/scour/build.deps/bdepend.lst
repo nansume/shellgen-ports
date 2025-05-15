@@ -1,0 +1,9 @@
+dev-lang/python3
+
+dev-libs/expat  # replace to python bundled
+dev-libs/libffi
+dev-python/py3-setuptools
+dev-python/py3-six
+
+sys-libs/musl
+sys-libs/zlib  # for setuptools

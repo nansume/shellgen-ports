@@ -1,0 +1,22 @@
+dev-libs/glib-compat
+dev-libs/libffi
+#dev-libs/libressl-compat  # build use for cmake
+dev-libs/libxml2
+dev-libs/pcre  # for glib
+
+dev-util/cmake
+dev-util/pkgconf
+
+media-libs/freetype
+media-libs/libjpeg-turbo
+media-libs/libpng
+media-libs/tiff
+
+#sys-apps/coreutils  # date-utils
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/gettext-tiny
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # for libpng

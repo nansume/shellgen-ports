@@ -1,0 +1,35 @@
+#app-arch/bzip2
+
+dev-lang/perl  # for intltool
+dev-lang/python3
+dev-libs/expat  # python bundled
+dev-libs/glib
+dev-libs/libffi  # for glib
+dev-libs/libxml2
+dev-libs/pcre  # optional (internal pcre glib-2.68.4)
+dev-perl/perl-xml-parser  # for intltool
+dev-util/intltool
+dev-util/pkgconf
+
+#media-gfx/imagemagick  # buildtime?
+media-libs/libjpeg-turbo
+media-libs/libpng
+media-libs/tiff
+
+sys-apps/file
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/gettext  # for intltool
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # libpng, glib
+
+x11-base/xorg-proto
+
+x11-libs/gdk-pixbuf
+x11-libs/libx11
+x11-libs/libxau
+x11-libs/libxcb
+x11-libs/libxdmcp
+
+x11-misc/shared-mime-info

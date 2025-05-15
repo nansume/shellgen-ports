@@ -1,0 +1,17 @@
+dev-lang/perl  # in doc vim2html.pl: not found
+dev-libs/glib-compat
+dev-libs/pcre
+
+media-libs/libexif
+media-libs/libjpeg-turbo
+media-libs/libpng
+
+sys-devel/binutils
+sys-devel/bison
+sys-devel/flex
+sys-devel/gcc
+sys-devel/m4
+sys-devel/make
+sys-kernel/linux-headers
+sys-libs/musl
+sys-libs/zlib  # for libpng

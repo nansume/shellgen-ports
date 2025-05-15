@@ -1,0 +1,14 @@
+dev-libs/openssl3
+dev-util/pkgconf
+
+net-misc/curl
+
+media-libs/libjpeg-turbo
+media-libs/libpng
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+#sys-libs/ncurses  # checking -lncurses... no
+sys-libs/zlib  # for libpng

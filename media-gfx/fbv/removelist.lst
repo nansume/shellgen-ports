@@ -1,0 +1,6 @@
+mksrc.d/25-cflag_fmath.sh
+mksrc.d/25-cflag_maxgcc.sh
+mksrc.d/27-pre_myconf.sh
+mksrc.d/30-opt#disable+static.sh
+mksrc.d/30-opt#enable+shared.sh
+#mksrc.d/42-pre_install.sh

@@ -1,0 +1,17 @@
+dev-util/pkgconf
+
+media-fonts/font-util
+
+media-libs/fontconfig  # required fc-cache (optional)
+media-libs/freetype  # for mkfontscale
+
+#sys-devel/binutils
+sys-devel/gcc  # required for configure
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # for mkfontscale
+
+x11-apps/bdftopcf
+x11-apps/mkfontscale
+x11-libs/libfontenc  # for mkfontscale
+x11-misc/util-macros

@@ -1,0 +1,11 @@
+dev-libs/directfb
+dev-util/pkgconf
+
+media-libs/libpng
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-kernel/linux-headers
+sys-libs/musl
+sys-libs/zlib  # for libpng

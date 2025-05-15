@@ -1,0 +1,8 @@
+etc/*
+<DPREFIX>/share/fonts/<PN>/LiberationMono-BoldItalic.ttf
+<DPREFIX>/share/fonts/<PN>/LiberationMono-Italic.ttf
+<DPREFIX>/share/fonts/<PN>/LiberationMono-Regular.ttf
+<DPREFIX>/share/fonts/<PN>/LiberationSans-BoldItalic.ttf
+<DPREFIX>/share/fonts/<PN>/LiberationSans-Italic.ttf
+<DPREFIX>/share/fonts/<PN>/LiberationSans-Regular.ttf
+<DPREFIX>/share/fonts/<PN>/LiberationSerif-*.ttf

@@ -1,0 +1,11 @@
+#app-arch/brotli
+
+dev-libs/expat
+dev-util/cmake
+dev-util/pkgconf
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # png

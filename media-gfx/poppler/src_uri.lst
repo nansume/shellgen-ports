@@ -1,0 +1,4 @@
+https://poppler.freedesktop.org/poppler-24.05.0.tar.xz
+http://data.gpo.zugaina.org/gentoo/app-text/poppler/files/poppler-23.10.0-qt-deps.patch
+http://data.gpo.zugaina.org/gentoo/app-text/poppler/files/poppler-21.09.0-respect-cflags.patch
+http://data.gpo.zugaina.org/gentoo/app-text/poppler/files/poppler-0.57.0-disable-internal-jpx.patch

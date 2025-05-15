@@ -1,0 +1,7 @@
+media-libs/libpng
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # for libpng

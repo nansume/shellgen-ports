@@ -1,0 +1,36 @@
+#app-crypt/gpgme
+app-text/poppler-data
+
+dev-libs/expat  # for fontconfig
+dev-libs/glib-compat
+dev-libs/libffi  # for glib
+dev-libs/openssl3
+dev-util/cmake
+dev-util/pkgconf
+
+media-libs/fontconfig
+media-libs/freetype  # for fontconfig
+media-libs/lcms2
+media-libs/libjpeg-turbo
+media-libs/libpng
+media-libs/tiff
+
+net-misc/curl
+
+sys-devel/binutils
+sys-devel/gcc
+sys-devel/make
+sys-devel/patch
+sys-libs/musl
+sys-libs/zlib  # for glib,libpng
+
+x11-base/xorg-proto  # for x11
+
+x11-libs/cairo
+x11-libs/libx11  # for x11
+x11-libs/libxau  # for x11
+x11-libs/libxcb  # for x11
+x11-libs/libxdmcp  # for x11
+x11-libs/libxext  # optional
+x11-libs/libxrender  # for libxft
+x11-libs/pixman
