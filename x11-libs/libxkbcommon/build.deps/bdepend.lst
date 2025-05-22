@@ -4,10 +4,10 @@ dev-util/pkgconf
 sys-apps/file
 sys-devel/binutils
 sys-devel/bison
-sys-devel/gcc
+sys-devel/gcc9
 sys-devel/m4
 sys-devel/make
-sys-kernel/linux-headers
+sys-kernel/linux-headers-musl
 sys-libs/musl
 
 x11-base/xcb-proto

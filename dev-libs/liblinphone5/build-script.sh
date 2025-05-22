@@ -1,11 +1,11 @@
 #!/bin/sh
 # Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
-# Date: 2025-04-05 19:00 UTC - last change
+# Date: 2025-04-05 19:00 UTC, 2025-05-18 12:00 UTC - last change
 # Build with useflag: static +static-libs/+shared -lfs +nopie -patch -doc -xstub -diet +musl +stest +strip +x32
 
 # BUG: Found Doxygen: /bin/doxygen (found version `1.13.2`) found components: doxygen missing components: dot
 
-# http://data.gpo.zugaina.org/nest/media-libs/mediastreamer2/mediastreamer2-5.3.86.ebuild
+# http://data.gpo.zugaina.org/nest/dev-libs/liblinphone/liblinphone-5.3.86-r1.ebuild
 
 export XPN PF PV WORKDIR BUILD_DIR PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
 export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED
@@ -23,6 +23,7 @@ CATEGORY="${CATEGORY:-${11:?required <CATEGORY>}}"
 PN="${PN:-${12:?required <PN>}}"
 PN=${PN%%_*}
 XPN=${XPN:-$PN}
+PN=${PN%[0-9]}
 PV="5.3.110"
 SRC_URI="https://gitlab.linphone.org/BC/public/${PN}/-/archive/${PV}/${PN}-${PV}.tar.bz2"
 USE_BUILD_ROOT="0"
@@ -84,7 +85,7 @@ pkginst \
   "#dev-cpp/xsd  # not found" \
   "dev-db/soci" \
   "dev-db/sqlite3  # deps bzrtp" \
-  "dev-lang/python38" \
+  "dev-lang/python3-8" \
   "dev-libs/expat  # deps python3" \
   "dev-libs/belcard" \
   "dev-libs/belle-sip" \
@@ -93,7 +94,7 @@ pkginst \
   "dev-libs/jsoncpp" \
   "dev-libs/libffi  # deps python3" \
   "dev-libs/libxml2-1  # deps bzrtp" \
-  "#dev-libs/lime  # not found" \
+  "dev-libs/lime" \
   "dev-libs/openssl3  # deps libsrtp" \
   "dev-libs/xerces-c" \
   "dev-python/py38-pystache" \
@@ -115,7 +116,7 @@ pkginst \
   "sys-devel/binutils" \
   "sys-devel/gcc9" \
   "sys-devel/make" \
-  "sys-libs/musl0" \
+  "sys-libs/musl" \
   "sys-libs/zlib  # deps libsrtp,soci" \
   || die "Failed install build pkg depend... error"
 

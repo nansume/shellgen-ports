@@ -1,7 +1,8 @@
 #!/bin/sh
-# Copyright (C) 2024 Artjom Slepnjov, Shellgen
+# Copyright (C) 2024-2025 Artjom Slepnjov, Shellgen
 # License GPLv3: GNU GPL version 3 only
 # http://www.gnu.org/licenses/gpl-3.0.html
+# Maintainer: Artjom Slepnjov <shellgen-at-uncensored-dot-citadel-dot-org>
 # Date: 2024-07-22 19:00 UTC - last change
 # Build with useflag: -static-libs +shared +ssl -glib -doc -xstub +musl +stest +strip +x32
 
@@ -77,14 +78,14 @@ chroot-build || die "Failed chroot... error"
 pkginst \
   "app-misc/ca-certificates  # openssl" \
   "dev-lang/perl  # optional" \
-  "dev-lang/python3  for glib new version" \
+  "#dev-lang/python3-8  # for glib new version [pre: python3-6]" \
   "dev-lang/ruby24  # past ruby26" \
   "dev-libs/expat  # icu,freetype" \
-  "dev-libs/glib-compat" \
+  "dev-libs/glib57" \
   "#dev-libs/glib" \
-  "dev-libs/icu-compat" \
+  "dev-libs/icu59" \
   "dev-libs/libffi  # for glib" \
-  "dev-libs/libxml2" \
+  "dev-libs/libxml2-1  # [pre: libxml2]" \
   "dev-libs/libxslt" \
   "dev-libs/openssl-compat" \
   "#dev-libs/openssl" \
@@ -160,9 +161,9 @@ elif test "X${USER}" != 'Xroot'; then
   printf %s\\n "${ZCOMP} -dc ${PF} | tar -C ${PDIR%/}/${SRC_DIR}/ -xkf -"
 
   case $(tc-abi-build) in
-    'x32')   append-flags -mx32 -msse2 ;;
-    'x86')   append-flags -m32         ;;
-    'amd64') append-flags -m64 -msse2  ;;
+    'x32')   append-flags -mx32 -msse2            ;;
+    'x86')   append-flags -m32 -msse -mfpmath=sse ;;
+    'amd64') append-flags -m64 -msse2             ;;
   esac
   append-flags -O2 -fno-stack-protector -no-pie -g0 -march=$(arch | sed 's/_/-/')
 
@@ -241,11 +242,11 @@ elif test "X${USER}" != 'Xroot'; then
 
   find "$(get_libdir)/" -name '*.la' -delete || die
 
-  exit 0
+  exit 0  # only for user-build
 fi
 
 cd "${ED}/" || die "install dir: not found... error"
 
 pkg-perm
 
-INST_ABI="$(tc-abi-build)" PN=${PN} pkg-create-cgz
+INST_ABI="$(tc-abi-build)" PN=${XPN} PV=${PV} pkg-create-cgz

@@ -1,21 +1,17 @@
 #!/bin/sh
-# Copyright (C) 2024 Artjom Slepnjov, Shellgen
-# License GPLv3: GNU GPL version 3 only
-# http://www.gnu.org/licenses/gpl-3.0.html
-# Date: 2024-09-13 16:00 UTC - last change
-# Build with useflag: -static -static-libs +shared -lfs +nopie +patch -doc -xstub -diet +musl +stest +strip +x32
+# Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
+# Date: 2025-05-20 08:00 UTC - last change
+# Build with useflag: -static -static-libs +shared -lfs +nopie -patch -doc -xstub -diet +musl +stest +strip +x32
 
-# https://git.alpinelinux.org/aports/tree/testing/twinkle/APKBUILD
-# https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=twinkle
-# https://data.gpo.zugaina.org/nest/net-voip/twinkle/twinkle-1.10.3.ebuild
+# http://data.gpo.zugaina.org/gentoo/dev-qt/qtsvg/qtsvg-6.9.0.ebuild
 
 export XPN PF PV WORKDIR BUILD_DIR PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
 export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED
 export CC CXX PKG_CONFIG PKG_CONFIG_LIBDIR PKG_CONFIG_PATH CMAKE_PREFIX_PATH
 
-DESCRIPTION="Softphone for voice over IP and IM communication using SIP"
-HOMEPAGE="https://github.com/LubosD/twinkle https://twinkle.dolezel.info"
-LICENSE="GPL-2"
+DESCRIPTION="SVG rendering library for the Qt6 framework"
+HOMEPAGE="https://www.qt.io/"
+LICENSE="GPL3 LGPL3 FDL custom"
 IFS="$(printf '\n\t')"
 XPWD=${XPWD:-$PWD}
 XPWD=${5:-$XPWD}
@@ -24,15 +20,10 @@ LC_ALL="C"
 CATEGORY="${CATEGORY:-${11:?required <CATEGORY>}}"
 PN="${PN:-${12:?required <PN>}}"
 PN=${PN%%_*}
+SPN="qtsvg-everywhere-src"
 XPN=${XPN:-$PN}
-PV="1.10.3"
-PV="1.10.3p2"  # 1.10.3-2022.02.18
-SRC_URI="
-  https://github.com/lubosd/${PN}/archive/master.tar.gz -> ${PN}-${PV}.tar.gz  # Ver: 1.10.3p2
-  #https://github.com/LubosD/${PN}/archive/v${PV}.tar.gz -> ${PN}-${PV}.tar.gz  # Ver: 1.10.3
-  https://git.alpinelinux.org/aports/plain/testing/twinkle/glibc.patch -> twinkle-pthread-mutex-np.patch
-  http://data.gpo.zugaina.org/nest/net-voip/twinkle/files/twinkle-1.10.2-g729.patch
-"
+PV="6.9.0"
+SRC_URI="https://download.qt.io/official_releases/qt/${PV%.*}/${PV}/submodules/${SPN}-${PV}.tar.xz"
 USE_BUILD_ROOT="0"
 BUILD_CHROOT=${BUILD_CHROOT:-0}
 PDIR=$(pkg-rootdir)
@@ -42,7 +33,7 @@ INSTALL_OPTS="install"
 HOSTNAME="localhost"
 BUILD_USER="tools"
 SRC_DIR="build"
-IUSE="+alsa -g729 -gsm +speex +zrtp +qt5 +dbus -static +shared -doc (+musl) +stest +strip"
+IUSE="-static-libs +shared -doc (+musl) +stest +strip"
 EABI=$(tc-abi-build)
 ABI=${EABI}
 XABI=${EABI}
@@ -59,10 +50,9 @@ ED=${INSTALL_DIR}
 SDIR="${PDIR%/}/${SRC_DIR}"
 PF=$(pfname 'src_uri.lst' "${SRC_URI}")
 PKGNAME=${PN}
-ZCOMP="gunzip"
+ZCOMP="unxz"
 WORKDIR="${PDIR%/}/${SRC_DIR}"
-BUILD_DIR="${PDIR%/}/${SRC_DIR}/${PN}-${PV}"   # Ver: 1.10.3
-BUILD_DIR="${PDIR%/}/${SRC_DIR}/${PN}-master"  # Ver: 1.10.3p2
+BUILD_DIR="${PDIR%/}/${SRC_DIR}/${SPN}-${PV}"
 PWD=${PWD%/}; PWD=${PWD:-/}
 LIB_DIR=$(get_libdir)
 LIBDIR="/${LIB_DIR}"
@@ -73,6 +63,7 @@ ABI_BUILD="${ABI_BUILD:-${1:?}}"
 BUILD_CHROOT="${7:-${BUILD_CHROOT:?}}"
 USE_BUILD_ROOT=${9:-$USE_BUILD_ROOT}
 CMAKE_PREFIX_PATH="/${LIB_DIR}/cmake"
+PROG=${PN}
 
 if test "X${USER}" != 'Xroot'; then
   mksrc-prepare
@@ -88,78 +79,80 @@ fi
 chroot-build || die "Failed chroot... error"
 
 pkginst \
-  "dev-cpp/commoncpp2" \
-  "dev-db/sqlite  # deps libsndfile" \
-  "dev-libs/ccrtp" \
+  "app-misc/ca-certificates  # openssl" \
+  "dev-build/samurai  # alternative for ninja" \
+  "dev-lang/perl  # optional" \
+  "#dev-lang/python3-8  # for glib new version [pre: python3-6]" \
+  "dev-lang/ruby26  # past ruby26" \
   "dev-libs/expat  # icu,freetype" \
-  "dev-libs/glib-compat" \
-  "dev-libs/gmp  # deps gnutls" \
-  "dev-libs/icu-compat  # deps qt5base" \
+  "dev-libs/glib74" \
+  "dev-libs/gmp  # for ssl" \
+  "dev-libs/icu64" \
   "dev-libs/libffi  # for glib" \
-  "dev-libs/libgcrypt  # deps gnutls" \
-  "dev-libs/libgpg-error  # deps gnutls" \
-  "dev-libs/libxml2" \
-  "dev-libs/libtasn1  # deps gnutls" \
-  "dev-libs/libunistring  # deps gnutls" \
-  "dev-libs/nettle  # deps gnutls" \
-  "dev-libs/ucommon" \
-  "dev-libs/zrtpcpp  # zrtp" \
-  "dev-qt/qt5base" \
-  "dev-qt/qt5declarative" \
-  "dev-qt/qt5tools" \
+  "dev-libs/libxml2-1" \
+  "dev-libs/libxslt" \
+  "dev-libs/pcre2  # for glib74" \
+  "dev-libs/openssl3" \
+  "dev-qt/qt6base" \
   "#dev-util/byacc  # alternative a bison" \
   "dev-util/cmake" \
+  "dev-util/gperf" \
   "dev-util/pkgconf" \
-  "media-libs/alsa-lib  # deps libsndfile" \
+  "media-libs/alsa-lib" \
   "media-libs/freetype  # fontconfig" \
   "media-libs/fontconfig" \
-  "media-libs/flac  # deps libsndfile" \
-  "media-libs/libogg  # deps libsndfile" \
-  "media-libs/libvorbis  # deps libsndfile" \
-  "media-libs/libsndfile" \
+  "media-libs/giflib" \
+  "media-libs/gstreamer1" \
+  "media-libs/gst-plugins-base1" \
+  "#media-libs/libjpeg-turbo3" \
   "media-libs/mesa  # for opengl" \
-  "media-libs/opus  # deps libsndfile" \
-  "media-libs/speex" \
-  "media-libs/speexdsp" \
-  "media-sound/lame  # deps libsndfile" \
-  "media-sound/mpg123  # deps libsndfile" \
-  "net-libs/gnutls  # deps commoncpp2" \
-  "sys-apps/dbus  # Ver: 1.10.3p2 (optional)" \
+  "net-print/cups" \
+  "sys-apps/dbus" \
   "sys-apps/file" \
   "sys-devel/binutils" \
   "sys-devel/bison" \
   "sys-devel/flex" \
-  "sys-devel/gcc" \
+  "sys-devel/gcc9" \
   "#sys-devel/lex  # alternative a flex" \
-  "sys-devel/m4  # required for autotools" \
   "sys-devel/make" \
+  "#sys-devel/patch" \
   "sys-kernel/linux-headers-musl" \
   "sys-libs/musl" \
-  "sys-libs/ncurses  # deps readline" \
-  "sys-libs/readline8" \
-  "sys-libs/zlib  # deps gnutls,zrtpcpp" \
+  "sys-libs/zlib  # for ssl" \
+  "x11-base/xcb-proto" \
   "x11-base/xorg-proto" \
   "x11-libs/libdrm  # for opengl" \
   "x11-libs/libice" \
   "x11-libs/libpciaccess  # for opengl" \
-  "x11-libs/libsm" \
   "x11-libs/libvdpau  # for opengl" \
+  "x11-libs/libsm" \
   "x11-libs/libx11" \
   "x11-libs/libxau" \
   "x11-libs/libxcb" \
   "x11-libs/libxcursor" \
-  "x11-libs/libxdamage  # for opengl" \
+  "x11-libs/libxdamage  # for ?opengl" \
   "x11-libs/libxdmcp" \
   "x11-libs/libxext" \
   "x11-libs/libxfixes" \
   "x11-libs/libxft" \
   "x11-libs/libxi" \
   "x11-libs/libxinerama  # optional" \
+  "x11-libs/libxkbcommon  # for built with x11 support" \
   "x11-libs/libxrandr" \
   "x11-libs/libxrender" \
+  "x11-libs/libxshmfence  # for ?opengl" \
   "x11-libs/libxv  # optional" \
-  "x11-libs/libxshmfence" \
-  "x11-libs/libxxf86vm" \
+  "x11-libs/libxt  # dbus" \
+  "x11-libs/libxxf86vm  # for ?opengl" \
+  "x11-libs/xcb-util  # ?for xcb" \
+  "x11-libs/xcb-util-cursor" \
+  "x11-libs/xcb-util-image  # ?for xcb" \
+  "x11-libs/xcb-util-keysyms  # ?for xcb" \
+  "x11-libs/xcb-util-renderutil  # ?for xcb" \
+  "x11-libs/xcb-util-wm  # ?for xcb" \
+  "x11-libs/xtrans" \
+  "x11-misc/util-macros" \
+  "x11-misc/xkeyboard-config" \
   || die "Failed install build pkg depend... error"
 
 build-deps-fixfind
@@ -181,9 +174,9 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
   printf %s\\n "${ZCOMP} -dc ${PF} | tar -C ${PDIR%/}/${SRC_DIR}/ -xkf -"
 
   case $(tc-abi-build) in
-    'x32')   append-flags -mx32 -msse2 ;;
-    'x86')   append-flags -m32         ;;
-    'amd64') append-flags -m64 -msse2  ;;
+    'x32')   append-flags -mx32 -msse2            ;;
+    'x86')   append-flags -m32 -msse -mfpmath=sse ;;
+    'amd64') append-flags -m64 -msse2             ;;
   esac
   append-flags -O2 -fno-stack-protector -no-pie -g0 -march=$(arch | sed 's/_/-/')
 
@@ -191,40 +184,33 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
 
   use 'strip' && INSTALL_OPTS="install/strip"
 
+  export LD_LIBRARY_PATH="${BUILD_DIR}/build/$(get_libdir):${LD_LIBRARY_PATH}"
+
   cd "${BUILD_DIR}/" || die "builddir: not found... error"
 
-  patch -p1 -E < "${FILESDIR}/${PN}"-pthread-mutex-np.patch  # compatible with Ver-1.10.3
-  use 'g729' && patch -p1 -E < "${FILESDIR}/${PN}"-1.10.2-g729.patch
+  #patch -p1 -E < "${FILESDIR}"/qtbase-6.9.0-no-direct-extern-access.patch
 
-  mkdir -pm 0755 -- "${BUILD_DIR}/build/"
-  cd "${BUILD_DIR}/build/" || die "builddir: not found... error"
-
-  . runverb \
-  cmake \
-    -DCMAKE_INSTALL_PREFIX="${EPREFIX%/}" \
-    -DCMAKE_BUILD_TYPE="MinSizeRel" \
-    -DWITH_QT5=$(usex 'qt5') \
-    -DWITH_DBUS=$(usex 'dbus') \
-    -DWITH_ALSA=$(usex 'alsa') \
-    -DWITH_G729=$(usex 'g729') \
-    -DWITH_GSM=$(usex 'gsm') \
-    -DWITH_ILBC="no" \
-    -DWITH_SPEEX=$(usex 'speex') \
-    -DWITH_ZRTP=$(usex 'zrtp') \
-    -DBUILD_SHARED_LIBS=$(usex 'shared' ON OFF) \
-    -DCMAKE_SKIP_RPATH="ON" \
-    -DCMAKE_SKIP_INSTALL_RPATH="ON" \
+  cmake -B build -G Ninja \
+    -D CMAKE_INSTALL_PREFIX="${EPREFIX%/}/" \
+    -D CMAKE_INSTALL_LIBDIR="/$(get_libdir)" \
+    -D CMAKE_INSTALL_DATAROOTDIR="/usr/share" \
+    -D CMAKE_BUILD_TYPE="Release" \
+    -D BUILD_SHARED_LIBS=$(usex 'shared' ON OFF) \
+    -D CMAKE_SKIP_RPATH=$(usex 'rpath' OFF ON) \
     -Wno-dev \
-    .. || die "Failed cmake build"
+    || die "Failed cmake build"
 
-  make -j "$(nproc)" || die "Failed make build"
+  ninja -j "$(nproc)" -C "${BUILD_DIR}/build" || die "Build... Failed"
 
-  make DESTDIR="${ED}" ${INSTALL_OPTS} || die "make install... error"
+  DESTDIR="${ED}" cmake --install build $(usex 'strip' --strip) || die "make install... error"
 
   cd "${ED}/" || die "install dir: not found... error"
 
-  use 'stest' && { bin/${PN} --version || die "binary work... error";}
-  ldd "bin/${PN}" || { use 'static' && true || die "library deps work... error";}
+  # fix: cmake wrong the pkgconfig
+  grep '${prefix}' < $(get_libdir)/pkgconfig/Qt6Svg.pc
+  sed -e 's|${prefix}||' -i $(get_libdir)/pkgconfig/Qt6*.pc
+
+  ldd "$(get_libdir)"/libQt6Svg.so || : die "library deps work... error"
 
   exit 0  # only for user-build
 fi
@@ -233,4 +219,4 @@ cd "${ED}/" || die "install dir: not found... error"
 
 pkg-perm
 
-INST_ABI="$(tc-abi-build)" PN=${XPN} pkg-create-cgz
+INST_ABI="$(tc-abi-build)" PN=${XPN} PV=${PV} pkg-create-cgz

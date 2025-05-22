@@ -1,9 +1,7 @@
 #!/bin/sh
-# Copyright (C) 2024 Artjom Slepnjov, Shellgen
-# License GPLv3: GNU GPL version 3 only
-# http://www.gnu.org/licenses/gpl-3.0.html
-# Date: 2024-09-07 19:00 UTC - last change
-# Build with useflag: -static -static-libs +shared -lfs +nopie -patch -doc -xstub -diet +musl +stest +strip +x32
+# Maintainer: Artjom Slepnjov <shellgen-at-uncensored-dot-citadel-dot-org>
+# Date: 2024-09-07 19:00 UTC, 2025-05-21 17:00 UTC - last change
+# Build with useflag: -static +static-libs +shared -lfs +nopie -patch -doc -xstub -diet +musl +stest +strip +x32
 
 export XPN PF PV WORKDIR BUILD_DIR PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
 export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED
@@ -32,7 +30,7 @@ INSTALL_OPTS="install"
 HOSTNAME="localhost"
 BUILD_USER="tools"
 SRC_DIR="build"
-IUSE="-static-libs +shared -doc (+musl) +stest +strip"
+IUSE="+static-libs +shared -doc (+musl) +stest +strip"
 EABI=$(tc-abi-build)
 ABI=${EABI}
 XABI=${EABI}
@@ -85,7 +83,7 @@ pkginst \
   "dev-util/pkgconf" \
   "sys-apps/file" \
   "sys-devel/binutils" \
-  "sys-devel/gcc" \
+  "sys-devel/gcc9" \
   "sys-devel/m4" \
   "sys-devel/make" \
   "sys-libs/musl" \
@@ -118,11 +116,18 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
   printf %s\\n "${ZCOMP} -dc ${PF} | tar -C ${PDIR%/}/${SRC_DIR}/ -xkf -"
 
   case $(tc-abi-build) in
-    'x32')   append-flags -mx32 -msse2 ;;
-    'x86')   append-flags -m32         ;;
-    'amd64') append-flags -m64 -msse2  ;;
+    'x32')   append-flags -mx32 -msse2            ;;
+    'x86')   append-flags -m32 -msse -mfpmath=sse ;;
+    'amd64') append-flags -m64 -msse2             ;;
   esac
-  append-flags -O2 -fno-stack-protector -no-pie -g0 -march=$(arch | sed 's/_/-/')
+  if use !shared && use 'static-libs'; then
+    append-flags -Os
+    append-ldflags -Wl,--gc-sections
+    append-cflags -ffunction-sections -fdata-sections
+  else
+    append-flags -O2
+  fi
+  append-flags -fno-stack-protector -no-pie -g0 -march=$(arch | sed 's/_/-/')
 
   CC="gcc" CXX="g++"
 

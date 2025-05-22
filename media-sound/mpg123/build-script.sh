@@ -35,9 +35,9 @@ HOSTNAME="localhost"
 BUILD_USER="tools"
 SRC_DIR="build"
 IUSE="-cpu_flags_x86_3dnow -cpu_flags_x86_3dnowext -cpu_flags_ppc_altivec"
-IUSE="${IUSE} +alsa coreaudio -int-quality -ipv6 -jack -cpu_flags_x86_mmx"
+IUSE="${IUSE} -alsa coreaudio -int-quality -ipv6 -jack -cpu_flags_x86_mmx"
 IUSE="${IUSE} -nas -oss -portaudio -pulseaudio -sdl -cpu_flags_x86_sse"
-IUSE="${IUSE} -buffer -network -large +optimization (-tinyalsa) -fifo -24bit +8bit -mesg"
+IUSE="${IUSE} -buffer -network -large +optimization +tinyalsa -fifo -24bit +8bit -mesg"
 IUSE="${IUSE} +static +static-libs +shared -doc (+musl) +stest +strip"
 EABI=$(tc-abi-build)
 ABI=${EABI}
@@ -83,12 +83,13 @@ chroot-build || die "Failed chroot... error"
 
 pkginst \
   "dev-util/pkgconf" \
-  "media-libs/alsa-lib" \
+  "#media-libs/alsa-lib" \
+  "media-libs/tinyalsa" \
   "sys-apps/file" \
   "sys-devel/binutils" \
   "sys-devel/gcc9" \
   "sys-devel/make" \
-  "sys-libs/musl0" \
+  "sys-libs/musl" \
   || die "Failed install build pkg depend... error"
 
 build-deps-fixfind

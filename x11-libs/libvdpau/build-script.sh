@@ -21,6 +21,7 @@ CATEGORY="${CATEGORY:-${11:?required <CATEGORY>}}"
 PN="${PN:-${12:?required <PN>}}"
 PN=${PN%%_*}
 XPN=${XPN:-$PN}
+PN=${PN%-static}
 PV="1.5"
 SRC_URI="https://gitlab.freedesktop.org/vdpau/libvdpau/-/archive/${PV}/${PN}-${PV}.tar.bz2"
 USE_BUILD_ROOT="0"
@@ -31,7 +32,7 @@ INCDIR="${DPREFIX}/include"
 HOSTNAME="localhost"
 BUILD_USER="tools"
 SRC_DIR="build"
-IUSE="-doc +dri -static-libs +shared +nopie (+musl) +stest +strip"
+IUSE="-doc +dri +static-libs +shared +nopie (+musl) +stest +strip"
 EABI=$(tc-abi-build)
 ABI=${EABI}
 XABI=${EABI}
@@ -115,7 +116,14 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
     'x86')   append-flags -m32 -msse -mfpmath=sse ;;
     'amd64') append-flags -m64 -msse2             ;;
   esac
-  append-flags -O2 -fno-stack-protector -no-pie -g0 -march=$(arch | sed 's/_/-/')
+  if use !shared && use 'static-libs'; then
+    append-flags -Os
+    append-ldflags -Wl,--gc-sections
+    append-cflags -ffunction-sections -fdata-sections
+  else
+    append-flags -O2
+  fi
+  append-flags -fno-stack-protector -no-pie -g0 -march=$(arch | sed 's/_/-/')
 
   CC="gcc" CXX="g++"
 

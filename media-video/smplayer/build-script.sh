@@ -1,9 +1,9 @@
 #!/bin/sh
-# Copyright (C) 2024 Artjom Slepnjov, Shellgen
-# License GPLv3: GNU GPL version 3 only
-# http://www.gnu.org/licenses/gpl-3.0.html
-# Date: 2024-07-27 20:00 UTC - last change
+# Maintainer: Artjom Slepnjov <shellgen-at-uncensored-dot-citadel-dot-org>
+# Date: 2024-07-27 20:00 UTC, 2025-05-21 12:00 UTC - last change
 # Build with useflag: -static -static-libs +shared -lfs +nopie +patch -doc -xstub -diet +musl +stest +strip +x32
+
+# http://data.gpo.zugaina.org/gentoo/media-video/smplayer/smplayer-24.5.0-r1.ebuild
 
 export XPN PF PV WORKDIR BUILD_DIR PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
 export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED
@@ -23,6 +23,7 @@ PN=${PN%%_*}
 XPN=${XPN:-$PN}
 PV="19.5.0"
 PV="23.6.0"
+PV="24.5.0"
 SRC_URI="
   https://github.com/smplayer-dev/${PN}/releases/download/v${PV}/${PN}-${PV}.tar.bz2
   http://data.gpo.zugaina.org/gentoo/media-video/smplayer/files/smplayer-17.1.0-advertisement_crap.patch
@@ -79,18 +80,18 @@ chroot-build || die "Failed chroot... error"
 
 pkginst \
   "dev-lang/perl  # optional" \
-  "dev-lang/python38  for glib new version" \
+  "dev-lang/python3-8  for glib new version" \
   "dev-libs/expat  # icu,freetype" \
-  "dev-libs/glib57" \
-  "#dev-libs/glib74" \
+  "dev-libs/glib74" \
   "dev-libs/libffi  # for glib" \
-  "dev-libs/icu59  # deps qt5base" \
-  "dev-libs/libxml2" \
+  "dev-libs/icu64  # deps qt5base" \
+  "dev-libs/libxml2-1" \
   "dev-libs/libxslt" \
+  "dev-libs/pcre2  # deps: glib74" \
   "#dev-perl/digest-perl-md5" \
-  "dev-qt/qt5base" \
-  "dev-qt/qt5declarative" \
-  "dev-qt/qt5tools" \
+  "dev-qt/qt5base12" \
+  "dev-qt/qt5declarative12" \
+  "dev-qt/qt5tools12" \
   "media-libs/alsa-lib" \
   "media-libs/freetype  # fontconfig" \
   "media-libs/fontconfig" \
@@ -161,8 +162,7 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
   fi
   append-flags -fno-stack-protector -no-pie -g0 -march=$(arch | sed 's/_/-/')
 
-  CC="cc$(usex static ' --static')"
-  CXX="c++$(usex static ' --static')"
+  CC="cc" CXX="c++"
   PATH="${PATH:+${PATH}:}/$(get_libdir)/qt5/bin"
 
   cd "${BUILD_DIR}/" || die "builddir: not found... error"
@@ -213,6 +213,9 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
   cd "${ED}/" || die "install dir: not found... error"
 
   strip --verbose --strip-all "bin/"*
+
+  use 'stest' && { bin/${PN} --version || : die "binary work... error";}
+  ldd "bin/${PN}" || { use 'static' && true || : die "library deps work... error";}
 
   exit 0  # only for user-build
 fi

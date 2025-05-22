@@ -1,9 +1,7 @@
 #!/bin/sh
-# Copyright (C) 2024 Artjom Slepnjov, Shellgen
-# License GPLv3: GNU GPL version 3 only
-# http://www.gnu.org/licenses/gpl-3.0.html
-# Date: 2024-09-13 06:00 UTC - last change
-# Build with useflag: -static -static-libs +shared -lfs +nopie -patch -doc -xstub -diet +musl +stest +strip +x32
+# Maintainer: Artjom Slepnjov <shellgen-at-uncensored-dot-citadel-dot-org>
+# Date: 2024-09-13 06:00 UTC, 2025-05-21 19:00 UTC - last change
+# Build with useflag: -static +static-libs +shared -lfs +nopie -patch -doc -xstub -diet +musl +stest +strip +x32
 
 export XPN PF PV WORKDIR BUILD_DIR PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
 export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED
@@ -34,7 +32,7 @@ INSTALL_OPTS="install"
 HOSTNAME="localhost"
 BUILD_USER="tools"
 SRC_DIR="build"
-IUSE="+cxx -doc +gnutls -static-libs +ssl -test +shared -doc (+musl) +stest +strip"
+IUSE="+cxx -doc +gnutls +static-libs +ssl -test +shared -doc (+musl) +stest +strip"
 EABI=$(tc-abi-build)
 ABI=${EABI}
 XABI=${EABI}
@@ -89,7 +87,7 @@ pkginst \
   "dev-util/pkgconf" \
   "net-libs/gnutls" \
   "sys-devel/binutils" \
-  "sys-devel/gcc" \
+  "sys-devel/gcc9" \
   "sys-devel/make" \
   "sys-libs/musl" \
   "sys-libs/zlib  # deps gnutls" \
@@ -114,11 +112,11 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
   printf %s\\n "${ZCOMP} -dc ${PF} | tar -C ${PDIR%/}/${SRC_DIR}/ -xkf -"
 
   case $(tc-abi-build) in
-    'x32')   append-flags -mx32 -msse2 ;;
-    'x86')   append-flags -m32         ;;
-    'amd64') append-flags -m64 -msse2  ;;
+    'x32')   append-flags -mx32 -msse2            ;;
+    'x86')   append-flags -m32 -msse -mfpmath=sse ;;
+    'amd64') append-flags -m64 -msse2             ;;
   esac
-  if use 'static-libs'; then
+  if use !shared && use 'static-libs'; then
     append-flags -Os
     append-ldflags -Wl,--gc-sections
     append-cflags -ffunction-sections -fdata-sections
@@ -144,11 +142,11 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
     -DCMAKE_INSTALL_DOCDIR="${DPREFIX}/share/doc" \
     -DCMAKE_INSTALL_MANDIR="${DPREFIX}/share/man" \
     -DCMAKE_BUILD_TYPE="Release" \
-    -DBUILD_DOCS="$(usex doc)" \
-    -DBUILD_STDLIB="$(usex cxx)" \
-    -DBUILD_STATIC="$(usex static-libs)" \
-    -DCRYPTO_OPENSSL="$(usex ssl)" \
-    -DBUILD_TESTING="$(usex test)" \
+    -DBUILD_DOCS=$(usex 'doc' ON OFF) \
+    -DBUILD_STDLIB=$(usex 'cxx' ON OFF) \
+    -DBUILD_STATIC=$(usex 'static-libs' ON OFF) \
+    -DCRYPTO_OPENSSL=$(usex 'ssl' ON OFF) \
+    -DBUILD_TESTING=$(usex 'test' ON OFF) \
     -DBUILD_SHARED_LIBS=$(usex 'shared' ON OFF) \
     -DCMAKE_SKIP_RPATH=$(usex 'rpath' OFF ON) \
     -DCMAKE_SKIP_INSTALL_RPATH=$(usex 'rpath' OFF ON) \
@@ -170,4 +168,4 @@ cd "${ED}/" || die "install dir: not found... error"
 
 pkg-perm
 
-INST_ABI="$(tc-abi-build)" PN=${XPN} pkg-create-cgz
+INST_ABI="$(tc-abi-build)" PN=${XPN} PV=${PV} pkg-create-cgz
