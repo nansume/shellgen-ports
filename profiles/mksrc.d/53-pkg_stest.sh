@@ -1,7 +1,7 @@
 #!/bin/sh
 # simple test
 
-ED=${INSTALL_DIR}
+ED=${ED:-$INSTALL_DIR}
 
 local LD_LIBRARY_PATH=${LD_LIBRARY_PATH}
 local F
@@ -26,14 +26,19 @@ if test "X${USER}" != 'Xroot'; then
     test -e "${F}" || continue
     testelf ${F} || continue
     printf %s\\n "${F} --version"
-    "${F}" --version || true
+    "${F}" --version && { break || true;}
+    "${F}" -V && { break || true;}
+    "${F}" -version && { break || true;}
+    "${F}" -v && { break || true;}
+    "${F}" -h && { break || true;}
     break
   done
 
   if use !diet;then
-    for F in "bin/"* "sbin/"*; do
+    for F in "bin/"* "sbin/"* "$(get_libdir)/"*.so.* "$(get_libdir)/"*.so; do
       test -e "${F}" || continue
       testelf ${F} || continue
+      printf %s\\n "ldd ${F}"
       ldd "${F}" || { use 'static' && true;}
       break
     done
@@ -41,9 +46,11 @@ if test "X${USER}" != 'Xroot'; then
 
 elif test "${BUILD_CHROOT:=0}" -eq '0' && use 'diet';then
 
+  # it only for dietlibc?
   for F in "bin/"* "sbin/"*; do
     test -e "${F}" || continue
     testelf ${F} || continue
+    printf %s\\n "ldd ${F}"
     ldd "${F}" || { use 'static' && true;}
     break
   done

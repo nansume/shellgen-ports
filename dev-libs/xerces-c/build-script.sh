@@ -5,6 +5,10 @@
 
 # http://data.gpo.zugaina.org/gentoo/dev-libs/xerces-c/xerces-c-3.2.5.ebuild
 
+# BUG (runtime): Could not open catalog:
+# BUG (runtime): XercesMessages_en_US.cat
+# FIX (runtime): For Linphone, add it: export XERCESC_NLS_HOME=/usr/share/xerces-c/msg
+
 export XPN PF PV WORKDIR BUILD_DIR PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
 export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED
 export CC CXX PKG_CONFIG PKG_CONFIG_LIBDIR PKG_CONFIG_PATH CMAKE_PREFIX_PATH

@@ -23,6 +23,7 @@ CATEGORY="${CATEGORY:-${11:?required <CATEGORY>}}"
 PN="${PN:-${12:?required <PN>}}"
 PN=${PN%%_*}
 XPN=${XPN:-$PN}
+PN=${PN%[0-9]-[0-9]}
 PN=${PN%[0-9]}
 PV="5.3.110"
 SRC_URI="https://gitlab.linphone.org/BC/public/${PN}/-/archive/${PV}/${PN}-${PV}.tar.bz2"
@@ -81,6 +82,7 @@ chroot-build || die "Failed chroot... error"
 
 pkginst \
   "app-text/doxygen1" \
+  "dev-build/cmake3" \
   "dev-cpp/belr" \
   "#dev-cpp/xsd  # not found" \
   "dev-db/soci" \
@@ -101,11 +103,10 @@ pkginst \
   "dev-python/py38-setuptools" \
   "dev-python/py38-six" \
   "#dev-vcs/git  # replace to fake" \
-  "dev-util/cmake" \
   "dev-util/pkgconf" \
   "media-libs/alsa-lib  # alsa" \
   "media-libs/libjpeg-turbo3  # jpeg" \
-  "media-libs/libvpx0" \
+  "media-libs/libvpx1" \
   "media-libs/mediastreamer2  # required: mediastreamer2[zrtp,srtp,jpeg]" \
   "media-libs/opus" \
   "net-libs/bctoolbox" \
@@ -114,7 +115,7 @@ pkginst \
   "net-libs/mbedtls  # deps bctoolbox" \
   "net-libs/ortp" \
   "sys-devel/binutils" \
-  "sys-devel/gcc9" \
+  "sys-devel/gcc14" \
   "sys-devel/make" \
   "sys-libs/musl" \
   "sys-libs/zlib  # deps libsrtp,soci" \
@@ -158,6 +159,8 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
 
   use 'strip' && INSTALL_OPTS="install/strip"
 
+  export XERCESC_NLS_HOME="/usr/share/xerces-c/msg"  # naze it here?
+
   cd "${BUILD_DIR}/" || die "builddir: not found... error"
 
   # fix incapability to detect jsoncpp
@@ -179,14 +182,14 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
     -DCMAKE_INSTALL_DATAROOTDIR="${DPREFIX}/share" \
     -DCMAKE_BUILD_TYPE="Release" \
     -DENABLE_CONSOLE_UI=YES \
-    -DENABLE_DEBUG_LOGS=$(usex 'debug') \
-    -DENABLE_DOC=$(usex 'doc') \
-    -DENABLE_LDAP=$(usex 'ldap') \
-    -DENABLE_LIME_X3DH=$(usex 'lime') \
-    -DENABLE_QRCODE=$(usex 'qrcode') \
+    -DENABLE_DEBUG_LOGS=$(usex 'debug' ON OFF) \
+    -DENABLE_DOC=$(usex 'doc' ON OFF) \
+    -DENABLE_LDAP=$(usex 'ldap' ON OFF) \
+    -DENABLE_LIME_X3DH=$(usex 'lime' ON OFF) \
+    -DENABLE_QRCODE=$(usex 'qrcode' ON OFF) \
     -DENABLE_STRICT=NO \
-    -DENABLE_TOOLS=$(usex 'tools') \
-    -DENABLE_UNIT_TESTS=$(usex 'test') \
+    -DENABLE_TOOLS=$(usex 'tools' ON OFF) \
+    -DENABLE_UNIT_TESTS=$(usex 'test' ON OFF) \
     -DBUILD_SHARED_LIBS=$(usex 'shared' ON OFF) \
     -DCMAKE_SKIP_RPATH=$(usex 'rpath' OFF ON) \
     -Wno-dev \

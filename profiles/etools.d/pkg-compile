@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (C) 2021-2024 Artjom Slepnjov, Shellgen
+# Copyright (C) 2021-2025 Artjom Slepnjov, Shellgen
 # License GPLv3: GNU GPL version 3 only
 # http://www.gnu.org/licenses/gpl-3.0.html
 # Date: 2023-10-09 18:00 UTC - fix: near to compat-posix, no-posix: local VAR
@@ -26,6 +26,15 @@ test -x '/opt/xbin/bash' && ln -sf 'bash' /opt/xbin/sh && printf %s\\n 'ln -sf b
 test -f 'Makefile.PL' && {
   . runverb perl -- "Makefile.PL" || exit
 }
+
+if { use !static && use 'shared' && use 'static-libgcc' ;}; then
+  [ -f "Makefile" ] && \
+  sed \
+    -e "s/-shared-libgcc/-static-libgcc/" \
+    -e "s/-shared-libstdc++/-static-libstdc++/" \
+    -i Makefile */Makefile
+  printf "replace: s/-shared-libgcc/-static-libgcc/... ok"
+fi
 
 for MK in *; do
   test -x "/bin/meson" && break

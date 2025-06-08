@@ -22,9 +22,10 @@ PN="${PN:-${12:?required <PN>}}"
 PN=${PN%%_*}
 XPN=${XPN:-$PN}
 PN=${PN%[0-9]*}
-SPN="qttools-everywhere-opensource-src"
-PV="5.15.16"
-SRC_URI="https://download.qt.io/archive/qt/${PV%.*}/${PV}/submodules/${SPN}-${PV}.tar.xz"
+SPN1="qttools-everywhere-opensource-src"
+SPN2="qttools-everywhere-src"
+PV="5.15.17"
+SRC_URI="https://download.qt.io/archive/qt/${PV%.*}/${PV}/submodules/${SPN1}-${PV}.tar.xz"
 USE_BUILD_ROOT="0"
 BUILD_CHROOT=${BUILD_CHROOT:-0}
 PDIR=$(pkg-rootdir)
@@ -51,7 +52,7 @@ PF=$(pfname 'src_uri.lst' "${SRC_URI}")
 PKGNAME=${PN}
 ZCOMP="unxz"
 WORKDIR="${PDIR%/}/${SRC_DIR}"
-BUILD_DIR="${PDIR%/}/${SRC_DIR}/qttools-everywhere-src-${PV}"
+BUILD_DIR="${PDIR%/}/${SRC_DIR}/${SPN2}-${PV}"
 PWD=${PWD%/}; PWD=${PWD:-/}
 LIB_DIR=$(get_libdir)
 LIBDIR="/${LIB_DIR}"
@@ -76,16 +77,19 @@ fi
 chroot-build || die "Failed chroot... error"
 
 pkginst \
+  "dev-db/sqlite3" \
   "dev-lang/ruby26" \
   "dev-lang/perl  # optional" \
-  "#dev-lang/python3-8  # for glib new version" \
+  "#dev-lang/python3-12  # for glib new version" \
   "dev-libs/expat  # icu,freetype" \
   "dev-libs/glib74" \
-  "dev-libs/libffi  # for glib" \
-  "dev-libs/icu64  # deps qt5base" \
+  "dev-libs/gmp  # for ssl" \
+  "dev-libs/icu76  # deps qt5base" \
+  "#dev-libs/libffi  # for glib" \
   "dev-libs/libxml2-1" \
   "dev-libs/libxslt" \
   "dev-libs/pcre2  # for glib74" \
+  "dev-libs/openssl3" \
   "dev-perl/digest-perl-md5" \
   "dev-qt/qt5base15" \
   "dev-qt/qt5declarative15" \
@@ -94,19 +98,26 @@ pkginst \
   "media-libs/alsa-lib" \
   "media-libs/freetype  # fontconfig" \
   "media-libs/fontconfig" \
+  "media-libs/giflib" \
   "#media-libs/gstreamer1" \
   "#media-libs/gst-plugins-base1" \
+  "media-libs/harfbuzz2-2" \
+  "media-libs/libjpeg-turbo3" \
+  "media-libs/libpng" \
   "media-libs/mesa  # for opengl" \
+  "net-print/cups" \
+  "sys-apps/dbus" \
   "sys-apps/file" \
   "sys-devel/binutils" \
   "sys-devel/bison" \
   "sys-devel/flex" \
-  "sys-devel/gcc9" \
+  "sys-devel/gcc14" \
   "sys-devel/make" \
   "#sys-devel/patch  # for patch with fuzz and offset." \
   "sys-kernel/linux-headers-musl" \
   "sys-libs/musl" \
   "sys-libs/zlib" \
+  "x11-base/xcb-proto" \
   "x11-base/xorg-proto" \
   "x11-libs/libdrm  # for opengl" \
   "x11-libs/libice" \
@@ -129,6 +140,15 @@ pkginst \
   "x11-libs/libxv  # optional" \
   "x11-libs/libxshmfence" \
   "x11-libs/libxxf86vm" \
+  "x11-libs/xcb-util  # ?for xcb" \
+  "x11-libs/xcb-util-cursor" \
+  "x11-libs/xcb-util-image  # ?for xcb" \
+  "x11-libs/xcb-util-keysyms  # ?for xcb" \
+  "x11-libs/xcb-util-renderutil  # ?for xcb" \
+  "x11-libs/xcb-util-wm  # ?for xcb" \
+  "x11-libs/xtrans" \
+  "x11-misc/util-macros" \
+  "x11-misc/xkeyboard-config" \
   || die "Failed install build pkg depend... error"
 
 build-deps-fixfind

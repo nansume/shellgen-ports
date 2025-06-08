@@ -1,1 +1,0 @@
-MYCONF=$(mapsetre '--libdir=*' '' ${MYCONF})

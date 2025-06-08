@@ -1,5 +1,5 @@
 #!/bin/sh
-# Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
+# Maintainer: Artjom Slepnjov <shellgen-at-uncensored-dot-citadel-dot-org>
 # Date: 2025-05-20 08:00 UTC - last change
 # Build with useflag: -static -static-libs +shared -lfs +nopie -patch -doc -xstub -diet +musl +stest +strip +x32
 
@@ -20,10 +20,12 @@ LC_ALL="C"
 CATEGORY="${CATEGORY:-${11:?required <CATEGORY>}}"
 PN="${PN:-${12:?required <PN>}}"
 PN=${PN%%_*}
-SPN="qtmultimedia-everywhere-src"
+SPN1="qtmultimedia-everywhere-opensource-src"
+SPN2="qtmultimedia-everywhere-src"
 XPN=${XPN:-$PN}
 PV="6.9.0"
-SRC_URI="https://download.qt.io/official_releases/qt/${PV%.*}/${PV}/submodules/${SPN}-${PV}.tar.xz"
+PV="6.5.5"
+SRC_URI="https://download.qt.io/official_releases/qt/${PV%.*}/${PV}/src/submodules/${SPN1}-${PV}.tar.xz"
 USE_BUILD_ROOT="0"
 BUILD_CHROOT=${BUILD_CHROOT:-0}
 PDIR=$(pkg-rootdir)
@@ -33,8 +35,8 @@ INSTALL_OPTS="install"
 HOSTNAME="localhost"
 BUILD_USER="tools"
 SRC_DIR="build"
-IUSE="+X +alsa +dbus eglfs -ffmpeg -gstreamer +opengl -pipewire -pulseaudio"
-IUSE="${IUSE} -qml +v4l +vaapi -vulkan -wayland"
+IUSE="+X +alsa +dbus -eglfs -ffmpeg -gstreamer +opengl -pipewire -pulseaudio"
+IUSE="${IUSE} +qml +v4l +vaapi -vulkan -wayland"
 IUSE="${IUSE} -static-libs +shared -doc (+musl) +stest +strip"
 EABI=$(tc-abi-build)
 ABI=${EABI}
@@ -54,7 +56,7 @@ PF=$(pfname 'src_uri.lst' "${SRC_URI}")
 PKGNAME=${PN}
 ZCOMP="unxz"
 WORKDIR="${PDIR%/}/${SRC_DIR}"
-BUILD_DIR="${PDIR%/}/${SRC_DIR}/${SPN}-${PV}"
+BUILD_DIR="${PDIR%/}/${SRC_DIR}/${SPN2}-${PV}"
 PWD=${PWD%/}; PWD=${PWD:-/}
 LIB_DIR=$(get_libdir)
 LIBDIR="/${LIB_DIR}"
@@ -66,6 +68,7 @@ BUILD_CHROOT="${7:-${BUILD_CHROOT:?}}"
 USE_BUILD_ROOT=${9:-$USE_BUILD_ROOT}
 CMAKE_PREFIX_PATH="/${LIB_DIR}/cmake"
 PROG=${PN}
+LC_ALL="C.UTF-8"
 
 if test "X${USER}" != 'Xroot'; then
   mksrc-prepare
@@ -96,6 +99,7 @@ pkginst \
   "dev-libs/pcre2  # for glib74" \
   "dev-libs/openssl3" \
   "dev-qt/qt6base" \
+  "dev-qt/qt6declarative  # qml" \
   "dev-qt/qt6shadertools" \
   "#dev-util/byacc  # alternative a bison" \
   "dev-util/cmake" \
@@ -109,7 +113,7 @@ pkginst \
   "media-libs/gst-plugins-base1" \
   "#media-libs/libjpeg-turbo3" \
   "media-libs/mesa  # for opengl" \
-  "media-video/ffmpeg7" \
+  "#media-video/ffmpeg4  # BUG: required ffmpeg4[v4l]" \
   "net-print/cups" \
   "sys-apps/dbus" \
   "sys-apps/file" \
@@ -206,7 +210,8 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
     -D CMAKE_CXX_FLAGS_RELEASE="${CXXFLAGS}" \
     -D CMAKE_C_FLAGS_RELEASE="${CFLAGS}" \
     -D QT_FEATURE_alsa=ON \
-    -D QT_FEATURE_ffmpeg=OFF \
+    -D QT_FEATURE_ffmpeg=$(usex 'ffmpeg' ON OFF) \
+    -D BUILD_SHARED_LIBS=$(usex 'shared' ON OFF) \
     -D CMAKE_SKIP_RPATH=$(usex 'rpath' OFF ON) \
     -Wno-dev \
     || die "Failed cmake build"
@@ -221,7 +226,7 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
   grep '${prefix}' < $(get_libdir)/pkgconfig/Qt6Multimedia.pc
   sed -e 's|${prefix}||' -i $(get_libdir)/pkgconfig/Qt6*.pc
 
-  ldd "$(get_libdir)"/libQt6Multimedia.so || : die "library deps work... error"
+  ldd "$(get_libdir)"/libQt6Multimedia.so.${PV} || : die "library deps work... error"
 
   exit 0  # only for user-build
 fi

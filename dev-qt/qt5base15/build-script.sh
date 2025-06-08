@@ -27,9 +27,10 @@ PN="${PN:-${12:?required <PN>}}"
 PN=${PN%%_*}
 XPN=${XPN:-$PN}
 PN=${PN%[0-9]*}
-SPN="qtbase-everywhere-opensource-src"
-PV="5.15.16"
-SRC_URI="https://download.qt.io/archive/qt/${PV%.*}/${PV}/submodules/${SPN}-${PV}.tar.xz"
+SPN1="qtbase-everywhere-opensource-src"
+SPN2="qtbase-everywhere-src"
+PV="5.15.17"  # BUG: bundled pcre2 no-support x32
+SRC_URI="https://download.qt.io/archive/qt/${PV%.*}/${PV}/submodules/${SPN1}-${PV}.tar.xz"
 USE_BUILD_ROOT="0"
 BUILD_CHROOT=${BUILD_CHROOT:-0}
 PDIR=$(pkg-rootdir)
@@ -38,7 +39,7 @@ INCDIR="${DPREFIX}/include"
 HOSTNAME="localhost"
 BUILD_USER="tools"
 SRC_DIR="build"
-IUSE="+icu -old-kernel -accessibility +dbus +egl +eglfs -evdev -gles2-only -ibus +jpeg"
+IUSE="+icu -old-kernel -accessibility +dbus +egl -eglfs -evdev -gles2-only -ibus +jpeg"
 IUSE="${IUSE} +linuxfb +png -tslib -tuio -udev +vnc -vulkan -wayland +X -gssapi -libproxy"
 IUSE="${IUSE} -sctp +ssl -freetds -mysql -oci8 -odbc -postgres +sqlite -gtk"
 EABI=$(tc-abi-build)
@@ -59,7 +60,7 @@ PF=$(pfname 'src_uri.lst' "${SRC_URI}")
 PKGNAME=${PN}
 ZCOMP="unxz"
 WORKDIR="${PDIR%/}/${SRC_DIR}"
-BUILD_DIR="${PDIR%/}/${SRC_DIR}/qtbase-everywhere-src-${PV}"
+BUILD_DIR="${PDIR%/}/${SRC_DIR}/${SPN2}-${PV}"
 PWD=${PWD%/}; PWD=${PWD:-/}
 LIB_DIR=$(get_libdir)
 LIBDIR="/${LIB_DIR}"
@@ -85,14 +86,15 @@ chroot-build || die "Failed chroot... error"
 
 pkginst \
   "app-misc/ca-certificates  # openssl" \
+  "dev-db/sqlite3" \
   "dev-lang/perl  # optional" \
-  "#dev-lang/python3-8  # for glib new version [pre: python3-6]" \
+  "#dev-lang/python3-12" \
   "dev-lang/ruby26  # past ruby26" \
   "dev-libs/expat  # icu,freetype" \
   "dev-libs/glib74" \
   "dev-libs/gmp  # for ssl" \
-  "dev-libs/icu64" \
-  "dev-libs/libffi  # for glib" \
+  "dev-libs/icu76" \
+  "#dev-libs/libffi  # for glib" \
   "dev-libs/libxml2-1" \
   "dev-libs/libxslt" \
   "dev-libs/pcre2  # for glib74" \
@@ -108,6 +110,9 @@ pkginst \
   "media-libs/giflib" \
   "media-libs/gstreamer1" \
   "media-libs/gst-plugins-base1" \
+  "media-libs/harfbuzz2-2" \
+  "media-libs/libjpeg-turbo3" \
+  "media-libs/libpng" \
   "media-libs/mesa  # for opengl" \
   "net-print/cups" \
   "sys-apps/dbus" \
@@ -115,7 +120,7 @@ pkginst \
   "sys-devel/binutils" \
   "sys-devel/bison" \
   "sys-devel/flex" \
-  "sys-devel/gcc9" \
+  "sys-devel/gcc14" \
   "sys-devel/make" \
   "sys-devel/patch" \
   "sys-kernel/linux-headers-musl" \
@@ -147,6 +152,7 @@ pkginst \
   "x11-libs/libxt  # dbus" \
   "x11-libs/libxxf86vm  # for ?opengl" \
   "x11-libs/xcb-util  # ?for xcb" \
+  "x11-libs/xcb-util-cursor" \
   "x11-libs/xcb-util-image  # ?for xcb" \
   "x11-libs/xcb-util-keysyms  # ?for xcb" \
   "x11-libs/xcb-util-renderutil  # ?for xcb" \
@@ -208,30 +214,31 @@ elif test "X${USER}" != 'Xroot'; then
     -release \
     -silent \
     -optimize-size \
+    -no-pch \
     -strip \
     -system-proxies \
     -gif \
     -ico \
-    -qt-zlib \
+    -system-zlib \
     -qt-libpng \
     -qt-libjpeg \
     -qt-harfbuzz \
     -qt-sqlite \
-    -qt-pcre \
-    -dbus-runtime \
+    -system-pcre \
+    -dbus-linked \
     -glib \
     -icu \
     -xcb \
-    -bundled-xcb-xinput \
-    -openssl-runtime \
+    -openssl-linked \
     -qt-freetype \
     -cups \
     -qpa xcb \
     -no-evdev \
+    -egl \
+    -no-eglfs \
     -opengl desktop \
     -linuxfb \
     -kms \
-    -syslog \
     -no-sse3 \
     -no-ssse3 \
     -no-sse4.1 \

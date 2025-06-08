@@ -1,5 +1,5 @@
 #!/bin/sh
-# Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
+# Maintainer: Artjom Slepnjov <shellgen-at-uncensored-dot-citadel-dot-org>
 # Date: 2025-05-20 08:00 UTC - last change
 # Build with useflag: -static -static-libs +shared -lfs +nopie -patch -doc -xstub -diet +musl +stest +strip +x32
 
@@ -16,14 +16,19 @@ IFS="$(printf '\n\t')"
 XPWD=${XPWD:-$PWD}
 XPWD=${5:-$XPWD}
 PKG_DIR="/pkg"
-LC_ALL="C"
+LC_ALL="C.UTF-8"  # it required
 CATEGORY="${CATEGORY:-${11:?required <CATEGORY>}}"
 PN="${PN:-${12:?required <PN>}}"
 PN=${PN%%_*}
 SPN="qttools-everywhere-src"
+SPN1="qttools-everywhere-opensource-src"  # 6.5.5
+SPN2="qttools-everywhere-src"
 XPN=${XPN:-$PN}
 PV="6.9.0"
-SRC_URI="https://download.qt.io/official_releases/qt/${PV%.*}/${PV}/submodules/${SPN}-${PV}.tar.xz"
+PV="6.5.5"
+PV="6.8.3"
+SRC_URI="https://download.qt.io/archive/qt/${PV%.*}/${PV}/src/submodules/${SPN1}-${PV}.tar.xz"  # 6.5.5
+SRC_URI="https://download.qt.io/archive/qt/${PV%.*}/${PV}/submodules/${SPN}-${PV}.tar.xz"
 USE_BUILD_ROOT="0"
 BUILD_CHROOT=${BUILD_CHROOT:-0}
 PDIR=$(pkg-rootdir)
@@ -56,6 +61,7 @@ PKGNAME=${PN}
 ZCOMP="unxz"
 WORKDIR="${PDIR%/}/${SRC_DIR}"
 BUILD_DIR="${PDIR%/}/${SRC_DIR}/${SPN}-${PV}"
+BUILD_DIR="${PDIR%/}/${SRC_DIR}/${SPN2}-${PV}"
 PWD=${PWD%/}; PWD=${PWD:-/}
 LIB_DIR=$(get_libdir)
 LIBDIR="/${LIB_DIR}"
@@ -83,22 +89,23 @@ chroot-build || die "Failed chroot... error"
 
 pkginst \
   "app-misc/ca-certificates  # openssl" \
+  "dev-build/cmake3" \
   "dev-build/samurai  # alternative for ninja" \
   "dev-lang/perl  # optional" \
-  "#dev-lang/python3-8  # for glib new version [pre: python3-6]" \
+  "#dev-lang/python3-10  # for glib new version [pre: python3-6]" \
   "dev-lang/ruby26  # past ruby26" \
   "dev-libs/expat  # icu,freetype" \
   "dev-libs/glib74" \
   "dev-libs/gmp  # for ssl" \
-  "dev-libs/icu64" \
+  "dev-libs/icu76" \
   "dev-libs/libffi  # for glib" \
   "dev-libs/libxml2-1" \
   "dev-libs/libxslt" \
   "dev-libs/pcre2  # for glib74" \
   "dev-libs/openssl3" \
   "dev-qt/qt6base" \
+  "dev-qt/qt6declarative  # qml" \
   "#dev-util/byacc  # alternative a bison" \
-  "dev-util/cmake" \
   "dev-util/gperf" \
   "dev-util/pkgconf" \
   "media-libs/alsa-lib" \
@@ -115,7 +122,7 @@ pkginst \
   "sys-devel/binutils" \
   "sys-devel/bison" \
   "sys-devel/flex" \
-  "sys-devel/gcc9" \
+  "sys-devel/gcc14" \
   "#sys-devel/lex  # alternative a flex" \
   "sys-devel/make" \
   "#sys-devel/patch" \
@@ -191,17 +198,12 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
 
   cd "${BUILD_DIR}/" || die "builddir: not found... error"
 
-  #patch -p1 -E < "${FILESDIR}"/qtbase-6.9.0-no-direct-extern-access.patch
-
   cmake -B build -G Ninja \
     -D CMAKE_INSTALL_PREFIX="${EPREFIX%/}/" \
     -D CMAKE_INSTALL_LIBDIR="/$(get_libdir)" \
+    -D CMAKE_INSTALL_INCLUDEDIR="/usr/include" \
     -D CMAKE_INSTALL_DATAROOTDIR="/usr/share" \
     -D CMAKE_BUILD_TYPE="Release" \
-
-    
-
-
     -D BUILD_SHARED_LIBS=$(usex 'shared' ON OFF) \
     -D CMAKE_SKIP_RPATH=$(usex 'rpath' OFF ON) \
     -Wno-dev \
@@ -214,10 +216,10 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
   cd "${ED}/" || die "install dir: not found... error"
 
   # fix: cmake wrong the pkgconfig
-  grep '${prefix}' < $(get_libdir)/pkgconfig/Qt6Tools.pc
+  grep '${prefix}' < $(get_libdir)/pkgconfig/Qt6UiTools.pc
   sed -e 's|${prefix}||' -i $(get_libdir)/pkgconfig/Qt6*.pc
 
-  ldd "$(get_libdir)"/libQt6Tools.so || : die "library deps work... error"
+  ldd "$(get_libdir)"/libQt6UiTools.so.${PV} || die "library deps work... error"
 
   exit 0  # only for user-build
 fi

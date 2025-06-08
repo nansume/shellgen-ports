@@ -3,12 +3,12 @@ dev-util/pkgconf
 
 media-libs/freetype
 media-libs/fontconfig
-#media-libs/libjpeg-turbo  # or bundled-libs
+#media-libs/libjpeg-turbo1  # or bundled-libs
 #media-libs/libpng  # or bundled-libs
 
 sys-apps/file
 sys-devel/binutils
-sys-devel/gcc
+sys-devel/gcc14
 sys-devel/make
 sys-libs/musl
 #sys-libs/zlib  # or bundled-libs

@@ -1,11 +1,15 @@
 app-accessibility/at-spi2-core
 
+dev-build/autoconf71  # required for autotools
+dev-build/automake16  # required for autotools
+dev-build/libtool9  # required for autotools
+
 dev-lang/perl  # required for autotools
-dev-lang/python3
+dev-lang/python3-8
 dev-libs/atk
 dev-libs/expat  # for fontconfig or python bundled
 dev-libs/fribidi  # for pango (required remove)
-dev-libs/glib
+dev-libs/glib69
 dev-libs/libffi  # for glib
 dev-libs/libxml2  # for gettext
 dev-libs/pcre  # optional (internal pcre glib-2.68.4)
@@ -15,17 +19,14 @@ dev-util/pkgconf
 media-libs/freetype
 media-libs/fontconfig
 media-libs/harfbuzz2  # for pango
-media-libs/libjpeg-turbo  # for gdk-pixbuf or bundled-libs
+media-libs/libjpeg-turbo1  # for gdk-pixbuf or bundled-libs
 media-libs/libpng  # for pango or bundled-libs
 media-libs/tiff  # for gdk-pixbuf
 
 sys-apps/file
-sys-devel/autoconf  # required for autotools
-sys-devel/automake  # required for autotools
 sys-devel/binutils
-sys-devel/gcc
+sys-devel/gcc9
 sys-devel/gettext  # required for autotools (optional)
-sys-devel/libtool  # required for autotools
 sys-devel/m4  # required for autotools
 sys-devel/make
 sys-kernel/linux-headers-musl  # testing 

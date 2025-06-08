@@ -34,7 +34,7 @@ HOSTNAME="localhost"
 BUILD_USER="tools"
 SRC_DIR="build"
 IUSE="-cairo -debug -doc -experimental +glib -graphite +icu -introspection -test +truetype"
-IUSE="${IUSE} +static-libs +shared +nopie (+musl) +stest +strip"
+IUSE="${IUSE} +static-libgcc +static-libs +shared +nopie (+musl) +stest +strip"
 EABI=$(tc-abi-build)
 ABI=${EABI}
 XABI=${EABI}
@@ -63,7 +63,6 @@ PKG_CONFIG_PATH="${PKG_CONFIG_LIBDIR}:/lib/pkgconfig:/usr/share/pkgconfig"
 ABI_BUILD="${ABI_BUILD:-${1:?}}"
 BUILD_CHROOT="${7:-${BUILD_CHROOT:?}}"
 USE_BUILD_ROOT=${9:-$USE_BUILD_ROOT}
-PROG=${PN}
 
 if test "X${USER}" != 'Xroot'; then
   mksrc-prepare
@@ -81,16 +80,16 @@ chroot-build || die "Failed chroot... error"
 pkginst \
   "dev-build/muon  # alternative for meson" \
   "dev-build/samurai  # alternative for ninja" \
-  "dev-lang/python3-8  # required" \
+  "dev-lang/python3-10  # required" \
   "dev-libs/expat  # deps python" \
   "dev-libs/glib74" \
-  "dev-libs/icu64" \
+  "dev-libs/icu76" \
   "dev-libs/pcre2  # for glib74" \
   "dev-util/pkgconf" \
   "#media-libs/fontconfig" \
   "media-libs/freetype" \
   "sys-devel/binutils" \
-  "sys-devel/gcc9" \
+  "sys-devel/gcc14" \
   "sys-devel/m4  # required for ninja" \
   "sys-devel/make" \
   "sys-libs/musl" \
@@ -129,7 +128,6 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
   CC="gcc" CXX="g++"
 
   meson setup \
-    --default-library=$(usex 'shared' both static) \
     -D prefix="/" \
     -D bindir="bin" \
     -D libdir="$(get_libdir)" \
@@ -152,6 +150,7 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
     -D docs=$(usex 'doc' enabled disabled) \
     -D b_pie="false" \
     -D tests=$(usex 'test' enabled disabled) \
+    -D default_library=$(usex 'shared' both static) \
     -D strip=$(usex 'strip' true false) \
     "${BUILD_DIR}/build" "${BUILD_DIR}" \
     || die "meson setup... error"
@@ -163,7 +162,7 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
   cd "${ED}/" || die "install dir: not found... error"
 
   grep '${prefix}' < $(get_libdir)/pkgconfig/${PN}.pc
-  sed -e 's|${prefix}||' -i $(get_libdir)/pkgconfig/*${PN#lib}*.pc || : die
+  sed -e 's|${prefix}||' -i $(get_libdir)/pkgconfig/${PN}*.pc || die
 
   ldd "$(get_libdir)"/lib${PN}.so || die "library deps work... error"
 

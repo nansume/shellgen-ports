@@ -1,67 +1,70 @@
 #!/bin/sh
-# Copyright (C) 2023 Artjom Slepnjov, Shellgen
-# License GPLv3: GNU GPL version 3 only
-# http://www.gnu.org/licenses/gpl-3.0.html
-# Date: 2023-12-22 13:00 UTC - last change
+# Maintainer: Artjom Slepnjov <shellgen-at-uncensored-dot-citadel-dot-org>
+# Date: 2023-12-22 13:00 UTC, 2025-05-31 05:00 UTC - last change
+# Build with useflag: -static +static-libs +shared -lfs +nopie +patch -doc -xstub -diet +musl +stest +strip +x32
 
-export USER XPN PF PV WORKDIR PKGNAME DPREFIX BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI
-export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR S SDIR
+# http://data.gpo.zugaina.org/gentoo/sys-libs/zlib/zlib-1.3.1-r1.ebuild
 
-NL="$(printf '\n\t')"; NL=${NL%?}
-XPWD=${XPWD:=$PWD}
-XPN=${PN}
-PKG_DIR='/pkg'
-LC_ALL='C'
-CATEGORY="${CATEGORY:-${11:?required <CATEGORY>}}"
-PN="${PN:-${12:?required <PN>}}"
-PV="1.2.11"
+export XPN PF PV WORKDIR BUILD_DIR PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
+export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED CC
+
 DESCRIPTION="Standard (de)compression library"
 HOMEPAGE="https://zlib.net/"
-SRC_URI="https://zlib.net/${PN}-${PV}.tar.xz"
 LICENSE="ZLIB"
-USER=${USER:-root}
-USE_BUILD_ROOT='0'
+IFS="$(printf '\n\t')"
+XPWD=${XPWD:-$PWD}
+XPWD=${5:-$XPWD}
+PKG_DIR="/pkg"
+LC_ALL="C"
+CATEGORY="${CATEGORY:-${11:?required <CATEGORY>}}"
+PN="${PN:-${12:?required <PN>}}"
+PN=${PN%%_*} PN=${PN%_[0-9]*}
+XPN=${XPN:-$PN}
+PN=${PN%[0-9]}
+PV="1.3.1" # TODO: bump new version or slot=1
+PV="1.2.11"
+SLOT="0"
+SRC_URI="
+  https://zlib.net/${PN}-${PV}.tar.xz
+  http://data.gpo.zugaina.org/gentoo/sys-libs/zlib/files/zlib-1.2.11-minizip-drop-crypt-header.patch
+  #http://data.gpo.zugaina.org/gentoo/sys-libs/zlib/files/zlib-1.3.1-configure-fix-AR-RANLIB-NM-detection.patch
+  #http://data.gpo.zugaina.org/gentoo/sys-libs/zlib/files/zlib-1.3.1-use-LDFLAGS-in-configure.patch
+"
+USE_BUILD_ROOT="0"
 BUILD_CHROOT=${BUILD_CHROOT:-0}
 PDIR=$(pkg-rootdir)
-DPREFIX='/usr'
+DPREFIX="/usr"
 INCDIR="${DPREFIX}/include"
-HOSTNAME=$(hostname)
-BUILD_USER='tools'
-SRC_DIR='build'
-IONICE_COMM='nice -n 19'
-ZCOMP='gunzip'
-IUSE="+static-libs +shared (-musl) -minizip -test +strip"
+HOSTNAME="localhost"
+BUILD_USER="tools"
+SRC_DIR="build"
+IUSE="+minizip +static-libs +shared -doc (+musl) +stest +strip"
 EABI=$(tc-abi-build)
 ABI=${EABI}
 XABI=${EABI}
 SPREFIX="/"
 EPREFIX=${SPREFIX}
-DPREFIX="/usr"
-XPWD=${5:-$XPWD}
 P="${P:-${XPWD##*/}}"
 SN=${P}
-CATEGORY=${11:-$CATEGORY}
-PN="${PN:-${P%%_*}}"
-PN=${12:-$PN}
 PORTS_DIR=${PWD%/$P}
 DISTDIR="/usr/distfiles"
 DISTSOURCE="${PDIR%/}/sources"
 FILESDIR=${DISTSOURCE}
 INSTALL_DIR="${PDIR%/}/install"
-S="${PDIR%/}/${SRC_DIR}"
-SDIR="${S}"
+ED=${INSTALL_DIR}
+SDIR="${PDIR%/}/${SRC_DIR}"
 PF=$(pfname 'src_uri.lst' "${SRC_URI}")
-PKGNAME=$(pkgname)
-ZCOMP=$(zcomp-as "${PF}")
-WORKDIR="${PDIR%/}/${SRC_DIR}/${PN}-${PV}"
+PKGNAME=${PN}
+ZCOMP="unxz"
+WORKDIR="${PDIR%/}/${SRC_DIR}"
+BUILD_DIR="${PDIR%/}/${SRC_DIR}/${PN}-${PV}"
 PWD=${PWD%/}; PWD=${PWD:-/}
 LIB_DIR=$(get_libdir)
 LIBDIR="/${LIB_DIR}"
-BUILDLIST=${10:-$BUILDLIST}
 ABI_BUILD="${ABI_BUILD:-${1:?}}"
-XPN="${6:-${XPN:?}}"
 BUILD_CHROOT="${7:-${BUILD_CHROOT:?}}"
 USE_BUILD_ROOT=${9:-$USE_BUILD_ROOT}
+IONICE_COMM="nice -n 19"
 
 if test "X${USER}" != 'Xroot'; then
   mksrc-prepare
@@ -77,8 +80,13 @@ fi
 chroot-build || die "Failed chroot... error"
 
 pkginst \
+  "dev-build/autoconf71  # required for minizip?" \
+  "dev-build/automake16  # required for minizip?" \
+  "dev-build/libtool14  # required for minizip?" \
+  "dev-lang/perl  # required for minizip?" \
   "sys-devel/binutils" \
-  "sys-devel/gcc" \
+  "sys-devel/gcc9  # TODO: replace to: gcc14" \
+  "sys-devel/m4  # required for minizip?" \
   "sys-devel/make" \
   "sys-libs/musl" \
   || die "Failed install build pkg depend... error"
@@ -89,32 +97,45 @@ build-deps-fixfind
 . "${PDIR%/}/etools.d/"path-tools-apply
 
 netuser-fetch "${SRC_URI}" || die "Failed fetch sources... error"
-sw-user || die "Failed package build from user... error"
+sw-user || die "Failed package build from user... error"  # only for user-build
 
 if { test "X${USER}" = 'Xroot' && test "${BUILD_CHROOT:=0}" -ne '0' ;} ;then
-  exit
-elif test "X${USER}" != 'Xroot'; then
+  exit  # only for user-build
+elif test "X${USER}" != 'Xroot'; then  # only for user-build
+  renice -n '19' -u ${USER}
 
-  cd "${DISTSOURCE}/" || die "distsource dir: not found... error"
+  cd "${FILESDIR}/" || die "distsource dir: not found... error"
 
   ${ZCOMP} -dc "${PF}" | tar -C "${PDIR%/}/${SRC_DIR}/" -xkf - || exit &&
   printf %s\\n "${ZCOMP} -dc ${PF} | tar -C ${PDIR%/}/${SRC_DIR}/ -xkf -"
 
-  cd "${WORKDIR}/" || die "workdir: not found... error"
-
-  printf %s\\n "Configure directory: PWD='${PWD}'... ok"
-
-  export CC="gcc"
-
   case $(tc-abi-build) in
-    'x32')   append-flags -mx32 -msse2 ;;
-    'x86')   append-flags -m32         ;;
-    'amd64') append-flags -m64 -msse2  ;;
+    'x32')   append-flags -mx32 -msse2            ;;
+    'x86')   append-flags -m32 -msse -mfpmath=sse ;;
+    'amd64') append-flags -m64 -msse2             ;;
   esac
   use 'shared' || append-flags -no-pie
   append-flags -O2 -fno-stack-protector -g0 -march=$(arch | sed 's/_/-/')
 
-	IFS=${NL}
+  CC="gcc"
+
+  cd "${BUILD_DIR}/" || die "builddir: not found... error"
+
+  # Don't install unexpected & unused crypt.h header (which would clash with other pkgs)
+  # Pending upstream. bug #658536
+  patch -p1 -E < "${FILESDIR}"/${PN}-1.2.11-minizip-drop-crypt-header.patch
+
+  # Respect AR, RANLIB, NM during build. Pending upstream. bug #831628
+  #patch -p1 -E < "${FILESDIR}"/${PN}-1.3.1-configure-fix-AR-RANLIB-NM-detection.patch
+
+  # Respect LDFLAGS during configure tests. Pending upstream
+  #patch -p1 -E < "${FILESDIR}"/${PN}-1.3.1-use-LDFLAGS-in-configure.patch
+
+  if use 'minizip'; then
+    cd contrib/minizip/ || die
+    test -x "/bin/perl" && autoreconf --install
+    cd "${BUILD_DIR}/"
+  fi
 
   . runverb \
   ./configure \
@@ -125,25 +146,52 @@ elif test "X${USER}" != 'Xroot'; then
     $(use !shared && printf '--static') \
     || die "configure... error"
 
-  make -j "$(cpun)" || die "Failed make build"
+  if use 'minizip'; then
+    MINIZIPDIR="contrib/minizip"
+    mkdir -p "${BUILD_DIR}/${MINIZIPDIR}" || die
+
+    cd ${MINIZIPDIR}/ || die
+    ./configure \
+      --prefix="${EPREFIX%/}" \
+      --libdir="${EPREFIX%/}/$(get_libdir)" \
+      --includedir="${INCDIR}" \
+      $(use_enable 'static-libs' static) \
+      || die "configure minizip... error"
+
+    cd "${BUILD_DIR}/"
+  fi
+
+  make -j "$(nproc)" || die "Failed make build"
+
+  use 'minizip' && make -j "$(nproc)" -C contrib/minizip || die "Failed minizip build"
 
   . runverb \
-  make DESTDIR="${INSTALL_DIR}" install || die "make install... error"
+  make DESTDIR="${ED}" LDCONFIG=: install || die "make install... error"
 
-  cd "${INSTALL_DIR}/" || die "install dir: not found... error"
+  if use 'minizip'; then
+    make DESTDIR="${ED}" -C contrib/minizip install || die "make install minizip... error"
 
-  rm -r -- "share/"
+    # This might not exist if slibtool is used.
+    # bug #816756
+    rm -- "${ED}"/$(get_libdir)/libminizip.la || die
+  fi
+
+  cd "${ED}/" || die "install dir: not found... error"
+
+  use 'doc' || rm -v -r -- "share/man/" "share/"
 
   if use 'strip'; then
     use 'shared' && strip --verbose --strip-all "$(get_libdir)/"*.so
     use 'static-libs' && strip --strip-unneeded "$(get_libdir)/"*.a
   fi
 
-  exit 0
+  ldd "$(get_libdir)"/libz.so.${PV} || die "library deps work... error"
+
+  exit 0  # only for user-build
 fi
 
-cd "${INSTALL_DIR}/" || die "install dir: not found... error"
+cd "${ED}/" || die "install dir: not found... error"
 
 pkg-perm
 
-INST_ABI="$(tc-abi-build)" pkg-create-cgz
+INST_ABI="$(tc-abi-build)" PN=${XPN} PV=${PV} pkg-create-cgz

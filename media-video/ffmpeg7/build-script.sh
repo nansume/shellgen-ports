@@ -1,9 +1,9 @@
 #!/bin/sh
 # Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
-# Date: 2024-11-23 19:00 UTC - last change
-# Build with useflag: -static -static-libs +shared -lfs +nopie -patch -doc -xstub -diet +musl -stest +strip +x32
+# Date: 2025-05-26 20:00 UTC - last change
+# Build with useflag: -static -static-libs +shared -lfs +nopie -patch -doc -xstub -diet +musl +stest +strip +x32
 
-# http://data.gpo.zugaina.org/pg_overlay/media-video/ffmpeg/ffmpeg-7.1.ebuild
+# http://data.gpo.zugaina.org/gentoo/media-video/ffmpeg/ffmpeg-7.1.1-r1.ebuild
 
 export XPN PF PV WORKDIR BUILD_DIR PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
 export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED
@@ -11,7 +11,7 @@ export CC CXX PKG_CONFIG PKG_CONFIG_LIBDIR PKG_CONFIG_PATH
 
 DESCRIPTION="Complete solution to record, convert and stream audio and video. Includes libavcodec"
 HOMEPAGE="https://ffmpeg.org/"
-LICENSE="GPL-3"
+LICENSE="GPL-2+ | LGPL-2.1+"
 IFS="$(printf '\n\t')"
 XPWD=${XPWD:-$PWD}
 XPWD=${5:-$XPWD}
@@ -33,7 +33,16 @@ INSTALL_OPTS="install"
 HOSTNAME="localhost"
 BUILD_USER="tools"
 SRC_DIR="build"
-IUSE="-static -static-libs +shared -doc (+musl) -stest +strip"
+IUSE="-X -alsa -amf -amrenc -amr -appkit -bluray -bs2b -bzip2 -cdio -chromaprint -codec2 -cuda"
+IUSE="${IUSE} -dav1d -doc -drm -dvd -fdk -flite -fontconfig -frei0r -fribidi -gcrypt -gme +gmp"
+IUSE="${IUSE} -gnutls +gpl -gsm -iec61883 -ieee1394 -jack -jpeg2k -jpegxl -kvazaar -ladspa -lame"
+IUSE="${IUSE} -lcms -libaom -libaribb24 -libass -libcaca -libilbc -liblc3 -libplacebo -librtmp"
+IUSE="${IUSE} -libsoxr -libtesseract -lv2 -lzma -modplug -npp -nvenc -openal -opencl -opengl"
+IUSE="${IUSE} -openh264 -openmpt +openssl +opus -postproc -pulseaudio -qrcode -qsv -quirc -rabbitmq"
+IUSE="${IUSE} -rav1e -rubberband -samba -sdl -shaderc -snappy -sndio -speex -srt -ssh -svg -svt-av1"
+IUSE="${IUSE} -theora -truetype -twolame +v4l -vaapi -vdpau -vidstab -vmaf -vorbis +vpx -vulkan"
+IUSE="${IUSE} -webp -x264 -x265 -xml -xvid -zeromq -zimg +zlib -zvbi -chromium -soc +encoders"
+IUSE="${IUSE} +iconv +ffplay (-asm) +rpath -static -static-libs +shared (+musl) +stest +strip"
 EABI=$(tc-abi-build)
 ABI=${EABI}
 XABI=${EABI}
@@ -78,11 +87,22 @@ chroot-build || die "Failed chroot... error"
 
 pkginst \
   "#dev-lang/nasm  # no support x32" \
+  "dev-libs/expat  # deps fontconfig" \
+  "dev-libs/gmp  # deps ssl (optional)" \
+  "dev-libs/openssl3" \
   "dev-util/pkgconf" \
+  "media-libs/alsa-lib" \
+  "media-libs/freetype  # deps fontconfig" \
+  "media-libs/fontconfig  # same how in mplayer,mpv,qmplay2" \
+  "#media-libs/libass  # in mpv,qmplay2 same" \
+  "media-libs/libv4l" \
+  "media-libs/libvpx1" \
+  "media-libs/opus" \
   "sys-devel/binutils" \
-  "sys-devel/gcc9" \
+  "sys-devel/gcc14" \
   "sys-devel/make" \
   "sys-libs/musl" \
+  "sys-libs/zlib  # deps ssl (optional), zlib[minizip]" \
   || die "Failed install build pkg depend... error"
 
 build-deps-fixfind
@@ -104,9 +124,9 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
   printf %s\\n "${ZCOMP} -dc ${PF} | tar -C ${PDIR%/}/${SRC_DIR}/ -xkf -"
 
   case $(tc-abi-build) in
-    'x32')   append-flags -mx32 -msse2 ;;
-    'x86')   append-flags -m32         ;;
-    'amd64') append-flags -m64 -msse2  ;;
+    'x32')   append-flags -mx32 -msse2            ;;
+    'x86')   append-flags -m32 -msse -mfpmath=sse ;;
+    'amd64') append-flags -m64 -msse2             ;;
   esac
   if use 'static-libs'; then
     append-flags -Os
@@ -116,6 +136,8 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
     append-flags -O2
   fi
   append-flags -fno-stack-protector -no-pie -g0 -march=$(arch | sed 's/_/-/')
+  use 'x32' && append-flags -ffast-math
+  use 'x32' && USE="${USE} -asm"  # is here asm no-support x32
 
   CC="gcc" CXX="g++"
 
@@ -132,26 +154,34 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
     --incdir="${INCDIR}" \
     --mandir="${EPREFIX%/}"/usr/share/man \
     --docdir="${EPREFIX%/}"/usr/share/doc/${PN}-${PV} \
-    $(usex 'x32' --disable-asm) \
-    --enable-gpl \
-    --enable-version3 \
-    --disable-ffplay \
-    --disable-encoders \
+    --enable-hardcoded-tables \
+    $(usex !asm --disable-asm) \
+    $(usex 'gpl' --enable-gpl) \
+    $(usex 'gpl' --enable-version3) \
+    $(use_enable 'ffplay') \
+    $(usex 'encoders' --disable-encoders) \
     --disable-filters \
-    --disable-debug \
+    $(usex !drm --disable-libdrm) \
+    $(use_enable 'v4l' libv4l2) \
     $(use_enable 'iconv') \
+    $(use_enable 'libass') \
     --disable-lzma \
-    --disable-zlib \
+    $(use_enable 'zlib') \
+    $(use_enable 'openssl') \
+    $(usex 'gmp' --enable-gmp) \
+    $(use_enable 'vpx' libvpx) \
+    $(use_enable 'opus' libopus) \
     --disable-postproc \
     --disable-indev=lavfi \
     --disable-indev=oss \
-    --disable-indev=v4l2 \
+    $(usex !v4l --disable-indev=v4l2) \
     --disable-outdev=oss \
-    --disable-outdev=v4l2 \
+    $(usex !v4l --disable-outdev=v4l2) \
     --disable-doc \
+    --disable-debug \
     --enable-shared \
     $(use_enable 'static-libs' static) \
-    --disable-rpath \
+    $(use_enable 'rpath') \
     || die "configure... error"
 
   make -j "$(nproc)" || die "Failed make build"
@@ -159,6 +189,10 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
   make DESTDIR="${ED}" install || die "make install... error"
 
   cd "${ED}/" || die "install dir: not found... error"
+
+  LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+${LD_LIBRARY_PATH}:}${ED}/$(get_libdir)"
+  use 'stest' && { bin/${PN} -version || die "binary work... error";}
+  ldd "bin/${PN}" || { use 'static' && true || die "library deps work... error";}
 
   exit 0  # only for user-build
 fi

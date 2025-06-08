@@ -1,0 +1,18 @@
+app-crypt/libb2  # deps python (optional)
+dev-libs/expat
+dev-libs/gmp  # for ssl
+dev-libs/libffi
+dev-lang/python3-12
+dev-libs/openssl3
+dev-libs/openssl
+dev-python/py39-cffi
+dev-python/py39-cryptography
+dev-python/py39-six
+
+#app-alternatives/mktemp-utils  # required for: <update-ca-certificates>
+sys-apps/findutils
+#dev-libs/libressl  # fix: openssl: command not found
+
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # for ssl

@@ -16,14 +16,18 @@ IFS="$(printf '\n\t')"
 XPWD=${XPWD:-$PWD}
 XPWD=${5:-$XPWD}
 PKG_DIR="/pkg"
-LC_ALL="C"
+LC_ALL="C.UTF-8"  # it required
 CATEGORY="${CATEGORY:-${11:?required <CATEGORY>}}"
 PN="${PN:-${12:?required <PN>}}"
 PN=${PN%%_*}
-SPN="qtshadertools-everywhere-src"
+SPN1="qtshadertools-everywhere-opensource-src"  # 6.5.5
+SPN2="qtshadertools-everywhere-src"
 XPN=${XPN:-$PN}
 PV="6.9.0"
-SRC_URI="https://download.qt.io/official_releases/qt/${PV%.*}/${PV}/submodules/${SPN}-${PV}.tar.xz"
+PV="6.5.5"
+PV="6.8.3"
+SRC_URI="https://download.qt.io/archive/qt/${PV%.*}/${PV}/src/submodules/${SPN1}-${PV}.tar.xz"  # 6.5.5
+SRC_URI="https://download.qt.io/archive/qt/${PV%.*}/${PV}/submodules/${SPN2}-${PV}.tar.xz"
 USE_BUILD_ROOT="0"
 BUILD_CHROOT=${BUILD_CHROOT:-0}
 PDIR=$(pkg-rootdir)
@@ -52,7 +56,7 @@ PF=$(pfname 'src_uri.lst' "${SRC_URI}")
 PKGNAME=${PN}
 ZCOMP="unxz"
 WORKDIR="${PDIR%/}/${SRC_DIR}"
-BUILD_DIR="${PDIR%/}/${SRC_DIR}/${SPN}-${PV}"
+BUILD_DIR="${PDIR%/}/${SRC_DIR}/${SPN2}-${PV}"
 PWD=${PWD%/}; PWD=${PWD:-/}
 LIB_DIR=$(get_libdir)
 LIBDIR="/${LIB_DIR}"
@@ -80,22 +84,21 @@ chroot-build || die "Failed chroot... error"
 
 pkginst \
   "app-misc/ca-certificates  # openssl" \
+  "dev-build/cmake3" \
   "dev-build/samurai  # alternative for ninja" \
   "dev-lang/perl  # optional" \
-  "#dev-lang/python3-8  # for glib new version [pre: python3-6]" \
+  "#dev-lang/python3-10  # for glib new version [pre: python3-6]" \
   "dev-lang/ruby26  # past ruby26" \
   "dev-libs/expat  # icu,freetype" \
   "dev-libs/glib74" \
   "dev-libs/gmp  # for ssl" \
-  "dev-libs/icu64" \
+  "dev-libs/icu76" \
   "dev-libs/libffi  # for glib" \
   "dev-libs/libxml2-1" \
   "dev-libs/libxslt" \
   "dev-libs/pcre2  # for glib74" \
   "dev-libs/openssl3" \
   "dev-qt/qt6base" \
-  "#dev-util/byacc  # alternative a bison" \
-  "dev-util/cmake" \
   "dev-util/gperf" \
   "dev-util/pkgconf" \
   "media-libs/alsa-lib" \
@@ -112,8 +115,7 @@ pkginst \
   "sys-devel/binutils" \
   "sys-devel/bison" \
   "sys-devel/flex" \
-  "sys-devel/gcc9" \
-  "#sys-devel/lex  # alternative a flex" \
+  "sys-devel/gcc14" \
   "sys-devel/make" \
   "#sys-devel/patch" \
   "sys-kernel/linux-headers-musl" \
@@ -184,11 +186,9 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
 
   use 'strip' && INSTALL_OPTS="install/strip"
 
-  export LD_LIBRARY_PATH="${BUILD_DIR}/build/$(get_libdir):${LD_LIBRARY_PATH}"
+  #export LD_LIBRARY_PATH="${BUILD_DIR}/build/$(get_libdir):${LD_LIBRARY_PATH}"
 
   cd "${BUILD_DIR}/" || die "builddir: not found... error"
-
-  #patch -p1 -E < "${FILESDIR}"/qtbase-6.9.0-no-direct-extern-access.patch
 
   cmake -B build -G Ninja \
     -D CMAKE_INSTALL_PREFIX="${EPREFIX%/}/" \
@@ -210,7 +210,7 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
   grep '${prefix}' < $(get_libdir)/pkgconfig/Qt6ShaderTools.pc
   sed -e 's|${prefix}||' -i $(get_libdir)/pkgconfig/Qt6*.pc
 
-  ldd "$(get_libdir)"/libQt6ShaderTools.so || : die "library deps work... error"
+  ldd "$(get_libdir)"/libQt6ShaderTools.so || die "library deps work... error"
 
   exit 0  # only for user-build
 fi

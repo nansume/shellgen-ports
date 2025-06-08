@@ -1,14 +1,12 @@
-# Copyright 1999-2024 Gentoo Authors
-# Copyright (C) 2024 Artjom Slepnjov, Shellgen
-# Distributed under the terms of the GNU General Public License v2
-# -static -static-libs -shared -lfs -upx +patch -doc -man -xstub -diet +musl +stest +strip +x32
+# Date: 2024-01-01, 2025-05-30 12:00 UTC - last change
+# +static -static-libs -shared +nopie -lfs -upx -patch -doc -man -xstub -diet +musl +stest +strip +x32
 
 : inherit autotools toolchain-funcs virtualx install-functions
 
 DESCRIPTION="Lean FLTK based web browser"
 HOMEPAGE="https://dillo-browser.github.io/"
 LICENSE="GPL-3"
-IUSE="-debug +doc +gif +jpeg +mbedtls +png +ssl -openssl +xembed +ipv6"
+IUSE="-debug +doc +gif +jpeg +mbedtls +png +ssl -openssl +xembed +ipv6 +static -shared"
 DOCS="AUTHORS ChangeLog README NEWS doc/*.txt doc/README"
 S=${WORKDIR}
 

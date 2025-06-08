@@ -1,17 +1,18 @@
+dev-build/autoconf71  # required for autotools
+dev-build/automake16  # required for autotools
+
 dev-lang/perl  # required for autotools
 dev-libs/expat  # for fontconfig
 
 media-libs/freetype
 media-libs/fontconfig
-media-libs/libjpeg-turbo  # or bundled-libs
+media-libs/libjpeg-turbo3  # or bundled-libs
 media-libs/libpng  # or bundled-libs
 
 net-libs/mbedtls-compat
 
-sys-devel/autoconf  # required for autotools
-sys-devel/automake  # required for autotools
 sys-devel/binutils
-sys-devel/gcc
+sys-devel/gcc14
 sys-devel/m4  # required for autotools
 sys-devel/make
 #sys-devel/patch  # for patch with fuzz and offset.

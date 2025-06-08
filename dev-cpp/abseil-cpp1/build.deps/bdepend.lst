@@ -1,0 +1,7 @@
+dev-build/cmake4
+#dev-lang/python3-10
+sys-devel/binutils
+sys-devel/gcc14
+sys-devel/make
+sys-kernel/linux-headers-musl
+sys-libs/musl

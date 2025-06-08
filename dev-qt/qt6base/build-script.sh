@@ -18,15 +18,20 @@ IFS="$(printf '\n\t')"
 XPWD=${XPWD:-$PWD}
 XPWD=${5:-$XPWD}
 PKG_DIR="/pkg"
-LC_ALL="C"
+LC_ALL="C.UTF-8"  # it required
 CATEGORY="${CATEGORY:-${11:?required <CATEGORY>}}"
 PN="${PN:-${12:?required <PN>}}"
 PN=${PN%%_*}
-SPN="qtbase-everywhere-src"
+SPN1="qtbase-everywhere-opensource-src"  # 6.5.5
+SPN2="qtbase-everywhere-src"
 XPN=${XPN:-$PN}
-PV="6.9.0"
+PV="6.5.5"  # build qt6declarative
+PV="6.7.3"  # https://download.qt.io/archive/qt/6.7/6.7.3/submodules/qtbase-everywhere-src-6.7.3.tar.xz
+PV="6.9.0"  # no build qt6declarative
+PV="6.8.3"  # https://download.qt.io/archive/qt/6.8/6.8.3/submodules/qtbase-everywhere-src-6.8.3.tar.xz
 SRC_URI="
-  https://download.qt.io/official_releases/qt/${PV%.*}/${PV}/submodules/${SPN}-${PV}.tar.xz
+  https://download.qt.io/archive/qt/${PV%.*}/${PV}/submodules/${SPN2}-${PV}.tar.xz
+  #https://download.qt.io/archive/qt/${PV%.*}/${PV}/src/submodules/${SPN1}-${PV}.tar.xz  # 6.5.5
   http://data.gpo.zugaina.org/gentoo/dev-qt/qtbase/files/qtbase-6.5.2-no-symlink-check.patch
   http://data.gpo.zugaina.org/gentoo/dev-qt/qtbase/files/qtbase-6.6.1-forkfd-childstack-size.patch
   http://data.gpo.zugaina.org/gentoo/dev-qt/qtbase/files/qtbase-6.9.0-no-direct-extern-access.patch
@@ -43,7 +48,7 @@ SRC_DIR="build"
 IUSE="+ssl -udev -zstd"  # global
 IUSE="${IUSE} +icu -journald +syslog -nls"  # core
 IUSE="${IUSE} +concurrent +dbus +gui +network +sql +xml"  # modules
-IUSE="${IUSE} +X -accessibility +eglfs +evdev +gles2-only -libinput"  # gui
+IUSE="${IUSE} +X -accessibility -eglfs +evdev +gles2-only -libinput"  # gui
 IUSE="${IUSE} +opengl -renderdoc -tslib -vulkan -wayland +widgets"  # gui
 IUSE="${IUSE} -brotli -gssapi -libproxy -sctp"  # network
 IUSE="${IUSE} -mysql -oci8 -odbc -postgres +sqlite"  # sql
@@ -67,7 +72,7 @@ PF=$(pfname 'src_uri.lst' "${SRC_URI}")
 PKGNAME=${PN}
 ZCOMP="unxz"
 WORKDIR="${PDIR%/}/${SRC_DIR}"
-BUILD_DIR="${PDIR%/}/${SRC_DIR}/${SPN}-${PV}"
+BUILD_DIR="${PDIR%/}/${SRC_DIR}/${SPN2}-${PV}"
 PWD=${PWD%/}; PWD=${PWD:-/}
 LIB_DIR=$(get_libdir)
 LIBDIR="/${LIB_DIR}"
@@ -79,7 +84,6 @@ BUILD_CHROOT="${7:-${BUILD_CHROOT:?}}"
 USE_BUILD_ROOT=${9:-$USE_BUILD_ROOT}
 CMAKE_PREFIX_PATH="/${LIB_DIR}/cmake"
 PROG=${PN}
-LC_ALL="C.UTF-8"
 
 if test "X${USER}" != 'Xroot'; then
   mksrc-prepare
@@ -96,14 +100,15 @@ chroot-build || die "Failed chroot... error"
 
 pkginst \
   "app-misc/ca-certificates  # openssl" \
+  "dev-build/cmake3" \
   "dev-build/samurai  # alternative for ninja" \
   "dev-lang/perl  # optional" \
-  "#dev-lang/python3-8  # for glib new version [pre: python3-6]" \
+  "#dev-lang/python3-10  # for glib new version [pre: python3-6]" \
   "dev-lang/ruby26  # past ruby26" \
   "dev-libs/expat  # icu,freetype" \
   "dev-libs/glib74" \
   "dev-libs/gmp  # for ssl" \
-  "dev-libs/icu64" \
+  "dev-libs/icu76  # pre: icu64" \
   "dev-libs/libffi  # for glib" \
   "dev-libs/libxml2-1" \
   "dev-libs/libxslt" \
@@ -113,7 +118,6 @@ pkginst \
   "#dev-perl/perl-file-spec  # no required, it part perl." \
   "#dev-perl/perl-getopt-long  # no required, it part perl." \
   "#dev-util/byacc  # alternative a bison" \
-  "dev-util/cmake" \
   "dev-util/gperf" \
   "dev-util/pkgconf" \
   "media-libs/alsa-lib" \
@@ -130,7 +134,7 @@ pkginst \
   "sys-devel/binutils" \
   "sys-devel/bison" \
   "sys-devel/flex" \
-  "sys-devel/gcc9" \
+  "sys-devel/gcc14" \
   "#sys-devel/lex  # alternative a flex" \
   "sys-devel/make" \
   "#sys-devel/patch" \
@@ -209,6 +213,7 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
   cd "${BUILD_DIR}/" || die "builddir: not found... error"
 
   patch -p1 -E < "${FILESDIR}"/qtbase-6.5.2-no-symlink-check.patch
+  # for 6.9.0
   patch -p1 -E < "${FILESDIR}"/qtbase-6.6.1-forkfd-childstack-size.patch
   patch -p1 -E < "${FILESDIR}"/qtbase-6.9.0-no-direct-extern-access.patch
 
@@ -238,19 +243,19 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
     -D INSTALL_EXAMPLESDIR=usr/share/doc/qt6/examples \
     -D QT_FEATURE_xcb=ON \
     -D QT_FEATURE_xkbcommon_x11=ON \
-    -D QT_FEATURE_system_xcb_xinput=ON \
+    -D QT_FEATURE_system_xcb_xinput=OFF \
     -D QT_FEATURE_evdev=OFF \
     -D QT_FEATURE_widgets=ON \
     -D QT_FEATURE_journald=OFF \
-    -D QT_FEATURE_syslog=OFF \
+    -D QT_FEATURE_syslog=ON \
     -D QT_FEATURE_libproxy=OFF \
     -D QT_FEATURE_no_direct_extern_access=OFF \
     -D QT_FEATURE_openssl_linked=ON \
     -D QT_FEATURE_dbus_linked=ON \
-    -D QT_FEATURE_system_zlib=OFF \
+    -D QT_FEATURE_system_zlib=ON \
     -D QT_FEATURE_system_harfbuzz=OFF \
     -D QT_FEATURE_system_sqlite=OFF \
-    -D QT_FEATURE_system_pcre2=OFF \
+    -D QT_FEATURE_system_pcre2=ON \
     -D QT_FEATURE_system_freetype=OFF \
     -D QT_UNITY_BUILD=ON \
     -D QT_FEATURE_concurrent=ON \
@@ -286,6 +291,8 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
   DESTDIR="${ED}" cmake --install build $(usex 'strip' --strip) || die "make install... error"
 
   cd "${ED}/" || die "install dir: not found... error"
+
+  #use 'static-libs' || rm -- "$(get_libdir)"/libQt6*.a
 
   # fix: cmake wrong the pkgconfig
   grep '${prefix}' < $(get_libdir)/pkgconfig/Qt6Core.pc

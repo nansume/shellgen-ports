@@ -20,9 +20,10 @@ PN="${PN:-${12:?required <PN>}}"
 PN=${PN%%_*}
 XPN=${XPN:-$PN}
 PN=${PN%[0-9]*}
-SPN="qtx11extras-everywhere-opensource-src"
-PV="5.15.16"
-SRC_URI="https://download.qt.io/archive/qt/${PV%.*}/${PV}/submodules/${SPN}-${PV}.tar.xz"
+SPN1="qtx11extras-everywhere-opensource-src"
+SPN2="qtx11extras-everywhere-src"
+PV="5.15.17"
+SRC_URI="https://download.qt.io/archive/qt/${PV%.*}/${PV}/submodules/${SPN1}-${PV}.tar.xz"
 USE_BUILD_ROOT="0"
 BUILD_CHROOT=${BUILD_CHROOT:-0}
 PDIR=$(pkg-rootdir)
@@ -49,7 +50,7 @@ PF=$(pfname 'src_uri.lst' "${SRC_URI}")
 PKGNAME=${PN}
 ZCOMP="unxz"
 WORKDIR="${PDIR%/}/${SRC_DIR}"
-BUILD_DIR="${PDIR%/}/${SRC_DIR}/qtx11extras-everywhere-src-${PV}"
+BUILD_DIR="${PDIR%/}/${SRC_DIR}/${SPN2}-${PV}"
 PWD=${PWD%/}; PWD=${PWD:-/}
 LIB_DIR=$(get_libdir)
 LIBDIR="/${LIB_DIR}"
@@ -74,9 +75,10 @@ fi
 chroot-build || die "Failed chroot... error"
 
 pkginst \
+  "app-crypt/libb2  # deps python (?optional)" \
   "dev-lang/ruby26" \
   "dev-lang/perl  # optional" \
-  "dev-lang/python3-8  # for qt5base[qtqml],glib" \
+  "dev-lang/python3-12  # for qt5base[qtqml],glib" \
   "dev-libs/expat  # icu,freetype" \
   "dev-libs/glib74" \
   "dev-libs/libffi  # for glib" \
@@ -97,7 +99,7 @@ pkginst \
   "sys-devel/binutils" \
   "sys-devel/bison" \
   "sys-devel/flex" \
-  "sys-devel/gcc9" \
+  "sys-devel/gcc14" \
   "sys-devel/make" \
   "#sys-devel/patch  # for patch with fuzz and offset." \
   "sys-kernel/linux-headers-musl" \

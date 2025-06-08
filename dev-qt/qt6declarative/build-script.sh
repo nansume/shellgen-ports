@@ -1,9 +1,9 @@
 #!/bin/sh
-# Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
-# Date: 2025-05-19 18:00 UTC - last change
-# Build with useflag: -static -static-libs +shared -lfs +nopie -patch -doc -xstub -diet +musl +stest +strip +x32
+# Maintainer: Artjom Slepnjov <shellgen-at-uncensored-dot-citadel-dot-org>
+# Date: 2025-05-19 18:00 UTC, 2025-05-22 19:00 UTC - last change
+# Build with useflag: -static -static-libs +shared -jit +nopie -patch -doc -xstub -diet +musl +stest +strip +x32
 
-# https://data.gpo.zugaina.org/gentoo/dev-qt/qtdeclarative/qtdeclarative-6.9.0.ebuild
+# http://data.gpo.zugaina.org/gentoo/dev-qt/qtdeclarative/qtdeclarative-6.9.0.ebuild
 
 export XPN PF PV WORKDIR BUILD_DIR PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
 export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED
@@ -16,15 +16,17 @@ IFS="$(printf '\n\t')"
 XPWD=${XPWD:-$PWD}
 XPWD=${5:-$XPWD}
 PKG_DIR="/pkg"
-LC_ALL="C"
+LC_ALL="C.UTF-8"  # it required
 CATEGORY="${CATEGORY:-${11:?required <CATEGORY>}}"
 PN="${PN:-${12:?required <PN>}}"
 PN=${PN%%_*}
-SPN="qtdeclarative-everywhere-src"
+SPN1="qtdeclarative-everywhere-opensource-src"  # 6.5.5
+SPN2="qtdeclarative-everywhere-src"
 XPN=${XPN:-$PN}
-PV="6.8.3"
-PV="6.9.0"
-SRC_URI="https://download.qt.io/official_releases/qt/${PV%.*}/${PV}/submodules/${SPN}-${PV}.tar.xz"
+PV="6.9.0"  # BUG: no-build
+PV="6.5.5"  # https://download.qt.io/official_releases/qt/${PV%.*}/${PV}/src/submodules/${SPN1}-${PV}.tar.xz
+PV="6.8.3"  # BUG: no-build
+SRC_URI="https://download.qt.io/official_releases/qt/${PV%.*}/${PV}/submodules/${SPN2}-${PV}.tar.xz"
 USE_BUILD_ROOT="0"
 BUILD_CHROOT=${BUILD_CHROOT:-0}
 PDIR=$(pkg-rootdir)
@@ -54,7 +56,7 @@ PF=$(pfname 'src_uri.lst' "${SRC_URI}")
 PKGNAME=${PN}
 ZCOMP="unxz"
 WORKDIR="${PDIR%/}/${SRC_DIR}"
-BUILD_DIR="${PDIR%/}/${SRC_DIR}/${SPN}-${PV}"
+BUILD_DIR="${PDIR%/}/${SRC_DIR}/${SPN2}-${PV}"
 PWD=${PWD%/}; PWD=${PWD:-/}
 LIB_DIR=$(get_libdir)
 LIBDIR="/${LIB_DIR}"
@@ -66,7 +68,6 @@ BUILD_CHROOT="${7:-${BUILD_CHROOT:?}}"
 USE_BUILD_ROOT=${9:-$USE_BUILD_ROOT}
 CMAKE_PREFIX_PATH="/${LIB_DIR}/cmake"
 PROG=${PN}
-LC_ALL="C.UTF-8"
 
 if test "X${USER}" != 'Xroot'; then
   mksrc-prepare
@@ -83,14 +84,15 @@ chroot-build || die "Failed chroot... error"
 
 pkginst \
   "app-misc/ca-certificates  # openssl" \
+  "dev-build/cmake4" \
   "dev-build/samurai  # alternative for ninja" \
   "dev-lang/perl  # optional" \
-  "dev-lang/python3-8  # for glib new version [pre: python3-6]" \
+  "dev-lang/python3-10  # for glib new version [pre: python3-6]" \
   "dev-lang/ruby26  # past ruby26" \
   "dev-libs/expat  # icu,freetype" \
   "dev-libs/glib74" \
   "dev-libs/gmp  # for ssl" \
-  "dev-libs/icu64" \
+  "dev-libs/icu76" \
   "dev-libs/libffi  # for glib" \
   "dev-libs/libxml2-1" \
   "dev-libs/libxslt" \
@@ -102,7 +104,6 @@ pkginst \
   "dev-qt/qt6base" \
   "dev-qt/qt6shadertools" \
   "#dev-util/byacc  # alternative a bison" \
-  "dev-util/cmake" \
   "dev-util/gperf" \
   "dev-util/pkgconf" \
   "media-libs/alsa-lib" \
@@ -119,7 +120,7 @@ pkginst \
   "sys-devel/binutils" \
   "sys-devel/bison" \
   "sys-devel/flex" \
-  "sys-devel/gcc9" \
+  "sys-devel/gcc14" \
   "#sys-devel/lex  # alternative a flex" \
   "sys-devel/make" \
   "sys-devel/patch" \
@@ -192,6 +193,7 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
   CC="gcc" CXX="g++"
 
   use 'strip' && INSTALL_OPTS="install/strip"
+  use 'x32'   && USE="${USE} -jit"
 
   #export QT6DIR="${BUILD_DIR}"
   export LD_LIBRARY_PATH="${BUILD_DIR}/build/$(get_libdir):${LD_LIBRARY_PATH}"
@@ -203,15 +205,17 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
 
   #cmake -B build -G "Unix Makefiles" \
   cmake -B build -G Ninja \
-    -D CMAKE_INSTALL_PREFIX="${EPREFIX%/}/usr" \
+    -D CMAKE_INSTALL_PREFIX="${EPREFIX%/}/" \
     -D CMAKE_INSTALL_LIBDIR="/$(get_libdir)" \
+    -D CMAKE_INSTALL_INCLUDEDIR="/usr/include" \
     -D CMAKE_INSTALL_DATAROOTDIR="/usr/share" \
     -D CMAKE_BUILD_TYPE="Release" \
     -D CMAKE_CXX_FLAGS_RELEASE="${CXXFLAGS}" \
     -D CMAKE_C_FLAGS_RELEASE="${CFLAGS}" \
-    -D QT_FEATURE_qml_jit=ON \
+    -D QT_FEATURE_qml_jit=OFF \
     -D QT_FEATURE_qml_network=ON \
     -D QT_FEATURE_qml_ssl=ON \
+    -D BUILD_SHARED_LIBS=$(usex 'shared' ON OFF) \
     -D CMAKE_SKIP_RPATH=$(usex 'rpath' OFF ON) \
     -Wno-dev \
     || die "Failed cmake build"
@@ -225,10 +229,10 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
   cd "${ED}/" || die "install dir: not found... error"
 
   # fix: cmake wrong the pkgconfig
-  grep '${prefix}' < $(get_libdir)/pkgconfig/Qt6Declarative.pc
+  grep '${prefix}' < $(get_libdir)/pkgconfig/Qt6Qml.pc
   sed -e 's|${prefix}||' -i $(get_libdir)/pkgconfig/Qt6*.pc
 
-  ldd "$(get_libdir)"/libQt6Declarative.so || : die "library deps work... error"
+  ldd "$(get_libdir)"/libQt6Qml.so.${PV} || die "library deps work... error"
 
   exit 0  # only for user-build
 fi

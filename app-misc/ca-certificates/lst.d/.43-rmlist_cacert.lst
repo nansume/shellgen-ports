@@ -1,6 +1,0 @@
-etc/<PN>/*
-etc/env.d/*
-etc/<PN>.conf
-etc/ssl/certs/*.pem
-
-<DPREFIX>/share/<PN>/mozilla/*.crt

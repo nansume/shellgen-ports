@@ -1,17 +1,20 @@
 #dev-lang/nasm  # for asm (bug: no support x32)
 
 dev-libs/expat
-dev-libs/fribidi
-dev-libs/glib-compat
-dev-libs/pcre
+dev-libs/fribidi  # required
+dev-libs/glib74
+dev-libs/icu76  # deps harfbuzz
+dev-libs/libffi  # for glib (?optional)
+dev-libs/pcre2
 dev-util/pkgconf
 
 media-libs/freetype
 media-libs/fontconfig
-media-libs/harfbuzz
+media-libs/harfbuzz2-2
 
 sys-apps/file
 sys-devel/binutils
-sys-devel/gcc
+sys-devel/gcc14
 sys-devel/make
 sys-libs/musl
+sys-libs/zlib  # deps glib

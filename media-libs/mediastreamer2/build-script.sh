@@ -82,15 +82,15 @@ fi
 chroot-build || die "Failed chroot... error"
 
 pkginst \
+  "dev-build/cmake3" \
   "dev-db/sqlite3  # deps bzrtp" \
   "dev-libs/gmp  # deps libsrtp" \
   "dev-libs/libxml2-1  # deps bzrtp" \
   "dev-libs/openssl3  # deps libsrtp" \
-  "dev-util/cmake" \
   "dev-util/pkgconf" \
   "media-libs/alsa-lib  # alsa" \
   "media-libs/libjpeg-turbo3  # jpeg" \
-  "media-libs/libvpx0" \
+  "media-libs/libvpx1" \
   "media-libs/opus" \
   "net-libs/bctoolbox" \
   "net-libs/bzrtp" \
@@ -98,9 +98,9 @@ pkginst \
   "net-libs/mbedtls  # deps bctoolbox" \
   "net-libs/ortp" \
   "sys-devel/binutils" \
-  "sys-devel/gcc9" \
+  "sys-devel/gcc14" \
   "sys-devel/make" \
-  "sys-libs/musl0" \
+  "sys-libs/musl" \
   "sys-libs/zlib  # deps libsrtp" \
   || die "Failed install build pkg depend... error"
 

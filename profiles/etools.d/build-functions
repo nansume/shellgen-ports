@@ -123,6 +123,20 @@ append_flags() {
   done
 }
 
+#append-libs -l<lib>
+append_libs() {
+  test "X${USER}" != 'Xroot' || return 0
+
+  local IFS="$(printf '\n\t')"; IFS=" ${IFS%?}"
+  local X
+
+  printf %s\\n "append_libs: '${*}'"
+
+  for X in ${@}; do
+    export LIBS="${LIBS}${LIBS:+ }${X}"
+  done
+}
+
 replace_flags() {
   test "X${USER}" != 'Xroot' || return 0
 
@@ -192,6 +206,7 @@ if typeis 'alias'; then
   alias append-cppflags='append_cppflags'
   alias append-ldflags='append_ldflags'
   alias append-flags='append_flags'
+  alias append-libs='append_libs'
   alias replace-flags='replace_flags'
   alias filter-flags='filter_flags'
 fi
@@ -202,6 +217,7 @@ if ! typeis 'alias'; then
   append-cppflags() { append_cppflags $@;}
   append-ldflags() { append_ldflags $@;}
   append-flags() { append_flags $@;}
+  append-libs() { append_libs $@;}
   replace-flags() { replace_flags $@;}
   filter-flags() { filter_flags $@;}
 fi

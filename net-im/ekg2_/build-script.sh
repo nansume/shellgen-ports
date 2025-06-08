@@ -1,11 +1,11 @@
 #!/bin/sh
-# Copyright (C) 2024 Artjom Slepnjov, Shellgen
-# License GPLv3: GNU GPL version 3 only
-# http://www.gnu.org/licenses/gpl-3.0.html
-# Date: 2024-07-12 20:00 UTC - last change
+# Maintainer: Artjom Slepnjov <shellgen-at-uncensored-dot-citadel-dot-org>
+# Date: 2024-07-12 20:00 UTC, 2025-05-31 14:00 UTC - last change
 # Build with useflag: -static -static-libs +shared -patch -doc -gpg -spell -zlib -xstub +musl +stest +strip +x32
 
-export USER XPN PF PV WORKDIR BUILD_DIR PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
+# <orig-url-build-script>
+
+export XPN PF PV WORKDIR BUILD_DIR PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
 export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED
 export CC CXX PKG_CONFIG PKG_CONFIG_LIBDIR PKG_CONFIG_PATH
 
@@ -24,7 +24,6 @@ XPN=${XPN:-$PN}
 PV="0.4pre20190315"
 HASH="f427d083ee899d42532c046100490a915b0e8a82"
 SRC_URI="https://github.com/ekg2/ekg2/archive/${HASH}.tar.gz -> ${PN}-${PV}.tar.gz"
-USER=${USER:-root}
 USE_BUILD_ROOT="0"
 BUILD_CHROOT=${BUILD_CHROOT:-0}
 PDIR=$(pkg-rootdir)
@@ -34,9 +33,9 @@ INSTALL_OPTS="install"
 HOSTNAME="localhost"
 BUILD_USER="tools"
 SRC_DIR="build"
-IUSE="-static -static-libs +shared -doc (+musl) +stest +strip"
-IUSE="${IUSE} -gadu -gpm +gpg +gtk -minimal -ncurses -nls -nntp -openssl"
+IUSE="-gadu -gpm +gpg +gtk -minimal -ncurses -nls -nntp -openssl"
 IUSE="${IUSE} -perl -python -readline -rss +spell -sqlite +ssl +xmpp -unicode +zlib"
+IUSE="${IUSE} -static -static-libs +shared -doc (+musl) +stest +strip"
 EABI=$(tc-abi-build)
 ABI=${EABI}
 XABI=${EABI}
@@ -84,36 +83,36 @@ pkginst \
   "app-accessibility/at-spi2-core" \
   "app-crypt/gpgme  # gpg?" \
   "app-text/aspell  # spell?" \
-  "#dev-db/sqlite  # sqlite?" \
+  "dev-build/autoconf71  # required for autotools" \
+  "dev-build/automake16  # required for autotools" \
+  "dev-build/libtool14  # required for autotools" \
+  "#dev-db/sqlite3  # sqlite?" \
   "dev-lang/perl  # perl?" \
-  "dev-lang/python3  # python?" \
+  "dev-lang/python3-8  # python?" \
   "dev-libs/atk" \
   "dev-libs/expat  # xmpp?, rss?" \
   "dev-libs/fribidi  # for pango (required remove)" \
-  "dev-libs/glib" \
+  "dev-libs/glib74" \
   "dev-libs/gmp  # for gnutls" \
   "dev-libs/libffi  # for glib" \
-  "dev-libs/libxml2  # for update-mime-database" \
+  "dev-libs/libxml2-1  # for update-mime-database" \
   "dev-libs/libtasn1  # for gnutls" \
   "dev-libs/libunistring  # for gnutls" \
   "dev-libs/nettle  # for gnutls" \
-  "dev-libs/pcre  # optional (internal pcre glib-2.68.4)" \
+  "dev-libs/pcre2  # glib74" \
   "dev-util/pkgconf" \
   "media-libs/freetype" \
   "media-libs/fontconfig" \
-  "media-libs/harfbuzz2  # for pango" \
-  "media-libs/libjpeg-turbo  # for gdk-pixbuf or bundled-libs" \
+  "media-libs/harfbuzz2-2  # for pango" \
+  "media-libs/libjpeg-turbo3  # for gdk-pixbuf or bundled-libs" \
   "media-libs/libpng  # for pango or bundled-libs" \
   "media-libs/tiff  # for gdk-pixbuf" \
   "net-libs/gnutls  # ssl?" \
   "#net-libs/libgadu-1.12  # gadu?" \
   "sys-apps/file" \
-  "sys-devel/autoconf  # required for autotools" \
-  "sys-devel/automake  # required for autotools" \
   "sys-devel/binutils" \
-  "sys-devel/gcc" \
+  "sys-devel/gcc14" \
   "sys-devel/gettext  # nls?" \
-  "sys-devel/libtool  # required for autotools" \
   "sys-devel/m4  # required for autotools" \
   "sys-devel/make" \
   "#sys-libs/gpm  # gpm?" \
@@ -162,11 +161,11 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
   cd "${BUILD_DIR}/" || die "builddir: not found... error"
 
   case $(tc-abi-build) in
-    'x32')   append-flags -mx32 -msse2 ;;
-    'x86')   append-flags -m32         ;;
-    'amd64') append-flags -m64 -msse2  ;;
+    'x32')   append-flags -mx32 -msse2            ;;
+    'x86')   append-flags -m32 -msse -mfpmath=sse ;;
+    'amd64') append-flags -m64 -msse2             ;;
   esac
-  if use 'static' || use 'static-libs'; then
+  if use !shared && { use 'static-libs' || use 'static' ;}; then
     append-flags -Os
     append-ldflags -Wl,--gc-sections
     append-cflags -ffunction-sections -fdata-sections
@@ -175,8 +174,7 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
   fi
   append-flags -fno-stack-protector -no-pie -g0 -march=$(arch | sed 's/_/-/')
 
-  CC="gcc$(usex static ' --static')"
-  CXX="g++$(usex static ' --static')"
+  CC="gcc" CXX="g++"
 
   use 'strip' && INSTALL_OPTS="install-strip"
 
@@ -227,7 +225,7 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
 
   make -j "$(nproc)" || die "Failed make build"
 
-  make DESTDIR="${ED}" ${INSTALL_OPTS} install || die "make install... error"
+  make DESTDIR="${ED}" ${INSTALL_OPTS} || die "make install... error"
 
   cd "${ED}/" || die "install dir: not found... error"
 
@@ -246,4 +244,4 @@ cd "${ED}/" || die "install dir: not found... error"
 
 pkg-perm
 
-INST_ABI="$(tc-abi-build)" PN=${XPN} pkg-create-cgz
+INST_ABI="$(tc-abi-build)" PN=${XPN} PV=${PV} pkg-create-cgz

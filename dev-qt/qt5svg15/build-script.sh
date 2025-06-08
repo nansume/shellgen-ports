@@ -22,9 +22,10 @@ PN="${PN:-${12:?required <PN>}}"
 PN=${PN%%_*}
 XPN=${XPN:-$PN}
 PN=${PN%[0-9]*}
-SPN="qtsvg-everywhere-opensource-src"
-PV="5.15.16"
-SRC_URI="https://download.qt.io/archive/qt/${PV%.*}/${PV}/submodules/${SPN}-${PV}.tar.xz"
+SPN1="qtsvg-everywhere-opensource-src"
+SPN2="qtsvg-everywhere-src"
+PV="5.15.17"
+SRC_URI="https://download.qt.io/archive/qt/${PV%.*}/${PV}/submodules/${SPN1}-${PV}.tar.xz"
 USE_BUILD_ROOT="0"
 BUILD_CHROOT=${BUILD_CHROOT:-0}
 PDIR=$(pkg-rootdir)
@@ -51,7 +52,7 @@ PF=$(pfname 'src_uri.lst' "${SRC_URI}")
 PKGNAME=${PN}
 ZCOMP="unxz"
 WORKDIR="${PDIR%/}/${SRC_DIR}"
-BUILD_DIR="${PDIR%/}/${SRC_DIR}/qtsvg-everywhere-src-${PV}"
+BUILD_DIR="${PDIR%/}/${SRC_DIR}/${SPN2}-${PV}"
 PWD=${PWD%/}; PWD=${PWD:-/}
 LIB_DIR=$(get_libdir)
 LIBDIR="/${LIB_DIR}"
@@ -80,10 +81,13 @@ pkginst \
   "dev-lang/ruby26" \
   "dev-libs/expat  # icu,freetype" \
   "dev-libs/glib74" \
-  "dev-libs/libffi  # for glib" \
+  "#dev-libs/gmp  # deps qtbase" \
+  "#dev-libs/icu76  # deps qtbase" \
+  "#dev-libs/libffi  # for glib" \
   "dev-libs/libxml2-1" \
   "dev-libs/libxslt" \
   "dev-libs/pcre2  # for glib74" \
+  "#dev-libs/openssl3  # deps qtbase" \
   "dev-perl/digest-perl-md5" \
   "dev-qt/qt5base15" \
   "dev-util/gperf" \
@@ -98,7 +102,7 @@ pkginst \
   "sys-devel/binutils" \
   "sys-devel/bison" \
   "sys-devel/flex" \
-  "sys-devel/gcc9" \
+  "sys-devel/gcc14" \
   "sys-devel/make" \
   "#sys-devel/patch  # for patch with fuzz and offset." \
   "sys-kernel/linux-headers-musl" \
