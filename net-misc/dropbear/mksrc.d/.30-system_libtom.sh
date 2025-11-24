@@ -1,1 +1,0 @@
-MYCONF+=( --disable-bundled-libtom )

@@ -1,3 +1,13 @@
+#!/bin/sh
+# Build with useflag: +static -static-libs -shared -lfs +nopie -patch -doc -xstub +diet -musl +stest +strip +x32
+
+# http://data.gpo.zugaina.org/gentoo/sys-apps/kbd/kbd-2.8.0.ebuild
+
+DESCRIPTION="Keyboard and console utilities"
+HOMEPAGE="https://kbd-project.org/"
+LICENSE="GPL-2"
+IUSE="-nls -selinux -pam -test"
+
 #export PROGS="loadkeys openvt"
 
 MYCONF="${MYCONF}

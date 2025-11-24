@@ -1,0 +1,292 @@
+
+                                                  busybox@busybox.net
+
+   Tammo Block Tue, 23 Jun 2020 12:19:48 -0700
+
+ Hi everybody,
+
+ this patch adds a mouse daemon applet to busybox.
+
+
+ The behavior is different from the well known gpm [1] in two aspects:
+ 1.) Only the PS/2 mouse protocol is supported (This includes USB mice).
+ 2.) The nonstandard gpm devices gpmdata/gpmctl are not supported.
+ Due to these differences I choose not to call the applet "gpm".
+
+ This daemon more or less mimics the behavior of consolation [2], a rather
+ recent gpm replacement, using libinput for device discovery and readout.
+
+ You should be able to test moused by just starting it without options and
+ start to copy/paste text on the console. Pressing left button on the same
+ place several times switches between selecting characters, words and lines.
+
+ Left button:   Start selection or select single character/word/line
+ Middle button: Paste selection
+ Right button:  Set end of selection of multiple characters/words/lines
+
+ The mouse report kernel features can be tested with the vttest program.
+ (Select 11 -> 8 -> 5 -> 4 in the menu)
+
+
+ The bloat-o-meter says :
+
+ function                                             old     new   delta
+ moused_main                                            -     978    +978
+ .rodata                                           162718  163048    +330
+ packed_usage                                       33700   33803    +103
+ applet_main                                         3176    3184      +8
+ applet_names                                        2733    2740      +7
+ ------------------------------------------------------------------------------
+ (add/remove: 2/0 grow/shrink: 4/0 up/down: 1426/0)           Total: 1426 bytes
+
+
+ There are probably many places to improve the code, but my first question is:
+ Could this be interesting at all for busybox?
+
+
+ Kind regards,
+ Tammo
+
+
+ [1] https://github.com/telmich/gpm
+ [2] https://salsa.debian.org/consolation-team/consolation/
+
+
+ diff --git a/miscutils/moused.c b/miscutils/moused.c
+ new file mode 100644
+ index 000000000..2681fbd6d
+ --- /dev/null
+ +++ b/miscutils/moused.c
+ @@ -0,0 +1,198 @@
+ +/* vi: set sw=4 ts=4: */
+ +/*
+ + * simple mouse daemon
+ + *
+ + * Copyright (C) 2020 by Tammo Block (tammo.bl...@gmail.com)
+ + *
+ + * Licensed under GPLv2, see file LICENSE in this source tree.
+ + */
+ +
+ +/*
+ + * Yet moused only supports ps2 style mice (and therefore only 3 buttons)
+ + * The gpm protocols (gpmdata/gpmctl) are not supported
+ + *
+ + */
+ +
+ +//config:config MOUSED
+ +//config:      bool "moused (1.4 kb) (NEW)"
+ +//config:      default n
+ +//config:      help
+ +//config:      Simple mouse daemon. Reports mouse events to console
+ applications.
+ +
+ +//applet:IF_MOUSED(APPLET(moused, BB_DIR_SBIN, BB_SUID_DROP))
+ +
+ +//kbuild:lib-$(CONFIG_MOUSED) += moused.o
+ +
+ +//usage:#define moused_trivial_usage
+ +//usage:       "[OPTS]"
+ +//usage:#define moused_full_usage "\n\n"
+ +//usage:       "Enable console mouse support for PS/2 like mice.\n"
+ +//usage:       "-f      Do not fork to background (default is to fork)\n"
+ +//usage:       "-r      Disable mouse event reports to kernel console\n"
+ +//usage:       "-s      Disable console selection support\n"
+ +//usage:       "-a VAL  Set mouse speed, higher means slow (defaults to 10)\n"
+ +//usage:       "-m DEV  Mouse device (defaults to /dev/input/mice)\n"
+ +
+ +#include "libbb.h"
+ +#include <linux/kd.h>
+ +#include <linux/tiocl.h>
+ +
+ +int moused_main(int argc UNUSED_PARAM, char **argv) MAIN_EXTERNALLY_VISIBLE;
+ +int moused_main(int argc UNUSED_PARAM, char **argv)
+ +{
+ +       struct winsize screen;
+ +       struct pollfd pfd;
+ +       signed int xpxl=1, ypxl=1;
+ +       unsigned int ttyfd, ret, opts;
+ +       unsigned short lastx=1, lasty=1, speed;
+ +       unsigned char last=0, mode=0, btn=3, request = TIOCL_GETMOUSEREPORTING;
+ +       const char *device = "/dev/input/mice";
+ +       const char *speeds = "10";
+ +
+ +       /* PS2 mouse ps2event*/
+ +       struct {
+ +               unsigned char btn:4;
+ +               unsigned char ovl:4;
+ +               signed char x;
+ +               signed char y;
+ +       } ps2ev;
+ +
+ +       /* Internal state, layed out for ioctl */
+ +       struct {
+ +               char unused; /* Force struct alignment! */
+ +               char call;
+ +               struct tiocl_selection s;
+ +       } state;
+ +
+ +       opts = getopt32(argv, "frsa:m:", &speeds, &device);
+ +
+ +       speed = atoi(speeds);
+ +       if ( (speed > 10000) || (speed < 1) )
+ +               bb_simple_error_msg_and_die("Invalid speed value");
+ +
+ +       if (!(opts & 1))
+ +               bb_daemonize_or_rexec(DAEMON_CLOSE_EXTRA_FDS, argv);
+ +
+ +       pfd.fd = open(device,O_RDONLY);
+ +       if (pfd.fd < 0)
+ +               bb_simple_perror_msg_and_die("Cannot open mouse device");
+ +
+ +       write_pidfile_std_path_and_ext("moused");
+ +
+ +       bb_signals(BB_FATAL_SIGS, record_signo);
+ +       pfd.events = POLLIN;
+ +
+ +       state.unused = 0;
+ +       state.call = TIOCL_SETSEL;
+ +
+ +       while (1) {
+ +               if (bb_got_signal)
+ +                       break;
+ +               ret = poll(&pfd, 1, -1);
+ +               if (ret < 1)
+ +                      break;
+ +
+ +               ret = read(pfd.fd, &ps2ev, sizeof(ps2ev));
+ +               if ( ret != sizeof(ps2ev)) {
+ +                       bb_simple_error_msg("Wrong data size!\n");
+ +                       continue;
+ +               }
+ +               if ( ! (ps2ev.btn | 8)) {
+ +                       bb_simple_error_msg("No PS2 data?\n");
+ +                       continue;
+ +               }
+ +               if (ps2ev.ovl & 12) {
+ +                       bb_simple_error_msg("Mouse data overflow! Ignoring.\n");
+ +                       continue;
+ +               }
+ +
+ +               ttyfd = open("/dev/tty0",O_RDONLY);
+ +               if (ttyfd < 0)
+ +                       bb_simple_perror_msg_and_die("Cannot open /dev/tty0");
+ +               if (ioctl(ttyfd, KDGETMODE, &ret))
+ +                       bb_simple_perror_msg_and_die("KDGETMODE");
+ +               if ( ret != KD_TEXT ) {
+ +                       close (ttyfd);
+ +                       continue;
+ +               }
+ +               if (ioctl(ttyfd, TIOCGWINSZ, &screen))
+ +                       bb_simple_perror_msg_and_die("TIOCGWINSZ");
+ +
+ +               /* Convert PS2 mouse units to screen position */
+ +               xpxl += ps2ev.x;
+ +               ypxl -= ps2ev.y; /* Y axis is inverted for PS2 protocol*/
+ +               if (xpxl < 1)
+ +                       xpxl = 1;
+ +               if (ypxl < 1)
+ +                       ypxl = 1;
+ +               if (xpxl > screen.ws_col * speed )
+ +                       xpxl = screen.ws_col * speed;
+ +               if (ypxl > screen.ws_row * speed )
+ +                       ypxl = screen.ws_row * speed;
+ +               state.s.xe = state.s.xs = (xpxl / speed) + 1;
+ +               state.s.ye = state.s.ys = (ypxl / speed) + 1;
+ +               state.s.sel_mode = TIOCL_SELPOINTER;
+ +
+ +               /* Convert PS2 mouse buttons.
+ +                * We only care for the _lowest_ pressed button
+ +                * A value of 3 means no button pressed
+ +                */
+ +               if ( ps2ev.btn & 1)
+ +                       btn = 0;
+ +               else if ( ps2ev.btn & 4)
+ +                       btn = 1;
+ +               else if ( ps2ev.btn & 2)
+ +                       btn = 2;
+ +               else
+ +                       btn = 3;
+ +
+ +               request = TIOCL_GETMOUSEREPORTING;
+ +               if (ioctl(ttyfd, TIOCLINUX, &request))
+ +                       bb_simple_perror_msg_and_die("TIOCL_GETMOUSEREPORT");
+ +
+ +               /* Kernel asks for mouse report */
+ +               if ( request && !(opts & 2) ) {
+ +                       if ( btn != last ) {
+ +                               state.s.sel_mode = ( btn |
+ TIOCL_SELMOUSEREPORT );
+ +                               if (ioctl(ttyfd, TIOCLINUX, &state.call ))
+ +
+ bb_simple_perror_msg("TIOCL_SELMOUSEREPORT");
+ +                               state.s.sel_mode = TIOCL_SELPOINTER;
+ +                       }
+ +               /* Copy/Paste mode, no mouse report */
+ +               } else if ( !(opts & 4) ) {
+ +                       if ( btn == last ) {
+ +                               if ( btn != 3) {
+ +                                       state.s.xe = lastx;
+ +                                       state.s.ye = lasty;
+ +                                       state.s.sel_mode = mode;
+ +                               }
+ +                       } else if (btn < last) {
+ +                               if (btn == 0) {
+ +                                       if ((state.s.xs == lastx) &&
+ (state.s.ys == lasty))
+ +                                               mode = (mode + 1) % 3;
+ +                                       else
+ +                                               mode = 0;
+ +                                       state.s.sel_mode = mode;
+ +                                       lastx = state.s.xs;
+ +                                       lasty = state.s.ys;
+ +                               } else if (btn == 1) {
+ +                                       request = TIOCL_PASTESEL;
+ +                                       if (ioctl(ttyfd, TIOCLINUX, &request)<0)
+ +
+ bb_simple_perror_msg("TIOCL_PASTESEL");
+ +                                       mode = 0;
+ +                               } else if (btn == 2) {
+ +                                       state.s.xe = lastx;
+ +                                       state.s.ye = lasty;
+ +                                       state.s.sel_mode = mode;
+ +                               }
+ +                       }
+ +               }
+ +               if (ioctl(ttyfd, TIOCLINUX, &state.call ))
+ +                       bb_simple_perror_msg("TIOCL_SETSEL");
+ +               last = btn;
+ +               close (ttyfd);
+ +       } // while (1)
+ +       close (pfd.fd);
+ +       return bb_got_signal;
+ +}
+ +
+ _______________________________________________
+ busybox mailing list
+ busybox@busybox.net
+ http://lists.busybox.net/mailman/listinfo/busybox
+
+     * Previous message
+     * View by thread
+     * View by date
+     * Next message
+     * busybox@busybox.net Tammo Block
+     *
+          * [RFC] moused: Add new moused applet Tammo Block
+
+Reply via email to
+
+   [  Tammo Block  ]
+     * CAEHKo2=8F-QFoVfBwttRi==0kweAnz16_puzgOcxnhz_EGr1_g@mail.gmail.com
+
+References
+
+   https://www.mail-archive.com/busybox%40busybox.net/index.html#26727
+   https://www.mail-archive.com/busybox%40busybox.net/maillist.html#26727
+   https://www.mail-archive.com/busybox%40busybox.net/msg26726.html
+   https://www.mail-archive.com/busybox%40busybox.net/msg26728.html
+   https://www.mail-archive.com/busybox@busybox.net/msg26727.html
+
+   https://www.mail-archive.com/search?l=busybox@busybox.net&q=date:20200623
+   https://github.com/telmich/gpm
+   https://salsa.debian.org/consolation-team/consolation/

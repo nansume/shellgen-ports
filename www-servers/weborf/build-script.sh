@@ -1,9 +1,13 @@
 #!/bin/sh
 # Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
-# Date: 2024-11-09 10:00 UTC - last change
+# Date: 2024-11-09 10:00 UTC, 2025-06-19 20:00 UTC - last change
 # Build with useflag: +static -static-libs -shared -lfs +nopie -patch -doc -xstub -diet +musl +stest +strip +x32
 
 # https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=weborf
+
+# BUG: no work inetd mode (runtime) from v1.2 to v1.5
+
+# BUG: Sometime is here the webdav after send large files (above up 1GB) may be 100% load cpu (runtime) v1.5
 
 export XPN PF PV WORKDIR BUILD_DIR PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
 export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED CC
@@ -20,7 +24,8 @@ CATEGORY="${CATEGORY:-${11:?required <CATEGORY>}}"
 PN="${PN:-${12:?required <PN>}}"
 PN=${PN%%_*}
 XPN=${XPN:-$PN}
-PV="1.2"
+PV="0.13.5"  # It minimum version is, otherwise there oneself guilty...
+PV="1.5"
 SRC_URI="https://codeberg.org/ltworf/weborf/releases/download/${PV}/${PN}_${PV}.orig.tar.gz"
 USE_BUILD_ROOT="0"
 BUILD_CHROOT=${BUILD_CHROOT:-0}
@@ -31,7 +36,7 @@ INSTALL_OPTS="install"
 HOSTNAME="localhost"
 BUILD_USER="tools"
 SRC_DIR="build"
-IUSE="+static -doc (+musl) +stest +strip"
+IUSE="+embed -mime +static -doc (+musl) +stest +strip"
 EABI=$(tc-abi-build)
 ABI=${EABI}
 XABI=${EABI}
@@ -69,11 +74,19 @@ fi
 
 . "${PDIR%/}/etools.d/"build-functions
 
+if { test "X${USER}" = 'Xroot' && test "${BUILD_CHROOT:=0}" -eq '0' ;} ;then
+  use 'embed' && {
+    cp "/data/ptext/"*"@weborf.text" -t "${PDIR%/}"/
+    chown ${BUILD_USER}:${BUILD_USER} -- "${PDIR%/}"/*"@weborf.text"
+  }
+fi
+
 chroot-build || die "Failed chroot... error"
 
 pkginst \
-  "sys-devel/binutils" \
-  "sys-devel/gcc9" \
+  "#sys-apps/file  # ?<libmagic> for support mime" \
+  "sys-devel/binutils9" \
+  "sys-devel/gcc14" \
   "sys-devel/make" \
   "sys-libs/musl" \
   || die "Failed install build pkg depend... error"
@@ -97,9 +110,9 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
   printf %s\\n "${ZCOMP} -dc ${PF} | tar -C ${PDIR%/}/${SRC_DIR}/ -xkf -"
 
   case $(tc-abi-build) in
-    'x32')   append-flags -mx32 -msse2 ;;
-    'x86')   append-flags -m32         ;;
-    'amd64') append-flags -m64 -msse2  ;;
+    'x32')   append-flags -mx32 -msse2            ;;
+    'x86')   append-flags -m32 -msse -mfpmath=sse ;;
+    'amd64') append-flags -m64 -msse2             ;;
   esac
   if use 'static'; then
     append-flags -Os
@@ -111,12 +124,23 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
   fi
   append-flags -fno-stack-protector -no-pie -g0 -march=$(arch | sed 's/_/-/')
 
-  CC="gcc$(usex static ' -static --static')"
+  CC="gcc"
 
   use 'strip' && INSTALL_OPTS="install-strip"
 
   cd "${BUILD_DIR}/" || die "builddir: not found... error"
 
+  if use 'embed' && [ -f "${PDIR%/}/user@weborf.text" ]; then
+    USER=$(cat "${PDIR%/}/user@weborf.text") PASS=$(cat "${PDIR%/}/pass@weborf.text")
+    sed \
+      -e 's|.*#define EMBEDDED_AUTH$|#define EMBEDDED_AUTH|' \
+      -e "s|user=\"gentoo\"|user=\"${USER}\"|" \
+      -e "s|pass=\"lalalala\"|pass=\"${PASS}\"|" \
+      -e 's|*foto = "/foto/";$|*foto = "/to/upload/";|' \
+      -i embedded_auth.h
+  fi
+
+  am_cv_sleep_fractional_seconds="no" \
   ./configure \
     --prefix="/usr" \
     --exec-prefix="${EPREFIX%/}" \
@@ -135,7 +159,8 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
   cd "${ED}/" || die "install dir: not found... error"
 
   use 'doc' || rm -r -- "usr/share/doc/" "usr/share/man/"
-  rm -r -- "etc/init.d/" "etc/weborf.d/" "usr/lib/"
+  rm -v -r -- "etc/init.d/" "etc/weborf.d/" "usr/lib/"
+  rm -v -r -- "etc/" "usr/"
 
   use 'stest' && { bin/${PN} --version || die "binary work... error";}
   ldd "bin/${PN}" || { use 'static' && true || die "library deps work... error";}

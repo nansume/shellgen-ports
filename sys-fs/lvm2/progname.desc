@@ -1,9 +1,9 @@
 # Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
-# -static -static-libs +shared -nopie -lfs -upx +patch -doc -man -xstub -diet +musl +stest +strip +x32
+# (+static) +static-libs +shared -nopie -lfs -upx +patch -doc -man -xstub -diet +musl +stest +strip +x32
 
 # http://data.gpo.zugaina.org/gentoo/sys-fs/lvm2/lvm2-2.03.22-r7.ebuild
 
 DESCRIPTION="User-land utilities for LVM2 (device-mapper) software"
 HOMEPAGE="https://sourceware.org/lvm2/"
 LICENSE="GPL-2"
-IUSE="-lvm -readline -sanlock -selinux -static -static-libs -systemd -thin -udev -valgrind"
+IUSE="-lvm -readline -sanlock -selinux (+static) +static-libs -systemd -thin -udev -valgrind +shared"

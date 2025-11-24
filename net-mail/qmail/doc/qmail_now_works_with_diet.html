@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>ANNOUNCE: qmail now works with the diet libc</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="contents" href="thrd18.html#44673" id="c">
+<link rel="index" href="mail21.html#44673" id="i">
+<link rel="prev" href="msg44664.html" id="p">
+<link rel="next" href="msg44699.html" id="n">
+<link rel="canonical" href="https://www.mail-archive.com/qmail@id.wustl.edu/msg44673.html">
+<link rel="stylesheet" href="/normalize.css" media="screen">
+<link rel="stylesheet" href="/master.css" media="screen">
+
+<!--[if lt IE 9]>
+<link rel="stylesheet" href="/ie.css" media="screen">
+<![endif]-->
+</head>
+<body>
+<div itemscope itemtype="http://schema.org/Article" class="container">
+<div class="skipLink">
+<a href="#nav">Skip to site navigation (Press enter)</a>
+</div>
+<div class="content" role="main">
+<div class="msgHead">
+<h1>
+<span class="subject"><a href="/search?l=qmail@id.wustl.edu&amp;q=subject:%22ANNOUNCE%5C%3A+qmail+now+works+with+the+diet+libc%22&amp;o=newest" rel="nofollow"><span itemprop="name">ANNOUNCE: qmail now works with the diet libc</span></a></span>
+</h1>
+<p class="darkgray font13">
+<span class="sender pipe"><a href="/search?l=qmail@id.wustl.edu&amp;q=from:%22Felix+von+Leitner%22" rel="nofollow"><span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">Felix von Leitner</span></span></a></span>
+<span class="date"><a href="/search?l=qmail@id.wustl.edu&amp;q=date:20010606" rel="nofollow">Wed, 06 Jun 2001 15:21:56 -0700</a></span>
+</p>
+</div>
+<div itemprop="articleBody" class="msgBody">
+<!--X-Body-of-Message-->
+<PRE>
+I recently did a few updates to my diet libc
+(<A  HREF="http://www.fefe.de/dietlibc/">http://www.fefe.de/dietlibc/</A>) and it can now compile and link qmail.
+Since the diet libc can also compile and link openssl, the STARTTLS
+patch also works.
+
+What's the difference, you ask?  This ps listing is on a box with qmail
+dynamically linked against the glibc:
+
+USER       PID %CPU %MEM  SIZE   RSS TTY STAT START   TIME COMMAND
+qmaill   29527  0.0  0.1  1228   224  ?  S N Mar 12   0:16 splogger qmail 
+qmailq   29543  0.0  0.0  1208   104  ?  S N Mar 12   0:03 qmail-clean 
+qmailr   29529  0.0  0.1  1216   176  ?  S N Mar 12   0:00 qmail-rspawn 
+qmails   29521  0.0  0.1  1260   172  ?  S N Mar 12   0:22 qmail-send 
+root     29528  0.0  0.0  1216    80  ?  S N Mar 12   0:08 qmail-lspawn ./Maildir/ 
+
+
+And this ps listing is from my home box, statically linked against the
+diet libc:
+
+USER       PID %CPU %MEM   VSZ  RSS TTY      STAT START   TIME COMMAND
+qmails     103  0.0  0.0    64   56 ?        S    18:55   0:00 qmail-send
+qmaill     109  0.0  0.0    44   20 ?        S    18:55   0:00 splogger qmail
+root       110  0.0  0.0    36   24 ?        S    18:55   0:00 qmail-lspawn ./Maildir/
+qmailr     111  0.0  0.0    36   24 ?        S    18:55   0:00 qmail-rspawn
+qmailq     112  0.0  0.0    24   16 ?        S    18:55   0:00 qmail-clean
+root     11747  1.0  0.0    56   40 ?        S    22:46   0:00 
+/usr/local/bin/tcpserver -u qmaild -g nofiles 0 smtp /var/qmail/b
+
+
+Please note the drastically reduced memory requirements.  As you can
+see, the process are running for many days on the first box, so unused
+memory is already swapped out.  Not so on the second box.
+
+
+Why is this significant?  Because it allows a much larger concurrency on
+the same hardware.  More POP3 users, more concurrent local and remote
+deliveries, more incoming SMTP connections.
+
+
+How to reproduce.
+
+  1. get the current diet libc from CVS, compile and install the &quot;diet&quot;
+     wrapper program in your $PATH.
+  2. get qmail, extract and possibly apply your favourite patches.
+  3. set up conf-cc and conf-ld
+       $ echo &quot;diet gcc -pipe -Os -fomit-frame-pointer&quot; &gt; conf-cc
+       $ echo &quot;diet gcc -static -s&quot; &gt; conf-ld
+  4. make and make setup qmail as usual.
+
+That's it.  Good luck!
+
+Felix
+</PRE>
+
+
+</div>
+<div class="msgButtons margintopdouble">
+<ul class="overflow">
+<li class="msgButtonItems"><a class="button buttonleft " accesskey="p" href="msg44664.html">Previous message</a></li>
+<li class="msgButtonItems textaligncenter"><a class="button" accesskey="c" href="thrd18.html#44673">View by thread</a></li>
+<li class="msgButtonItems textaligncenter"><a class="button" accesskey="i" href="mail21.html#44673">View by date</a></li>
+<li class="msgButtonItems textalignright"><a class="button buttonright " accesskey="n" href="msg44699.html">Next message</a></li>
+</ul>
+</div>
+<a name="tslice"></a>
+<div class="tSliceList margintopdouble">
+<ul class="icons monospace">
+<li class="icons-email"><span class="subject"><a href="msg44699.html">Re: ANNOUNCE: qmail now works with the diet libc</a></span> <span class="sender italic">Felix von Leitner</span></li>
+<li><ul>
+<li class="icons-email"><span class="subject"><a href="msg44699.html">Re: ANNOUNCE: qmail now works with the diet lib...</a></span> <span class="sender italic">Mark</span></li>
+<li><ul>
+<li class="icons-email"><span class="subject"><a href="msg44725.html">Re: ANNOUNCE: qmail now works with the diet...</a></span> <span class="sender italic">Felix von Leitner</span></li>
+</ul></li>
+<li class="icons-email"><span class="subject"><a href="msg44749.html">RE: ANNOUNCE: qmail now works with the diet lib...</a></span> <span class="sender italic">Van Liedekerke Franky</span></li>
+</ul>
+</ul>
+</div>
+<div class="overflow msgActions margintopdouble">
+<div class="msgReply" >
+<h2>
+					Reply via email to
+</h2>
+<form method="POST" action="/mailto.php">
+<input type="hidden" name="subject" value="ANNOUNCE: qmail now works with the diet libc">
+<input type="hidden" name="msgid" value="20010606225433.A6870@codeblau.de">
+<input type="hidden" name="relpath" value="qmail@id.wustl.edu/msg44673.html">
+<input type="submit" value=" Felix von Leitner ">
+</form>
+</div>
+</div>
+</div>
+<div class="aside" role="complementary">
+<div class="logo">
+<a href="/"><img src="/logo.png" width=247 height=88 alt="The Mail Archive"></a>
+</div>
+<form class="overflow" action="/search" method="get">
+<input type="hidden" name="l" value="qmail@id.wustl.edu">
+<label class="hidden" for="q">Search the site</label>
+<input class="submittext" type="text" id="q" name="q" placeholder="Search qmail">
+<input class="submitbutton" name="submit" type="image" src="/submit.png" alt="Submit">
+</form>
+<div class="nav margintop" id="nav" role="navigation">
+<ul class="icons font16">
+<li class="icons-home"><a href="/">The Mail Archive home</a></li>
+<li class="icons-list"><a href="/qmail@id.wustl.edu/">qmail - all messages</a></li>
+<li class="icons-about"><a href="/qmail@id.wustl.edu/info.html">qmail - about the list</a></li>
+<li class="icons-expand"><a href="/search?l=qmail@id.wustl.edu&amp;q=subject:%22ANNOUNCE%5C%3A+qmail+now+works+with+the+diet+libc%22&amp;o=newest&amp;f=1" title="e" id="e">Expand</a></li>
+<li class="icons-prev"><a href="msg44664.html" title="p">Previous message</a></li>
+<li class="icons-next"><a href="msg44699.html" title="n">Next message</a></li>
+</ul>
+</div>
+<div class="listlogo margintopdouble">
+
+</div>
+<div class="margintopdouble">
+
+</div>
+</div>
+</div>
+<div class="footer" role="contentinfo">
+<ul>
+<li><a href="/">The Mail Archive home</a></li>
+<li><a href="/faq.html#newlist">Add your mailing list</a></li>
+<li><a href="/faq.html">FAQ</a></li>
+<li><a href="/faq.html#support">Support</a></li>
+<li><a href="/faq.html#privacy">Privacy</a></li>
+<li class="darkgray">20010606225433.A6870@codeblau.de</li>
+</ul>
+</div>
+</body>
+</html>

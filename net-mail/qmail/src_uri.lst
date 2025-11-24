@@ -1,0 +1,20 @@
+http://qmail.org/qmail-1.03.tar.gz
+# https://opensource.sf-tec.de/qmail/  #is here qmail patches
+#https://raw.githubusercontent.com/bruceg/qmail-patches/master/qmail-1.03+patches.spec
+https://github.com/bruceg/qmail-patches/raw/master/qmail-1.03-msglog.patch
+http://qmail.org/rpms/patches/qmail-1.03.errno.patch
+##https://github.com/bruceg/qmail-patches/raw/master/qmail-1.03-showctl.patch
+https://github.com/bruceg/qmail-patches/raw/master/qmail-1.03-bind-interface.patch
+http://qmail.org/big-todo.103.patch -> qmail-1.03-big-todo.103.patch
+##https://github.com/bruceg/qmail-patches/raw/master/qmail-1.03-install-path-big-todo.patch
+https://github.com/bruceg/qmail-patches/raw/master/qmail-1.03-autouidgid.patch
+##https://github.com/bruceg/qmail-patches/raw/master/qmail-1.03-syncdir.patch
+https://github.com/bruceg/qmail-patches/raw/master/qmail-1.03-pop3d-stat.patch
+https://github.com/bruceg/qmail-patches/raw/master/qmail-1.03-queuevar.patch
+https://github.com/bruceg/qmail-patches/raw/master/qmail-1.03-qmail-local.patch
+#https://github.com/bruceg/qmail-patches/raw/master/big-concurrency.patch -> qmail-1.03-big-concurrency.patch
+https://github.com/bruceg/qmail-patches/raw/master/qmail-1.03-qmtpc-mailroutes-2.0.patch
+https://github.com/bruceg/qmail-patches/raw/master/qmtpd-badmailfrom-1.1.patch
+https://github.com/bruceg/qmail-patches/raw/master/qmail-0.0.0.0.patch
+##https://github.com/bruceg/qmail-patches/raw/master/ext_todo-20020524-add-big-todo.patch
+https://github.com/bruceg/qmail-patches/raw/master/qmail-1.03-fastremote-3.patch

@@ -1,0 +1,4 @@
+https://www.freedesktop.org/software/kmscon/releases/kmscon-8.tar.xz
+#https://github.com/Aetf/${PN}/releases/download/v9.0.0/${PN}-9.0.0.tar.xz
+http://localhost/pub/distfiles/kmscon-sysmacros-fix.patch
+http://localhost/pub/distfiles/kmscon-SIGUNUSED.patch

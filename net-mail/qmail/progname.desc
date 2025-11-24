@@ -1,0 +1,9 @@
+# Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
+# +static -static-libs -shared +nopie -lfs -upx +patch -doc -man -xstub +diet -musl +stest +strip +x32
+
+# https://www.mirrorservice.org/sites/www.linuxfromscratch.org/museum/blfs-museum/1.0/BLFS-1.0/server/qmail.html
+
+DESCRIPTION="Dan Bernstein's Mail Transport Agent (MTA)."
+HOMEPAGE="http://qmail.org/"
+LICENSE="<license>"
+IUSE="<use-flags>"

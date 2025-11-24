@@ -1,6 +1,0 @@
-<DPREFIX>/share/<PN>/cards/ATIIXP.conf
-<DPREFIX>/share/<PN>/cards/HDA-Intel.conf
-<DPREFIX>/share/<PN>/cards/PC-Speaker.conf
-<DPREFIX>/share/<PN>/cards/aliases.conf
-<DPREFIX>/share/<PN>/pcm/default.conf
-<DPREFIX>/share/<PN>/pcm/dmix.conf

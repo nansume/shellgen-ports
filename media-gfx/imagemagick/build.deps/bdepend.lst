@@ -2,7 +2,7 @@ app-text/djvu
 #app-text/ghostscript-gpl  # testing
 
 dev-libs/expat  # for fontconfig
-dev-libs/libxml2  # for gettext
+dev-libs/libxml2-1  # for gettext
 dev-util/pkgconf
 
 media-fonts/dejavu-fonts
@@ -10,14 +10,14 @@ media-fonts/urw-fonts
 media-libs/fontconfig
 media-libs/freetype  # for fontconfig
 media-libs/lcms2
-media-libs/libjpeg-turbo
+media-libs/libjpeg-turbo3
 media-libs/libpng
-media-libs/libwebp
+media-libs/libwebp1
 media-libs/tiff
 
 sys-apps/file
-sys-devel/binutils
-sys-devel/gcc
+sys-devel/binutils6
+sys-devel/gcc6
 sys-devel/make
 sys-libs/musl
 sys-libs/zlib  # for libpng

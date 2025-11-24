@@ -1,7 +1,0 @@
-https://www.nico.schottelius.org/software/gpm/archives/gpm-1.20.7.tar.lzma
-#https://repo.iut.ac.ir/repo/gentoo-portage/sys-libs/gpm/files/gpm-1.20.7-sysmacros.patch --> gpm-1.20.7-new-sysmacros.patch
-https://repo.iut.ac.ir/repo/gentoo-portage/sys-libs/gpm/files/gpm-1.20.7-sysmacros.patch
-https://repo.iut.ac.ir/repo/gentoo-portage/sys-libs/gpm/files/gpm-1.20.7-glibc-2.26.patch
-#ftp://mirror.onet.pl/pub/mirrors/gentoo-portage/sys-libs/gpm/files/gpm-1.20.7-gcc-10.patch
-http://data.gpo.zugaina.org/gentoo/sys-libs/gpm/files/gpm-1.20.7-musl.patch
-http://data.gpo.zugaina.org/gentoo/sys-libs/gpm/files/gpm-1.20.7-gcc-include.patch

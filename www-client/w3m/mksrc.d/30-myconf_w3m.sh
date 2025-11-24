@@ -1,9 +1,0 @@
-MYCONF="${MYCONF}
- #--enable-image=no
- --enable-image=fb
- --with-imagelib=imlib2
- --enable-keymap=lynx
- --without-x
- --disable-mouse
- --disable-sslverify
-"

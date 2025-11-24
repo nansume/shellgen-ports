@@ -5,9 +5,10 @@ dev-libs/popt
 dev-libs/openssl3
 dev-util/pkgconf
 
+sys-apps/file
 sys-apps/util-linux
-sys-devel/binutils
-sys-devel/gcc9
+sys-devel/binutils6
+sys-devel/gcc6
 sys-devel/make
 
 sys-fs/lvm2

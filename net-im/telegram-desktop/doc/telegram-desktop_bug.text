@@ -1,0 +1,21 @@
+telegram-desktop-5.14.3 :: broken Audio transmission - critical bug
+=========================================================================================
+
+Audio transmission is completely broken - Issue #84
+-----------------------------------------------------------------------------------------
+https://github.com/telegramdesktop/tdesktop/issues/8443
+
+=========================================================================================
+[2025.06.10 13:47:33] Audio Info: recreating audio device and reattaching the tracks
+[2025.06.10 13:47:37] Call Info: Creating instance with version '8.0.0', allowP2P: [TRUE]
+[2025.06.10 13:47:37] Call Error: Unexpected state in handleStateChange: 4
+[2025.06.10 13:47:38] Call Error: Unexpected state in handleStateChange: 4
+[2025.06.10 13:47:38] Call Error: Unexpected state in handleStateChange: 4
+[2025.06.10 13:47:39] Audio Info: Closing audio playback device.
+[2025.06.10 13:47:54] Audio Info: recreating audio device and reattaching the tracks
+[2025.06.10 13:47:55] Audio Info: Closing audio playback device.
+[2025.06.10 14:02:57] Audio Info: recreating audio device and reattaching the tracks
+[2025.06.10 14:02:59] Audio Info: Closing audio playback device.
+[2025.06.10 14:52:07] Skipping message, because it is already in blocks!
+[2025.06.10 14:53:40] Api::Updates prevents quit, sending offline status...
+=========================================================================================

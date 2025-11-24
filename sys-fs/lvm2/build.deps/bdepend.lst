@@ -1,11 +1,11 @@
+dev-build/autoconf-archive
 dev-lang/perl
 dev-libs/libaio
 dev-util/pkgconf
 
-#sys-apps/util-linux  # for static build
-sys-devel/autoconf-archive
-sys-devel/binutils
-sys-devel/gcc9
+sys-apps/util-linux  # for static build
+sys-devel/binutils6
+sys-devel/gcc6
 sys-devel/make
 
 sys-kernel/linux-headers-musl

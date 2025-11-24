@@ -1,0 +1,44 @@
+Name: netcat: Local socket support
+Url: https://busybox.busybox.narkive.com/rkBoK33Q/netcat-local-socket-support
+=============================================================================
+   Currently, it understands IP and IPv6.
+
+   In order to make _all_ network utilities AF_UNIX capable,
+   it's much better to teach create_and_connect_stream_or_die
+   to understand some sort of AF_UNIX name.
+
+   It can be "unix:" or "local:" prefix, and/or
+   special port value (although this feels more like a hack,
+   since port param should not have been there in the first place,
+   it can be specified in 1st argument, name: "1.2.3.4:56",
+   "[12:34::56:78]:90" (IPv6), and we do understand these forms)
+
+   Unfortunately there is no standard for this syntax. Pity.
+   We need to invent our own, and then shoehorn nc -U into using it
+   internally:
+
+   echo "hi syslog!" | nc -U /dev/log >/dev/null
+
+   and internally nc.c does:
+
+   if (option -U is given)
+   peer_name = xasprintf("local:%s", peer_name);
+
+   Tht's *all* what nc.c needs to do to support -U.
+   The rest is handled in create_and_connect_stream_or_die!
+
+   And then you also can do this:
+
+   echo "hi syslog!" | nc local:/dev/log >/dev/null
+
+   Or this:
+
+   httpd -p local:/var/run/httpd.socket
+
+   Or this:
+
+   tcpsvd -vE local:/var/run/telnet.socket 0 telnetd -i
+   Post by Ingo van Lil
+   Additionally, the patch fixes a minor memleak in
+   nc's server mode, where the sockaddr_and_len structure allocated by
+   xsocket_stream() isn't freed.

@@ -1,5 +1,0 @@
-<DPREFIX>/include/*
-include/*
-<LIB_DIR>/pkgconfig/*
-<DPREFIX>/<LIB_DIR>/pkgconfig/*
-pkgconfig/*

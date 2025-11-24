@@ -1,30 +1,67 @@
 #!/bin/sh
-# Copyright (C) 2021-2023 Artjom Slepnjov, Shellgen
-# License GPLv3: GNU GPL version 3 only
-# http://www.gnu.org/licenses/gpl-3.0.html
-# Date: 2023-11-12 20:00 UTC - last change
+# Maintainer: Artjom Slepnjov <shellgen-at-uncensored-dot-citadel-dot-org>
+# Date: 2021-01-01 01:00, 2025-06-27 13:00 UTC - last change
+# Build with useflag: +static -static-libs -shared -lfs +nopie -patch -doc -xstub -diet +musl +stest +strip +x32
 
-NL="$(printf '\n\t')"; NL=${NL%?} XPWD=${XPWD:=$PWD} XPN=${PN} PKG_DIR='/pkg' LC_ALL='C'
+# http://data.gpo.zugaina.org/gentoo/app-editors/nano/nano-8.5.ebuild
 
-USER=${USER:-root}
-USE_BUILD_ROOT='0'
+export XPN PF PV WORKDIR BUILD_DIR PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
+export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED CC
+
+DESCRIPTION="GNU GPL'd Pico clone with more functionality"
+HOMEPAGE="https://www.nano-editor.org/ https://wiki.gentoo.org/wiki/Nano/Guide"
+LICENSE="GPL-3+ LGPL-2.1+ || ( GPL-3+ FDL-1.2+ )"
+IFS="$(printf '\n\t')"
+XPWD=${XPWD:-$PWD}
+XPWD=${5:-$XPWD}
+PKG_DIR="/pkg"
+LC_ALL="C"
+CATEGORY="${CATEGORY:-${11:?required <CATEGORY>}}"
+PN="${PN:-${12:?required <PN>}}"
+PN=${PN%%_*} PN=${PN%_[0-9]*}
+XPN=${XPN:-$PN}
+PV="5.9"
+PV="8.5"
+SRC_URI="https://www.nano-editor.org/dist/v${PV%.*}/${PN}-${PV}.tar.xz"
+USE_BUILD_ROOT="0"
 BUILD_CHROOT=${BUILD_CHROOT:-0}
-PDIR=${PWD}
-LIBDIR=${LIBDIR:-/libx32}
-DPREFIX='/usr'
+PDIR=$(pkg-rootdir)
+DPREFIX="/usr"
 INCDIR="${DPREFIX}/include"
-PKG_CONFIG_LIBDIR="/${LIB_DIR}/pkgconfig"
-PKG_CONFIG_PATH="${PKG_CONFIG_LIBDIR}:/lib/pkgconfig:/usr/share/pkgconfig"
-INSTALL_OPTS='install'
-MAKEFLAGS=
-#HOSTNAME=$(hostname)
-
-export USER BUILDLIST XPN PF PV LIBDIR WORKDIR PKGNAME DPREFIX PKG_CONFIG_LIBDIR PKG_CONFIG_PATH
+INSTALL_OPTS="install"
+HOSTNAME="localhost"
+BUILD_USER="tools"
+SRC_DIR="build"
+IUSE="-debug -justify -magic -minimal -ncurses -nls -spell +unicode -fm +year2038"
+IUSE="${IUSE} -hist -history -large -gpm -multibuffer -help -threads -thread -tiny"
+IUSE="${IUSE} +extra +color -rpath +static -shared -doc (+musl) +stest +strip"
+EABI=$(tc-abi-build)
+ABI=${EABI}
+XABI=${EABI}
+SPREFIX="/"
+EPREFIX=${SPREFIX}
+P="${P:-${XPWD##*/}}"
+SN=${P}
+PORTS_DIR=${PWD%/$P}
+DISTDIR="/usr/distfiles"
+DISTSOURCE="${PDIR%/}/sources"
+FILESDIR=${DISTSOURCE}
+INSTALL_DIR="${PDIR%/}/install"
+ED=${INSTALL_DIR}
+SDIR="${PDIR%/}/${SRC_DIR}"
+PF=$(pfname 'src_uri.lst' "${SRC_URI}")
+PKGNAME=${PN}
+ZCOMP="unxz"
+WORKDIR="${PDIR%/}/${SRC_DIR}"
+BUILD_DIR="${PDIR%/}/${SRC_DIR}/${PN}-${PV}"
+PWD=${PWD%/}; PWD=${PWD:-/}
+LIB_DIR=$(get_libdir)
+LIBDIR="/${LIB_DIR}"
+ABI_BUILD="${ABI_BUILD:-${1:?}}"
+BUILD_CHROOT="${7:-${BUILD_CHROOT:?}}"
+USE_BUILD_ROOT=${9:-$USE_BUILD_ROOT}
 
 if test "X${USER}" != 'Xroot'; then
-  ABI_BUILD=${1:?} LIBDIR=${2:?} LIB_DIR=${3:?} PDIR=${4:?} XPWD=${5:?} XPN=${6:?}
-  BUILD_CHROOT=${7:?} _ENV=${8} USE_BUILD_ROOT=${9} BUILDLIST=${10} CATEGORY=${11:?} PN=${12:?}
-  PWD=${PWD%/}
   mksrc-prepare
 elif test "${BUILD_CHROOT:=0}" -eq '0'; then
   PATH="${PATH:+${PATH}:}${PDIR}/misc.d:${PDIR}/etools.d"
@@ -33,79 +70,76 @@ elif test "${BUILD_CHROOT:=0}" -ne '0'; then
   printf %s\\n "PATH='${PATH}'" "PDIR='${PDIR}'"
 fi
 
-#BUILDLIST=$(buildlist)
+. "${PDIR%/}/etools.d/"build-functions
 
-. "${PDIR%/}/etools.d/"pre-env || exit
+chroot-build || die "Failed chroot... error"
 
-test "x${SN}" != "x${SN%%_*}" && SN="${SN%%_*}-${SN#*_}"
+pkginst \
+  "#app-alternatives/ncursesw" \
+  "dev-util/pkgconf" \
+  "sys-devel/binutils9" \
+  "sys-devel/gcc14" \
+  "sys-devel/make" \
+  "sys-kernel/linux-headers-musl" \
+  "sys-libs/musl" \
+  "#sys-libs/ncurses  # shared build" \
+  "sys-libs/netbsd-curses  # for only static build" \
+  || die "Failed install build pkg depend... error"
 
-PF=$(pfname 'src_uri.lst')
-PV=$(pkgver)
-PKGNAME=$(pkgname)
-ZCOMP=$(zcomp-as "${PF}")
-
-printf %s\\n "BUILDLIST='${BUILDLIST}'" "PV='${PV}'" "PKGNAME='${PKGNAME}'"
-
-chroot-build || exit
-
-. "${PDIR%/}/etools.d/"pkg-tools-env
-. "${PDIR%/}/etools.d/"sh-profile-tools
-. "${PDIR%/}/etools.d/"pre-env-chroot
-
-instdeps-spkg-dep || exit
 build-deps-fixfind
 
 . "${PDIR%/}/etools.d/"ldpath-apply
 . "${PDIR%/}/etools.d/"path-tools-apply
 
-WORKDIR="${PDIR%/}/${SRC_DIR}/${PKGNAME}-${PV}"
+netuser-fetch "${SRC_URI}" || die "Failed fetch sources... error"
+sw-user || die "Failed package build from user... error"  # only for user-build
 
 if { test "X${USER}" = 'Xroot' && test "${BUILD_CHROOT:=0}" -ne '0' ;} ;then
-  no-ldconfig
-  netuser-fetch || exit
-  sw-user || exit
-elif test "X${USER}" != 'Xroot'; then
-  #17-prefix_cmake.sh
-  #17-python.sh
-  : drop-python
+  exit  # only for user-build
+elif test "X${USER}" != 'Xroot'; then  # only for user-build
+  renice -n '19' -u ${USER}
 
-  #20-gen_variables.sh
+  cd "${FILESDIR}/" || die "distsource dir: not found... error"
 
-  cd "${DISTSOURCE}/" || exit
-
-  test -d "${WORKDIR}" && rm -r -- "${WORKDIR}/"
   ${ZCOMP} -dc "${PF}" | tar -C "${PDIR%/}/${SRC_DIR}/" -xkf - || exit &&
   printf %s\\n "${ZCOMP} -dc ${PF} | tar -C ${PDIR%/}/${SRC_DIR}/ -xkf -"
 
-  cd "${WORKDIR}/" || exit
+  case $(tc-abi-build) in
+    'x32')   append-flags -mx32 -msse2            ;;
+    'x86')   append-flags -m32 -msse -mfpmath=sse ;;
+    'amd64') append-flags -m64 -msse2             ;;
+  esac
+  if use !shared && use 'static'; then
+    append-flags -Os
+    append-ldflags -Wl,--gc-sections
+    append-cflags -ffunction-sections -fdata-sections
+    # for compilation: -fdata-sections, -ffunction-sections, -fvisibility=hidden, -fvisiblity-inlines-hidden
+    # for linkage: -Wl,--gc-sections, -Bsymbolic, -Wl,--exclude-libs,ALL
+    append-ldflags "-static"
+  else
+    append-flags -O2
+  fi
+  append-flags -fno-stack-protector -no-pie -g0 -march=$(arch | sed 's/_/-/')
 
-  printf %s\\n "Configure directory: PWD='${PWD}'... ok"
+  CC="gcc"
 
-  use 'strip' && INSTALL_OPTS='install-strip'
-  # for compilation: -fdata-sections, -ffunction-sections, -fvisibility=hidden, -fvisiblity-inlines-hidden
-  # for linkage: -Wl,--gc-sections, -Bsymbolic, -Wl,--exclude-libs,ALL
-  use 'static' && export LDFLAGS='-static'
+  use 'strip' && INSTALL_OPTS="install-strip"
 
-  printf %s\\n "MAKEFLAGS='${MAKEFLAGS}'"
-  printf %s\\n "CC='${CC}'" "CXX='${CXX}'" "CPP='${CPP}'" "LIBTOOL='${LIBTOOL}'"
-  printf %s\\n "CFLAGS='${CFLAGS}'" "CPPFLAGS='${CPPFLAGS}'" "CXXFLAGS='${CXXFLAGS}'"
-  printf %s\\n "FCFLAGS='${FCFLAGS}'" "FFLAGS='${FFLAGS}'" "LDFLAGS='${LDFLAGS}'"
+  cd "${BUILD_DIR}/" || die "builddir: not found... error"
 
   . runverb \
   ./configure \
-    --prefix=${SPREFIX} \
-    --bindir="${SPREFIX%/}/bin" \
-    --sbindir="${SPREFIX%/}/sbin" \
-    --libdir="${SPREFIX%/}/${LIB_DIR}" \
-    --includedir="${INCDIR}" \
-    --libexecdir="${DPREFIX}/libexec" \
-    --datarootdir="${DPREFIX}/share" \
-    --host=${CHOST} \
-    --build=${CHOST} \
-    $(use_enable 'nls') \
-    $(use_enable 'rpath') \
+    --prefix="${EPREFIX%/}" \
+    --bindir="${EPREFIX%/}/bin" \
+    --sysconfdir="${EPREFIX%/}"/etc \
+    --datarootdir="${EPREFIX%/}"/usr/share \
+    --infodir="${EPREFIX%/}"/usr/share/info \
+    --mandir="${EPREFIX%/}"/usr/share/man \
+    --docdir="${EPREFIX%/}"/usr/share/doc/${PN}-${PV} \
+    --host=$(tc-chost) \
+    --build=$(tc-chost) \
     $(use_enable 'color') \
-    --disable-year2038 \
+    --enable-year2038 \
     --disable-browser \
     --disable-extra \
     $(use_enable 'help') \
@@ -115,51 +149,59 @@ elif test "X${USER}" != 'Xroot'; then
     $(use_enable 'magic' libmagic) \
     $(use_enable 'gpm' mouse) \
     --disable-multibuffer \
-    $(use_enable 'color' nanorc) \
+    --enable-nanorc \
     --disable-operatingdir \
     --disable-speller \
     --disable-tabcomp \
-    --disable-threads \
+    --enable-threads=posix \
     --disable-wordcomp \
     --disable-wrapping \
-    $(use_enable 'tiny') || exit
+    $(use_enable 'tiny') \
+    $(use_enable 'nls') \
+    $(use_enable 'rpath') \
+    || die "configure... error"
 
-  make || exit
+  make -j "$(nproc)" || die "Failed make build"
+
+  #sed -e 's|^#define HAVE_USE_DEFAULT_COLORS 1|/* #define HAVE_USE_DEFAULT_COLORS */|' -i config.h
 
   . runverb \
-  make DESTDIR="${INSTALL_DIR}" ${INSTALL_OPTS} || exit
+  make DESTDIR="${ED}" ${INSTALL_OPTS} || die "make install... error"
 
-  cd "${INSTALL_DIR}/" || exit
+  cd "${ED}/" || die "install dir: not found... error"
 
   if use 'extra' && test -d "${DPREFIX#/}/share/${PN}/extra"; then
-    mv -n "${DPREFIX#/}/share/${PN}/extra/"* "${DPREFIX#/}/share/${PN}/"
+    mv -n "${DPREFIX#/}/share/${PN}/extra/"* -t "${DPREFIX#/}/share/${PN}/"
   fi
 
   use 'color' && {
-  sed -i -e 's:env|\(keywords\):\1:' usr/share/nano/gentoo.nanorc
-  sed -i \
+  sed -e 's:env|\(keywords\):\1:' -i usr/share/nano/gentoo.nanorc
+  sed \
     -e 's|^\(syntax .*\)$|\1 "\\\.env\$"|' \
     -e 's|^\(syntax .*\)$|\1 "\\\.ipxe\$"|' \
     -e 's|^\(syntax .*\)$|\1 "\\\.[0-9]\$"|' \
     -e '/header/ s%\(runscript\)%ipxe|\1%' \
     -e '/header/ s|/||' \
     -e '10s|\(brightgreen ..\)|\1\[ \]\*|' \
-    usr/share/nano/sh.nanorc
+    -i usr/share/nano/sh.nanorc
   }
 
-  post-inst-perm
+  rmdir -- "usr/share/${PN}/extra/"
+  use 'doc' || rm -r -- "usr/share/doc/" "usr/share/info/" "usr/share/man/"
 
-  RMLIST="$(pkg-rmlist)" pkg-rm
+  for S in "usr/share/${PN}/"*.nanorc; do
+    #case ${S##*/} in yaml.nanorc) continue; esac
+    rm -- "${S}"
+  done
 
-  post-rm
-  pkg-rm-empty
-  use 'upx' && upx --best "bin/${PN}"
-  pre-perm
-  exit
+  use 'stest' && { bin/${PN} --version || die "binary work... error";}
+  ldd "bin/${PN}" || { use 'static' && true || die "library deps work... error";}
+
+  exit 0  # only for user-build
 fi
 
-cd "${INSTALL_DIR}/" || exit
+cd "${ED}/" || die "install dir: not found... error"
 
 pkg-perm
 
-INST_ABI="$(test-native-abi)" pkg-create-cgz
+INST_ABI="$(tc-abi-build)" PN=${XPN} PV=${PV} pkg-create-cgz

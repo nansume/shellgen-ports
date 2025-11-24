@@ -1,5 +1,0 @@
-https://www.clamav.net/downloads/production/${PN}-0.103.11.tar.gz
-http://data.gpo.zugaina.org/gentoo/app-antivirus/clamav/files/clamav-0.102.1-libxml2_pkgconfig.patch
-http://data.gpo.zugaina.org/gentoo/app-antivirus/clamav/files/clamav-0.102.2-fix-curl-detection.patch
-#http://data.gpo.zugaina.org/gentoo/app-antivirus/clamav/files/clamav-0.103.0-system-tomsfastmath.patch
-#http://data.gpo.zugaina.org/gentoo/app-antivirus/clamav/files/clamav-0.103.1-upstream-openrc.patch

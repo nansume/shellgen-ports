@@ -9,6 +9,7 @@
 # http://data.gpo.zugaina.org/gentoo/dev-libs/openssl/openssl-3.3.3.ebuild
 
 # NO-USE: -ffast-math
+# TODO: rebuild openssl with support <pkcs11> for ecryptfs-utils (otherwise is here no build).
 
 export XPN PF PV WORKDIR BUILD_DIR PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
 export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED

@@ -1,0 +1,16 @@
+Author: Artjom Slepnjov "Shellgen"
+Description: remove a check for net_raw capabilities.
+Ver: dnsmasq-2.81 or newer version.
+Date: 2025-10-17 19:00 UTC
+==============================================================
+--- a/src/dnsmasq.c
++++ b/src/dnsmasq.c
+@@ -531,7 +531,7 @@
+   if (need_cap_net_admin && !(data->permitted & (1 << CAP_NET_ADMIN)))
+     fail = "NET_ADMIN";
+   else if (need_cap_net_raw && !(data->permitted & (1 << CAP_NET_RAW)))
+-    fail = "NET_RAW";
++    fail = NULL;
+   else if (need_cap_net_bind_service && !(data->permitted & (1 << CAP_NET_BIND_SERVICE)))
+     fail = "NET_BIND_SERVICE";
+   

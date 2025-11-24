@@ -78,23 +78,23 @@ pkginst \
   "dev-build/meson7  # build tool" \
   "#dev-build/muon  # alternative for meson - nocompat" \
   "dev-build/samurai  # alternative for ninja" \
-  "dev-lang/python38  # deps meson" \
+  "dev-lang/python3-8  # deps meson" \
   "dev-libs/expat  # deps meson" \
   "dev-libs/glib74" \
   "dev-libs/libffi  # deps glib" \
-  "dev-libs/gobject-introspection  # glib69 - optional" \
+  "dev-libs/gobject-introspection74  # glib69 - optional" \
   "dev-libs/pcre2  # for glib74" \
   "dev-python/py38-setuptools  # for meson (build tool)" \
   "dev-python/py38-zipp  # for meson (build tool)" \
   "dev-util/pkgconf" \
   "sys-apps/kmod  # deps eudev" \
   "sys-apps/util-linux  # deps eudev" \
-  "sys-devel/binutils" \
-  "sys-devel/gcc9" \
+  "sys-devel/binutils6" \
+  "sys-devel/gcc6" \
   "sys-devel/m4  # required for ninja" \
   "sys-devel/make" \
   "sys-fs/eudev" \
-  "sys-libs/musl0" \
+  "sys-libs/musl" \
   "sys-libs/zlib  # deps glib" \
   || die "Failed install build pkg depend... error"
 

@@ -1,9 +1,0 @@
-media-libs/freetype
-
-sys-libs/zlib
-media-libs/libpng
-
-media-libs/giflib
-media-libs/libjpeg-turbo
-media-libs/libwebp
-media-libs/tiff

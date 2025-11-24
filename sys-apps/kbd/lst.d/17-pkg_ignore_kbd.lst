@@ -1,15 +1,22 @@
 bin/loadkeys
 bin/openvt
 #bin/setfont
+
+# BUG: ignore it.
+<DPREFIX>/share/consolefonts/
+<DPREFIX>/share/consolefonts/UniCyr_8x16.psf
+<DPREFIX>/share/consolefonts/latarcyrheb-sun32.psfu
+<DPREFIX>/share/consolefonts/LatGrkCyr-12x22.psfu.gz
+
 #<DPREFIX>/share/<PN>/
 <DPREFIX>/share/keymaps/
 <DPREFIX>/share/keymaps/i386
 #<DPREFIX>/share/<PN>/i386/include/
-#<DPREFIX>/share/<PN>/i386/include/unicode.map.gz
 <DPREFIX>/share/keymaps/i386/include/
 <DPREFIX>/share/keymaps/i386/include/*.inc
+<DPREFIX>/share/keymaps/i386/include/unicode.map.gz  # optional
 <DPREFIX>/share/keymaps/i386/qwerty/
 <DPREFIX>/share/keymaps/i386/qwerty/<KMAP>.map.gz
 <DPREFIX>/share/keymaps/i386/qwerty/et.map.gz
 <DPREFIX>/share/keymaps/i386/qwerty/jp106.map.gz
-<DPREFIX>/share/keymaps/i386/qwerty/us.map.gz  # optional
+<DPREFIX>/share/keymaps/i386/qwerty/us.map.gz     # optional

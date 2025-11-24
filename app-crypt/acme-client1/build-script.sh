@@ -5,6 +5,8 @@
 
 # http://data.gpo.zugaina.org/nest/app-crypt/acme-client/acme-client-1.3.2.ebuild
 
+# BUG: if build against openssl-1.1.* or openssl-3.*.* , then runtime too buggy.
+
 export XPN PF PV WORKDIR BUILD_DIR PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
 export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED
 export CC CXX PKG_CONFIG PKG_CONFIG_LIBDIR PKG_CONFIG_PATH
@@ -84,15 +86,16 @@ pkginst \
   "dev-build/libtool14  # required for autotools" \
   "dev-lang/perl  # required for autotools" \
   "dev-libs/gmp  # deps ssl" \
-  "dev-libs/libbsd1" \
-  "dev-libs/openssl" \
+  "dev-libs/libbsd  # libbsd1 - v0.12.2" \
+  "#dev-libs/openssl  # BUG: no get cert (runtime)" \
+  "dev-libs/libressl" \
   "dev-util/pkgconf" \
   "sys-devel/binutils" \
   "sys-devel/bison" \
   "sys-devel/gcc14" \
   "sys-devel/m4  # required for autotools" \
   "sys-devel/make" \
-  "#sys-libs/libseccomp" \
+  "#sys-libs/libseccomp  # May be it no needed?" \
   "sys-libs/musl" \
   "sys-libs/zlib  # deps ssl" \
   || die "Failed install build pkg depend... error"
@@ -121,7 +124,7 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
     'amd64') append-flags -m64 -msse2             ;;
   esac
   if use !shared && use 'static'; then
-    append-flags -Os
+    append-flags -Oz
     append-ldflags -Wl,--gc-sections
     append-cflags -ffunction-sections -fdata-sections
     append-ldflags "-s -static --static"

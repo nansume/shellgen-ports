@@ -1,6 +1,0 @@
-app-misc/getopt
-app-text/build-docbook-catalog
-app-text/docbook-xsl-stylesheets
-dev-libs/libxml2
-sys-devel/make
-sys-libs/musl

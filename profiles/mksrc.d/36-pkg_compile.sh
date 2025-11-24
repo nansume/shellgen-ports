@@ -56,6 +56,7 @@ for MK in *; do
     # testing
     IFS=${NL}
     ${MAKE} -j"$(nproc)" V='0' \
+      $(test -L "/bin/bash" || printf "SHELL=/bin/bash") \
       CC="${CC}" \
       CXX="${CXX}" \
       ${MAKEFLAGS/--jobs=[0-9][[:space:]]} \

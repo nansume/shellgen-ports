@@ -1,6 +1,6 @@
 sys-apps/file
 
-sys-devel/binutils
-sys-devel/gcc
+sys-devel/binutils6
+sys-devel/gcc6
 sys-devel/make
 sys-libs/musl

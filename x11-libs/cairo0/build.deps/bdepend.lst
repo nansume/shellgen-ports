@@ -1,29 +1,30 @@
+#dev-build/autoconf71  # required for autotools
+#dev-build/automake16  # required for autotools
+#dev-build/libtool9  # required for autotools
 #dev-lang/perl  # required for autotools
-dev-lang/python3  # required for glib[meson]
+dev-lang/python3-8  # required for glib[meson]
 dev-libs/directfb
 dev-libs/expat  # for freetype,python
-dev-libs/glib69
+dev-libs/glib74  # pre: glib69
 dev-libs/libffi  # required for glib
 dev-libs/lzo  # optional
-dev-libs/pcre  # required for glib[meson]
+#dev-libs/pcre  # required for glib[meson]
+dev-libs/pcre2  # for glib74
 dev-util/pkgconf
 
 media-libs/fontconfig
 media-libs/freetype
-#media-libs/libjpeg-turbo1  # deps directfb
+#media-libs/libjpeg-turbo3  # pre: libjpeg-turbo1, deps directfb
 media-libs/libpng
 sys-kernel/linux-headers-musl  # optional, testing
 media-libs/mesa  # optional
 
 sys-apps/file
-#sys-devel/autoconf  # required for autotools
-#sys-devel/automake  # required for autotools
-sys-devel/binutils
+sys-devel/binutils9
 sys-devel/gcc9
-#sys-devel/libtool  # required for autotools
 #sys-devel/m4  # required for autotools
 sys-devel/make
-sys-libs/musl0
+sys-libs/musl
 sys-libs/zlib  # for libpng
 
 x11-base/xcb-proto  # remove?

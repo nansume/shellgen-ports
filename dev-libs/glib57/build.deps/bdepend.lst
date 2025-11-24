@@ -1,9 +1,0 @@
-dev-libs/libffi
-#dev-libs/pcre  # optional
-dev-util/pkgconf
-sys-apps/file
-sys-devel/binutils
-sys-devel/gcc
-sys-devel/make
-sys-libs/musl
-sys-libs/zlib

@@ -1,3 +1,0 @@
-#build.deps/cat
-mksrc.d/30-opt#disable+static.sh
-mksrc.d/30-opt#enable+shared.sh

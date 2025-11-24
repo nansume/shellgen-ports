@@ -1,12 +1,21 @@
 #!/bin/sh
 # Maintainer: Artjom Slepnjov <shellgen-at-uncensored-dot-citadel-dot-org>
-# Date: 2025-05-30 22:00 UTC - last change
+# Date: 2025-05-30 22:00 UTC, 2025-06-28 19:00 UTC - last change
 # Build with useflag: -static -static-libs +shared -lfs +nopie +patch -doc -xstub -diet +musl +stest +strip +x32
 
 # http://data.gpo.zugaina.org/gentoo/net-im/telegram-desktop/telegram-desktop-5.14.3.ebuild
+# aports-3.21.3/community/telegram-desktop/APKBUILD
 
 # TIP: required >10GB free space
 # TIP: rm -- build/tdesktop-*-full/build/Telegram/CMakeFiles/*.dir/cmake_pch.hxx.gch
+
+# UPDATE: CMAKE_DISABLE_PRECOMPILE_HEADERS=OFF -> CMAKE_DISABLE_PRECOMPILE_HEADERS=ON
+# UPDATE: add <DESKTOP_APP_DISABLE_CRASH_REPORTS=ON>
+# UPDATE: add <#media-libs/pulseaudio  # ?required>
+# UPDATE: CMAKE_BUILD_TYPE=Release -> CMAKE_BUILD_TYPE=MinSizeRel
+# UPDATE: add patch <small-sizes.patch> from postmarketOS
+# UPDATE: replace gcc flag: -Os // -Oz
+# UPDATE: add fallback for TDESKTOP_API_ID, TDESKTOP_API_HASH
 
 export XPN PF PV WORKDIR BUILD_DIR PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
 export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED
@@ -36,6 +45,7 @@ SRC_URI="
   http://${URI}/tdesktop-5.8.3-cstdint.patch
   http://${URI}/tdesktop-5.12.3-fix-webview.patch
   http://${URI}/tdesktop-5.14.3-system-cppgir.patch
+  http://localhost/aports-3.21.3/community/telegram-desktop/small-sizes.patch -> tdesktop-small-sizes.patch
 "
 USE_BUILD_ROOT="0"
 BUILD_CHROOT=${BUILD_CHROOT:-0}
@@ -149,6 +159,7 @@ pkginst \
   "media-libs/libv4l  # deps ffmpeg" \
   "media-libs/libvpx1  # deps ffmpeg" \
   "media-libs/mesa  # for opengl" \
+  "#media-libs/pulseaudio  # ?required" \
   "media-libs/rnnoise" \
   "media-libs/openal" \
   "media-libs/openh264" \
@@ -160,7 +171,7 @@ pkginst \
   "net-libs/tdlib" \
   "sys-apps/dbus" \
   "sys-apps/file" \
-  "sys-devel/binutils" \
+  "sys-devel/binutils9" \
   "sys-devel/bison" \
   "sys-devel/flex" \
   "sys-devel/gcc14" \
@@ -233,7 +244,7 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
     'x86')   append-flags -m32 -msse -mfpmath=sse ;;
     'amd64') append-flags -m64 -msse2             ;;
   esac
-  append-flags -Os -fno-stack-protector -no-pie -g0 -march=$(arch | sed 's/_/-/')
+  append-flags -Oz -fno-stack-protector -no-pie -g0 -march=$(arch | sed 's/_/-/')
 
   CC="gcc" CXX="g++"
 
@@ -299,10 +310,13 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
   # https://github.com/telegramdesktop/tdesktop/issues/17437#issuecomment-1001160398
   use !libdispatch && append-cppflags -DCRL_FORCE_QT
 
+  #export TDESKTOP_API_ID="17349"
+  #export TDESKTOP_API_HASH="344583e45741c457fe1862106095a5eb"
 
   export TDESKTOP_API_ID="611335"
   export TDESKTOP_API_HASH="d524b414d21f4d37f08684c1df41ac9c"
 
+  LDFLAGS="${LDFLAGS} -Wl,-z,stack-size=1024768" \
   cmake -B build -G "Unix Makefiles" \
     -D CMAKE_INSTALL_PREFIX="${EPREFIX%/}" \
     -D CMAKE_INSTALL_BINDIR="bin" \
@@ -310,9 +324,9 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
     -D CMAKE_INSTALL_INCLUDEDIR="${INCDIR#/}" \
     -D CMAKE_INSTALL_DATAROOTDIR="${DPREFIX#/}/share" \
     -D CMAKE_INSTALL_DOCDIR="${DPREFIX#/}/share/doc" \
-    -D CMAKE_BUILD_TYPE="Release" \
+    -D CMAKE_BUILD_TYPE="MinSizeRel" \
     -D QT_VERSION_MAJOR=6 \
-    -D CMAKE_DISABLE_PRECOMPILE_HEADERS=OFF \
+    -D CMAKE_DISABLE_PRECOMPILE_HEADERS=ON \
     -D CMAKE_DISABLE_FIND_PACKAGE_tl-expected=ON \
     -D CMAKE_DISABLE_FIND_PACKAGE_Qt6Quick=OFF \
     -D CMAKE_DISABLE_FIND_PACKAGE_Qt6QuickWidgets=OFF \
@@ -322,6 +336,7 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
     -D DESKTOP_APP_DISABLE_X11_INTEGRATION=$(usex !X ON OFF) \
     -D DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION=ON \
     -D DESKTOP_APP_DISABLE_JEMALLOC=$(usex !jemalloc ON OFF) \
+    -D DESKTOP_APP_DISABLE_CRASH_REPORTS=ON \
     -D DESKTOP_APP_USE_ENCHANT=$(usex 'enchant' ON OFF) \
     -D DESKTOP_APP_USE_PACKAGED_FONTS=$(usex !fonts ON OFF) \
     -D TDESKTOP_API_ID="${TDESKTOP_API_ID}" \
@@ -331,7 +346,7 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
     -Wno-dev \
     || die "Failed cmake build"
 
-  # FIX: required >10GB free space
+  # FIX: required >10GB free space (it with headers precompile)
   DESTDIR="${ED}" cmake --build build --target ${INSTALL_OPTS} || die "make install... error"
 
   cd "${ED}/" || die "install dir: not found... error"

@@ -1,1 +1,0 @@
-MAKEFLAGS+=" srcdir=lib/uuid -f lib/uuid/Makefile uuid.h"

@@ -1,5 +1,0 @@
-etc/ssl/ct_log_list.cnf*
-etc/ssl/openssl.cnf.dist
-
-#<LIB_DIR>/libcrypto.so
-#<LIB_DIR>/libssl.so

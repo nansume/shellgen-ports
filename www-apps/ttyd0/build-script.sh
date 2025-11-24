@@ -80,17 +80,17 @@ fi
 chroot-build || die "Failed chroot... error"
 
 pkginst \
+  "dev-build/cmake3" \
   "dev-db/sqlite3  # +static +static-libs -shared | for libwebsockets" \
   "dev-libs/json-c  # -static +static-libs -shared" \
   "dev-libs/libuv  # -static +static-libs -shared | for libwebsockets" \
-  "dev-util/cmake" \
   "dev-util/pkgconf" \
   "net-libs/libwebsockets0  # -static +static-libs -shared" \
   "net-libs/mbedtls  # +static +static-libs -shared | for libwebsockets" \
   "sys-devel/binutils" \
   "sys-devel/gcc9" \
   "sys-devel/make" \
-  "sys-libs/musl0  # -static +static-libs -shared" \
+  "sys-libs/musl  # -static +static-libs -shared" \
   "sys-libs/zlib  # -static +static-libs -shared | for libwebsockets" \
   || die "Failed install build pkg depend... error"
 

@@ -21,12 +21,13 @@ PN="${PN:-${12:?required <PN>}}"
 PN=${PN%%_*}
 XPN=${XPN:-$PN}
 PV="1.1pre18"
-XPV="1.1_pre18"
+SPV="1.1_pre18"
+PVR="1.1-pre18"
 SRC_URI="
   https://www.tinc-vpn.org/packages/tinc-${PV}.tar.gz
   http://data.gpo.zugaina.org/gentoo/net-vpn/tinc/files/tinc-1.1_pre16-r1-fix-paths.patch
   http://data.gpo.zugaina.org/gentoo/net-vpn/tinc/files/tinc-1.1-tinfo.patch
-  http://data.gpo.zugaina.org/gentoo/net-vpn/tinc/files/tinc-${XPV}-fix-upnp.patch
+  http://data.gpo.zugaina.org/gentoo/net-vpn/tinc/files/tinc-${SPV}-fix-upnp.patch
   http://data.gpo.zugaina.org/gentoo/net-vpn/tinc/files/tincd.conf
 "
 USE_BUILD_ROOT="0"
@@ -135,7 +136,7 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
 
   patch -p1 -E < "${FILESDIR}"/tinc-1.1_pre16-r1-fix-paths.patch  #560528
   patch -p1 -E < "${FILESDIR}"/${PN}-1.1-tinfo.patch              #621868
-  patch -p1 -E < "${FILESDIR}"/${PN}-${XPV}-fix-upnp.patch        #935718
+  patch -p1 -E < "${FILESDIR}"/${PN}-${SPV}-fix-upnp.patch        #935718
 
   # Fix the static (failing UNKNOWN) version in the autoconf
   # NOTE: When updating the ebuild, make sure to check that this

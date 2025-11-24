@@ -1,0 +1,16 @@
+dev-lang/python3-8
+
+dev-libs/expat  # python bundled
+dev-libs/libffi
+dev-libs/libxml2-1
+#dev-libs/libxslt
+
+dev-python/py38-flitcore  # deps: py*-installer
+dev-python/py38-installer  # deps: pip3
+dev-python/py38-markupsafe
+#dev-python/py38-pallets-sphinx-themes  # docs
+#dev-python/py38-setuptools
+#dev-python/py38-sphinx-issues  # docs
+
+sys-libs/musl
+#sys-libs/zlib  # deps: setuptools

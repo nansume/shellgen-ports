@@ -1,6 +1,0 @@
-mksrc.d/19-drop_python.sh
-mksrc.d/25-cflag_fmath.sh
-mksrc.d/25-cflag_maxgcc.sh
-mksrc.d/30-opt#disable+static.sh
-build.deps/find
-#build.deps/patch

@@ -1,7 +1,0 @@
-build.deps/uname
-lst.d/43-rmlist_doc.lst
-lst.d/43-rmlist_example.lst
-lst.d/43-rmlist_icons.lst
-lst.d/43-rmlist_lib_lt.lst
-lst.d/43-rmlist_local.lst
-mksrc.d/34-pkg_configure.sh

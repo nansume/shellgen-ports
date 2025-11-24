@@ -1,41 +1,81 @@
 #!/bin/sh
-# Copyright (C) 2023 Artjom Slepnjov, Shellgen
-# License GPLv3: GNU GPL version 3 only
-# http://www.gnu.org/licenses/gpl-3.0.html
-# Date: 2023-11-22 20:00 UTC - last change
+# Maintainer: Artjom Slepnjov <shellgen-at-uncensored-dot-citadel-dot-org>
+# Date: 2023-11-22 20:00 UTC, 2025-06-14 16:00 UTC - last change
+# Build with useflag: -static +static-libs +shared -lfs +nopie +patch -doc -xstub -diet +musl +stest +strip +x32
 
-NL="$(printf '\n\t')"; NL=${NL%?} XPWD=${XPWD:=$PWD} XPN=${PN} PKG_DIR='/pkg' LC_ALL='C'
+# http://data.gpo.zugaina.org/gentoo/sys-apps/util-linux/util-linux-2.41.ebuild
 
-USER=${USER:-root}
-USE_BUILD_ROOT='0'
+export XPN PF PV WORKDIR BUILD_DIR PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
+export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED
+export CC CXX PKG_CONFIG PKG_CONFIG_LIBDIR PKG_CONFIG_PATH
+
+DESCRIPTION="Various useful Linux utilities"
+HOMEPAGE="https://www.kernel.org/pub/linux/utils/util-linux/ https://github.com/util-linux/util-linux"
+LICENSE="GPL-2 GPL-3 LGPL-2.1 BSD-4 MIT public-domain"
+IFS="$(printf '\n\t')"
+XPWD=${XPWD:-$PWD}
+XPWD=${5:-$XPWD}
+PKG_DIR="/pkg"
+LC_ALL="C"
+CATEGORY="${CATEGORY:-${11:?required <CATEGORY>}}"
+PN="${PN:-${12:?required <PN>}}"
+PN=${PN%%_*} PN=${PN%_[0-9]*}
+XPN=${XPN:-$PN}
+PN=${PN%[0-9]*}
+PV="2.37.2"
+SRC_URI="
+  https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v${PV%.*}/${PN}-${PV}.tar.xz
+  http://loop-aes.sourceforge.net/updates/util-linux-${PV%.*}-20210620.diff.bz2
+"
+USE_BUILD_ROOT="0"
 BUILD_CHROOT=${BUILD_CHROOT:-0}
-PDIR=${PWD}
-LIBDIR=${LIBDIR:-/libx32}
-DPREFIX='/usr'
+PDIR=$(pkg-rootdir)
+DPREFIX="/usr"
 INCDIR="${DPREFIX}/include"
+INSTALL_OPTS="install"
+HOSTNAME="localhost"
+BUILD_USER="tools"
+SRC_DIR="build"
+IUSE="-audit -build -caps -cramfs -cryptsetup -fdformat -hardlink -kill -logger"
+IUSE="${IUSE} -magic -ncurses -nls -pam -python -readline -rtas -selinux -slang"
+IUSE="${IUSE} +static-libs -su -suid -systemd -test -tty-helpers -udev -unicode"
+IUSE="${IUSE} -uuidd +static +shared -doc (+musl) +stest +strip"
+EABI=$(tc-abi-build)
+ABI=${EABI}
+XABI=${EABI}
+SPREFIX="/"
+EPREFIX=${SPREFIX}
+P="${P:-${XPWD##*/}}"
+SN=${P}
+PORTS_DIR=${PWD%/$P}
+DISTDIR="/usr/distfiles"
+DISTSOURCE="${PDIR%/}/sources"
+FILESDIR=${DISTSOURCE}
+INSTALL_DIR="${PDIR%/}/install"
+ED=${INSTALL_DIR}
+SDIR="${PDIR%/}/${SRC_DIR}"
+PF=$(pfname 'src_uri.lst' "${SRC_URI}")
+PKGNAME=${PN}
+ZCOMP="unxz"
+WORKDIR="${PDIR%/}/${SRC_DIR}"
+BUILD_DIR="${PDIR%/}/${SRC_DIR}/${PN}-${PV}"
+PWD=${PWD%/}; PWD=${PWD:-/}
+LIB_DIR=$(get_libdir)
+LIBDIR="/${LIB_DIR}"
+PKG_CONFIG="pkgconf"
 PKG_CONFIG_LIBDIR="/${LIB_DIR}/pkgconfig"
 PKG_CONFIG_PATH="${PKG_CONFIG_LIBDIR}:/lib/pkgconfig:/usr/share/pkgconfig"
-INSTALL_OPTS='install'
-MAKEFLAGS='-j4 V=0'
-CFLAGS='-O2 -msse2 -fno-stack-protector -g0'
-CPPFLAGS='-O2 -msse2 -fno-stack-protector -g0'
-CXXFLAGS='-O2 -msse2 -fno-stack-protector -g0'
-FCFLAGS='-O2 -msse2 -fno-stack-protector -g0'
-FFLAGS='-O2 -msse2 -fno-stack-protector -g0'
-HOSTNAME=$(hostname)
-#CPU_NUM=$(cpucore-num)
-BUILD_USER='tools'
-SRC_DIR='build'
-IONICE_COMM='nice -n 19'
-XLDFLAGS=
+ABI_BUILD="${ABI_BUILD:-${1:?}}"
+BUILD_CHROOT="${7:-${BUILD_CHROOT:?}}"
+USE_BUILD_ROOT=${9:-$USE_BUILD_ROOT}
+PROG="switch_root"
 
-export USER BUILDLIST XPN PF PV LIBDIR WORKDIR PKGNAME DPREFIX PKG_CONFIG_LIBDIR PKG_CONFIG_PATH
-export LC_ALL BUILD_USER SRC_DIR CFLAGS CPPFLAGS CXXFLAGS FCFLAGS FFLAGS
+#FFLAGS='-O2 -msse2 -fno-stack-protector -g0'
+#CPU_NUM=$(cpucore-num)
+#IONICE_COMM='nice -n 19'
+#XLDFLAGS=
 
 if test "X${USER}" != 'Xroot'; then
-  ABI_BUILD=${1:?} LIBDIR=${2:?} LIB_DIR=${3:?} PDIR=${4:?} XPWD=${5:?} XPN=${6:?}
-  BUILD_CHROOT=${7:?} _ENV=${8} USE_BUILD_ROOT=${9} BUILDLIST=${10} CATEGORY=${11:?} PN=${12:?}
-  PWD=${PWD%/}
   mksrc-prepare
 elif test "${BUILD_CHROOT:=0}" -eq '0'; then
   PATH="${PATH:+${PATH}:}${PDIR}/misc.d:${PDIR}/etools.d"
@@ -44,101 +84,68 @@ elif test "${BUILD_CHROOT:=0}" -ne '0'; then
   printf %s\\n "PATH='${PATH}'" "PDIR='${PDIR}'"
 fi
 
-#BUILDLIST=$(buildlist)
-
-. "${PDIR%/}/etools.d/"pre-env || exit
-
-test "x${SN}" != "x${SN%%_*}" && SN="${SN%%_*}-${SN#*_}"
-
-PF=$(pfname 'src_uri.lst')
-PV=$(pkgver)
-PKGNAME=$(pkgname)
-ZCOMP=$(zcomp-as "${PF}")
-
-printf %s\\n "BUILDLIST='${BUILDLIST}'" "PV='${PV}'" "PKGNAME='${PKGNAME}'"
-
 . "${PDIR%/}/etools.d/"build-functions
 
-chroot-build || exit
+chroot-build || die "Failed chroot... error"
 
-#. ${PDIR%/}/etools.d/"pkg-tools-env
-. "${PDIR%/}/etools.d/"sh-profile-tools
-. "${PDIR%/}/etools.d/"pre-env-chroot
+pkginst \
+  "dev-build/autoconf71  # slot=71,slot=69 - required for autotools" \
+  "dev-build/automake16  # slot=16,slot=15 - required for autotools" \
+  "dev-lang/perl  # required for autotools" \
+  "dev-util/pkgconf" \
+  "sys-apps/file" \
+  "sys-devel/binutils6" \
+  "sys-devel/bison" \
+  "sys-devel/gcc6" \
+  "sys-devel/gettext  # required for autotools (optional)" \
+  "sys-devel/m4  # required for autotools" \
+  "sys-devel/make" \
+  "sys-kernel/linux-headers-musl" \
+  "sys-libs/musl" \
+  || die "Failed install build pkg depend... error"
 
-WORKDIR="${PDIR%/}/${SRC_DIR}/${PN}-${PV}"
-WORKDIR="${PDIR%/}/${SRC_DIR}/${PN}-src"
+USE="${USE} +static +static-libs"
 
-instdeps-spkg-dep || exit
 build-deps-fixfind
 
 . "${PDIR%/}/etools.d/"ldpath-apply
 . "${PDIR%/}/etools.d/"path-tools-apply
 
-no-ldconfig
-netuser-fetch || exit
-sw-user || exit
+netuser-fetch "${SRC_URI}" || die "Failed fetch sources... error"
+sw-user || die "Failed package build from user... error"  # only for user-build
 
 if { test "X${USER}" = 'Xroot' && test "${BUILD_CHROOT:=0}" -ne '0' ;} ;then
-  :
-elif test "X${USER}" != 'Xroot'; then
-  #17-prefix_cmake.sh
-  #17-python.sh
-  : drop-python
+  exit  # only for user-build
+elif test "X${USER}" != 'Xroot'; then  # only for user-build
+  renice -n '19' -u ${USER}
 
-  . "${PDIR%/}/etools.d/"gen-variables
+  cd "${FILESDIR}/" || die "distsource dir: not found... error"
 
-  cd "${DISTSOURCE}/" || exit
-
-  test -d "${WORKDIR}" && rm -rf -- "${WORKDIR}/"
-  emptydir "${INSTALL_DIR}" || rm -r -- "${INSTALL_DIR}/"*
-
-  #${ZCOMP} -dc "${PF}" | tar -C "${PDIR%/}/${SRC_DIR}/" -xkf - || exit &&
-  #printf %s\\n "${ZCOMP} -dc ${PF} | tar -C ${PDIR%/}/${SRC_DIR}/ -xkf -"
-  pkg-unpack "PKGNAME=${PKGNAME}"
-
-  cd "${WORKDIR}/" || exit
-
-  printf %s\\n "Configure directory: PWD='${PWD}'... ok"
-
-  use 'strip' && INSTALL_OPTS='install-strip'
-  #use 'static' && export CC='gcc -static --static'
-
-  src-patch "${DISTSOURCE}/${PN}-${PV%.${PV#*.*.}}-20210620.diff"
-
-  #CPPFLAGS="${CPPFLAGS:+${CPPFLAGS} }-m${ABI}"
-  #CXXFLAGS="${CXXFLAGS:+${CXXFLAGS} }-m${ABI}"
-  #FCFLAGS="${FCFLAGS:+${FCFLAGS} }-m${ABI}"
-  #FFLAGS="${FFLAGS:+${FFLAGS} }-m${ABI}"
-
-  unset CFLAGS CXXFLAGS CPPFLAGS FCFLAGS FFLAGS LDFLAGS
+  ${ZCOMP} -dc "${PF}" | tar -C "${PDIR%/}/${SRC_DIR}/" -xkf - || exit &&
+  printf %s\\n "${ZCOMP} -dc ${PF} | tar -C ${PDIR%/}/${SRC_DIR}/ -xkf -"
 
   case $(tc-abi-build) in
-    'x32')   append-flags -mx32 -msse2 ;;
-    'x86')   append-flags -m32         ;;
-    'amd64') append-flags -m64 -msse2  ;;
+    'x32')   append-flags -mx32 -msse2            ;;
+    'x86')   append-flags -m32 -msse -mfpmath=sse ;;
+    'amd64') append-flags -m64 -msse2             ;;
   esac
-  if use 'static' || use 'static-libs'; then
-    append-flags -Os
-    append-ldflags -Wl,--gc-sections
-    append-cflags -ffunction-sections -fdata-sections
-  else
-    append-flags -O2
-  fi
-  append-flags -fno-stack-protector -no-pie -g0 -march=$(arch | sed 's/_/-/')
+  append-flags -O2 -fno-stack-protector -no-pie -g0 -march=$(arch | sed 's/_/-/')
 
-  printf %s\\n "MAKEFLAGS='${MAKEFLAGS}'"
-  printf %s\\n "CC='${CC}'" "CXX='${CXX}'" "CPP='${CPP}'" "LIBTOOL='${LIBTOOL}'"
-  printf %s\\n "CFLAGS='${CFLAGS}'" "CPPFLAGS='${CPPFLAGS}'" "CXXFLAGS='${CXXFLAGS}'"
-  printf %s\\n "FCFLAGS='${FCFLAGS}'" "FFLAGS='${FFLAGS}'" "LDFLAGS='${LDFLAGS}'"
+  CC="gcc" CXX="g++"
 
-  autoreconf
+  use 'strip' && INSTALL_OPTS="install-strip"
 
-  . runverb \
+  cd "${BUILD_DIR}/" || die "builddir: not found... error"
+
+  bunzip2 -dc "${FILESDIR}/${PN}-${PV%.${PV#*.*.}}-20210620.diff.bz2" | patch -p1 -E
+
+  test -x "/bin/perl" && autoreconf
+
   ./configure \
-    --prefix="${SPREFIX%/}" \
-    --bindir="${SPREFIX%/}/bin" \
-    --sbindir="${SPREFIX%/}/sbin" \
-    --libdir="${SPREFIX%/}/${LIB_DIR}" \
+    --prefix="${EPREFIX%/}" \
+    --bindir="${EPREFIX%/}/bin" \
+    --sbindir="${EPREFIX%/}/sbin" \
+    --libdir="${EPREFIX%/}/$(get_libdir)" \
     --includedir="${INCDIR}" \
     --libexecdir="${DPREFIX}/libexec" \
     --datarootdir="${DPREFIX}/share" \
@@ -189,6 +196,7 @@ elif test "X${USER}" != 'Xroot'; then
     --enable-losetup \
     --enable-libuuid \
     --enable-libblkid \
+    --enable-libfdisk \
     --enable-libmount \
     --disable-switch_root \
     --enable-libsmartcols \
@@ -196,26 +204,32 @@ elif test "X${USER}" != 'Xroot'; then
     $(use_enable 'rpath') \
     $(use_enable 'nls') \
     $(use_enable 'shared') \
-    --enable-static || exit
+    --enable-static \
+    || die "configure... error"
 
-  make -j "$(nproc --ignore=1)" || { exit; die "Failed make build";}
-
-  . runverb \
-  make DESTDIR="${INSTALL_DIR}" ${INSTALL_OPTS} || exit
-
-  #######################################################
-  export CC="gcc -static --static"
-  export CXX="g++ -static --static"
-  export LDFLAGS='-s -static --static'
-
-  ./configure --disable-all-programs --enable-switch_root
-  make switch_root || exit
+  make -j "$(nproc --ignore=1)" || die "Failed make build"
 
   . runverb \
-  make DESTDIR="${INSTALL_DIR}" ${INSTALL_OPTS} || exit
+  make DESTDIR="${ED}" ${INSTALL_OPTS} || die "make install... error"
+
   #######################################################
 
-  cd "${INSTALL_DIR}/" || exit
+  CFLAGS=${CFLAGS/-O?/-Os}
+  CXXFLAGS=${CXXFLAGS/-O?/-Os}
+
+  append-flags -Os
+  append-ldflags -Wl,--gc-sections
+  append-cflags -ffunction-sections -fdata-sections
+  append-ldflags "-s -static --static"
+
+  ./configure --disable-all-programs --without-btrfs --enable-switch_root || die "configure... error"
+  make -j "$(nproc --ignore=1)" switch_root || die "Failed make <switch_root> build"
+
+  . runverb \
+  make DESTDIR="${ED}" ${INSTALL_OPTS} || die "make install: switch_root... error"
+  #######################################################
+
+  cd "${ED}/" || die "install dir: not found... error"
 
   if test -x 'sbin/losetup'; then
     rm -- sbin/losetup
@@ -223,23 +237,20 @@ elif test "X${USER}" != 'Xroot'; then
     ln -sf loop-aes-losetup sbin/losetup
   fi
 
-  post-inst-perm
+  rm -v -r -- "bin/" "usr/bin/" "usr/lib/" "usr/sbin/" "usr/share/bash-completion/"
 
-  RMLIST="$(pkg-rmlist)" pkg-rm
+  use 'doc' || rm -v -r -- "usr/share/man/" "usr/share/"
 
-  post-rm
-  pkg-rm-empty
-  use 'upx' && upx --best "bin/${PN}"
+  find "$(get_libdir)/" -name "*.la" -delete || die
 
-  use 'stest' && { sbin/loop-aes-losetup --version || : die "binary work... error";}
-  ldd "sbin/loop-aes-losetup" || : die "library deps work... error"
+  use 'stest' && { sbin/${PROG} --version || die "binary work... error";}
+  ldd "sbin/${PROG}" || { use 'static' && true || die "library deps work... error";}
 
-  pre-perm
-  exit 0
+  exit 0  # only for user-build
 fi
 
-cd "${INSTALL_DIR}/" || exit
+cd "${ED}/" || die "install dir: not found... error"
 
 pkg-perm
 
-INST_ABI="$(test-native-abi)" pkg-create-cgz
+INST_ABI="$(tc-abi-build)" PN=${XPN} PV=${PV} pkg-create-cgz

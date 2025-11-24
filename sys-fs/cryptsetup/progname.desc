@@ -1,5 +1,5 @@
 # Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
-# -static -static-libs +shared +nopie -lfs -upx -patch -doc -man -xstub -diet +musl +stest +strip +x32
+# (+static) +static-libs +shared +nopie -lfs -upx -patch -doc -man -xstub -diet +musl +stest +strip +x32
 
 # http://data.gpo.zugaina.org/gentoo/sys-fs/cryptsetup/cryptsetup-2.7.5-r1.ebuild
 
@@ -7,4 +7,4 @@ DESCRIPTION="Tool to setup encrypted devices with dm-crypt"
 HOMEPAGE="https://gitlab.com/cryptsetup/cryptsetup"
 LICENSE="GPL-2+"
 IUSE="-gcrypt -kernel -nettle +openssl +argon2 -fips -nls -pwquality -passwdqc"
-IUSE="${IUSE} -ssh -static -static-libs -test +udev -urandom"
+IUSE="${IUSE} -ssh (+static) +static-libs -test +udev -urandom"
