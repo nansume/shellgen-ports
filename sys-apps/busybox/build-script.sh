@@ -140,6 +140,12 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
 
   cp -v -n "${FILESDIR}"/ginit.c -t init/ || : die
 
+  # for error page cgi support
+  for F in "${PDIR%/}/patches/"*".diff"; do
+    case ${F} in *'*'*) continue;; esac
+    [ -f "${F}" ] && patch -p1 -E < "${F}"
+  done
+
   gpatch -p1 -E < "${FILESDIR}"/${PN}-1.26.2-bb.patch
   patch -p1 -E < "${FILESDIR}"/${PN}-1.34.1-skip-selinux-search.patch
   #patch -p1 -E < "${FILESDIR}"/${PN}-1.36.0-fortify-source-3-fixdep.patch

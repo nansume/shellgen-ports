@@ -1,0 +1,15 @@
+Author: Artjom Slepnjov "Shellgen"
+Description: change the error page a static html to cgi.
+Date: 2025-11-24 23:00 UTC
+===================================================================================
+--- a/networking/httpd.c
++++ b/networking/httpd.c
+@@ -2442,7 +2442,7 @@
+ 			}
+ 		}
+ #if ENABLE_FEATURE_HTTPD_CGI
+-		else if (urlp[-1] == '/') {
++		else if (urlp[-1] == '/' || urlp[-1] != '/') {
+ 			/* It's a dir URL and there is no index.html */
+ 			/* Is there cgi-bin/index.cgi? */
+ 			if (access("/cgi-bin/index.cgi"+1, X_OK) != 0)

@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> Add httpd directory list support &amp; conspy fix
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:busybox%40busybox.net?Subject=Re%3A%20Add%20httpd%20directory%20list%20support%20%26%20conspy%20fix&In-Reply-To=%3C20200706154815.2ceaa431%40nbbrfq%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="088089.html">
+   <LINK REL="Next"  HREF="088090.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>Add httpd directory list support &amp; conspy fix</H1>
+    <B>Bernhard Reutner-Fischer</B> 
+    <A HREF="mailto:busybox%40busybox.net?Subject=Re%3A%20Add%20httpd%20directory%20list%20support%20%26%20conspy%20fix&In-Reply-To=%3C20200706154815.2ceaa431%40nbbrfq%3E"
+       TITLE="Add httpd directory list support &amp; conspy fix">rep.dot.nop at gmail.com
+       </A><BR>
+    <I>Mon Jul  6 13:48:15 UTC 2020</I>
+    <P><UL>
+        <LI>Previous message (by thread): <A HREF="088089.html">Add httpd directory list support &amp; conspy fix
+</A></li>
+        <LI>Next message (by thread): <A HREF="088090.html">Ping for a patch
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#88091">[ date ]</a>
+              <a href="thread.html#88091">[ thread ]</a>
+              <a href="subject.html#88091">[ subject ]</a>
+              <a href="author.html#88091">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Mon, 6 Jul 2020 00:12:41 +0300
+Sergey Ponomarev &lt;<A HREF="http://lists.busybox.net/mailman/listinfo/busybox">stokito at gmail.com</A>&gt; wrote:
+
+&gt;<i> This is an old topic where Pascal proposed a patch that allows to run a 
+</I>&gt;<i> script to list the directory with httpd 
+</I>&gt;<i> <A HREF="http://hg.slitaz.org/wok/raw-file/3dc7c4a7f5ef/busybox/stuff/busybox-1.18-httpd.u">http://hg.slitaz.org/wok/raw-file/3dc7c4a7f5ef/busybox/stuff/busybox-1.18-httpd.u</A> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Denys said:
+</I>&gt;<i>  &gt; This is already supported:
+</I>&gt;<i>  &gt; * If directory URL is given, no index.html is found and CGI support   
+</I>&gt;<i> is enabled,
+</I>&gt;<i>  &gt; * cgi-bin/index.cgi will be run. Directory to list is ../$QUERY_STRING.
+</I>&gt;<i>  &gt; * See httpd_indexcgi.c for an example GCI code.  
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> But I still don't get a clue how to see the directory listing. @Denys 
+</I>&gt;<i> could you elaborate on this or add more details into the comment in 
+</I>&gt;<i> httpd_indexcgi.c?
+</I>
+Works or me:
+$ egrep &quot;(HTTPD=|HTTPD_CGI)&quot; .config
+CONFIG_HTTPD=y
+CONFIG_FEATURE_HTTPD_CGI=y
+$ make
+$ mkdir /tmp/www/{,cgi-bin,html,html/foo}
+$ ./busybox httpd -f -p 8080 -h /tmp/www/ &amp;
+$ gcc -o /tmp/www/cgi-bin/index.cgi networking/httpd_indexcgi.c -static -static-libgcc -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -Wall -Os -fno-builtin  -finline-limit=0 -fomit-frame-pointer -ffunction-sections -fdata-sections -fno-guess-branch-probability -funsigned-char -falign-functions=1 -falign-jumps=1 -falign-labels=1 -falign-loops=1
+
+$ ./busybox wget -q -O - 127.0.0.1:8080
+&lt;html&gt;&lt;head&gt;&lt;title&gt;Index of /&lt;/title&gt;
+&lt;style&gt;
+table {
+width:100%;
+background-color:#fff5ee;
+border-width:1px;
+border-spacing:2px;
+....
+</PRE>
+
+
+
+
+
+
+
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message (by thread): <A HREF="088089.html">Add httpd directory list support &amp; conspy fix
+</A></li>
+	<LI>Next message (by thread): <A HREF="088090.html">Ping for a patch
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#88091">[ date ]</a>
+              <a href="thread.html#88091">[ thread ]</a>
+              <a href="subject.html#88091">[ subject ]</a>
+              <a href="author.html#88091">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="http://lists.busybox.net/mailman/listinfo/busybox">More information about the busybox
+mailing list</a><br>
+</body></html>

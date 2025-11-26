@@ -1,0 +1,37 @@
+   Link: Gentoo's Bugzilla (search)
+   [gentoo_org.png]
+   Go to: Gentoo Home Documentation Forums Lists Bugs Planet Store Wiki Get Gentoo!
+   Gentoo's Bugzilla - Bug 206898 net-analyzer/tptest-5.0.2 (Version bump) Last modified: 2008-01-30 09:20:40 UTC
+   node [vulture]
+
+   Bug 206898 - net-analyzer/tptest-5.0.2 (Version bump)
+   Summary: net-analyzer/tptest-5.0.2 (Version bump)
+
+       Status:     RESOLVED UPSTREAM
+       Alias:      None
+      Product:     Gentoo Linux
+   Classification: Unclassified                             Reported:         2008-01-21 17:56 UTC by Raúl Porcel
+     Component:    New packages (show other bugs)                             (RETIRED)
+      Hardware:    All Linux                                Modified:         2008-01-30 09:20 UTC (History)
+     Importance:   High enhancement (vote)                  CC List:          0 users
+      Assignee:    Gentoo Netmon project                    See Also:
+        URL:                                              Package list:
+     Whiteboard:                                    Runtime testing required: ---
+      Keywords:
+     Depends on:
+       Blocks:
+
+                      Attachments
+   Add an attachment (proposed patch, testcase, etc.)
+
+   Note You need to log in before you can comment on or make changes to this bug.
+
+Description Raúl Porcel (RETIRED) [bugs-rank-dev.png] 2008-01-21 17:56:51 UTC
+
+$subj
+
+Comment 1 Peter Volkov (RETIRED) [bugs-rank-dev.png] 2008-01-30 09:20:40 UTC
+
+Thank you for rerport, Raúl. Upstream does not provide any means to build this package for Linux. There are patches against CVS version in bugzilla, but seems that this involves lot's of changes. Let's wait for next release. ATM I think it's better to resolve this bug as UPSTREAM.
+
+https://bugs.gentoo.org/show_bug.cgi?id=206898
