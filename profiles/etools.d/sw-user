@@ -1,22 +1,23 @@
 #!/bin/sh
-# Copyright (C) 2021-2024 Artjom Slepnjov, Shellgen
+# Copyright (C) 2021-2025 Artjom Slepnjov, Shellgen
 # License GPLv3: GNU GPL version 3 only
 # http://www.gnu.org/licenses/gpl-3.0.html
-# Date: 2024-07-07 19:00 UTC - last change
+# Date: 2024-07-07 19:00 UTC, 2025-12-09 18:00 UTC - last change
 
-SCBUILD=${SCBUILD:-build-script.sh} LOGFILE=${LOGFILE} BUILDLIST=${BUILDLIST} F=
+SCBUILD=${SCBUILD:-build-script.sh} LOGFILE=${LOGFILE:?} BUILDLIST=${BUILDLIST-} F=
 
-test "0${BUILD_CHROOT}" -ne '0' || exit 0
-test "X${USER}" != 'Xroot' && { USE_BUILD_ROOT='0'; exit;}
+[ "0${BUILD_CHROOT}" -ne '0' ] || exit 0
+[ "X${USER}" != 'Xroot' ] && { USE_BUILD_ROOT='0'; exit;}
 
-test -d "${PDIR:?}" || exit
+[ -d "${PDIR:?}" ] || { printf '%s\n' "${PDIR-}: dir not found... error"; exit 1;}
 cd "${PDIR%/}/"
 
 LOGFILE='/var/log/mkconfig.log'
 
 : ${SRC_DIR:?} ${INSTALL_DIR:?}
 
-test -f "${LOGFILE:?}" || > ${LOGFILE:?}
+[ -n "${BUILD_USER-}" ] || { printf '%s\n' "user: '${BUILD_USER-}': not found... error"; exit 1;}
+[ -f "${LOGFILE:?}" ] || > ${LOGFILE:?}
 chown ${BUILD_USER}:${BUILD_USER} "${LOGFILE}"
 
 >>'checksums'.lst
@@ -24,19 +25,19 @@ chown ${BUILD_USER}:${BUILD_USER} "${LOGFILE}"
 
 mkdir -pm '0755' -- "${SRC_DIR}/" "${INSTALL_DIR}/" "${DISTSOURCE:?}/"
 # Swith User - nopriv
-test -d "${SRC_DIR}"     && chown -R ${BUILD_USER}:${BUILD_USER} "${SRC_DIR}/"
-test -d "${INSTALL_DIR}" && chown -hR ${BUILD_USER}:${BUILD_USER} "${INSTALL_DIR}/"
-test -d "${DISTSOURCE}"  && chown ${BUILD_USER}:${BUILD_USER} "${DISTSOURCE}/"  # future - remove
-test -s "checksums.lst" ||
+[ -d "${SRC_DIR}" ]     && chown -R ${BUILD_USER}:${BUILD_USER} "${SRC_DIR}/"
+[ -d "${INSTALL_DIR}" ] && chown -hR ${BUILD_USER}:${BUILD_USER} "${INSTALL_DIR}/"
+[ -d "${DISTSOURCE}" ]  && chown ${BUILD_USER}:${BUILD_USER} "${DISTSOURCE}/"  # future - remove
+[ -s "checksums.lst" ] ||
 {
   chown ${BUILD_USER}:${BUILD_USER} checksums.lst
 }
 
 USE_BUILD_ROOT='0'
 
-test -n "${BUILDLIST}" && BUILDLIST='1'
-test -e '/etc/profile' && rm -- '/etc/profile'
-sed -e "/^tools:/ s|::/:/bin/sh$|::${PDIR%/}/${SRC_DIR}:/bin/sh|" -i /etc/passwd
+[ -n "${BUILDLIST}" ] && BUILDLIST='1'
+[ -e '/etc/profile' ] && rm -- '/etc/profile'
+sed -e "/^${BUILD_USER}:/ s|::/:/bin/sh$|::${PDIR%/}/${SRC_DIR}:/bin/sh|" -i /etc/passwd
 printf %s\\n "PWD='${PWD}'"
 
 # 1=ABI_BUILD 2=LIBDIR 3=LIB_DIR 4=PDIR 5=XPWD 6=XPN 7=BUILD_CHROOT
@@ -45,7 +46,7 @@ printf %s\\n "PWD='${PWD}'"
 USER=${BUILD_USER} \
 HOME="${PDIR%/}/${SRC_DIR}" \
 UID="$(finduserid ${BUILD_USER})" \
-su -p ${BUILD_USER} -s "${PWD%/}/${SCBUILD}" \
+su ${BUILD_USER} -s "${PWD%/}/${SCBUILD}" \
   "${ABI_BUILD:?}" \
   "${LIBDIR:?}" \
   "${LIB_DIR:?}" \
@@ -53,8 +54,8 @@ su -p ${BUILD_USER} -s "${PWD%/}/${SCBUILD}" \
   "${XPWD:?}" \
   "${XPN:?}" \
   "${BUILD_CHROOT:?}" \
-  "${_ENV}" \
+  "${_ENV-}" \
   "${USE_BUILD_ROOT:?}" \
-  "${BUILDLIST}" \
+  "${BUILDLIST-}" \
   "${CATEGORY:?}" \
-  "${PN:?}" || exit
+  "${PN:?}" || { printf '%s\n' "su ${BUILD_USER} -s ${PWD%/}/${SCBUILD}: failed... error"; exit 1;}
