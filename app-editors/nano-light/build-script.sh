@@ -1,9 +1,9 @@
 #!/bin/sh
 # Maintainer: Artjom Slepnjov <shellgen-at-uncensored-dot-citadel-dot-org>
-# Date: 2021-01-01 01:00, 2025-06-27 13:00 UTC - last change
+# Date: 2021-01-01 01:00, 2025-12-09 16:00 UTC - last change
 # Build with useflag: +static -static-libs -shared -lfs +nopie -patch -doc -xstub -diet +musl +stest +strip +x32
 
-# http://data.gpo.zugaina.org/gentoo/app-editors/nano/nano-8.5.ebuild
+# http://data.gpo.zugaina.org/gentoo/app-editors/nano/nano-8.7.ebuild
 
 export XPN PF PV WORKDIR BUILD_DIR PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
 export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED CC
@@ -22,6 +22,7 @@ PN=${PN%%_*} PN=${PN%_[0-9]*}
 XPN=${XPN:-$PN}
 SPN="nano"
 PV="8.5"
+PV="8.7"
 SRC_URI="https://www.nano-editor.org/dist/v${PV%.*}/${SPN}-${PV}.tar.xz"
 USE_BUILD_ROOT="0"
 BUILD_CHROOT=${BUILD_CHROOT:-0}
@@ -173,6 +174,9 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
   make DESTDIR="${ED}" ${INSTALL_OPTS} || die "make install... error"
 
   cd "${ED}/" || die "install dir: not found... error"
+
+  mkdir -m 0755 -- "etc/"
+  cp -v -u "${PDIR%/}/files/"nano2rc -t "etc/"
 
   rm -r -- "bin/rnano" "usr/"
 

@@ -1,0 +1,14 @@
+set autoindent
+set nohelp
+set tabsize 2
+set tabstospaces
+set nonewlines
+#set nowrap
+set softwrap
+#set suspend
+set noconvert
+set constantshow
+#set fill 72
+#set breaklonglines
+#set trimblanks
+#set unix

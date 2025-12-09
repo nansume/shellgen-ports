@@ -1,0 +1,16 @@
+set autoindent
+set nohelp
+#set tabsize 3  # then, tabstospaces off
+set tabsize 2
+set tabstospaces
+set nonewlines
+#set nowrap
+set softwrap
+#set suspend
+set noconvert
+set constantshow
+#set fill 72
+#set breaklonglines
+#set trimblanks
+#set unix
+include "/usr/share/nano/*.nanorc"

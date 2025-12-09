@@ -1,9 +1,9 @@
 #!/bin/sh
 # Maintainer: Artjom Slepnjov <shellgen-at-uncensored-dot-citadel-dot-org>
-# Date: 2021-01-01 01:00, 2025-06-27 13:00 UTC - last change
+# Date: 2021-01-01 01:00, 2025-12-09 15:00 UTC - last change
 # Build with useflag: +static -static-libs -shared -lfs +nopie -patch -doc -xstub -diet +musl +stest +strip +x32
 
-# http://data.gpo.zugaina.org/gentoo/app-editors/nano/nano-8.5.ebuild
+# http://data.gpo.zugaina.org/gentoo/app-editors/nano/nano-8.7.ebuild
 
 export XPN PF PV WORKDIR BUILD_DIR PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
 export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED CC
@@ -22,7 +22,11 @@ PN=${PN%%_*} PN=${PN%_[0-9]*}
 XPN=${XPN:-$PN}
 PV="5.9"
 PV="8.5"
-SRC_URI="https://www.nano-editor.org/dist/v${PV%.*}/${PN}-${PV}.tar.xz"
+PV="8.7"  # TODO: bump pkg version
+SRC_URI="
+  https://www.nano-editor.org/dist/v${PV%.*}/${PN}-${PV}.tar.xz
+  http://data.gpo.zugaina.org/gentoo/app-editors/nano/files/gentoo.nanorc-r1
+"
 USE_BUILD_ROOT="0"
 BUILD_CHROOT=${BUILD_CHROOT:-0}
 PDIR=$(pkg-rootdir)
@@ -172,7 +176,11 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
 
   if use 'extra' && test -d "${DPREFIX#/}/share/${PN}/extra"; then
     mv -n "${DPREFIX#/}/share/${PN}/extra/"* -t "${DPREFIX#/}/share/${PN}/"
+    mv -n "${FILESDIR}/"gentoo.nanorc-r1 "${DPREFIX#/}/share/${PN}/"gentoo.nanorc
   fi
+  mkdir -m 0755 -- "etc/"
+  mv -n "${BUILD_DIR}/doc/"sample.nanorc "etc/"nanorc.sample
+  cp -v -u "${PDIR%/}/files/"nanorc -t "etc/"
 
   use 'color' && {
   sed -e 's:env|\(keywords\):\1:' -i usr/share/nano/gentoo.nanorc
@@ -184,15 +192,17 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
     -e '/header/ s|/||' \
     -e '10s|\(brightgreen ..\)|\1\[ \]\*|' \
     -i usr/share/nano/sh.nanorc
+
+  sed -e '/syntax lua "\.lua\$"/a header "^#!.*(env[[:blank:]]+)?lua"' -i usr/share/nano/lua.nanorc
   }
 
   rmdir -- "usr/share/${PN}/extra/"
   use 'doc' || rm -r -- "usr/share/doc/" "usr/share/info/" "usr/share/man/"
 
-  for S in "usr/share/${PN}/"*.nanorc; do
-    #case ${S##*/} in yaml.nanorc) continue; esac
-    rm -- "${S}"
-  done
+  #for S in "usr/share/${PN}/"*.nanorc; do
+  #  #case ${S##*/} in yaml.nanorc) continue; esac
+  #  rm -- "${S}"
+  #done
 
   use 'stest' && { bin/${PN} --version || die "binary work... error";}
   ldd "bin/${PN}" || { use 'static' && true || die "library deps work... error";}
