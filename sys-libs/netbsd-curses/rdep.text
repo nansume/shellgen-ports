@@ -1,1 +1,21 @@
+# for F in $(find /usr/ports -type f -iname bdepend.lst build-script.sh); do
+# cat "${F}" | grep -io ".*ncurses.*" || continue; echo -e "${F}\n"; done >>/tmp/netbsd-curses-rdeps.lst
+
+#app-admin/testdisk       # musl (support, now build with ncurses)
+app-editors/nano         # musl
+app-editors/nano-light   # musl
+app-misc/abook
+app-misc/fdupes
+app-misc/mc              # musl
+app-text/aspell
+app-text/hunspell
+dev-util/dialog
+#mail-client/mutt        # it now ncurses
+net-analyzer/iftop
+net-dns/dnstop
+#net-irc/irssi           # it now ncurses
+net-misc/netkit-ntalk
+net-misc/ytalk
 sys-apps/heirloom-tools  # diet
+sys-process/procps       # musl
+sys-process/psmisc       # musl

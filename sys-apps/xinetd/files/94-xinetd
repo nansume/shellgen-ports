@@ -1,0 +1,33 @@
+#!/bin/sh
+# File: /sbin/rc.d/94-xinetd 0755 root:root
+# Copyright (C) 2023 Artjom Slepnjov, Shellgen
+# License GPLv3: GNU GPL version 3 only
+# http://www.gnu.org/licenses/gpl-3.0.html
+# Date: 2023-12-26 14:00 UTC - last change
+
+RUN='xinetd'
+INETD="${RUN}"
+XUSER='root'
+XHOME="/home/${XUSER}"
+PIDFILE="/run/${RUN}.pid"
+PKGS="sys-apps/${RUN}"
+
+case ${1} in
+  'stop'|'restart')
+    killall ${RUN} >/dev/null 2>&1 ||:
+    test -s "${PIDFILE}" && rm -- "${PIDFILE}"
+  ;;
+esac &&
+case ${1} in
+  'start'|'restart')
+    findpid ${RUN} && exit 1
+    spkg-dep ${PKGS}
+
+    ${INETD} -limit '50' -inetd_compat
+  ;;
+  'stop') ;;
+  *)
+    echo Usage: $0 "{start|stop|restart}" 1>&2  # for error
+    exit 1
+esac &&
+printf "\e[1;32m +\e[0;36m ${RUN}\e[m: \e[0;31m${1}\e[m... \e[0;33mok\e[m\n"

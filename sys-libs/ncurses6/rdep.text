@@ -1,0 +1,56 @@
+# for F in $(find /usr/ports -type f -iname bdepend.lst build-script.sh); do
+# cat "${F}" | grep -io ".*ncurses.*" || continue; echo -e "${F}\n"; done >>/tmp/ncurses-rdeps.lst
+
+app-admin/testdisk                  # musl (support build with netbsd-curses)
+app-crypt/pinentry
+app-editors/vim
+app-editors/hexedit0r
+app-emulation/bochs
+app-emulation/qemu
+app-i18n/fbterm
+app-i18n/jfbterm
+app-misc/cfiles
+app-misc/clex
+app-misc/nnn
+app-misc/urlview
+app-misc/ytree
+app-text/fbless
+dev-lang/python2
+dev-lang/python3
+dev-lang/mujs
+dev-lang/spidermonkey7
+dev-libs/libedit
+mail-client/mutt
+media-libs/libcaca
+media-video/pipewire
+net-ftp/lftp
+net-im/mcabber
+net-irc/ircc
+net-irc/irssi
+net-irc/weechat
+net-libs/liboping
+net-libs/opendht
+net-misc/gnunet
+net-misc/gopher
+net-misc/gsasl
+net-misc/htalkat
+net-p2p/microdc2
+net-p2p/microdc
+net-voip/twinkle
+#net-vpn/tinc
+net-wireless/wpa-supplicant
+sci-mathematics/calc
+sys-apps/gptfdisk  # TODO: remove it depend ncurses (it BUG)
+sys-apps/less
+sys-boot/grub
+sys-boot/grub2
+sys-fs/android-file-transfer-linux
+#sys-libs/gpm
+sys-libs/readline
+sys-libs/slang
+sys-power/powertop
+www-client/lagrange
+www-client/lynx
+www-client/w3m
+x11-terms/st-terminfo
+x11-terms/st

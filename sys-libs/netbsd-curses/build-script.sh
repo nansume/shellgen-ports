@@ -1,30 +1,66 @@
 #!/bin/sh
-# Copyright (C) 2021-2023 Artjom Slepnjov, Shellgen
-# License GPLv3: GNU GPL version 3 only
-# http://www.gnu.org/licenses/gpl-3.0.html
-# Date: 2023-11-13 21:00 UTC - last change
+# Maintainer: Artjom Slepnjov <shellgen-at-uncensored-dot-citadel-dot-org>
+# Date: 2025-12-08 14:00 UTC - last change
+# Build with useflag: +static +static-libs -shared -lfs +nopie +patch -doc -xstub -diet +musl +stest +strip +x32
 
-NL="$(printf '\n\t')"; NL=${NL%?} XPWD=${XPWD:=$PWD} XPN=${PN} PKG_DIR='/pkg' LC_ALL='C'
+# <orig-url-build-script>
 
-USER=${USER:-root}
-USE_BUILD_ROOT='0'
+export XPN PF PV WORKDIR BUILD_DIR PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
+export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED
+export CC CXX
+
+DESCRIPTION="<pkgdesc>"
+HOMEPAGE="<url>"
+LICENSE="<license>"
+IFS="$(printf '\n\t')"
+XPWD=${XPWD:-$PWD}
+XPWD=${5:-$XPWD}
+PKG_DIR="/pkg"
+LC_ALL="C"
+CATEGORY="${CATEGORY:-${11:?required <CATEGORY>}}"
+PN="${PN:-${12:?required <PN>}}"
+PN=${PN%%_*} PN=${PN%_[0-9]*}
+XPN=${XPN:-$PN}
+PV="0.3.2"
+SRC_URI="http://ftp.barfooze.de/pub/sabotage/tarballs/${PN}-${PV}.tar.xz"
+USE_BUILD_ROOT="0"
 BUILD_CHROOT=${BUILD_CHROOT:-0}
-PDIR=${PWD}
-LIBDIR=${LIBDIR:-/libx32}
-DPREFIX='/usr'
+PDIR=$(pkg-rootdir)
+DPREFIX="/usr"
 INCDIR="${DPREFIX}/include"
-PKG_CONFIG_LIBDIR="/${LIB_DIR}/pkgconfig"
-PKG_CONFIG_PATH="${PKG_CONFIG_LIBDIR}:/lib/pkgconfig:/usr/share/pkgconfig"
-MAKEFLAGS=
-#HOSTNAME=$(hostname)
-#CPU_NUM=$(cpucore-num)
-
-export USER BUILDLIST XPN PF PV LIBDIR WORKDIR PKGNAME DPREFIX PKG_CONFIG_LIBDIR PKG_CONFIG_PATH
+INSTALL_OPTS="install"
+HOSTNAME="localhost"
+BUILD_USER="tools"
+SRC_DIR="build"
+IUSE="+static +static-libs -shared -doc (+musl) +stest +strip"
+EABI=$(tc-abi-build)
+ABI=${EABI}
+XABI=${EABI}
+SPREFIX="/"
+EPREFIX=${SPREFIX}
+P="${P:-${XPWD##*/}}"
+SN=${P}
+PORTS_DIR=${PWD%/$P}
+DISTDIR="/usr/distfiles"
+DISTSOURCE="${PDIR%/}/sources"
+FILESDIR=${DISTSOURCE}
+INSTALL_DIR="${PDIR%/}/install"
+ED=${INSTALL_DIR}
+SDIR="${PDIR%/}/${SRC_DIR}"
+PF=$(pfname 'src_uri.lst' "${SRC_URI}")
+PKGNAME=${PN}
+ZCOMP="unxz"
+WORKDIR="${PDIR%/}/${SRC_DIR}"
+BUILD_DIR="${PDIR%/}/${SRC_DIR}/${PN}-${PV}"
+PWD=${PWD%/}; PWD=${PWD:-/}
+LIB_DIR=$(get_libdir)
+LIBDIR="/${LIB_DIR}"
+ABI_BUILD="${ABI_BUILD:-${1:?}}"
+BUILD_CHROOT="${7:-${BUILD_CHROOT:?}}"
+USE_BUILD_ROOT=${9:-$USE_BUILD_ROOT}
+PROG="tic"
 
 if test "X${USER}" != 'Xroot'; then
-  ABI_BUILD=${1:?} LIBDIR=${2:?} LIB_DIR=${3:?} PDIR=${4:?} XPWD=${5:?} XPN=${6:?}
-  BUILD_CHROOT=${7:?} _ENV=${8} USE_BUILD_ROOT=${9} BUILDLIST=${10} CATEGORY=${11:?} PN=${12:?}
-  PWD=${PWD%/}
   mksrc-prepare
 elif test "${BUILD_CHROOT:=0}" -eq '0'; then
   PATH="${PATH:+${PATH}:}${PDIR}/misc.d:${PDIR}/etools.d"
@@ -33,94 +69,78 @@ elif test "${BUILD_CHROOT:=0}" -ne '0'; then
   printf %s\\n "PATH='${PATH}'" "PDIR='${PDIR}'"
 fi
 
-#BUILDLIST=$(buildlist)
+. "${PDIR%/}/etools.d/"build-functions
 
-. "${PDIR%/}/etools.d/"pre-env || exit
+chroot-build || die "Failed chroot... error"
 
-test "x${SN}" != "x${SN%%_*}" && SN="${SN%%_*}-${SN#*_}"
+pkginst \
+  "sys-devel/binutils" \
+  "sys-devel/gcc9" \
+  "sys-devel/make" \
+  "sys-libs/musl" \
+  || die "Failed install build pkg depend... error"
 
-PF=$(pfname 'src_uri.lst')
-PV=$(pkgver)
-PKGNAME=$(pkgname)
-ZCOMP=$(zcomp-as "${PF}")
-
-printf %s\\n "BUILDLIST='${BUILDLIST}'" "PV='${PV}'" "PKGNAME='${PKGNAME}'"
-
-chroot-build || exit
-
-. "${PDIR%/}/etools.d/"pkg-tools-env
-. "${PDIR%/}/etools.d/"sh-profile-tools
-. "${PDIR%/}/etools.d/"pre-env-chroot
-
-instdeps-spkg-dep || exit
 build-deps-fixfind
 
 . "${PDIR%/}/etools.d/"ldpath-apply
 . "${PDIR%/}/etools.d/"path-tools-apply
 
-WORKDIR="${PDIR%/}/${SRC_DIR}/${PKGNAME}-${PV}"
+netuser-fetch "${SRC_URI}" || die "Failed fetch sources... error"
+sw-user || die "Failed package build from user... error"  # only for user-build
 
 if { test "X${USER}" = 'Xroot' && test "${BUILD_CHROOT:=0}" -ne '0' ;} ;then
-  no-ldconfig
-  netuser-fetch || exit
-  sw-user || exit
-elif test "X${USER}" != 'Xroot'; then
-  #17-prefix_cmake.sh
-  #17-python.sh
-  : drop-python
+  exit  # only for user-build
+elif test "X${USER}" != 'Xroot'; then  # only for user-build
+  renice -n '19' -u ${USER}
 
-  #20-gen_variables.sh
-
-  cd "${DISTSOURCE}/" || exit
-
-  test -d "${WORKDIR}" && rm -rf -- "${WORKDIR}/"
-  emptydir "${INSTALL_DIR}" || rm -r -- "${INSTALL_DIR}/"*
+  cd "${FILESDIR}/" || die "distsource dir: not found... error"
 
   ${ZCOMP} -dc "${PF}" | tar -C "${PDIR%/}/${SRC_DIR}/" -xkf - || exit &&
   printf %s\\n "${ZCOMP} -dc ${PF} | tar -C ${PDIR%/}/${SRC_DIR}/ -xkf -"
 
-  cd "${WORKDIR}/" || exit
+  case $(tc-abi-build) in
+    'x32')   append-flags -mx32 -msse2            ;;
+    'x86')   append-flags -m32 -msse -mfpmath=sse ;;
+    'amd64') append-flags -m64 -msse2             ;;
+  esac
+  append-flags -Os
+  append-ldflags -Wl,--gc-sections
+  append-cflags -ffunction-sections -fdata-sections
+  append-flags -fno-stack-protector -no-pie -g0 -march=$(arch | sed 's/_/-/')
 
-  printf %s\\n "Configure directory: PWD='${PWD}'... ok"
+  CC="gcc" CXX="g++"
 
-  printf %s\\n "MAKEFLAGS='${MAKEFLAGS}'"
-  printf %s\\n "CC='${CC}'" "CXX='${CXX}'" "CPP='${CPP}'" "LIBTOOL='${LIBTOOL}'"
-  printf %s\\n "CFLAGS='${CFLAGS}'" "CPPFLAGS='${CPPFLAGS}'" "CXXFLAGS='${CXXFLAGS}'"
-  printf %s\\n "FCFLAGS='${FCFLAGS}'" "FFLAGS='${FFLAGS}'" "LDFLAGS='${LDFLAGS}'"
+  cd "${BUILD_DIR}/" || die "builddir: not found... error"
 
   . runverb \
-  make \
+  make -j "$(nproc)" \
     LDFLAGS=$(usex 'static-libs' -static) \
-    PREFIX=${SPREFIX} \
-    BINDIR="${SPREFIX%/}/bin" \
-    LIBDIR="${SPREFIX%/}/${LIB_DIR}" \
+    PREFIX="${EPREFIX%/}" \
+    BINDIR="${EPREFIX%/}/bin" \
+    LIBDIR="${EPREFIX%/}/$(get_libdir)" \
     INCDIR="${INCDIR}" \
-    MANDIR="${DPREFIX}/share/man" \
-    DESTDIR="${INSTALL_DIR}" \
-    all install || exit
+    DESTDIR="${ED}" \
+    all-static install-static || die "Failed make build"
 
-  cd "${INSTALL_DIR}/${INCDIR#/}" || exit
-  mkdir -m 0755 "ncursesw/"
-  cd "ncursesw/" || exit
-  ln -s ../*.h .
-  ln -s ../curses.h "ncurses.h"
+  mkdir -m 0755 -- "${ED}/${INCDIR#/}/ncursesw/"
 
-  cd "${INSTALL_DIR}/" || exit
+  cd "${ED}/${INCDIR#/}/ncursesw/" || die "install dir: not found... error"
+  ln -vs ../*.h .
+  ln -sf ../curses.h "ncurses.h"
 
-  post-inst-perm
+  cd "${ED}/" || die "install dir: not found... error"
 
-  RMLIST="$(pkg-rmlist)" pkg-rm
-
-  post-rm
-  pkg-rm-empty
   use 'strip' && pkg-strip
-  use 'upx' && upx --best "bin/${PN}"
-  pre-perm
-  exit
+
+  LD_LIBRARY_PATH=
+  use 'stest' && { bin/${PROG} --help || : die "binary work... error";}
+  ldd "bin/${PROG}" || { use 'static' && true || die "library deps work... error";}
+
+  exit 0  # only for user-build
 fi
 
-cd "${INSTALL_DIR}/" || exit
+cd "${ED}/" || die "install dir: not found... error"
 
 pkg-perm
 
-INST_ABI="$(test-native-abi)" pkg-create-cgz
+INST_ABI="$(tc-abi-build)" PN=${XPN} PV=${PV} pkg-create-cgz
