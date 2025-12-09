@@ -193,7 +193,7 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
     -e '10s|\(brightgreen ..\)|\1\[ \]\*|' \
     -i usr/share/nano/sh.nanorc
 
-  sed -e '/syntax lua "\.lua\$"/a header "^#!.*(env[[:blank:]]+)?lua"' -i usr/share/nano/lua.nanorc
+  sed -e '/syntax lua "\\\.lua\$"/a header "^#!.*(env[[:blank:]]+)?lua"' -i usr/share/nano/lua.nanorc
   }
 
   rmdir -- "usr/share/${PN}/extra/"
