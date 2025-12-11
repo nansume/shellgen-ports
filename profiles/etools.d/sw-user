@@ -4,7 +4,7 @@
 # http://www.gnu.org/licenses/gpl-3.0.html
 # Date: 2024-07-07 19:00 UTC, 2025-12-09 18:00 UTC - last change
 
-SCBUILD=${SCBUILD:-build-script.sh} LOGFILE=${LOGFILE:?} BUILDLIST=${BUILDLIST-} F=
+SCBUILD=${SCBUILD:-build-script.sh} LOGFILE=${LOGFILE-} BUILDLIST=${BUILDLIST-} F=
 
 [ "0${BUILD_CHROOT}" -ne '0' ] || exit 0
 [ "X${USER}" != 'Xroot' ] && { USE_BUILD_ROOT='0'; exit;}

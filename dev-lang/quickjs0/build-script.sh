@@ -116,6 +116,7 @@ elif test "X${USER}" != 'Xroot'; then
   . runverb \
   make \
   	DESTDIR="${INSTALL_DIR}" \
+  	PREFIX="${SPREFIX%/}" \
     CC="$(tc-getCC)" \
     AR="$(tc-getAR)" \
     CONFIG_LTO=$(usex 'lto' y n) \

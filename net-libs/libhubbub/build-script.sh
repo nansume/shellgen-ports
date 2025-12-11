@@ -107,6 +107,7 @@ elif test "X${USER}" != 'Xroot'; then
   printf %s\\n "CFLAGS='${CFLAGS}'" "CPPFLAGS='${CPPFLAGS}'" "CXXFLAGS='${CXXFLAGS}'"
   printf %s\\n "FCFLAGS='${FCFLAGS}'" "FFLAGS='${FFLAGS}'" "LDFLAGS='${LDFLAGS}'"
 
+  for COMPONENT_TYPE in '' 'lib-shared'; do
   . runverb \
   make \
   	DESTDIR="${INSTALL_DIR}" \
@@ -114,8 +115,9 @@ elif test "X${USER}" != 'Xroot'; then
     LIBDIR="${LIB_DIR}" \
     INCLUDEDIR="${INCDIR#/}" \
     NSSHARED="${DPREFIX}/share/netsurf-buildsystem" \
-    COMPONENT_TYPE="lib-shared" \
+    $(test -n "${COMPONENT_TYPE}" && printf "COMPONENT_TYPE=${COMPONENT_TYPE}") \
     all install || exit
+  done
 
   cd "${INSTALL_DIR}/" || exit
 

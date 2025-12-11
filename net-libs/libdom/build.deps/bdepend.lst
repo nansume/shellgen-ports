@@ -5,7 +5,8 @@ dev-libs/libparserutils
 dev-util/nsbuildsystem
 net-libs/libhubbub
 dev-util/pkgconf
-sys-devel/binutils
-sys-devel/gcc
+sys-devel/binutils6
+sys-devel/gcc6
 sys-devel/make
+sys-devel/patch  # required
 sys-libs/musl

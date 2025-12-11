@@ -1,6 +1,3 @@
-dev-lang/perl
-dev-util/nsbuildsystem
-dev-util/pkgconf
 sys-devel/binutils6
 sys-devel/gcc6
 sys-devel/make

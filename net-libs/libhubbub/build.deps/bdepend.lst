@@ -1,8 +1,9 @@
 dev-lang/perl
 dev-libs/libparserutils
+dev-util/gperf  # required
 dev-util/nsbuildsystem
 dev-util/pkgconf
-sys-devel/binutils
-sys-devel/gcc
+sys-devel/binutils6
+sys-devel/gcc6
 sys-devel/make
 sys-libs/musl
