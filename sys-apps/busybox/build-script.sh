@@ -152,7 +152,7 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
     -e 's|ping6_main|sping6_main|' \
     -i networking/sping.c
 
-  # for error page cgi support
+  # patches from ports/dist
   for F in "${PDIR%/}/patches/"*".diff"; do
     case ${F} in *'*'*) continue;; esac
     [ -f "${F}" ] && patch -p1 -E < "${F}"

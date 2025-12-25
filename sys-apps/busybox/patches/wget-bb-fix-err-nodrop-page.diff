@@ -1,0 +1,17 @@
+Author: Artjom Slepnjov "Shellgen"
+Description: wget - fix than http header return error code no drop page.
+Date: 2025-12-25 03:00 UTC
+===================================================================================
+--- a/networking/wget.c
++++ b/networking/wget.c
+@@ -1373,6 +1373,10 @@
+ 		case 303:
+ 		case 307:
+ 		case 308:
++		case 403:  /* no drop page */
++		case 404:
++		case 523:
++		case 530:
+ 			break;
+ 
+ 		case 206: /* Partial Content */
