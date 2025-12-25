@@ -140,6 +140,18 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
 
   cp -v -n "${FILESDIR}"/ginit.c -t init/ || : die
 
+  # sping applet add
+  cp -v -n networking/ping.c networking/sping.c
+  sed \
+    -e 's|PING|SPING|' \
+    -e '/\/\/config:/ s|ping|sping|' \
+    -e '/\/\/applet:/ s|ping|sping|' \
+    -e '/\/\/usage:/ s|ping|sping|' \
+    -e '/\/\/kbuild:/ s|ping\.o|sping\.o|' \
+    -e 's|ping_main|sping_main|' \
+    -e 's|ping6_main|sping6_main|' \
+    -i networking/sping.c
+
   # for error page cgi support
   for F in "${PDIR%/}/patches/"*".diff"; do
     case ${F} in *'*'*) continue;; esac

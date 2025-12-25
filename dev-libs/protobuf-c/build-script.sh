@@ -1,51 +1,38 @@
 #!/bin/sh
-# Copyright (C) 2023-2025 Artjom Slepnjov, Shellgen
-# License GPLv3: GNU GPL version 3 only
-# http://www.gnu.org/licenses/gpl-3.0.html
-# Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
-# Date: 2023-11-19 16:00 UTC - last change
-# Build with useflag: -static -static-libs +shared -lfs +nopie -patch -doc -xstub -diet +musl +stest +strip +x32
-# BUG: build with +static -shared - nowork
+# Maintainer: Artjom Slepnjov <shellgen-at-uncensored-dot-citadel-dot-org>
+# Date: 2025-12-18 20:00 UTC - last change
+# Build with useflag: -static +static-libs +shared -lfs +nopie -patch -doc -xstub -diet +musl +stest +strip +x32
 
-# http://data.gpo.zugaina.org/gentoo/media-sound/alsa-utils/alsa-utils-1.2.13-r2.ebuild
-# aports-3.21.3/main/alsa-utils/APKBUILD
+# http://data.gpo.zugaina.org/gentoo/dev-libs/protobuf-c/protobuf-c-1.5.2.ebuild
 
 export XPN PF PV WORKDIR BUILD_DIR PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
 export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED
-export CC CXX CPPFLAGS PKG_CONFIG PKG_CONFIG_LIBDIR PKG_CONFIG_PATH
+export CC CXX PKG_CONFIG PKG_CONFIG_LIBDIR PKG_CONFIG_PATH
 
-DESCRIPTION="Advanced Linux Sound Architecture Utils (alsactl, alsamixer, etc.)"
-HOMEPAGE="https://alsa-project.org/wiki/Main_Page"
-LICENSE="GPL-2"
-IFS="$(printf '\n\t')"
+DESCRIPTION="Protocol Buffers implementation in C"
+HOMEPAGE="https://github.com/protobuf-c/protobuf-c"
+LICENSE="BSD-2"
+IFS="$(printf '\n\t') "
 XPWD=${XPWD:-$PWD}
 XPWD=${5:-$XPWD}
 PKG_DIR="/pkg"
 LC_ALL="C"
 CATEGORY="${CATEGORY:-${11:?required <CATEGORY>}}"
 PN="${PN:-${12:?required <PN>}}"
-PN=${PN%%_*}
+PN=${PN%%_*} PN=${PN%_[0-9]*}
 XPN=${XPN:-$PN}
-PV="1.2.12"
-PV="1.2.13"
-PV="1.2.15.1"
-PV="1.2.6"
-SRC_URI="
-  ftp://alsa-project.org/files/pub/utils/${PN}-${PV}.tar.bz2
-  http://localhost/pub/distfiles/patch/alsa-utils-1.2.12-musl-locale.patch
-  http://localhost/pub/distfiles/patch/alsa-utils-1.2.12-musl-types.patch
-"
+PV="1.5.2"
+SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${PN}-${PV}.tar.gz"
 USE_BUILD_ROOT="0"
 BUILD_CHROOT=${BUILD_CHROOT:-0}
 PDIR=$(pkg-rootdir)
 DPREFIX="/usr"
 INCDIR="${DPREFIX}/include"
-INSTALL_OPTS="install"
+inst="install"
 HOSTNAME="localhost"
 BUILD_USER="tools"
 SRC_DIR="build"
-IUSE="-bat -doc -libsamplerate -ieee1394 -ncurses -nls -selinux"
-IUSE="${IUSE} -rpath -static +shared (+musl) +stest +strip"
+IUSE="-year2038 -protoc +static-libs +shared -doc (+musl) +stest +strip"
 EABI=$(tc-abi-build)
 ABI=${EABI}
 XABI=${EABI}
@@ -62,7 +49,7 @@ ED=${INSTALL_DIR}
 SDIR="${PDIR%/}/${SRC_DIR}"
 PF=$(pfname 'src_uri.lst' "${SRC_URI}")
 PKGNAME=${PN}
-ZCOMP="bunzip2"
+ZCOMP="gunzip"
 WORKDIR="${PDIR%/}/${SRC_DIR}"
 BUILD_DIR="${PDIR%/}/${SRC_DIR}/${PN}-${PV}"
 PWD=${PWD%/}; PWD=${PWD:-/}
@@ -74,7 +61,6 @@ PKG_CONFIG_PATH="${PKG_CONFIG_LIBDIR}:/lib/pkgconfig:/usr/share/pkgconfig"
 ABI_BUILD="${ABI_BUILD:-${1:?}}"
 BUILD_CHROOT="${7:-${BUILD_CHROOT:?}}"
 USE_BUILD_ROOT=${9:-$USE_BUILD_ROOT}
-PROG="amixer"
 
 if test "X${USER}" != 'Xroot'; then
   mksrc-prepare
@@ -90,13 +76,21 @@ fi
 chroot-build || die "Failed chroot... error"
 
 pkginst \
+  "dev-build/autoconf71  # required for autotools" \
+  "dev-build/automake16  # required for autotools" \
+  "dev-build/libtool14  # required for autotools" \
+  "dev-cpp/abseil-cpp1" \
+  "dev-lang/perl  # required for autotools" \
+  "dev-libs/protobuf" \
+  "dev-libs/protobuf-c  # no required" \
   "dev-util/pkgconf" \
-  "media-libs/alsa-lib" \
+  "sys-apps/file" \
   "sys-devel/binutils9" \
-  "sys-devel/gcc9" \
+  "sys-devel/gcc14" \
+  "sys-devel/m4  # required for autotools" \
   "sys-devel/make" \
   "sys-libs/musl" \
- || die "Failed install build pkg depend... error"
+  || die "Failed install build pkg depend... error"
 
 build-deps-fixfind
 
@@ -121,11 +115,10 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
     'x86')   append-flags -m32 -msse -mfpmath=sse ;;
     'amd64') append-flags -m64 -msse2             ;;
   esac
-  if use !shared && { use 'static-libs' || use 'static' ;}; then
+  if use !shared && use 'static-libs'; then
     append-flags -Os
     append-ldflags -Wl,--gc-sections
     append-cflags -ffunction-sections -fdata-sections
-    use 'static' && append-ldflags "-s -static --static"
   else
     append-flags -O2
   fi
@@ -133,59 +126,36 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
 
   CC="gcc" CXX="g++"
 
-  use 'strip' && INSTALL_OPTS='install-strip'
+  use 'strip' && inst="install-strip"
 
   cd "${BUILD_DIR}/" || die "builddir: not found... error"
 
-  patch -p1 -E < "${FILESDIR}"/alsa-utils-1.2.12-musl-locale.patch
-  #patch -p1 -E < "${FILESDIR}"/alsa-utils-1.2.12-musl-types.patch  # >= v1.2.12
+  test -x "/bin/perl" && autoreconf --install
 
-  # Fix for musl libc
-  sed -e '/^#define _GNU_SOURCE$/a #define _LARGEFILE64_SOURCE' -i aplay/aplay.c
-
-  . runverb \
   ./configure \
-    CC="gcc" \
-    CXX="g++" \
-    --prefix="${EPREFIX%/}" \
+    --prefix="/usr" \
+    --exec-prefix="${EPREFIX%/}" \
     --bindir="${EPREFIX%/}/bin" \
-    --sbindir="${EPREFIX%/}/sbin" \
+    --sysconfdir="${EPREFIX%/}"/etc \
+    --libdir="${EPREFIX%/}/$(get_libdir)" \
     --includedir="${INCDIR}" \
-    --datarootdir="${EPREFIX%/}"/usr/share \
+    --datadir="${EPREFIX%/}"/usr/share \
     --mandir="${EPREFIX%/}"/usr/share/man \
+    --docdir="${EPREFIX%/}"/usr/share/doc/${PN}-${PV} \
     --host=$(tc-chost) \
     --build=$(tc-chost) \
-    --disable-alsaconf \
-    --disable-alsaloop \
-    --disable-bat \
-    --with-librt=no \
-    $(usex !ncurses --disable-alsamixer) \
-    --disable-xmlto \
-    --with-alsactl-lock-dir=/run/lock \
-    --with-udev-rules-dir=/lib/udev/rules.d \
-    $(use_enable 'rpath') \
-    --disable-nls \
+    $(usex !protoc --disable-protoc) \
+    $(use_enable 'shared') \
+    $(use_enable 'static-libs' static) \
     || die "configure... error"
 
-  #use 'musl' && rm -r -- 'aplay/'*
   make -j "$(nproc)" || die "Failed make build"
 
-  . runverb \
-  make DESTDIR="${ED}" ${INSTALL_OPTS} || die "make install... error"
+  make DESTDIR="${ED}" ${inst} || : die "make install... error"
 
   cd "${ED}/" || die "install dir: not found... error"
 
-  use 'doc' || rm -vr -- "usr/share/man/"
-
-  #RMLIST="$(pkg-rmlist)" pkg-rm
-
-  #post-rm
-  pkg-rm-empty
-
-  #use 'strip' && strip --verbose --strip-all "bin/${PROG}"
-
-  use 'stest' && { bin/${PROG} --version || die "binary work... error";}
-  ldd "bin/${PROG}" || { use 'static' && true || die "library deps work... error";}
+  find "$(get_libdir)/" -name '*.la' -type f -delete || die
 
   exit 0  # only for user-build
 fi

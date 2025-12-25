@@ -1,0 +1,26 @@
+#app-alternatives/ncursesw
+
+#app-busybox/echo
+#app-busybox/find
+app-busybox/bc
+app-busybox/depmod
+app-busybox/sha1sum
+
+# build dependencies optional: perl
+#dev-lang/perl
+
+# kernel + deps - cert,hostname
+#dev-libs/openssl3
+
+dev-util/byacc  # alternative a bison (posix)
+
+sys-apps/findutils
+
+sys-devel/binutils9
+#sys-devel/bison
+sys-devel/flex  # required no-posix lex
+sys-devel/gcc9
+sys-devel/m4  # required for lex
+sys-devel/make
+
+sys-libs/musl

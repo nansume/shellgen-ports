@@ -1,7 +1,7 @@
 #!/bin/sh
 # Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
-# Date: 2025-02-28 16:00 UTC - last change
-# Build with useflag: -static +static-libs +shared -lfs +nopie +patch -doc -xstub -diet +musl +stest +strip +x32
+# Date: 2025-12-22 12:00 UTC - last change
+# Build with useflag: +/-static +static-libs +shared -lfs +nopie +patch -doc -xstub -diet +musl +stest +strip +x32
 
 # http://data.gpo.zugaina.org/gentoo/media-libs/alsa-lib/alsa-lib-1.2.13-r2.ebuild
 
@@ -22,8 +22,12 @@ PN="${PN:-${12:?required <PN>}}"
 PN=${PN%%_*}
 XPN=${XPN:-$PN}
 PV="1.2.13"
+PV="1.2.15.1"
 PV="1.2.6"
-SRC_URI="ftp://alsa-project.org/files/pub/lib/${PN}-${PV}.tar.bz2"
+SRC_URI="
+  ftp://alsa-project.org/files/pub/lib/${PN}-${PV}.tar.bz2
+  http://localhost/pub/distfiles/patch/alsa-lib-1.2.12-remove-test.patch
+"
 USE_BUILD_ROOT="0"
 BUILD_CHROOT=${BUILD_CHROOT:-0}
 PDIR=$(pkg-rootdir)
@@ -33,8 +37,8 @@ INSTALL_OPTS="install"
 HOSTNAME="localhost"
 BUILD_USER="tools"
 SRC_DIR="build"
-IUSE="-alisp -debug -doc -python"
-IUSE="${IUSE} -static +static-libs +shared (+musl) +stest +strip"
+IUSE="-alisp -debug -doc -python +aserver"
+IUSE="${IUSE} +static +static-libs +shared (+musl) +stest +strip"
 EABI=$(tc-abi-build)
 ABI=${EABI}
 XABI=${EABI}
@@ -60,6 +64,7 @@ LIBDIR="/${LIB_DIR}"
 ABI_BUILD="${ABI_BUILD:-${1:?}}"
 BUILD_CHROOT="${7:-${BUILD_CHROOT:?}}"
 USE_BUILD_ROOT=${9:-$USE_BUILD_ROOT}
+PROG="aserver"
 
 if test "X${USER}" != 'Xroot'; then
   mksrc-prepare
@@ -76,11 +81,11 @@ chroot-build || die "Failed chroot... error"
 
 pkginst \
   "sys-apps/file" \
-  "sys-devel/binutils" \
+  "sys-devel/binutils9" \
   "sys-devel/gcc9" \
   "sys-devel/make" \
   "sys-kernel/linux-headers-musl" \
-  "sys-libs/musl0" \
+  "sys-libs/musl" \
   || die "Failed install build pkg depend... error"
 
 build-deps-fixfind
@@ -121,6 +126,8 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
 
   cd "${BUILD_DIR}/" || die "builddir: not found... error"
 
+  patch -p1 -E < "${FILESDIR}"/alsa-lib-1.2.12-remove-test.patch
+
   ./configure \
     --prefix="/usr" \
     --exec-prefix="${EPREFIX%/}" \
@@ -128,7 +135,10 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
     --libdir="${EPREFIX%/}/$(get_libdir)" \
     --includedir="${INCDIR}" \
     --datadir="${EPREFIX%/}"/usr/share \
+    --disable-python \
+    --disable-resmgr \
     --disable-topology \
+    --without-versioned \
     --enable-shared \
     --disable-static \
     || die "configure... error"
@@ -139,6 +149,10 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
   ###################################################################
 
   use 'static-libs' && {
+
+  use 'static' && append-ldflags "-s -static --static"
+  use 'static' || mv -n "${ED}"/bin/aserver "${ED}"/bin/aserver.shared
+
   ./configure \
     --prefix="/usr" \
     --exec-prefix="${EPREFIX%/}" \
@@ -146,22 +160,35 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
     --libdir="${EPREFIX%/}/$(get_libdir)" \
     --includedir="${INCDIR}" \
     --datadir="${EPREFIX%/}"/usr/share \
+    --disable-python \
+    --disable-resmgr \
     --disable-topology \
+    --without-versioned \
     --disable-shared \
     --enable-static \
     || die "configure... error"
 
   make -j "$(nproc)" || die "Failed make build"
+
   make DESTDIR="${ED}" ${INSTALL_OPTS} || die "make install... error"
+  if ! use 'static'; then
+    mv -f "${ED}"/bin/aserver.shared "${ED}"/bin/aserver
+  fi
   }
 
   ###################################################################
 
   cd "${ED}/" || die "install dir: not found... error"
 
-  rm -r -- "bin/"
+  use 'aserver' || rm -v -r -- "bin/"
 
   find "$(get_libdir)/" -type f -name '*.la' -delete || die
+
+  use 'aserver' && {
+  use 'static' || LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+${LD_LIBRARY_PATH}:}${ED}/$(get_libdir)"
+  use 'stest' && { bin/${PROG} -h || : die "binary work... error";}
+  ldd "bin/${PROG}" || { use 'static' && true || die "library deps work... error";}
+  }
 
   exit 0  # only for user-build
 fi

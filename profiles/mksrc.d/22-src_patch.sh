@@ -2,8 +2,7 @@
 # Copyright (C) 2021-2025 Artjom Slepnjov, Shellgen
 # License GPLv3: GNU GPL version 3 only
 # http://www.gnu.org/licenses/gpl-3.0.html
-# Date: 2024-04-12 11:00 UTC - last change
-# Date: 2024-10-06 21:00 UTC - last change
+# Date: 2024-04-12 11:00 UTC, 2025-12-22 19:00 UTC - last change
 
 local EXITCODE='0'
 local PDIR=${PDIR}
