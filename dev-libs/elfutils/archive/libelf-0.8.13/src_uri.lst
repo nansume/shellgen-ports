@@ -1,0 +1,6 @@
+https://fossies.org/linux/misc/old/libelf-0.8.13.tar.gz
+#https://web.archive.org/web/20160505220855/http://www.mr511.de/software/libelf-0.8.13.tar.gz
+#ftp://ftp.vectranet.pl/gentoo/distfiles/elfutils-0.188.tar.bz2
+#https://raw.githubusercontent.com/GregorR/musl-cross/master/patches/elfutils-libelf_only.patch
+
+# https://git.alpinelinux.org/aports/plain/main/elfutils/APKBUILD

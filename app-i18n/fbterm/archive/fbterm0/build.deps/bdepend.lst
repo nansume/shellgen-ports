@@ -1,0 +1,17 @@
+dev-libs/expat
+media-libs/fontconfig
+media-libs/freetype
+
+dev-libs/glib57
+dev-libs/libx86
+#dev-libs/pcre  # bundled
+dev-util/pkgconf
+
+sys-devel/binutils
+sys-devel/gcc9
+sys-devel/make
+sys-kernel/linux-headers-musl
+#sys-libs/gpm  #error: 'memset' was not declared in this scope
+sys-libs/musl0
+#sys-libs/ncurses  # deps gpm
+sys-libs/zlib  # required for glib

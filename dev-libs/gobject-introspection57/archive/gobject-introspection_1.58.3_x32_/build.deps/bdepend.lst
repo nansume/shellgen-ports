@@ -1,0 +1,18 @@
+dev-lang/python38  # required xml extension
+dev-lang/vala
+dev-libs/expat  # for fontconfig or python bundled
+dev-libs/glib69
+dev-libs/libffi  # for glib
+dev-libs/pcre  # for glib69
+dev-util/pkgconf
+
+sys-apps/file  # optional
+#sys-apps/sed  # required to gsed
+sys-devel/binutils
+sys-devel/bison
+sys-devel/flex
+sys-devel/gcc9
+#sys-devel/m4
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib  # for glib

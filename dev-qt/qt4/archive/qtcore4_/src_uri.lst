@@ -1,0 +1,19 @@
+https://download.qt-project.org/official_releases/qt/4.8/4.8.7/qt-everywhere-opensource-src-4.8.7.tar.gz
+https://download.kde.org/stable/qtwebkit-2.3/2.3.4/src/qtwebkit-2.3.4.tar.gz
+
+# fix musl bug
+http://shellgen.mooo.com/pub/distfiles/patch/qt-4.8.7/qt464-iconv.patch
+
+# bug 514968
+https://gitweb.gentoo.org/repo/gentoo.git/plain/dev-qt/qtcore/files/qtcore-4.8.5-honor-ExcludeSocketNotifiers-in-glib-event-loop.patch?id=c6166ef6dd2a63d28e45478d25b5ba9b165eeae4 -> qtcore-4.8.5-honor-ExcludeSocketNotifiers-in-glib-event-loop.patch
+
+# bug 514968
+https://gitweb.gentoo.org/repo/gentoo.git/plain/dev-qt/qtcore/files/qtcore-4.8.5-qeventdispatcher-recursive.patch?id=c6166ef6dd2a63d28e45478d25b5ba9b165eeae4 -> qtcore-4.8.5-qeventdispatcher-recursive.patch
+
+# bug 584796
+https://gitweb.gentoo.org/repo/gentoo.git/plain/dev-qt/qtcore/files/qtcore-4.8.7-libressl.patch?id=c6166ef6dd2a63d28e45478d25b5ba9b165eeae4 -> qtcore-4.8.7-libressl.patch
+
+# bug 556104, 635394
+https://gitweb.gentoo.org/repo/gentoo.git/plain/dev-qt/qtcore/files/qtcore-4.8.7-moc.patch?id=c6166ef6dd2a63d28e45478d25b5ba9b165eeae4 -> qtcore-4.8.7-moc.patch
+
+http://shellgen.mooo.com/pub/distfiles/patch/qt-4.8.7/qtcore-4.8.7-fix-socklent-for-musl.patch

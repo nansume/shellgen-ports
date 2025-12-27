@@ -1,7 +1,0 @@
-dev-libs/libffi
-dev-libs/expat
-dev-lang/python3
-dev-python/py3-setuptools
-dev-python/py3-flitcore
-dev-python/py3-installer
-dev-python/py3-wheel

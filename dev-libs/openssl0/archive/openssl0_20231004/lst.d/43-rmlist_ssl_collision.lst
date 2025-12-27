@@ -1,0 +1,5 @@
+# collision: libressl, another version openssl
+etc/*
+bin/*
+lib*/engines/*
+lib*/lib*.so

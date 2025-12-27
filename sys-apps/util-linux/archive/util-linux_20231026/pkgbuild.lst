@@ -1,0 +1,6 @@
+#getopt
+#libblkid
+libmount
+libuuid
+losetup
+#switch-root

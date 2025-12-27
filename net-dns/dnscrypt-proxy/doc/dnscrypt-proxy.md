@@ -13,5 +13,8 @@ https://raw.githubusercontent.com/openwrt/packages/master/net/dnscrypt-proxy/fil
 https://github.com/dyne/dnscrypt-proxy/raw/master/dnscrypt-resolvers.csv 
 https://raw.githubusercontent.com/dyne/dnscrypt-proxy/master/dnscrypt-resolvers.csv
 ====================================================================================================================
+
+
+--------------------------------------------------------------------------------------------------------------------
 dnscrypt-resolvers.csv --> dnscrypt-resolvers-alt.csv
 --------------------------------------------------------------------------------------------------------------------

@@ -1,10 +1,7 @@
 #!/bin/sh
-# Copyright (C) 2023-2025 Artjom Slepnjov, Shellgen
-# License GPLv3: GNU GPL version 3 only
-# http://www.gnu.org/licenses/gpl-3.0.html
 # Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
-# Date: 2023-12-04 14:00 UTC - last change
-# Build with useflag: -static +static-libs +shared -lfs +nopie -patch -doc -xstub -diet +musl +stest +strip +x32
+# Date: 2025-02-26 16:00 UTC - last change
+# Build with useflag: +static +static-libs -shared -lfs +nopie -patch -doc -xstub -diet +musl +stest +strip +x32
 
 # http://data.gpo.zugaina.org/gentoo/media-libs/libsixel/libsixel-1.10.5.ebuild
 
@@ -25,13 +22,9 @@ PN="${PN:-${12:?required <PN>}}"
 PN=${PN%%_*}
 XPN=${XPN:-$PN}
 PN=${PN%[0-9]}
-PV="1.10.5"  # it meson!
-PV="1.9.0"
-SLOT="0"
-SRC_URI="
-  https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${PN}-${PV}.tar.gz
-  #http://data.gpo.zugaina.org/gentoo/media-libs/${PN}/files/${PN}-musl.patch  # it for meson ver
-"
+PV="1.10.5"
+SLOT="1"
+SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${PN}-${PV}.tar.gz"
 USE_BUILD_ROOT="0"
 BUILD_CHROOT=${BUILD_CHROOT:-0}
 PDIR=$(pkg-rootdir)
@@ -42,7 +35,7 @@ HOSTNAME="localhost"
 BUILD_USER="tools"
 SRC_DIR="build"
 IUSE="-curl -gd -gtk +jpeg +png -python -test"
-IUSE="${IUSE} -nls -static +static-libs +shared -doc (+musl) +stest +strip"
+IUSE="${IUSE} -nls +static +static-libs -shared -doc (+musl) +stest +strip"
 EABI=$(tc-abi-build)
 ABI=${EABI}
 XABI=${EABI}
@@ -87,12 +80,15 @@ fi
 chroot-build || die "Failed chroot... error"
 
 pkginst \
+  "dev-build/muon  # alternative for meson" \
+  "dev-build/samurai  # alternative for ninja" \
   "dev-util/pkgconf" \
-  "media-libs/libjpeg-turbo1" \
+  "media-libs/libjpeg-turbo3" \
   "media-libs/libpng" \
   "sys-apps/file" \
   "sys-devel/binutils" \
   "sys-devel/gcc9" \
+  "sys-devel/m4  # required for ninja" \
   "sys-devel/make" \
   "sys-libs/musl0" \
   "sys-libs/zlib" \
@@ -121,10 +117,11 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
     'x86')   append-flags -m32         ;;
     'amd64') append-flags -m64 -msse2  ;;
   esac
-  if use !shared && use 'static-libs'; then
+  if use !shared && { use 'static-libs' || use 'static' ;}; then
     append-flags -Os
     append-ldflags -Wl,--gc-sections
     append-cflags -ffunction-sections -fdata-sections
+    append-ldflags "-s -static --static"
   else
     append-flags -O2
   fi
@@ -136,47 +133,38 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
 
   cd "${BUILD_DIR}/" || die "builddir: not found... error"
 
-  #patch -p1 -E < "${FILESDIR}/${PN}-musl.patch" # it for meson ver
+  meson setup \
+    -Dprefix="${EPREFIX%/}/usr" \
+    -Dbindir="${EPREFIX%/}/bin" \
+    -Dlibdir="/$(get_libdir)" \
+    -Dincludedir="/usr/include" \
+    -Dlibexecdir="/usr/libexec" \
+    -Ddatadir="/usr/share" \
+    -Dmandir="/usr/share/man" \
+    -Dwrap_mode="nodownload" \
+    -Dbuildtype="release" \
+    -Dpython=$(usex 'python' enabled disabled) \
+    -Dlibcurl=$(usex 'curl' enabled disabled) \
+    -Dgd=$(usex 'gd' enabled disabled) \
+    -Dgdk-pixbuf2=$(usex 'gtk' enabled disabled) \
+    -Djpeg=$(usex 'jpeg' enabled disabled) \
+    -Dpng=$(usex 'png' enabled disabled) \
+    -Dtests=$(usex 'test' enabled disabled) \
+    -Dprefer_static=$(usex 'static' true false) \
+    -Dstrip=$(usex 'strip' true false) \
+    "${BUILD_DIR}/build" "${BUILD_DIR}" \
+    || die "meson setup... error"
 
-  # deprecated: removed from libpng-1.4.x. png_check_sig()
-  #sed -e 's/-lpng/-lpng16/ -i configure
+  ninja -j "$(nproc)" -C "${BUILD_DIR}/build" || die "Build... Failed"
 
-  . runverb \
-  ./configure \
-    --prefix="${EPREFIX%/}" \
-    --bindir="${EPREFIX%/}/bin" \
-    --sbindir="${EPREFIX%/}/sbin" \
-    --libdir="${EPREFIX%/}/$(get_libdir)" \
-    --includedir="${INCDIR}" \
-    --libexecdir="${EPREFIX%/}"/usr/libexec \
-    --datarootdir="${EPREFIX%/}"/usr/share \
-    --host=$(tc-chost) \
-    --build=$(tc-chost) \
-    $(use_with 'png') \
-    $(use_enable 'python') \
-    $(use_enable 'test' tests) \
-    $(use_enable 'shared') \
-    $(use_enable 'static-libs' static) \
-    || die "configure... error"
-
-  make -j "$(nproc)" || die "Failed make build"
-
-  . runverb \
-  make DESTDIR="${ED}" ${INSTALL_OPTS} || die "make install... error"
+  DESTDIR="${ED}" meson install --no-rebuild -C "${BUILD_DIR}/build" || die "meson install... error"
 
   cd "${ED}/" || die "install dir: not found... error"
 
-  post-inst-perm
-
-  #RMLIST=$(pkg-rmlist ${RMLIST}) pkg-rm
-  rm -r -- usr/share/bash-completion/* usr/share/man/* usr/share/zsh/*
-
-  post-rm
-  pkg-rm-empty
-  pre-perm
+  rm -r -- usr/share/bash-completion/* usr/share/man/* usr/share/zsh/* usr/share/
 
   use 'stest' && { bin/${PROG} --version || die "binary work... error";}
-  ldd "$(get_libdir)/${PN}.so.${PV}" || { use 'static' && true || : die "library deps work... error";}
+  ldd "bin/${PROG}" || { use 'static' && true || die "library deps work... error";}
 
   exit 0  # only for user-build
 fi

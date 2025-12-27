@@ -1,0 +1,2 @@
+http://www.mirrorservice.org/sites/ftp.wiretapped.net/pub/security/network-monitoring/${PN}/${PN}-1.2.tar.gz
+#https://github.com/rcarbone/${PN}/archive/master.tar.gz -> ${PN}-20150211.tar.gz

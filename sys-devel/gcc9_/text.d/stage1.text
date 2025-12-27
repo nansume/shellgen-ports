@@ -1,5 +1,0 @@
-# post build stage1 (temporary)
-gcc
-libtool
-binutils
-glibc

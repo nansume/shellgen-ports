@@ -1,5 +1,0 @@
-http://ftp.debian.org/debian/pool/main/u/urlview/urlview_1e.orig.tar.gz -> ${PN}-1e.tar.gz
-#http://ftp.debian.org/debian/pool/main/u/urlview/urlview_1d.orig.tar.gz -> ${PN}-1d.tar.gz
-
-http://ftp.debian.org/debian/pool/main/u/urlview/urlview_1e-1.debian.tar.xz
-#http://ftp.debian.org/debian/pool/main/u/urlview/urlview_1d-1.debian.tar.xz

@@ -1,0 +1,3 @@
+bin/amixer
+<DPREFIX>/share/alsa/init/00main
+<DPREFIX>/share/alsa/init/hda

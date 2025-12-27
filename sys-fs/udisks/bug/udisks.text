@@ -1,0 +1,33 @@
+#!/lib/shell/env
+
+
+
+#################################################################
+# >=sys-fs/udisks-2.8.2
+#  /usr/bin/msgfmt: cannot locate ITS rules
+# old polkit-0.113
+#################################################################
+>>> Source configured.
+ + EBUILD_PHASE: compile
+ + _BashRcLoad... ok
+>>> Compiling source in /var/tmp/portage/sys-fs/udisks-2.8.3/work/udisks-2.8.3 ...
+make --jobs=5 --load-average=4 -s
+Making all in data
+Making all in tmpfiles.d
+/usr/bin/msgfmt: cannot locate ITS rules for org.freedesktop.UDisks2.policy.in
+make[3]: *** [Makefile:914: org.freedesktop.UDisks2.policy] Error 1
+make[2]: *** [Makefile:622: all-recursive] Error 1
+make[1]: *** [Makefile:504: all-recursive] Error 1
+make: *** [Makefile:436: all] Error 2
+ * ERROR: sys-fs/udisks-2.8.3::gentoo failed (compile phase):
+ *   emake failed
+
+
+
+
+# meson build fails with older polkit versions without ITS support - Issue #107 - hughsie/fwupd
+http://github.com/hughsie/fwupd/issues/107
+
+
+# fix:
+installed newer polkit-0.114

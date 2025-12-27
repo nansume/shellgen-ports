@@ -1,0 +1,11 @@
+dev-libs/libtasn1
+dev-libs/libgcrypt
+dev-libs/libgpg-error
+dev-util/pkgconf
+sys-apps/file
+sys-devel/binutils
+sys-devel/bison
+sys-devel/gcc
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib
