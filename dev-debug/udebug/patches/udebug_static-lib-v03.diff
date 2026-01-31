@@ -1,0 +1,29 @@
+Author: Artjom Slepnjov "Shellgen"
+Description: add build static-libs
+Ver: udebug-2026.01.16
+Date: 2026.01.28 11:00 UTC
+===================================================================================
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -21,8 +21,11 @@
+ ENDIF()
+ TARGET_LINK_LIBRARIES(udebug ${ubox} ${ubus})
+ 
++ADD_LIBRARY(udebug-static STATIC lib.c lib-pcap.c)
++SET_TARGET_PROPERTIES(udebug-static PROPERTIES OUTPUT_NAME udebug)
++
+ ADD_EXECUTABLE(udebugd main.c client.c ring.c ubus.c)
+-TARGET_LINK_LIBRARIES(udebugd udebug ${ubox} ${ubus})
++TARGET_LINK_LIBRARIES(udebugd udebug-static -lubox -lubus)
+ 
+ ADD_LIBRARY(ucode_lib MODULE lib-ucode.c)
+ SET_TARGET_PROPERTIES(ucode_lib PROPERTIES OUTPUT_NAME udebug PREFIX "")
+@@ -36,7 +39,7 @@
+ 	DESTINATION sbin
+ 	RENAME udebug
+ )
+-INSTALL(TARGETS udebugd udebug
++INSTALL(TARGETS udebugd udebug udebug-static
+ 	RUNTIME DESTINATION sbin
+ 	LIBRARY DESTINATION lib
+ )

@@ -1,0 +1,30 @@
+Author: Artjom Slepnjov "Shellgen"
+Description: add build static-libs
+Ver: ucode-2026.01.16
+Date: 2026.01.26 22:00 UTC
+===================================================================================
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -166,9 +166,13 @@
+ set_target_properties(libucode PROPERTIES OUTPUT_NAME ucode SOVERSION ${SOVERSION})
+ target_link_libraries(libucode uc_defines ${JSONC_LINK_LIBRARIES})
+ 
++add_library(libucode-static STATIC ${UCODE_SOURCES})
++set_target_properties(libucode-static PROPERTIES OUTPUT_NAME ucode)
++target_link_libraries(libucode-static uc_defines ${JSONC_LINK_LIBRARIES})
++
+ set(CLI_SOURCES main.c)
+ add_executable(ucode ${CLI_SOURCES})
+-target_link_libraries(ucode uc_defines libucode)
++target_link_libraries(ucode uc_defines libucode-static)
+ 
+ check_function_exists(dlopen DLOPEN_FUNCTION_EXISTS)
+ if(NOT DLOPEN_FUNCTION_EXISTS)
+@@ -424,6 +428,7 @@
+ 
+ install(TARGETS ucode RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+ install(TARGETS libucode LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
++install(TARGETS libucode-static LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+ install(TARGETS ${LIBRARIES} LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/ucode)
+ 
+ add_custom_target(utpl ALL COMMAND ${CMAKE_COMMAND} -E create_symlink ucode utpl)

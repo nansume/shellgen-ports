@@ -1,0 +1,46 @@
+Author: Artjom Slepnjov "Shellgen"
+Description: add build static-libs
+Ver: procd-2025.10.04
+Date: 2026.01.28 14:00 UTC
+===================================================================================
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -17,7 +17,13 @@
+ 	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+ )
+ 
++ADD_LIBRARY(setlbf-static STATIC service/setlbf.c)
++SET_TARGET_PROPERTIES(setlbf-static PROPERTIES OUTPUT_NAME setlbf)
++INSTALL(TARGETS setlbf-static
++	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
++)
+ 
++
+ SET(SOURCES procd.c signal.c state.c hotplug-dispatch.c inittab.c rcS.c ubus.c
+ 	system.c sysupgrade.c service/service.c service/instance.c
+ 	service/validate.c service/trigger.c service/watch.c utils/utils.c)
+@@ -106,6 +112,11 @@
+ INSTALL(TARGETS preload-seccomp
+ 	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+ )
++ADD_LIBRARY(preload-seccomp-static STATIC jail/preload.c jail/seccomp.c jail/seccomp-oci.c)
++SET_TARGET_PROPERTIES(preload-seccomp-static PROPERTIES OUTPUT_NAME preload-seccomp)
++INSTALL(TARGETS preload-seccomp-static
++	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
++)
+ ADD_DEPENDENCIES(preload-seccomp syscall-names-h)
+ SET(SOURCES_OCI_SECCOMP jail/seccomp-oci.c)
+ ENDIF()
+@@ -139,6 +150,12 @@
+ ADD_LIBRARY(preload-trace SHARED trace/preload.c)
+ TARGET_LINK_LIBRARIES(preload-trace dl)
+ INSTALL(TARGETS preload-trace
++	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
++)
++
++ADD_LIBRARY(preload-trace-static STATIC trace/preload.c)
++SET_TARGET_PROPERTIES(preload-trace-static PROPERTIES OUTPUT_NAME preload-trace)
++INSTALL(TARGETS preload-trace-static
+ 	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+ )
+ endif()

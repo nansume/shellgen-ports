@@ -1,0 +1,20 @@
+Author: Artjom Slepnjov "Shellgen"
+Description: add build static-libs
+Ver: ubox-2025.10.30
+Date: 2026.01.28 12:00 UTC
+===================================================================================
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -47,6 +47,12 @@
+ 	LIBRARY DESTINATION lib
+ )
+ 
++ADD_LIBRARY(validate-static STATIC validate/validate.c)
++SET_TARGET_PROPERTIES(validate-static PROPERTIES OUTPUT_NAME validate)
++INSTALL(TARGETS validate-static
++	LIBRARY DESTINATION lib
++)
++
+ FIND_PATH(uci_include_dir uci.h)
+ INCLUDE_DIRECTORIES(${uci_include_dir})
+ 
