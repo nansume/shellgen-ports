@@ -5,6 +5,7 @@
 
 # https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=bozohttpd
 # http://slackbuilds.org/slackbuilds/15.0/network/bozohttpd/bozohttpd.SlackBuild
+# https://iso.netbsd.org/pub/NetBSD/NetBSD-current/pkgsrc/www/bozohttpd/index.html
 
 export XPN PF PV WORKDIR BUILD_DIR PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
 export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED CC

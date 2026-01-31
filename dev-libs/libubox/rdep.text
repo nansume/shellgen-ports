@@ -1,0 +1,11 @@
+app-admin/uci
+app-crypt/urngd
+dev-debug/udebug
+dev-lang/ucode
+net-misc/rpcd
+net-nds/netifd
+sys-apps/ubox
+sys-apps/ubus
+sys-fs/mountd
+sys-process/procd
+www-servers/uhttpd

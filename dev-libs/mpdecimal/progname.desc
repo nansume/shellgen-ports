@@ -1,0 +1,9 @@
+# Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
+# -static +static-libs +shared +nopie -lfs -upx -patch -doc -man -xstub -diet +musl +stest +strip +x32
+
+# https://git.alpinelinux.org/aports/plain/main/mpdecimal/APKBUILD
+
+DESCRIPTION="complete implementation of the General Decimal Arithmetic Specification"
+HOMEPAGE="<url>"
+LICENSE="<license>"
+IUSE=""

@@ -5,6 +5,8 @@
 # Date: 2024-01-16 23:00 UTC - last change
 # Build with useflag: -diet +patch +ipv6 +static +x32
 
+# BUG: build with diet-libc too buggy
+
 export USER XPN PF PV WORKDIR S PKGNAME DPREFIX BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
 export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED
 
@@ -16,7 +18,7 @@ LC_ALL="C"
 CATEGORY="${CATEGORY:-${11:?required <CATEGORY>}}"
 PN="${PN:-${12:?required <PN>}}"
 PV="2.11.2p3"
-DESCRIPTION="your true Internet Relay Chat"
+DESCRIPTION="your true Internet Relay Chat (inetd,standalone)"
 HOMEPAGE="http://www.irc.org/"
 SRC_URI="
   http://deb.debian.org/debian/pool/main/i/${PN}/${PN}_${PV}~dfsg.orig.tar.gz

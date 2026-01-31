@@ -5,6 +5,10 @@
 # Date: 2024-03-10 12:00 UTC - last change
 # Build with useflag: +static +reverse-proxy +musl +x32
 
+# support - reverse HTTP proxy
+# https://superuser.com/questions/375901/
+# tinyproxy (reverse-http-proxy)
+
 export USER XPN PF PV WORKDIR S PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
 export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED
 

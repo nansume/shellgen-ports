@@ -3,6 +3,8 @@
 # Date: 2024-11-08 17:00 UTC - last change
 # Build with useflag: +static -static-libs -shared -lfs +nopie +patch -doc -xstub -diet +musl +stest +strip +x32
 
+# https://iso.netbsd.org/pub/NetBSD/NetBSD-current/pkgsrc/www/thttpd/index.html
+
 export XPN PF PV WORKDIR BUILD_DIR PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
 export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED CC
 

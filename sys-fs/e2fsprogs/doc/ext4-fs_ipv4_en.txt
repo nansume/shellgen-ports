@@ -1,0 +1,8 @@
+Date: 2020.11.28 - 2026.01.02
+
+##############################################################
+#          EXT4 [utf-8,lang-en,ipv4]         #
+##############################################################
+
+# Optimizing fs on sd-card for Linux/Fedora on Dreamplug | blog wordpress (ext4) [utf-8,lang-en,ipv4,ssl]
+https://blogofterje.wordpress.com/2012/01/14/optimizing-fs-on-sd-card/

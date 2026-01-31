@@ -1,6 +1,8 @@
 #!/bin/sh
 # +static -static-libs -shared -upx -patch -doc -man -xstub -diet +musl +stest +strip +x32
 
+# http://gpo.zugaina.org/net-analyzer/cryptcat
+
 export ED PV PN
 
 DESCRIPTION="Netcat clone extended with twofish encryption (c++)"

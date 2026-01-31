@@ -8,6 +8,10 @@
 export USER XPN PF PV WORKDIR S PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
 export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED
 
+DESCRIPTION="simple chat server for inetd. (advanced)"
+DESCRIPTION="A multi-user chat program that works exactly like UNIX's talk."
+HOMEPAGE="http://packages.debian.org/sid/ytalk"
+LICENSE="GPL"
 NL="$(printf '\n\t')"; NL=${NL%?}
 XPWD=${XPWD:-$PWD}
 XPN=${PN}
@@ -16,14 +20,10 @@ LC_ALL="C"
 CATEGORY="${CATEGORY:-${11:?required <CATEGORY>}}"
 PN="${PN:-${12:?required <PN>}}"
 PV="3.3.0"
-DESCRIPTION="A multi-user chat program that works exactly like UNIX's talk."
-HOMEPAGE="http://packages.debian.org/sid/ytalk"
 SRC_URI="
   http://ftp.debian.org/debian/pool/main/y/${PN}/${PN}_${PV}.orig.tar.gz
   http://ftp.debian.org/debian/pool/main/y/${PN}/${PN}_${PV}-9.debian.tar.xz
 "
-LICENSE="GPL"
-USER=${USER:-root}
 USE_BUILD_ROOT="0"
 BUILD_CHROOT=${BUILD_CHROOT:-0}
 PDIR=$(pkg-rootdir)

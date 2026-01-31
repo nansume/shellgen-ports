@@ -1,9 +1,11 @@
 #!/bin/sh
 # -static -static-libs +shared -lfs -upx -patch -doc -man -xstub -diet +musl +stest +strip +x32
 
+# http://gpo.zugaina.org/net-misc/purritobin
+
 #inherit install-functions  # update to uncomment
 
-DESCRIPTION="minimalistic commandline pastebin"
+DESCRIPTION="minimalistic commandline pastebin (pastebin-server,ipv46)"
 HOMEPAGE="https://bsd.ac"
 LICENSE="ISC"
 ED=${ED:-$INSTALL_DIR}

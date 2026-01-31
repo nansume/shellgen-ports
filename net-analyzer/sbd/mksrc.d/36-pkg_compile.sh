@@ -1,6 +1,8 @@
 #!/bin/sh
 # +static -static-libs -shared -lfs -upx -patch -doc -man -xstub +diet -musl +stest +strip +x32
 
+# http://gpo.zugaina.org/net-analyzer/sbd
+
 inherit toolchain-funcs install-functions
 
 DESCRIPTION="Netcat-clone, designed to be portable and offer strong encryption"

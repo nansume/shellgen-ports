@@ -1,0 +1,14 @@
+###################################
+#      acpid [utf-8,lang-en]      #
+###################################
+
+# KISS - ACPID [html,utf8,ipv6,ssl-only]
+https://mcpcpc.github.io/k1ss/wiki/software/acpid
+
+# sample - keycode [text,ipv6,ssl-only]
+https://raw.githubusercontent.com/macmpi/tiny-radioCD/master/etc/acpi.map
+
+# Power off from the buttom - Software Modding [html,ipv4,ssl-only]
+https://xpenology.com/forum/topic/393-power-off-from-the-buttom/
+
+https://html.duckduckgo.com/html?q=acpi.map+button+power+PWRF+00000080&kl=us-en

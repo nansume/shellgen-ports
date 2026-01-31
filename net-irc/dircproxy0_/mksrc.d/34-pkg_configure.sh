@@ -1,7 +1,8 @@
 #!/bin/sh
 # +static +static-libs -shared -upx +patch -doc -man -xstub +diet -musl +stest +strip +x32
 
-DESCRIPTION="dircproxy is an IRC proxy server (bouncer)."
+DESCRIPTION="dircproxy is an IRC proxy server (bouncer,inetd)."
+HOMEPAGE="https://github.com/w8tvi/dircproxy"
 HOMEPAGE="http://code.google.com/p/dircproxy/"
 LICENSE="GPLv2"
 IUSE="-ssl"

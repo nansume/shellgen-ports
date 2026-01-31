@@ -1,0 +1,9 @@
+# Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
+# +static -static-libs -shared +nopie -lfs -upx -patch -doc -man -xstub -diet +musl +stest +strip +x32
+
+# <orig-url-build-script>
+
+DESCRIPTION="troglobit/uftpd: FTP/TFTP server for Linux that just works (inetd)"
+HOMEPAGE="https://github.com/troglobit/uftpd"
+LICENSE="<license>"
+IUSE="+static -shared"

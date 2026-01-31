@@ -9,7 +9,7 @@ export XPN PF PV WORKDIR BUILD_DIR PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DI
 export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED
 export CC CXX
 
-DESCRIPTION="Port Forwarding Daemon"
+DESCRIPTION="Port Forwarding Daemon - very old (standalone)"
 HOMEPAGE="http://portfwd.sourceforge.net"
 LICENSE="GPL-2"
 IFS="$(printf '\n\t')"

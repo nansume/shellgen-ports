@@ -1,0 +1,9 @@
+# Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
+# +static -static-libs -shared +nopie -lfs -upx +patch -doc -man -xstub -diet +musl +stest +strip +x32
+
+# https://iso.netbsd.org/pub/NetBSD/NetBSD-current/pkgsrc/www/swish-e/index.html
+
+DESCRIPTION="Simple web indexing for humans - enhanced"
+HOMEPAGE="<url>"
+LICENSE="<license>"
+IUSE="+static -shared"

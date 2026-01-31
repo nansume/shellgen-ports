@@ -1,6 +1,8 @@
 #!/bin/sh
 # -static +static-libs +shared -patch -doc -xstub -diet +musl +stest +strip +x32
 
+# http://gpo.zugaina.org/dev-libs/wolfssl
+
 DESCRIPTION="Embedded SSL library."
 HOMEPAGE="https://www.wolfssl.com/ https://github.com/wolfSSL/wolfssl"
 LICENSE="GPL-2"

@@ -13,6 +13,8 @@
 # https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=twinkle
 # http://data.gpo.zugaina.org/nest/net-voip/twinkle/twinkle-1.10.3.ebuild
 
+# Twinkle is a SIP-based VoIP client. (qt5 or twinkle-console,tui,text)
+
 export XPN PF PV WORKDIR BUILD_DIR PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
 export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED
 export CC CXX PKG_CONFIG PKG_CONFIG_LIBDIR PKG_CONFIG_PATH CMAKE_PREFIX_PATH

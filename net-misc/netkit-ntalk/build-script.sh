@@ -5,6 +5,8 @@
 # Date: 2024-03-14 18:00 UTC - last change
 # Build with useflag: +static +ipv6 -diet +musl +x32
 
+# ntalkd - simple chat server for inetd
+
 export USER XPN PF PV WORKDIR S PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
 export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED
 

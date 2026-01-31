@@ -5,6 +5,8 @@
 # Date: 2024-03-14 11:00 UTC - last change
 # Build with useflag: +static -diet +musl +x32
 
+# http://gpo.zugaina.org/net-misc/uredir
+
 export USER XPN PF PV WORKDIR S PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
 export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED
 
@@ -16,7 +18,7 @@ LC_ALL="C"
 CATEGORY="${CATEGORY:-${11:?required <CATEGORY>}}"
 PN="${PN:-${12:?required <PN>}}"
 PV="3.3"
-DESCRIPTION="UDP port redirector"
+DESCRIPTION="UDP port redirector (inetd)"
 HOMEPAGE="https://github.com/troglobit/uredir"
 SRC_URI="https://github.com/troglobit/${PN}/releases/download/v${PV}/${PN}-${PV}.tar.gz"
 LICENSE="ISC"

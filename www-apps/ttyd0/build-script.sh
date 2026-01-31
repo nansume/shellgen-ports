@@ -9,7 +9,7 @@ export XPN PF PV WORKDIR BUILD_DIR PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DI
 export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED
 export CC CXX PKG_CONFIG PKG_CONFIG_LIBDIR PKG_CONFIG_PATH CMAKE_PREFIX_PATH
 
-DESCRIPTION="ttyd, a simple command-line tool for sharing terminal over the web"
+DESCRIPTION="ttyd, a simple command-line tool for sharing terminal over the web (web-server)"
 HOMEPAGE="https://github.com/tsl0922/ttyd"
 LICENSE="MIT"
 IFS="$(printf '\n\t')"

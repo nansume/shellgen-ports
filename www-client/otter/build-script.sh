@@ -5,7 +5,8 @@
 # Date: 2024-10-14 19:00 UTC - last change
 # Build with useflag: -static-libs +shared +ssl -glib -lfs +nopie +patch -doc -xstub +musl +stest +strip +x32
 
-# https://data.gpo.zugaina.org/gentoo/www-client/otter/otter-1.0.03-r1.ebuild
+# http://data.gpo.zugaina.org/gentoo/www-client/otter/otter-1.0.03-r1.ebuild
+# https://iso.netbsd.org/pub/NetBSD/NetBSD-current/pkgsrc/www/otter-browser/index.html
 
 export XPN PF PV WORKDIR BUILD_DIR S PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
 export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED

@@ -1,6 +1,10 @@
 #!/bin/sh
 # -static -static-libs +shared -lfs -upx +patch -doc -man -xstub -diet +musl +stest +strip +x32
 
+# https://iso.netbsd.org/pub/NetBSD/NetBSD-current/pkgsrc/www/htdig/index.html
+
+# WWW indexing and searching system (CGI)
+
 inherit autotools flag-o-matic install-functions
 
 DESCRIPTION="HTTP/HTML indexing and searching system"

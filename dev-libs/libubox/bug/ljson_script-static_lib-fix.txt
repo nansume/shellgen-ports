@@ -1,0 +1,8 @@
+          www-servers/uhttpd - all vers
+
+Date: 2024-11-08 16:00 UTC (opened)
+
+uhttpd: BUG: ld: cannot find -ljson_script
+uhttpd: BUG: static build - needed static-libs
+
+BUG: closed (2026-01-25 19:00 UTC)

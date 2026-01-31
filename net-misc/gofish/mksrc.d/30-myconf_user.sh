@@ -1,6 +1,8 @@
 # -static -static-libs -shared -lfs -upx -patch -doc -man -xstub -diet +musl +stest +strip +x32
 
-DESCRIPTION="Gofish gopher server"
+# http://gpo.zugaina.org/net-misc/gofish
+
+DESCRIPTION="Gofish gopher server (standalone-server, gateway via http)"
 HOMEPAGE="http://gofish.sourceforge.net"
 LICENSE="GPL-2+"
 DOCS="Configure_GoFish"

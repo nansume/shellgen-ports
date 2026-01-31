@@ -4,11 +4,13 @@
 # Build with useflag: +static -static-libs -shared -lfs +nopie +patch -doc -xstub -diet +musl +stest +strip +x32
 
 # http://data.gpo.zugaina.org/gentoo/dev-vcs/stagit/stagit-1.2.ebuild
+# https://iso.netbsd.org/pub/NetBSD/NetBSD-current/pkgsrc/www/stagit/index.html
 
 export XPN PF PV WORKDIR BUILD_DIR PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
 export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED
 export CC PKG_CONFIG PKG_CONFIG_LIBDIR PKG_CONFIG_PATH
 
+DESCRIPTION="Static git page generator. Usable with text-browsers such as dillo, links, lynx and w3m"
 DESCRIPTION="Generates static HTML pages for a Git repository"
 HOMEPAGE="https://codemadness.org/stagit.html"
 LICENSE="MIT"

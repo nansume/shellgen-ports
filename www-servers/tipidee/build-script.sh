@@ -4,10 +4,12 @@
 # Build with useflag: +static -static-libs -shared -lfs +nopie -patch -doc -xstub -diet +musl +stest +strip +x32
 
 # https://git.alpinelinux.org/aports/plain/main/tipidee/APKBUILD
+# https://iso.netbsd.org/pub/NetBSD/NetBSD-current/pkgsrc/www/tipidee/index.htm
 
 export XPN PF PV WORKDIR BUILD_DIR PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
 export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED CC
 
+DESCRIPTION="tipidee - a small and fast HTTP/1.1 server"
 DESCRIPTION="The skarnet.org web server"
 HOMEPAGE="https://skarnet.org/software/tipidee/"
 LICENSE="ISC"

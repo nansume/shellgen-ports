@@ -1,0 +1,17 @@
+#######################################################################
+ftp://ftp.troglobit.com/merecat/merecat-2.32.tar.xz
+http://deb.debian.org/debian/pool/main/m/merecat/merecat_2.31+git20220513+ds-4.1.debian.tar.xz
+https://github.com/troglobit/merecat/blob/master/ChangeLog.md
+-----------------------------------------------------------------------
+Virtual hosts
+Basic .htpassd and .htaccess support
+URL-traffic-based throttling
+CGI/1.1
+HTTP/1.1 Keep-alive
+Built-in gzip deflate using zlib
+HTTPS support using OpenSSL/LibreSSL, works with Let's Encrypt!
+Dual server support, both HTTP/HTTPS from one process
+HTTP redirect, to gently redirect a HTTP server to HTTPS
+Native PHP support, using php-cgi if enabled in merecat.conf
+simplified 2-clause BSD license.
+#######################################################################

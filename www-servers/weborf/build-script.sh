@@ -4,10 +4,12 @@
 # Build with useflag: +static -static-libs -shared -lfs +nopie -patch -doc -xstub -diet +musl +stest +strip +x32
 
 # https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=weborf
+# https://aur.archlinux.org/packages/weborf
 
-# BUG: no work inetd mode (runtime) from v1.2 to v1.5
+# BUG[1]: no work inetd mode (runtime) from v1.2 to v1.5
+# BUG[2]: Sometime is here the webdav after send large files (above up 1GB) may be 100% load cpu (runtime) v1.5
 
-# BUG: Sometime is here the webdav after send large files (above up 1GB) may be 100% load cpu (runtime) v1.5
+# Minimal HTTP server to share your files (inetd,webdav,ssl,comp,cgi,dirlist)
 
 export XPN PF PV WORKDIR BUILD_DIR PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
 export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED CC

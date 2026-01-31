@@ -10,7 +10,7 @@
 export XPN PF PV WORKDIR BUILD_DIR PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
 export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED CC
 
-DESCRIPTION="A daemon to serve the gopher protocol"
+DESCRIPTION="A daemon to serve the gopher protocol (Language: C)"
 HOMEPAGE="https://r-36.net/scm/geomyidae/"
 LICENSE="MIT"
 IFS="$(printf '\n\t')"

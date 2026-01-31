@@ -1,10 +1,17 @@
+Date: 2020.11.28 - 2026.01.02
+
 ##############################################################
-#####  System FS (nilfs2,ext4,etc) [utf-8,lang-en,ipv4]  #####
+#                 NILFS2 [utf-8,lang-en,ipv4]                #
 ##############################################################
 
+https://en.wikipedia.org/wiki/NILFS
+https://wiki.archlinux.org/title/NILFS2
+https://nilfs.sourceforge.io/en/current_status.html
+
 # nilfs.sourceforge.io - NILFS - FAQ [utf-8,lang-en,ipv4,ssl]
-http://nilfs.sourceforge.io/en/faq.html
+https://nilfs.sourceforge.io/en/faq.html
 # packages.slackonly.com - pub - nilfs-utils-2.2.2-i486-1_slack.txz Slackware 14.1 [utf-8,lang-en,ipv4,dl,ssl]
 http://packages.slackonly.com/pub/packages/14.1-x86/system/nilfs-utils/nilfs-utils-2.2.2-i486-1_slack.txz
-# Optimizing fs on sd-card for Linux/Fedora on Dreamplug | blog wordpress (ext4) [utf-8,lang-en,ipv4,ssl]
-http://blogofterje.wordpress.com/2012/01/14/optimizing-fs-on-sd-card/
+
+https://lite.duckduckgo.com/lite?q='nilfs'&kl=us-en
+https://lite.duckduckgo.com/lite?q=nilfs2&kl=us-en

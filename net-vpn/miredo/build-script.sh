@@ -27,6 +27,7 @@ URI="git.freifunk-franken.de/mirror/openwrt-packages/raw/branch/master/ipv6"
 SRC_URI="
   http://www.remlab.net/files/${PN}/${PN}-${PV}.tar.xz
   #http://www.remlab.net/files/${PN}/${PN}-e5f5652.tar.gz -> ${PN}-${PV}.tar.gz
+  #http://deb.debian.org/debian/pool/main/m/miredo/miredo_1.2.6-7.1.debian.tar.xz
   https://${URI}/miredo/patches/001-fix-musl-pthread-non-portable.patch
   https://${URI}/miredo/patches/002-fix-redefinition-ethadr.patch
   https://${URI}/miredo/patches/003-fix-warnings-portable-defined.patch

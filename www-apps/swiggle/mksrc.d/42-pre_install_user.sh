@@ -1,6 +1,9 @@
 #!/bin/sh
 # -static -static-libs +shared -lfs -upx -patch -doc -man -xstub -diet +musl +stest +strip +x32
 
+# https://iso.netbsd.org/pub/NetBSD/NetBSD-current/pkgsrc/www/swiggle/index.html
+
+DESCRIPTION="Lightweight image gallery generator to HTML pages."
 DESCRIPTION="swiggle - le's simple web image gallery generator"
 HOMEPAGE="http://mailbox.univie.ac.at/~le/swiggle/"
 LICENSE="?BSD?"  # required to verify

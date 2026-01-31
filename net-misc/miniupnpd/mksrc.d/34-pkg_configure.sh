@@ -1,6 +1,8 @@
 #!/bin/sh
 # -static -static-libs -shared -lfs -upx -patch -doc -man -xstub -diet +musl +stest +strip +x32
 
+# http://gpo.zugaina.org/net-misc/miniupnpd
+
 inherit toolchain-funcs verify-sig install-functions
 
 DESCRIPTION="MiniUPnP IGD Daemon"

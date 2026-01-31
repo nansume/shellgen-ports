@@ -6,6 +6,15 @@ Server:         0.0.0.0
 Address:        0.0.0.0:53
 
 ** server can't find sample.test: NXDOMAIN
+------------------------------------------------------------------------
+http://checkip.amazonaws.com          # (tor-dns-bug)
+http://v4.tnedi.me                    # (tor-dns-bug)
+http://ip.3322.net                    # (tor-dns-bug)
+http://ipaddr.site                    # (tor-dns-bug)
+http://ifconfig.io/ip                 # (tor-dns-bug)
+https://dotmaui.com/my-ip/raw/        # (tor-dns-bug)
+http://members.3322.org/dyndns/getip  # (tor-dns-bug)
+http://members.3322.net/dyndns/getip  # (tor-dns-bug)
 ========================================================================
 
 # inter169/musl-nx: temporary repo for fixing musl codes -- nxdomain fix

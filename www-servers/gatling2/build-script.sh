@@ -3,6 +3,8 @@
 # Date: 2025-07-06 12:00 UTC - last change
 # Build with useflag: +static +static-libs -shared -lfs +nopie +patch -doc -xstub -diet +musl +stest +strip +x32
 
+# http://gpo.zugaina.org/www-servers/gatling
+
 export XPN PF PV WORKDIR BUILD_DIR PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
 export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED CC
 

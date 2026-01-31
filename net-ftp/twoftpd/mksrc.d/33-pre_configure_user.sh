@@ -1,9 +1,11 @@
 #!/bin/sh
 # +static -static-libs -shared -upx +patch -doc -man -xstub +diet -musl -stest +strip +x32
 
+# http://gpo.zugaina.org/net-ftp/twoftpd
+
 inherit toolchain-funcs
 
-DESCRIPTION="Simple secure efficient FTP server by Bruce Guenter"
+DESCRIPTION="Simple secure efficient FTP server by Bruce Guenter (inetd, diet)"
 HOMEPAGE="http://untroubled.org/twoftpd/"
 LICENSE="GPL-2"
 BUILD_DIR=${BUILD_DIR:-$WORKDIR}

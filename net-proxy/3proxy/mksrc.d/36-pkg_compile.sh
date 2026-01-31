@@ -1,6 +1,9 @@
 #!/bin/sh
 # +static -static-libs -doc -xstub -diet +musl +stest +strip +x32
 
+# A really tiny cross-platform proxy servers set (standalone, inetd, bin: socks,proxy,tcppm,udppm,pop3p)
+# http://gpo.zugaina.org/net-proxy/3proxy
+
 NL="$(printf '\n\t')"; NL=${NL%?}
 BUILD_DIR=${WORKDIR}
 ED=${INSTALL_DIR}

@@ -1,0 +1,7 @@
+
+# msmtpd: A minimal SMTP server
+https://www.mankier.com/1/msmtpd
+https://wiki.archlinux.org/title/Msmtp
+https://arnaudr.io/2020/08/24/send-emails-from-your-terminal-with-msmtp/
+https://www.serverwatch.com/guides/using-msmtp-as-a-lightweight-smtp-client/
+https://mattsch.com/2021/05/12/setting-up-msmtp/

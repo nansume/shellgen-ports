@@ -1,6 +1,0 @@
-######################################
-#####  SSH [utf-8,lang-en,ipv4]  #####
-######################################
-
-# chrootedssh - creating the chroot enviroment - shell script: ldd $BIN copy [utf-8,ipv4]
-http://gentoo.linuxhowtos.org/openssh/chrootedssh.htm

@@ -1,6 +1,8 @@
 #!/bin/sh
 # -static -static-libs +shared -lfs -upx -patch -doc -man -xstub -diet +musl +stest +strip +x32
 
+# https://iso.netbsd.org/pub/NetBSD/NetBSD-current/pkgsrc/www/fcgi/index.html
+
 inherit autotools install-functions
 
 DESCRIPTION="FAST CGI(fcgi) is a language independent, high performant extension to CGI"

@@ -5,9 +5,15 @@
 # Date: 2024-03-14 01:00 UTC - last change
 # Build with useflag: +static -diet +musl +x32
 
+# https://aur.archlinux.org/packages/dte
+# https://craigbarnes.gitlab.io/dte/#building
+
 export USER XPN PF PV WORKDIR S PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
 export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED
 
+DESCRIPTION="A small, configurable console text editor (depend: libc,ctags)"
+HOMEPAGE="http://craigbarnes.gitlab.io/dte/"
+LICENSE="GPL-2"
 NL="$(printf '\n\t')"; NL=${NL%?}
 XPWD=${XPWD:-$PWD}
 XPN=${PN}
@@ -16,11 +22,7 @@ LC_ALL="C"
 CATEGORY="${CATEGORY:-${11:?required <CATEGORY>}}"
 PN="${PN:-${12:?required <PN>}}"
 PV="1.11.1"
-DESCRIPTION="A small, configurable console text editor"
-HOMEPAGE="http://craigbarnes.gitlab.io/dte/"
 SRC_URI="http://craigbarnes.gitlab.io/dist/${PN}/${PN}-${PV}.tar.gz"
-LICENSE="GPL-2"
-USER=${USER:-root}
 USE_BUILD_ROOT="0"
 BUILD_CHROOT=${BUILD_CHROOT:-0}
 PDIR=$(pkg-rootdir)

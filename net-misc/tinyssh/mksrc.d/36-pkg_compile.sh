@@ -1,6 +1,10 @@
 #!/bin/sh
 # +static -static-libs -shared -lfs -upx +patch -doc -man -xstub +diet -musl +stest +strip +x32
 
+# http://gpo.zugaina.org/net-misc/tinyssh
+
+# A small SSH server (nocomp, inetd, diet, simple dropbear)
+
 inherit toolchain-funcs install-functions
 
 DESCRIPTION="A small SSH server with state-of-the-art cryptography"

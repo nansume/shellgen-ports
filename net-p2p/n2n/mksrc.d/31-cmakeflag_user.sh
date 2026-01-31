@@ -1,5 +1,7 @@
 # -static -static-libs +shared -lfs -upx -patch -doc -man -xstub -diet +musl +stest +strip +x32
 
+# http://gpo.zugaina.org/net-p2p/n2n
+
 DESCRIPTION="A Layer Two Peer-to-Peer VPN"
 HOMEPAGE="http://www.ntop.org/n2n/"
 LICENSE="GPL-3"
