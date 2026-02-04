@@ -1,0 +1,26 @@
+#!/bin/sh
+# 2022-2025
+
+NL="$(printf '\n\t')"; NL=${NL%?} MODDIR=${1:-/lib/modules/5.8.9} DUMPF=
+
+convdeps() {
+  DEPS=
+  for X in ${S#*: }; do
+    X=${X%.ko}
+    DEPS="${DEPS:+${DEPS} }${X##*/}"
+  done
+  DUMPF="${DUMPF:+${DUMPF}${NL}${NL}}${S%%: *}${NL}${DEPS}"
+}
+
+while IFS= read -r S; do
+  case ${S} in
+    *':') DUMPF="${DUMPF:+${DUMPF}${NL}${NL}}${S%:}"
+    ;;
+    *': '*) IFS=' ' convdeps
+    ;;
+  esac
+done < "${MODDIR}/modules.dep"
+
+[ -n "${DUMPF}" ] && printf '%s' "${DUMPF}" > "${MODDIR}/modules.dep.bb"
+
+[ $? -eq '0' ] && printf '%s\n' "${MODDIR}/modules.dep.bb: create... ok"

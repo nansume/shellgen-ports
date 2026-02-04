@@ -1,0 +1,16 @@
+#!/bin/sh
+# $1=path $2=file+match $3=cycle+ret
+# Usage: fglob {dir} {file}
+# Return: {full-file-path}  |  Exitcode: [true]/[false]
+
+IFS="$(printf '\n\t')"; IFS=${IFS%?}
+
+set -- "${1%/}" "${2}" "${1:?required dir}/${2:?required file}"
+
+until test -f "${3}"; do
+  set -- "${1}" "${2}" ${1}/
+  test -d "$(printf ${3})" || { set --; break;}
+  set -- "${1}/*" "${2}" ${1}/${2}
+done
+
+test -n "${3}" && printf %s\\n "${3}"

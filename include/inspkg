@@ -1,0 +1,73 @@
+#!/bin/sh
+# Usage: ABI=${ABI} ROOT_DIR=${ROOT_DIR} PKG_DIR=${PKG_DIR} inspkg <category1>/<pkg1> <category2>/<pkg2> ...
+
+IFS="$(printf '\n\t')"; IFS=${IFS%?}
+RUN='spkg'
+EXIT='exit'
+RUN=${RUN##*/}
+OLDPWD=${OLDPWD}
+EXITCODE='0'
+ERRO=
+ABI=${ABI:=x32}
+ROOT_DIR=${ROOT_DIR:=/}
+PKG_DIR=${PKG_DIR}
+X=
+PKGS=
+PKG=
+XROOT_DIR=
+BINDIR=
+ZCOMP='lzop'
+DBFILE="${ROOT_DIR%/}/var/db/pkgs.db"
+NL=
+FN=
+CPN=
+PABI=
+ERRO="\e[0;31m +\e[0;36m ${RUN}\e[m... \e[0;31merror\e[m\n"
+DOINS_DIR="/tmp/preinst"
+
+test -n "${FUNCNAME-}" && EXIT='return'
+
+_XERROR(){ printf "spkg \e[0;33m--install\e[0;36m ${FN}\e[m... \e[0;31merror\e[m\n";}
+
+X='u' # update pkg default
+test "${RUN#${RUN%-force}}" = '-force' && X='u'
+{ test -w "${ROOT_DIR}" && : diskwrite '/' ;} || ${EXIT}
+
+for PKG_DIR in ${PKG_DIR:=/pkg} '/pkg' '/pkg'* '/mnt/root/pkg' '/mnt/'*'/pkg'; do
+  test -d "${PKG_DIR%/}" && break
+done
+
+for PKG in ${@}; do
+  PKGS="${PKGS:+${PKGS}${IFS}}${PKG_DIR}/${PKG}_*[0-9]*_${ABI}.c[glx]z"
+  PKGS="${PKGS:+${PKGS}${IFS}}${PKG_DIR}/${PKG}_*[0-9]*_all.c[glx]z"
+done
+
+mkdir -pm 0755 -- "${DOINS_DIR}/"
+cd ${DOINS_DIR}/ || ${EXIT}
+
+for PKG in ${PKGS}; do
+  test -e "${PKG}" || continue
+  FN="${PKG#${PKG%/*/*}/}"; CPN=${FN%%_*}; PABI="${PKG#${PKG%_*}_}"; PABI=${PABI%.*}
+  P="${ROOT_DIR%/}/etc/postinst.d/${CPN}.env"
+  check-pkg "${CPN} ${PABI}" >/dev/null && continue
+  case ${PKG} in
+    *'.cxz')
+      ZCOMP='unxz'
+    ;;
+    *'.clz'|*'.clzo'|*'.cpio.lzo')
+      ZCOMP='lzop'
+    ;;
+    *'.cgz'|*'.cpio.gz')
+      ZCOMP='gunzip'
+    ;;
+  esac
+  ${ZCOMP} -dc ${PKG} | cpio -${X}im 2> /dev/null || { EXITCODE='1'; _XERROR; continue;}
+  test -s "${P}" && . ${P} && printf '%s\n' "${P}... ok"
+  printf '%s\n' "cp -v -ulr ${DOINS_DIR}/* -t ${ROOT_DIR}"
+  cp -ulr ${DOINS_DIR}/* -t ${ROOT_DIR}  #inspkg-movedir
+  rm -r -- "${DOINS_DIR:?}/"
+  NL=${IFS}
+  printf "${CPN} ${PABI}${NL}" >> ${DBFILE}  # <posix> - for <read> required last string to empty.
+  printf "spkg \e[0;33m--install\e[0;31m ${FN}\e[m... \e[0;33mok\e[m\n"
+done
+test "${EXITCODE}" -eq '0'

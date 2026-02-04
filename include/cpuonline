@@ -1,0 +1,32 @@
+#!/bin/sh
+# Copyright (C) 2019-2024 Artjom Slepnjov, Shellgen
+# License GPLv3: GNU GPL version 3 only
+# http://www.gnu.org/licenses/gpl-3.0.html
+# compatible with Linux kernel (Linuxism)
+# Date: 2023-10-14 10:00 UTC - fix: near to compat-posix
+
+POWERSET=${1:?required: powerset}
+CPUFREQ_DEV='/sys/devices/system/cpu'
+FILE='/etc/lst.d/cpu.arg'
+MAXCPU='1'
+COL="\e[0;33m"
+EXECLST="cc1plus cc1 make i2p i2pd ipfs java mplayer mpv python* xg++ yacy"
+
+# search run_command work whitelist - no disable cpu core
+test "${POWERSET}" -ne '0' || for EXEC in ${EXECLST}; do findpid ${EXEC} && exit 1; done
+
+diskwrite "/sys" &&
+for CPU_OPT in ${CPUFREQ_DEV}'/cpu'*'/online'; do
+  test -e "${CPU_OPT}" || { printf %s\\n "${0##*/} no mount: /sys... error"; exit 1;}
+  case ${CPU_OPT} in '/'*'/cpu0/online') continue;; esac
+  test -w "${CPU_OPT}" && printf ${POWERSET} > "${CPU_OPT}"  # cpu online
+  test "${POWERSET}" -ne '0' && MAXCPU=$(expr ${MAXCPU} + '1')
+done
+
+if test "${POWERSET}" -ne '0'; then
+  test -w "${FILE}" && printf ${MAXCPU} > "${FILE}" &&  # save cpu set
+  printf '\e[1;32m%s\e[m%s\e[0;36m%s\e[m%s\e[0;34m%s\e[m\n' " +" " ${FILE}:" " cpumax" "..." " write"
+fi
+test "${POWERSET}" -gt '1' && COL="\e[1;32m"
+
+printf "${COL}%s\e[m%s\e[0;36m%s\e[0;34m%s\e[m\n" " +" " cpu online..." " maxcpu=" "${MAXCPU}"

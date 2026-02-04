@@ -1,0 +1,163 @@
+#!/bin/sh
+# 2019-2023
+# File: /sbin/build
+# compatible with Linux kernel (Linuxism)
+# Usage: USE=+bootstrap EABI=x86  emerge -b -- ${CATEGORY}/${PN} ${CATEGORY}/${PN} @system @world @libs
+# Usage: USE=+x32 EABI=x32  emerge -b -- ${CATEGORY}/${PN} ${CATEGORY}/${PN} @system @world @libs
+# Usage: USE='-static -static-libs +shared -lfs +patch -doc -diet +musl +strip +x32' build -b -- dev-libs/libzip
+# Date: 2023-12-09 11:00 UTC - last change
+
+EXIT='exit' X=${*} IFS="$(printf '\n\t')"; IFS="${IFS%?} "
+
+export PORTS_DIR='/usr/ports' PORTS_TMPDIR='/var/tmp/ports' CATEGORY PN
+
+test -n "${FUNCNAME-}" && EXIT='return'
+
+check_arch(){
+  local ARCH
+
+  for EABI in x32 x86 amd64 ''; do
+    case " ${USE} " in *" +${EABI} "*) break;; esac
+  done
+  export ABI=${EABI} EABI
+
+  case ${EABI} in
+    'x86'|'32')
+      ARCH='i686'
+    ;;
+    'x32'|'amd64'|'x86_64'|'x86-64')
+      ARCH='x86_64'
+    ;;
+    *)
+      ARCH=$(uname -m)
+    ;;
+  esac
+  printf %s\\n "${ARCH:?}"
+}
+
+ARGS=
+while test -n "${X}"; do
+  case ${X} in
+    [[:space:]]*)
+      X=${X# }
+    ;;
+    -h| -h*)
+      printf "help: ${0##*/} ${X}\n"
+      ${EXIT}
+    ;;
+    -f| -f*)
+      case " ${ARGS} " in *' -f '*);; *) ARGS="${ARGS:+${ARGS} }-f";; esac
+      X=${X# -?}; X=${X#-?}
+    ;;
+    -b)
+      X=${X#-?}
+    ;;
+    -[A-z][A-z]*)
+      printf %s\\n "-[a-Z][a-Z]*"
+      X="-${X#-?}"
+    ;;
+    #-b* | -[^-]*b*)
+    #;;
+    #--createpkg)
+    #  ARGS=${ARGS/$ARG /}
+    #;;
+    #--overwrite)
+    #  declare -i PKG_OVERWRITE=1
+    #  ARGS=${ARGS/$ARG /}
+    #;;
+    --[[:space:]]*)
+      X="${X#*-- } "
+      break
+    ;;
+    #-[a-zA-Z1]*)
+    #  continue
+    #;;
+    #*[a-zA-Z0-9/-]*)
+    #  continue
+    #;;
+    -[A-z]*)
+      X="-${X#-?}"
+    ;;
+    -[!-]*)
+      X=${X#-?}
+      X=${X%-}
+    ;;
+    #  printf >&2 "$0: invalid option -- \'$ARG\'\n"
+    #  printf >&2 "${0##*/} --help\n"
+    *)
+      ARGS=${ARGS}; printf %s\\n "X='${X}'" "ARGS='${ARGS}'"
+      printf %s\\n "${X}... error"; ${EXIT} 1
+    ;;
+  esac
+done
+PKGS="${X%${X##*[![:space:]]}}"
+printf %s\\n "PKGS='${PKGS}'"
+
+for MOUNTDIR in $(findmountdir "${PORTS_TMPDIR}"); do
+  umount "${MOUNTDIR}" && printf %s\\n "umount ${MOUNTDIR}"
+done
+
+mkdir -pm 0755 "${PORTS_TMPDIR}/"
+
+cd '/var/tmp/'
+
+check_arch
+
+case ${PKGS} in
+  '@'*)
+    PKG=${PKGS%% *}; PKGS=${PKGS#$PKG}; PKGS="${PKGS#${PKGS%%[![:space:]]*}}"; PKG=${PKG#@}
+    for S in "${PORTS_DIR}/sets/"${PKG}*; do
+      test -f "${S}" &&
+      while IFS= read -r PKG; do
+        PKG=${PKG%%#*}
+        PKG="${PKG%${PKG##*[![:space:]]}}"
+        test -n "${PKG}" || continue
+        PKGS="${PKGS:+${PKGS} }${PKG#${PKG%%[![:space:]]*}}"
+      done < ${S}
+    done
+  ;;
+esac
+printf %s\\n "PKGS='${PKGS}'"
+
+for PKG in ${PKGS}; do
+  CATEGORY=${PKG%/*}
+  PN=${PKG#$CATEGORY/}
+  test -d "${PORTS_TMPDIR:?}" && rm -r -- "${PORTS_TMPDIR}"
+  test -d "${PORTS_DIR}/${PKG}" || continue
+  if test ! -d "${PORTS_TMPDIR}/${PKG}"; then
+    mkdir -pm 0755 "${PORTS_TMPDIR}/${CATEGORY}"
+    #printf %s\\n "cp -ur /usr/ports/${PKG}/ /usr/ports/${PKG}_/"
+    cp -ur ${PORTS_DIR}/${PKG}/ ${PORTS_TMPDIR}/${PKG}/ &&
+    printf %s\\n "cp -ur ${PORTS_DIR}/${PKG}/ ${PORTS_TMPDIR}/${PKG}/"
+  fi
+  cd ${PORTS_TMPDIR}/${PKG}/ &&
+  if test -x 'build-script.sh'; then
+    #printf %s\\n "cp -ur ../../'mksrc.sh' ../../profiles/* ."
+    printf %s\\n "cp -ur ${PORTS_DIR}/'mksrc.sh' ${PORTS_DIR}/profiles/* ."
+    cp -ur ${PORTS_DIR}/'mksrc.sh' ${PORTS_DIR}/profiles/* .
+
+    export USER XPN PF PV WORKDIR PKGNAME DPREFIX BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI PATH
+    export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR S SDIR
+
+    PDIR=${PWD}
+    PATH="${PATH:+${PATH}:}${PDIR}/misc.d:${PDIR}/etools.d"
+
+    . "${PDIR%/}/etools.d/"build-functions
+
+    printf %s\\n "ABI_BUILD=${ABI} ./build-script.sh ${ARGS} 2>&1" &&
+    if test "X$(arch)" != "X$(check_arch)"; then
+      ABI_BUILD=${ABI} setarch linux32 ./build-script.sh ${ARGS} 2>&1
+    else
+      ABI_BUILD=${ABI} ./build-script.sh ${ARGS} 2>&1
+    fi
+  else
+    cp -ur ${PORTS_DIR}/'mksrc.sh' ${PORTS_DIR}/profiles ${PORTS_TMPDIR}/
+    printf %s\\n "NSH=1 RMBUILD=0 ABI_BUILD=${ABI} ${PORTS_TMPDIR}/mksrc.sh ${ARGS} 2>&1" &&
+    if test "X$(arch)" != "X$(check_arch)"; then
+      NSH='1' RMBUILD='0' ABI_BUILD=${ABI} setarch linux32 ${PORTS_TMPDIR}/mksrc.sh ${ARGS} 2>&1
+    else
+      NSH='1' RMBUILD='0' ABI_BUILD=${ABI} ${PORTS_TMPDIR}/mksrc.sh ${ARGS} 2>&1
+    fi
+  fi
+  cd '/var/tmp/'
+done | tee -a '/var/log/mksrc.log'

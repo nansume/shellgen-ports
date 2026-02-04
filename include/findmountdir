@@ -1,0 +1,22 @@
+#!/bin/sh
+# compatible with Linux kernel (Linuxism)
+# Usage: findmountdir /mnt/chroot
+# Date: 2023-12-16 15:00 UTC - last change
+
+: ${1:?required: findmountdir <mountdir>}
+
+NL="$(printf '\n\t')"; NL=${NL%?}; IFS=${NL}
+
+test -n "${1#/}" && set -- "${1%/}"
+
+MOUNTLIST=
+while IFS= read -r ARG; do
+  case ${ARG} in
+    *" ${1}/"*)
+      ARG=${ARG#* }
+      MOUNTLIST="${ARG%% *}${MOUNTLIST:+${NL}${MOUNTLIST}}"
+    ;;
+  esac
+done < '/proc/mounts'
+
+test -n "${MOUNTLIST}" && printf %s\\n "${MOUNTLIST}"

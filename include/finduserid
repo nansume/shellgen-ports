@@ -1,0 +1,20 @@
+#!/bin/sh
+# Copyright (C) 2020-2023 Artjom Slepnjov, Shellgen
+# License GPLv3: GNU GPL version 3 only
+# http://www.gnu.org/licenses/gpl-3.0.html
+
+set -- ${1:?required username} '/etc/passwd'
+
+test -r ${2} &&
+while IFS= read -r REPLY; do
+  case ${REPLY} in
+    ${1}:*)
+      set -- ${REPLY#$1:*:}
+      printf '%s\n' "${1%%:*}"
+      set --
+      break
+    ;;
+  esac
+done < ${2}
+
+test -z "${2}"
