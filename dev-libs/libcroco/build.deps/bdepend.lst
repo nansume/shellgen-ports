@@ -1,12 +1,13 @@
-dev-libs/glib-compat
+#dev-libs/glib-compat
+dev-libs/glib74
 dev-libs/libffi  # for glib
-dev-libs/pcre  # for glib
-dev-libs/libxml2
+dev-libs/pcre2  # for glib
+dev-libs/libxml2-1
 dev-util/pkgconf
 
 sys-apps/file
-sys-devel/binutils
-sys-devel/gcc
+sys-devel/binutils6
+sys-devel/gcc6
 sys-devel/make
 sys-libs/musl
 sys-libs/zlib  # for glib

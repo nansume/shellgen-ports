@@ -1,0 +1,35 @@
+Author: Artjom Slepnjov "Shellgen"
+Description: add build static-libs + static-bin
+Ver: librsync-2.3.4
+Date: 2026.02.16 13:00 UTC
+===================================================================================
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -419,6 +419,9 @@
+ #     EXPORT_FILE_NAME ${CMAKE_SOURCE_DIR}/src/librsync_export.h)
+ target_link_libraries(rsync ${blake2_LIBS})
+ 
++add_library(rsync-static STATIC ${rsync_LIB_SRCS})
++set_target_properties(rsync-static PROPERTIES OUTPUT_NAME rsync)
++
+ # Optionally link zlib and bzip2 if
+ # - compression is enabled
+ # - and libraries are found
+@@ -440,7 +443,7 @@
+ set_target_properties(rsync PROPERTIES
+     VERSION ${LIBRSYNC_VERSION}
+     SOVERSION ${LIBRSYNC_MAJOR_VERSION})
+-install(TARGETS rsync ${INSTALL_TARGETS_DEFAULT_ARGS}
++install(TARGETS rsync rsync-static ${INSTALL_TARGETS_DEFAULT_ARGS}
+         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+@@ -456,7 +459,7 @@
+ 
+   add_executable(rdiff ${rdiff_SRCS})
+   if (POPT_FOUND)
+-    target_link_libraries(rdiff rsync ${POPT_LIBRARIES})
++    target_link_libraries(rdiff rsync-static -lpopt)
+   else (POPT_FOUND)
+     message (WARNING "Popt library is required for rdiff target")
+   endif (POPT_FOUND)

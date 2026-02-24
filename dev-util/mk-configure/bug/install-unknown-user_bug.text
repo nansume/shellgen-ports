@@ -1,0 +1,15 @@
+https://man.archlinux.org/man/mk-configure.7.en
+usr/share/mk/bmake/bsd.own.mk
+
+
+==============================================================
+gure/builtins,g' -e 's,@mkc_libexecdir@,/libexec/mk-configure,g' mkc_check_header.in > mkc_check_header &&  chmod 0755 mkc_check_header
+--- install ---
+--- /install/usr/share/man/man1/mkc_check_funclib.1 ---
+install -o fake -g fake -m 644 mkc_check_funclib.1 /install/usr/share/man/man1/mkc_check_funclib.1
+install: unknown user fake
+*** [/install/usr/share/man/man1/mkc_check_funclib.1] Error code 1
+
+bmake[2]: stopped in /build/mk-configure-src/scripts
+bmake[2]: 1 error
+==============================================================

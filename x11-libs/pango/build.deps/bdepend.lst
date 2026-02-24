@@ -1,29 +1,31 @@
-dev-lang/python3
+dev-lang/python3-8
 
 dev-libs/expat  # for xft (optional)
 dev-libs/fribidi  # required remove
 #dev-libs/glib-compat
-dev-libs/glib
+dev-libs/glib74
+dev-libs/gobject-introspection74  # optional (+introspection)
 dev-libs/libffi  # for glib
-dev-libs/pcre  # for glib
+dev-libs/pcre2  # for glib
 dev-util/pkgconf
 
 media-libs/freetype  # for xft (optional)
 media-libs/fontconfig  # for xft (optional)
 #media-libs/harfbuzz
-media-libs/harfbuzz2
+media-libs/harfbuzz2-2  # harfbuzz-11.2.1
 media-libs/libpng
 
 sys-apps/file
-sys-devel/binutils
-sys-devel/gcc
+sys-devel/binutils6
+sys-devel/gcc6
 sys-devel/make
+#sys-devel/patch  # for patch with fuzz and offset.
 sys-libs/musl
 sys-libs/zlib  # for glib
 
 x11-base/xorg-proto
 
-x11-libs/cairo
+x11-libs/cairo  # cairo1
 x11-libs/libx11
 x11-libs/libxau
 x11-libs/libxcb
@@ -38,4 +40,4 @@ sys-kernel/linux-headers-musl
 sys-devel/bison
 sys-devel/flex
 sys-devel/m4
-sys-devel/libtool
+sys-devel/libtool6

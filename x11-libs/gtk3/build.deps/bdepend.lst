@@ -3,21 +3,22 @@ app-accessibility/at-spi2-core  # for atk
 app-text/libpaper  # required for cups (optional)
 
 dev-lang/perl  # required for autotools
-dev-lang/python3
+dev-lang/python3-8
 dev-libs/atk
 dev-libs/expat  # for fontconfig or python bundled
 dev-libs/fribidi  # for pango (required remove)
-dev-libs/glib
+dev-libs/glib74
+dev-libs/gobject-introspection74  # optional (+introspection)
 dev-libs/libffi  # for glib
-dev-libs/libxml2  # for gettext
-dev-libs/pcre  # optional (internal pcre glib-2.68.4)
+dev-libs/libxml2-1  # for gettext
+dev-libs/pcre2  # optional (internal pcre glib-2.68.4)
 dev-util/pkgconf
 
 media-libs/freetype
 media-libs/fontconfig
-media-libs/harfbuzz2  # for pango
+media-libs/harfbuzz2-2  # for pango (harfbuzz-11.*)
 media-libs/libepoxy
-media-libs/libjpeg-turbo  # for gdk-pixbuf or bundled-libs
+media-libs/libjpeg-turbo3  # for gdk-pixbuf or bundled-libs
 media-libs/libpng  # for pango or bundled-libs
 media-libs/mesa  # required for libepoxy (opengl)
 media-libs/tiff  # for gdk-pixbuf
@@ -28,10 +29,10 @@ sys-apps/dbus  # for atk
 sys-apps/file
 #sys-devel/autoconf  # required for autotools
 #sys-devel/automake  # required for autotools
-sys-devel/binutils
-sys-devel/gcc
+sys-devel/binutils6
+sys-devel/gcc6
 #sys-devel/gettext  # required for autotools (optional)
-#sys-devel/libtool  # required for autotools
+#sys-devel/libtool6  # required for autotools
 #sys-devel/m4  # required for autotools
 sys-devel/make
 sys-kernel/linux-headers-musl  # testing 
@@ -40,7 +41,7 @@ sys-libs/zlib  # for glib or bundled-libs
 
 x11-base/xorg-proto
 
-x11-libs/cairo  # optional
+x11-libs/cairo  # optional (cairo1)
 x11-libs/gdk-pixbuf
 x11-libs/libdrm  # for mesa (optional)
 x11-libs/libice
@@ -63,6 +64,7 @@ x11-libs/libxrender # for xft (optional)
 x11-libs/libxshmfence  # for mesa (optional)
 x11-libs/libxxf86vm  # for mesa (optional)
 x11-libs/libxt  # for atk
+x11-libs/libxtst  # deps at-spi2-atk
 x11-libs/pango
 x11-libs/pixman  # for cairo
 

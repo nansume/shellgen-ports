@@ -3,6 +3,7 @@
 # License GPLv3: GNU GPL version 3 only
 # http://www.gnu.org/licenses/gpl-3.0.html
 # Date: 2023-11-15 08:00 UTC - last change
+# +static -static-libs -shared +nopie +patch -doc -xstub -diet +musl +stest +strip +x32
 
 NL="$(printf '\n\t')"; NL=${NL%?} XPWD=${XPWD:=$PWD} XPN=${PN} PKG_DIR='/pkg' LC_ALL='C'
 
@@ -131,7 +132,7 @@ elif test "X${USER}" != 'Xroot'; then
     $(use_enable 'threads') \
     $(use_enable 'rpath') \
     $(use_enable 'nls') \
-    $(use_with 'glibc' bash-malloc) \
+    $(usex 'glibc' --with-bash-malloc --without-bash-malloc) \
     ${XLDFLAGS} || exit
 
   make -j1 || exit

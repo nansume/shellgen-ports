@@ -1,4 +1,5 @@
-sys-devel/binutils
-sys-devel/gcc
+dev-util/byacc  # alternative a bison (posix)
+sys-devel/binutils9
+sys-devel/gcc14
 sys-devel/make
 sys-libs/musl

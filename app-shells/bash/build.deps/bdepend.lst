@@ -1,5 +1,5 @@
-sys-devel/binutils
+sys-devel/binutils9
 sys-devel/bison
-sys-devel/gcc
+sys-devel/gcc9
 sys-devel/make
 sys-libs/musl

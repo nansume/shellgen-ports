@@ -1,0 +1,10 @@
+dev-lang/python3-8
+dev-libs/expat  # replace to python bundled
+dev-libs/libffi  # for python
+dev-libs/libxml2-1  # required useflag <python>
+#dev-libs/libxslt
+#dev-python/py38-lxml
+
+#sys-devel/make
+sys-libs/musl
+#sys-libs/zlib

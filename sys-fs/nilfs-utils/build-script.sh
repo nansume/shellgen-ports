@@ -1,11 +1,13 @@
 #!/bin/sh
-# Copyright (C) 2024 Artjom Slepnjov, Shellgen
+# Copyright (C) 2024-2026 Artjom Slepnjov, Shellgen
 # Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
 # License GPLv3: GNU GPL version 3 only
 # http://www.gnu.org/licenses/gpl-3.0.html
-# Date: 2024-10-26 18:00 UTC - last change
-# Build with useflag: +static +static-libs +shared -lfs +nopie +patch -doc -xstub -diet +musl +stest +strip +amd64
+# Date: 2024-10-26 18:00 UTC, 2026-02-02 15:00 UTC - last change
+# Build with useflag: +static +static-libs -shared -lfs +nopie +patch -doc -xstub -diet +musl +stest +strip +amd64
 # x32 buggy - nilfs_cleanerd: nowork
+
+# BUG: nilfs-clean: Error: cannot create receive queue: Invalid argument.
 
 export XPN PF PV WORKDIR BUILD_DIR PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
 export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED
@@ -23,8 +25,8 @@ CATEGORY="${CATEGORY:-${11:?required <CATEGORY>}}"
 PN="${PN:-${12:?required <PN>}}"
 PN=${PN%%_*}
 XPN=${XPN:-$PN}
-PN=${PN%[0-9]*}
-PV="2.2.11"
+PN=${PN%[0-9]}
+PV="2.3.0"
 PV2="2.37.2"
 PV2="2.40.2"
 SRC_URI="
@@ -40,7 +42,7 @@ INSTALL_OPTS="install"
 HOSTNAME="localhost"
 BUILD_USER="tools"
 SRC_DIR="build"
-IUSE="-nopic -blkid -libmount +static +static-libs +shared -doc (+musl) +stest +strip"
+IUSE="-nopic -blkid -libmount +static +static-libs -shared -doc (+musl) +stest +strip"
 EABI=$(tc-abi-build)
 ABI=${EABI}
 XABI=${EABI}
@@ -85,16 +87,16 @@ fi
 chroot-build || die "Failed chroot... error"
 
 pkginst \
+  "dev-build/autoconf71  # required for autotools" \
+  "dev-build/automake16  # required for autotools" \
+  "dev-build/libtool9  # required for autotools" \
   "dev-lang/perl  # required for autotools" \
   "dev-util/byacc  # alternative a bison for util-linux bundled" \
   "dev-util/pkgconf  # required for util-linux bundled" \
   "sys-apps/file" \
   "#sys-apps/util-linux  # is bundled, now no needed it." \
-  "sys-devel/autoconf  # required for autotools" \
-  "sys-devel/automake  # required for autotools" \
-  "sys-devel/binutils" \
+  "sys-devel/binutils9" \
   "sys-devel/gcc9" \
-  "sys-devel/libtool  # required for autotools" \
   "sys-devel/m4  # required for autotools (optional?)" \
   "sys-devel/make" \
   "sys-kernel/linux-headers-musl" \
@@ -131,15 +133,16 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
     append-flags -Os
     append-ldflags -Wl,--gc-sections
     append-cflags -ffunction-sections -fdata-sections
-    use 'static' && append-ldflags "-s -static --static"
   else
     append-flags -O2
   fi
   append-flags -fno-stack-protector -no-pie -g0 -march=$(arch | sed 's/_/-/')
 
-  CC="gcc$(usex static ' -static --static')"
+  CC="gcc"
 
   use 'strip' && INSTALL_OPTS="install-strip"
+
+  ##############################################################################
 
   use 'static' && {
   cd ${WORKDIR}/util-linux-*/ || die "builddir: not found... error"
@@ -148,12 +151,8 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
 
   ./configure \
     --prefix="${SPREFIX%/}" \
-    --bindir="${SPREFIX%/}/bin" \
-    --sbindir="${SPREFIX%/}/sbin" \
     --libdir="${SPREFIX%/}/${LIB_DIR}" \
     --includedir="${INCDIR}" \
-    --libexecdir="${DPREFIX}/libexec" \
-    --datarootdir="${DPREFIX}/share" \
     --host=$(tc-chost) \
     --build=$(tc-chost) \
     --disable-all-programs \
@@ -205,7 +204,7 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
     --disable-libsmartcols \
     $(use_enable 'rpath') \
     $(use_enable 'nls') \
-    $(use_enable 'shared') \
+    --disable-shared \
     --enable-static \
     || die "configure... error"
 
@@ -213,9 +212,12 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
 
   make DESTDIR="${BUILD_DIR}/util-linux" install || die "make install... error"
 
-  CFLAGS="${CFLAGS} -I${BUILD_DIR}/util-linux/${INCDIR#/}"
+  CFLAGS="${CFLAGS} -I${BUILD_DIR}/util-linux/${INCDIR#/}/uuid"
   LDFLAGS="${LDFLAGS} -L${BUILD_DIR}/util-linux/$(get_libdir)"
   }
+  ##############################################################################
+
+  append-ldflags "-s -static --static"
 
   cd "${BUILD_DIR}/" || die "builddir: not found... error"
 

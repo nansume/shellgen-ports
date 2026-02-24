@@ -1,24 +1,25 @@
-dev-lang/python3
+dev-lang/python3-8
 dev-libs/expat  # python bundled
 #dev-libs/fribidi  # required for librsvg
-dev-libs/glib
+dev-libs/glib74
+dev-libs/gobject-introspection74  # optional (+introspection)
 #dev-libs/libcroco  # required for librsvg
 dev-libs/libffi  # for glib
-dev-libs/pcre  # optional (internal pcre glib-2.68.4)
+dev-libs/pcre2  # optional (internal pcre glib-2.68.4)
 dev-util/pkgconf
 
 #gnome-base/librsvg
 
 #media-libs/fontconfig  # required for librsvg
 #media-libs/freetype  # required for librsvg
-#media-libs/harfbuzz2  # required for librsvg
-media-libs/libjpeg-turbo
+#media-libs/harfbuzz2-2  # required for librsvg
+media-libs/libjpeg-turbo3
 media-libs/libpng
 media-libs/tiff
 
 sys-apps/file
-sys-devel/binutils
-sys-devel/gcc
+sys-devel/binutils6
+sys-devel/gcc6
 sys-devel/make
 sys-libs/musl
 sys-libs/zlib  # libpng, glib

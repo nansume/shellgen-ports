@@ -1,7 +1,11 @@
 #!/bin/sh
 # Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
-# Date: 2024-11-15 17:00 UTC - last change
-# Build with useflag: -static -static-libs +shared -lfs +nopie -patch -doc -xstub -diet +musl +stest +strip +x32
+# Description: MessagePack is a binary-based efficient data interchange format
+# Homepage: https://msgpack.org/ https://github.com/msgpack/msgpack-c/
+# License: Boost-1.0
+# Depends: <deps>
+# Date: 2024-11-15 17:00 UTC, 2026-02-03 14:00 UTC - last change
+# Build with useflag: -static +static-libs +shared -lfs +nopie -patch -doc -xstub -diet +musl +stest +strip +x32
 
 # http://data.gpo.zugaina.org/gentoo/dev-libs/msgpack/msgpack-6.0.0-r1.ebuild
 
@@ -9,9 +13,6 @@ export XPN PF PV WORKDIR BUILD_DIR PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DI
 export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED
 export CC CXX PKG_CONFIG PKG_CONFIG_LIBDIR PKG_CONFIG_PATH CMAKE_PREFIX_PATH
 
-DESCRIPTION="MessagePack is a binary-based efficient data interchange format"
-HOMEPAGE="https://msgpack.org/ https://github.com/msgpack/msgpack-c/"
-LICENSE="Boost-1.0"
 IFS="$(printf '\n\t')"
 XPWD=${XPWD:-$PWD}
 XPWD=${5:-$XPWD}
@@ -81,7 +82,7 @@ pkginst \
   "dev-build/samurai  # alternative for ninja" \
   "dev-util/cmake" \
   "dev-util/pkgconf" \
-  "sys-devel/binutils" \
+  "sys-devel/binutils9" \
   "sys-devel/gcc9" \
   "sys-libs/musl" \
   || die "Failed install build pkg depend... error"
@@ -105,9 +106,9 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
   printf %s\\n "${ZCOMP} -dc ${PF} | tar -C ${PDIR%/}/${SRC_DIR}/ -xkf -"
 
   case $(tc-abi-build) in
-    'x32')   append-flags -mx32 -msse2 ;;
-    'x86')   append-flags -m32         ;;
-    'amd64') append-flags -m64 -msse2  ;;
+    'x32')   append-flags -mx32 -msse2            ;;
+    'x86')   append-flags -m32 -msse -mfpmath=sse ;;
+    'amd64') append-flags -m64 -msse2             ;;
   esac
   if use 'static-libs'; then
     append-flags -Os
@@ -116,7 +117,7 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
   else
     append-flags -O2
   fi
-  append-flags -fno-stack-protector -no-pie -g0 -march=$(arch | sed 's/_/-/')
+  append-flags -DNDEBUG -fno-stack-protector -no-pie -g0 -march=$(arch | sed 's/_/-/')
 
   CC="gcc" CXX="g++"
 
@@ -125,15 +126,16 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
   cd "${BUILD_DIR}/" || die "builddir: not found... error"
 
   cmake -B build -G Ninja \
-    -DCMAKE_INSTALL_PREFIX="${EPREFIX%/}/usr" \
-    -DCMAKE_INSTALL_BINDIR="${EPREFIX%/}/bin" \
-    -DCMAKE_INSTALL_LIBDIR="${EPREFIX%/}/$(get_libdir)" \
-    -DCMAKE_BUILD_TYPE="Release" \
-    -DMSGPACK_BUILD_EXAMPLES="OFF" \
-    -DMSGPACK_BUILD_TESTS=$(usex 'test' ON OFF) \
-    -DBUILD_SHARED_LIBS=$(usex 'shared' ON OFF) \
-    -DCMAKE_SKIP_RPATH=$(usex 'rpath' OFF ON) \
-    -Wno-dev \
+    -D CMAKE_INSTALL_PREFIX="${EPREFIX%/}/usr" \
+    -D CMAKE_INSTALL_BINDIR="${EPREFIX%/}/bin" \
+    -D CMAKE_INSTALL_LIBDIR="${EPREFIX%/}/$(get_libdir)" \
+    -D CMAKE_BUILD_TYPE="None" \
+    -D MSGPACK_BUILD_EXAMPLES="OFF" \
+    -D MSGPACK_BUILD_TESTS=$(usex 'test' ON OFF) \
+    -D MSGPACK_ENABLE_STATIC=$(usex 'static-libs' ON OFF) \
+    -D MSGPACK_ENABLE_SHARED=$(usex 'shared' ON OFF) \
+    -D CMAKE_SKIP_RPATH=$(usex 'rpath' OFF ON) \
+    -W no-dev \
     || die "Failed cmake build"
 
   ninja -j "$(nproc)" -C "${BUILD_DIR}/build" || die "Build... Failed"

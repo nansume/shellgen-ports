@@ -129,7 +129,9 @@ elif test "X${USER}" != 'Xroot'; then
 
 	printf %s\\n "Configure directory: PWD='${PWD}'... ok"
 
-	patch -p1 -E < "${PDIR%/}"/patches/acme-random_fix-srandomdev.diff
+	#patch -p1 -E < "${PDIR%/}"/patches/acme-random_fix-srandomdev.diff
+
+	sed -e 's|srandomdev();|rand();|' -i random.c
 
   . runverb \
   make -j "$(nproc)" \
@@ -149,7 +151,7 @@ elif test "X${USER}" != 'Xroot'; then
 
   use 'static' && LD_LIBRARY_PATH=
   #printf %s "prog <random> test: "
-  use 'stest' && { bin/${PN} -- || : die "binary work... error";}
+  use 'stest' && { bin/${PN} ${RANDOM} || die "binary work... error";}
 
   exit 0
 fi

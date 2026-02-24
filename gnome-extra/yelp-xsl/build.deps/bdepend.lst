@@ -1,0 +1,13 @@
+dev-lang/python3-8
+dev-libs/expat  # for python
+dev-libs/libffi  # for python
+dev-libs/libxml2-1
+dev-libs/libxslt
+dev-util/itstool
+#dev-util/pkgconf
+
+sys-devel/binutils6  # for configure, why?
+sys-devel/gcc6  # for configure, why?
+sys-devel/gettext
+sys-devel/make
+sys-libs/musl

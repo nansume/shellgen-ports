@@ -1,0 +1,68 @@
+
+                                  [PATCH] kconfig/lxdialog: fix check sample for gcc14
+
+   Alexis Lothore Wed, 09 Oct 2024 14:50:22 -0700
+
+ Trying to execute "make menuconfig" with GCC 14 fails with the following
+ error, despite ncurses being installed on the host:
+
+
+  *** Unable to find the ncurses libraries or the
+  *** required header files.
+  *** 'make menuconfig' requires the ncurses libraries.
+  ***
+  *** Install ncurses (ncurses-devel) and try again.
+  ***
+  make[2]: *** [[...]/scripts/kconfig/lxdialog/Makefile:15:
+ scripts/kconfig/lxdialog/dochecklxdialog] Error 1
+  make[1]: *** [[...]/scripts/kconfig/Makefile:14: menuconfig] Error 2
+
+ The failure is due to a silenced error in check-lxdialog.sh during the
+ check step:
+
+ <stdin>:2:1: error: return type defaults to `int` [-Wimplicit-int]
+
+ Fix the sample main function definition to fix menuconfig with recent
+ compilers
+
+ Closes: https://bugs.busybox.net/show_bug.cgi?id=16186
+ Signed-off-by: Alexis Lothore <[email protected]>
+ ---
+ The issue has affected some other projects like Buildroot, which has
+ received the same kind of fix:
+ https://lore.kernel.org/buildroot/20240408213807.GA44146@pevik/T/#m865c15c74597fe43fd95fd75dc9f3f26887328bf
+
+ And picking an upstream fix is not an option since the corresponding
+ upstream project (the linux kernel) has issued many reworks on lxdialog
+ and so does not use check-lxdialog.sh anymore
+ ---
+  scripts/kconfig/lxdialog/check-lxdialog.sh | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+
+ diff --git a/scripts/kconfig/lxdialog/check-lxdialog.sh
+ b/scripts/kconfig/lxdialog/check-lxdialog.sh
+ index 5075ebf2d3b9..4e138366d218 100755
+ --- a/scripts/kconfig/lxdialog/check-lxdialog.sh
+ +++ b/scripts/kconfig/lxdialog/check-lxdialog.sh
+ @@ -47,7 +47,7 @@ trap "rm -f $tmp" 0 1 2 3 15
+  check() {
+          $cc -x c - -o $tmp 2>/dev/null <<'EOF'
+  #include CURSES_LOC
+ -main() {}
+ +int main() {}
+  EOF
+         if [ $? != 0 ]; then
+             echo " *** Unable to find the ncurses libraries or the"       1>&2
+ --
+ 2.46.2
+
+ _______________________________________________
+ busybox mailing list
+ [email protected]
+ http://lists.busybox.net/mailman/listinfo/busybox
+
+
+References
+
+https://www.mail-archive.com/busybox@busybox.net/msg29573.html
+https://bootlin.com

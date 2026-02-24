@@ -1,5 +1,5 @@
 #!/bin/sh
-# -static -static-libs +shared -lfs -upx -patch -doc -man -xstub -diet +musl +stest +strip +x32
+# -static +static-libs +shared -lfs -upx -patch -doc -man -xstub -diet +musl +stest +strip +x32
 
 inherit eutils flag-o-matic gnome2 install-functions
 
@@ -7,7 +7,7 @@ DESCRIPTION="Gimp ToolKit +"
 HOMEPAGE="https://www.gtk.org/"
 LICENSE="LGPL-2+"
 IUSE="-aqua -broadway -cloudprint -colord -cups -examples -gtk-doc"
-IUSE="${IUSE} -introspection -test -vim-syntax -wayland +X -xinerama"
+IUSE="${IUSE} +introspection -test -vim-syntax -wayland +X -xinerama"
 EPREFIX=${EPREFIX:-$SPREFIX}
 BUILD_DIR=${BUILD_DIR:-$WORKDIR}
 

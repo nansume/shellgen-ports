@@ -1,9 +1,9 @@
-# -static -static-libs +shared -lfs -upx +patch -doc -man -xstub -diet +musl +stest +strip +x32
+# -static +static-libs +shared -lfs -upx +patch -doc -man -xstub -diet +musl +stest +strip +x32
 
 DESCRIPTION="Internationalized text layout and rendering library"
 HOMEPAGE="http://www.pango.org/"
 LICENSE="LGPL-2+ FTL"
-IUSE="+X -introspection -test"
+IUSE="+X +introspection -test"
 EPREFIX=${EPREFIX:-$SPREFIX}
 FILESDIR=${FILESDIR:-$DISTSOURCE}
 

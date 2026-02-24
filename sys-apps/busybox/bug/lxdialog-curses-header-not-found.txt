@@ -1,0 +1,221 @@
+
+        Busybox build fails with ncurses header not found in archlinux (spoiler: i already have ncurses package)
+
+   Asked 1 year, 8 months ago
+   Modified 17 days ago
+   Viewed 4k times
+   5
+
+   I am trying to build busybox from source, installed all the necessary dependencies, but build fails every time
+   with ncurses header not found err.
+
+   ----
+
+   OS: Arch Linux x86_64 (On docker: archlinux image)
+   Kernel: 6.8.9-arch1-2
+   Shell: bash 5.2.21
+   Packages Installed: bzip2 git make gcc ncurses flex bison bc cpio libelf openssl
+
+   Source: git clone --depth 1 https://git.busybox.net/busybox
+   Build cmd: cd busybox && make menuconfig
+
+   Expected behaviour: a configuration gui opens
+   Actual behaviour:
+   *** Unable to find the ncurses libraries or the
+   *** required header files.
+   *** 'make menuconfig' requires the ncurses libraries.
+   ***  
+   *** Install ncurses (ncurses-devel) and try again.
+   ***  
+   make[2]: *** [/home/sysmount/busybox/scripts/kconfig/lxdialog/Makefile:15: scripts/kconfig/lxdialog/dochecklxd
+   ialog] Error 1
+   make[1]: *** [/home/sysmount/busybox/scripts/kconfig/Makefile:14: menuconfig] Error 2
+   make: *** [Makefile:444: menuconfig] Error 2
+
+   since archlinux bundles header files with base 'ncurses' package, then this shouldn't be happening.
+
+     * header-files
+     * ncurses
+     * busybox
+   asked May 16, 2024 at 16:31
+   Suryansh
+   6311 silver badge44 bronze badges
+   2
+
+       You can answer your question by turning on the shell trace (set -x) in the check-lxdialog.sh to see what
+       parameters are passed to it. The script redirects its errors to /dev/null - seeing those errors would tell you
+       what went wrong.
+       - Thomas Dickey
+       Commented May 19, 2024 at 20:35
+
+       The issue is getting tracked in their mailinglist, but there seems not progress with getting the patch merged
+       (patch was submitted July 24)... :/
+       - jeanggi90
+       Commented Jan 6, 2025 at 22:57
+
+
+   13
+
+ diff --git a/scripts/kconfig/lxdialog/check-lxdialog.sh b/scripts/kconfig/lxdialog/check-lxdialog.sh
+ index 5075ebf2..4e138366 100755
+ --- a/scripts/kconfig/lxdialog/check-lxdialog.sh
+ +++ b/scripts/kconfig/lxdialog/check-lxdialog.sh
+ @@ -47,7 +47,7 @@ trap "rm -f $tmp" 0 1 2 3 15
+  check() {
+          $cc -x c - -o $tmp 2>/dev/null <<'EOF'
+  #include CURSES_LOC
+ -main() {}
+ +int main() {}
+  EOF
+
+   answered May 28, 2024 at 15:44
+   G. S.
+   36111 silver badge88 bronze badges
+
+
+   sleeptightAnsiC
+   [Added this as edit request] References: 1, 2, 3, 4; Busybox uses the same check-lxdialog.sh script as the package
+   mentioned in those links. This issue is caused by the fact that GCC14 introduces breaking changes and forces
+   -Werror=implicit-int by default.
+   2025-02-25T17:35:33.907Z+00:00
+   0
+
+   Milind R
+   This isn't only for busybox, ran into this while trying to compile a kernel.
+   2025-03-23T17:31:46.28Z+00:00
+   0
+
+   pipishuo
+   It's work!!Thanks
+   2025-08-29T12:09:59.71Z+00:00
+   0
+
+
+   7
+
+   I have been struggling with the same problem and just found the solution.
+
+   Indeed, the problem is in check-lxdialog.sh inside check function. It should check for lib availability, but it
+   actually checks for compilation errors of simple block of code
+
+         $cc -x c - -o $tmp 2>/dev/null <<'EOF'
+ #include CURSES_LOC
+ main() {}
+ EOF
+
+   We can try execute this command manually (substituting variables with actual values):
+
+ gcc -x c - -o tmp <<'EOF'
+ #include <ncurses.h>
+ main() {}
+ EOF
+
+   getting output:
+
+ <stdin>:2:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+ main() {}
+ ^
+ int
+ 1 error generated.
+
+   So the problem is in missing function type specifier, just adding int before main fixes the problem
+
+   edited Aug 16, 2024 at 13:32
+   answered Aug 16, 2024 at 13:30
+   yayayat
+   7111 silver badge22 bronze badges
+
+
+   Thomas Dickey
+   G.S. already pointed out this problem/solution.
+   2024-08-17T09:34:26.01Z+00:00
+   0
+
+   yayayat
+   Yeah, for sure, he did. I just wanted to post more detailed description
+   2024-08-18T08:13:44.517Z+00:00
+   1
+
+
+   2
+
+   For me, it was simple :)
+
+ $ nano scripts/kconfig/lxdialog/Makefile
+
+   and hash out this line:
+
+ always         := $(hostprogs-y) dochecklxdialog
+
+   answered May 19, 2024 at 6:19
+   CorruptedByCPU
+   4411 bronze badge
+
+
+   Thomas Dickey
+   deleting the rule for running the check doesn't fix the problem
+   2024-05-19T20:36:29.67Z+00:00
+   0
+
+   Suryansh
+   It works for me 😊 Can you explain the specifics tho?
+   2024-05-20T14:28:45.67Z+00:00
+   0
+
+
+   0
+
+   I know I'm a little late to the party but this question sent me in the right direction for a proper solution.
+   Therefore, I'm leaving here the solution I found for anyone who faces it in the future.
+
+   If you face ncurses error while running make menuconfig for busybox 1.36.1 even with ncurses installed
+
+ *** Unable to find the ncurses libraries or the
+ *** required header files.
+ ...
+ make[2]: *** [/home/sysmount/busybox/scripts/kconfig/lxdialog/Makefile:15:
+
+   then the most probably the culprit is scripts/kconfig/lxdialog/check-lxdialog.sh script. The busybox build system
+   runs a script (check-lxdialog.sh) that attempts to compile a small C program to test for ncurses. You can run this
+   test manually to see the exact compiler error message (which is normally hidden by redirecting the error stream to
+   /dev/null at line 48):
+
+ gcc -x c - -o tmp <<'EOF'
+ #include <ncurses.h>
+ main() {}
+ EOF
+
+   Recent compilers (like GCC 14) may fail this test if the sample main() function doesn't have an
+   explicit int return type. If this is the case, you may need to apply the a patch:
+
+ patch -p1 < busybox-1.36.1-fix-unable-to-find-ncurses.patch
+
+   Then try to run make menuconfig again.
+
+   ----
+
+   Source: kconfig/lxdialog: fix check sample for gcc14
+   https://www.mail-archive.com/busybox@busybox.net/msg29573.html
+
+   edited Jan 14 at 13:12
+   answered Jan 14 at 10:34
+   ResilientBit
+   12155 bronze badges
+
+   ResilientBit
+   Also, while this problem is fixed in busybox 1.37.0 but cross compiling v1.37.0 for ARM raises a new issu: error:
+   'sha1_process_block64_shani' undeclared. This happens because the function is specific to x86/x86_64 architectures
+   but is being referenced during an ARM compilation, usually when hardware acceleration for SHA1 is enabled in the
+   configuration. The patch for this issue is listed in my gist (Source: GNU guix patches).
+   2026-01-14T10:58:54.213Z+00:00
+   0
+
+   _____________________
+
+
+
+   Site design / logo © 2026 Stack Exchange Inc; user contributions licensed under CC BY-SA . rev 2026.1.29.39263
+
+References
+
+https://stackoverflow.com/questions/78491346/busybox-build-fails-with-ncurses-header-not-found-in-archlinux-spoiler-i-alrea

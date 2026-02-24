@@ -1,0 +1,7 @@
+# Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
+# -static +static-libs +shared +nopie -lfs -upx -patch -doc -man -xstub -diet +musl +stest +strip +x32
+
+DESCRIPTION="<pkgdesc>"
+HOMEPAGE="<url>"
+LICENSE="<license>"
+IUSE="+static-libs"

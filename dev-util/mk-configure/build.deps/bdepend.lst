@@ -1,0 +1,13 @@
+dev-build/bmake
+#dev-build/pmake
+dev-util/pkgconf
+
+sys-apps/file
+sys-devel/binutils9
+sys-devel/bison
+#sys-devel/flex
+sys-devel/gcc9
+sys-devel/lex
+sys-libs/musl
+
+x11-misc/makedepend

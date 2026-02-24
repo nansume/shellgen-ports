@@ -1,0 +1,7 @@
+#app-editors/neovim-qt  # dev-libs/msgpack ?
+
+app-misc/tmate
+app-misc/tmate-ssh-server
+
+#dev-libs/msgpack-cxx  # now it deps no needed
+#net-libs/opendht  # dev-libs/msgpack-cxx

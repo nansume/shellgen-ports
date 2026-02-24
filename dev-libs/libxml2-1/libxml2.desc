@@ -1,6 +1,6 @@
-# -static -static-libs +shared +nopie -lfs -upx -patch -doc -man -xstub -diet +musl +stest +strip +x32
+# -static +static-libs +shared +nopie -lfs -upx -patch -doc -man -xstub -diet +musl +stest +strip +x32
 
 DESCRIPTION="XML parsing library, version 2"
 HOMEPAGE="https://gitlab.gnome.org/GNOME/libxml2"
 LICENSE="MIT"
-IUSE="-examples -icu -lzma -python -readline -static-libs -test"
+IUSE="-examples -icu -lzma +python -readline +static-libs -test"

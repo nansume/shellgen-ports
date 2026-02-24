@@ -1,0 +1,5 @@
+
+                      BUG: fix(google-cloud-sdk): add patch file for SyntaxWarning in ipaddress.
+
+  Url: https://github.com/alesar1/aur/commit/47722e55c566616c1d1ed0e96964d4945a87048f
+  Patch: 0004-fix-ipaddress-syntaxwarning.patch

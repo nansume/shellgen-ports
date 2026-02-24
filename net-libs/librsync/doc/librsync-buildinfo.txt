@@ -1,0 +1,104 @@
+spkg --install sys-apps/busybox_1.37.0_x32.clz
+spkg --install dev-build/cmake3_3.22.2_x32.cgz
+spkg --install dev-libs/popt_1.18_x32.cgz
+spkg --install dev-util/pkgconf_1.9.5_x32.cgz
+spkg --install sys-devel/binutils6_2.32_x32.clz
+spkg --install sys-devel/gcc6_6.5.0_x32.clz
+spkg --install sys-devel/make_4.3_x32.clz
+spkg --install sys-libs/musl_1.2.5_x32.clz
+
+ABI_BUILD='x32'
+XABI='x32'
+ABI=x32
+LIBDIR=/libx32
+LIB_DIR=libx32
+PATH='/sbin:/bin:/usr/x86_64-linux-muslx32/bin:/usr/libexec/gcc/x86_64-linux-muslx32/6.5.0:/opt/sbin:/opt/bin:/misc.d:/etools.d:/ecompat.d:/ecompat.d/Banned:/ecompat.d/autotools.eclass:/ecompat.d/cmake.eclass:/ecompat.d/desktop.eclass:/ecompat.d/docs.eclass:/ecompat.d/edo.eclass:/ecompat.d/flag-o-matic.eclass:/ecompat.d/install-functions:/ecompat.d/lua.eclass:/ecompat.d/meson.eclass:/ecompat.d/multilib.eclass:/ecompat.d/prefix.eclass:/ecompat.d/src_configure:/ecompat.d/toolchain-funcs.eclass'
+LD_LIBRARY_PATH='/libx32:/libx32/gcc/x86_64-linux-muslx32/6.5.0:/usr/libexec/gcc/x86_64-linux-muslx32/6.5.0:/lib:/build'
+append-flags: '-Os'
+append_ldflags: '-Wl,--gc-sections'
+append_cflags: '-ffunction-sections -fdata-sections'
+append_ldflags: '-s -static --static'
+append-flags: '-DNDEBUG -fno-stack-protector -no-pie -g0 -march=x86-64'
+
+patching file CMakeLists.txt
+
+-- The C compiler identification is GNU 6.5.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /bin/gcc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- CMAKE_BUILD_TYPE = None
+-- DO_RS_TRACE=0
+-- Looking for include file sys/file.h
+-- Looking for include file sys/file.h - found
+-- Looking for include file sys/stat.h
+-- Looking for include file sys/stat.h - found
+-- Looking for include file sys/types.h
+-- Looking for include file sys/types.h - found
+-- Looking for include file unistd.h
+-- Looking for include file unistd.h - found
+-- Looking for include file io.h
+-- Looking for include file io.h - not found
+-- Looking for include file fcntl.h
+-- Looking for include file fcntl.h - found
+-- Looking for include file mcheck.h
+-- Looking for include file mcheck.h - not found
+-- Looking for include file zlib.h
+-- Looking for include file zlib.h - not found
+-- Looking for include file bzlib.h
+-- Looking for include file bzlib.h - not found
+-- Looking for __func__
+-- Looking for __func__ - found
+-- Looking for __FUNCTION__
+-- Looking for __FUNCTION__ - found
+-- Looking for fseeko
+-- Looking for fseeko - found
+-- Looking for fseeko64
+-- Looking for fseeko64 - not found
+-- Looking for _fseeki64
+-- Looking for _fseeki64 - not found
+-- Looking for fstat64
+-- Looking for fstat64 - not found
+-- Looking for _fstati64
+-- Looking for _fstati64 - not found
+-- Looking for fileno
+-- Looking for fileno - found
+-- Looking for _fileno
+-- Looking for _fileno - not found
+-- Looking for stdint.h
+-- Looking for stdint.h - found
+-- Looking for stddef.h
+-- Looking for stddef.h - found
+-- Check size of long
+-- Check size of long - done
+-- Check size of long long
+-- Check size of long long - done
+-- Check size of off_t
+-- Check size of off_t - done
+-- Check size of off64_t
+-- Check size of off64_t - failed
+-- Check size of size_t
+-- Check size of size_t - done
+-- Check size of unsigned int
+-- Check size of unsigned int - done
+-- Check size of unsigned long
+-- Check size of unsigned long - done
+-- Check size of unsigned short
+-- Check size of unsigned short - done
+-- Performing Test HAVE_PRINTF_Z
+-- Performing Test HAVE_PRINTF_Z - Success
+-- System is little-endian.
+-- PROJECT_NAME  = librsync
+-- BUILD_HOSTNAME = zizi
+-- CMAKE_SYSTEM = Linux-5.8.9
+-- Found PkgConfig: /bin/pkgconf (found version "1.9.5") 
+-- Found POPT: PkgConfig::POPT (found version "1.18") 
+-- POPT_INCLUDE_DIRS  = 
+-- POPT_LIBRARIES = PkgConfig::POPT
+-- Could NOT find BZip2 (missing: BZIP2_LIBRARIES BZIP2_INCLUDE_DIR) 
+-- Could NOT find ZLIB (missing: ZLIB_LIBRARY ZLIB_INCLUDE_DIR) 
+-- Could NOT find LIBB2 (missing: LIBB2_LIBRARY_RELEASE LIBB2_INCLUDE_DIR) 
+-- Using included blake2 implementation.
+-- Could NOT find Doxygen (missing: DOXYGEN_EXECUTABLE) 
+-- CMAKE_C_FLAGS  = -Os -ffunction-sections -fdata-sections -DNDEBUG -fno-stack-protector -no-pie -g0 -march=x86-64 -Wall -std=c99 -pedantic

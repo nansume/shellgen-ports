@@ -1,0 +1,9 @@
+app-text/ghostscript-gpl  # libgs
+app-text/libpaper  # deps libgs
+dev-util/pkgconf
+
+sys-apps/file
+sys-devel/binutils6
+sys-devel/gcc6
+sys-devel/make
+sys-libs/musl

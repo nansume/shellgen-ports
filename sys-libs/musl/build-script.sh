@@ -1,9 +1,9 @@
 #!/bin/sh
-# Copyright (C) 2023-2025 Artjom Slepnjov, Shellgen
+# Copyright (C) 2023-2026 Artjom Slepnjov, Shellgen
 # License GPLv3: GNU GPL version 3 only
 # http://www.gnu.org/licenses/gpl-3.0.html
 # Maintainer: Artjom Slepnjov <shellgen@uncensored.citadel.org>
-# Date: 2023-12-14 10:00 UTC - last change
+# Date: 2023-12-14 10:00 UTC, 2026-02-02 13:00 UTC - last change
 # Usage [for bootstrap]: USE='+bootstrap +x32' emerge -b -- sys-libs/musl
 # Build with useflag: -static +static-libs +shared -lfs +nopie +patch -doc -xstub -diet +musl +stest +strip +x32
 
@@ -34,6 +34,8 @@ SRC_URI="
   https://www.openwall.com/lists/musl/2025/02/13/1/1 -> ${PN}-${PV}-fix-iconv-euc-kr.patch
   https://www.openwall.com/lists/musl/2025/02/13/1/2 -> ${PN}-${PV}-fix-iconv-input-utf8.patch
   http://data.gpo.zugaina.org/gentoo/sys-libs/musl/files/musl-sched.h-reduce-namespace-conflicts.patch
+  http://localhost/pub/distfiles/patch/musl-1.2.5-read_timezone_from_fs.patch
+  http://localhost/pub/distfiles/patch/musl-1.2.5-nftw-support-common-gnu-ext.patch
   http://data.gpo.zugaina.org/gentoo/sys-libs/musl/files/ldconfig.in-r3
   #http://data.gpo.zugaina.org/gentoo/sys-libs/musl/files/stack_chk_fail_local.c
 "
@@ -91,16 +93,16 @@ use 'bootstrap' && tc-bootstrap-musl "$(arch)-linux-musl$(usex x32 x32 '')-nativ
 
 pkginst \
   "#dev-libs/mpfr" \
-  "sys-devel/binutils" \
+  "sys-devel/binutils6" \
   "sys-devel/make" \
-  "sys-libs/musl0" \
+  "sys-libs/musl" \
   || die "Failed install build pkg depend... error"
 
 use 'bootstrap' ||
 pkginst \
-  "#sys-devel/binutils" \
-  "sys-devel/gcc9" \
-  "#sys-libs/musl0"
+  "#sys-devel/binutils6" \
+  "sys-devel/gcc6" \
+  "#sys-libs/musl"
 
 build-deps-fixfind
 
@@ -136,6 +138,8 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
   patch -p1 -E < "${FILESDIR}"/${PN}-${PV}-fix-iconv-euc-kr.patch
   patch -p1 -E < "${FILESDIR}"/${PN}-${PV}-fix-iconv-input-utf8.patch
   patch -p1 -E < "${FILESDIR}"/musl-sched.h-reduce-namespace-conflicts.patch
+  patch -p1 -E < "${FILESDIR}"/${PN}-${PV}-read_timezone_from_fs.patch
+  patch -p1 -E < "${FILESDIR}"/${PN}-${PV}-nftw-support-common-gnu-ext.patch
 
   ./configure \
     CC="gcc" \

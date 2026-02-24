@@ -1,0 +1,15 @@
+app-text/liblangtag
+dev-libs/cxx-boost
+dev-libs/librevenge
+dev-libs/libxml2-1
+dev-util/mdds1  # =mdds-1.7.0
+dev-util/pkgconf
+
+media-libs/glm
+
+sys-apps/file
+sys-devel/binutils9
+sys-devel/gcc9
+sys-devel/make
+sys-libs/musl
+sys-libs/zlib

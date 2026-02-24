@@ -1,18 +1,18 @@
 app-accessibility/at-spi2-core
 
-dev-lang/python3  # testing
+#dev-lang/python3-8  # testing
 
 dev-libs/atk
 dev-libs/expat  # for dbus,python[optional]
-dev-libs/glib69
+dev-libs/glib74
 dev-libs/libffi  # for glib69
-dev-libs/pcre  # optional (internal pcre glib-2.68.4)
+dev-libs/pcre2  # optional (internal pcre glib-2.68.4)
 dev-util/pkgconf
 
 sys-apps/dbus
 sys-apps/file
-sys-devel/binutils
-sys-devel/gcc9
+sys-devel/binutils6
+sys-devel/gcc6
 sys-devel/make
 sys-libs/musl
 sys-libs/zlib  # for glib69,python3
@@ -21,4 +21,6 @@ x11-libs/libx11  # for dbus
 x11-libs/libxau  # for dbus
 x11-libs/libxcb  # for dbus
 x11-libs/libxdmcp  # for dbus
-x11-libs/libxt  # for dbus
+x11-libs/libxext  # optional, for +X
+x11-libs/libxi  # optional, for +X
+x11-libs/libxtst  # optional, for +X

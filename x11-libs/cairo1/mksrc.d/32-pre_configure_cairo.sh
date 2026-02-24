@@ -1,9 +1,9 @@
-# -static -static-libs +shared -lfs -upx +patch -doc -man -xstub -diet +musl +stest +strip +x32
+# -static +static-libs +shared -lfs -upx +patch -doc -man -xstub -diet +musl +stest +strip +x32
 
 DESCRIPTION="A vector graphics library with cross-device output support"
 HOMEPAGE="https://www.cairographics.org"
 LICENSE="|| ( LGPL-2.1 MPL-1.1 )"
-IUSE="+X -aqua -debug -gles2 +glib -opengl -static-libs +svg -valgrind +xcb"
+IUSE="+X -aqua -debug -gles2 +glib -opengl +static-libs +svg -valgrind +xcb"
 
 export ax_cv_c_float_words_bigendian="no"
 

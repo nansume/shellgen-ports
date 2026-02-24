@@ -1,0 +1,10 @@
+dev-libs/libxml2-1  # for gettext
+dev-util/pkgconf
+
+sys-devel/binutils9
+sys-devel/gcc14
+sys-devel/gettext  # for compile translated mesg
+sys-devel/make
+sys-libs/musl  # required for perl,python
+#sys-libs/ncurses  # shared
+sys-libs/netbsd-curses  # for static build [add: -lcurses -lterminfo]

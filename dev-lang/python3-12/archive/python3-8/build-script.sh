@@ -1,8 +1,8 @@
 #!/bin/sh
-# Copyright (C) 2024 Artjom Slepnjov, Shellgen
+# Copyright (C) 2024-2026 Artjom Slepnjov, Shellgen
 # License GPLv3: GNU GPL version 3 only
 # http://www.gnu.org/licenses/gpl-3.0.html
-# Date: 2024-10-05 07:00 UTC - last change
+# Date: 2024-10-05 07:00 UTC, 2026-02-13 11:00 UTC - last change
 # Build with useflag: -static-libs +shared -lfs -nopie +patch +ipv6 +ssl -doc +musl +stest +strip +x32
 
 # http://data.gpo.zugaina.org/gentoo/dev-lang/python/python-3.8.20.ebuild
@@ -41,7 +41,7 @@ BUILD_USER="tools"
 SRC_DIR="build"
 IUSE="+shared (+musl) -man -doc +stest +strip (+ipv6) -bluetooth -build"
 IUSE="${IUSE} -debug +ensurepip -examples +gdbm (-hardened) +ncurses +readline"
-IUSE="${IUSE} +sqlite +ssl -test (-libressl) (+threads) -tk -valgrind (-wininst) (+xml) (-pgo)"
+IUSE="${IUSE} +sqlite +ssl -test (-libressl) (+threads) -tk -valgrind (-wininst) +xml (-pgo)"
 EABI=$(tc-abi-build)
 ABI=${EABI}
 XABI=${EABI}
@@ -91,16 +91,16 @@ pkginst \
   "app-arch/xz  # required? testing" \
   "dev-db/bdb5" \
   "dev-db/sqlite3" \
-  "dev-lang/python38" \
-  "dev-libs/expat" \
+  "dev-lang/python3-8" \
+  "dev-libs/expat  # for xml" \
   "dev-libs/libffi" \
   "#dev-libs/mpdecimal  # no-bundled, no-build" \
   "dev-libs/openssl3" \
   "#dev-python/ensurepip-wheels  # ensurepip" \
   "dev-util/pkgconf" \
   "sys-apps/findutils" \
-  "sys-devel/binutils" \
-  "sys-devel/gcc" \
+  "sys-devel/binutils6" \
+  "sys-devel/gcc6" \
   "sys-devel/make" \
   "#sys-devel/patch" \
   "sys-kernel/linux-headers-musl  # pre: linux-headers" \
@@ -232,7 +232,7 @@ elif test "X${USER}" != 'Xroot'; then
 
   rm -vr -- include/ lib/python*/config-*/*.o usr/share/
   # Remove static library
-  rm -vf -- lib/libpython*.a $(get_libdir)/libpython*.a || : die
+  use 'static-libs' || rm -vf -- lib/libpython*.a $(get_libdir)/libpython*.a || : die
 
   LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+${LD_LIBRARY_PATH}:}${ED}/$(get_libdir)"
 

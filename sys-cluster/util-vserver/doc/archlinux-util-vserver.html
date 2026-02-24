@@ -1,0 +1,219 @@
+<!DOCTYPE html
+          PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html   xmlns   = "http://www.w3.org/1999/xhtml">
+<head>
+<meta name="KEYWORDS" content="Linux Virtual Server Contexts Security Arch Vserver" />
+<meta name="DESCRIPTION" content="" />
+<link rel="STYLESHEET" href="http://oldwiki.linux-vserver.org/?action=style" type="text/css" />
+<title>Arch Vserver - Linux-VServer</title>
+</head>
+<body>
+<div id="header">
+  <div class="logo">
+  <a href="Linux-VServer"><img
+    src="http://wiki.linux-vserver.org/skins/common/images/wiki.png" alt="[Home]" /></a>
+  </div>
+  <h1>
+    <a class="title" href="?action=find&amp;find=ArchVserver">
+ArchVserver</a>
+  </h1>
+  <div id="toolbar-top">
+<a href="Linux-VServer">Linux-VServer</a> | <a href="RecentChanges">RecentChanges</a> | <a href="http://oldwiki.linux-vserver.org/?action=prefs">Preferences</a> | <a href="http://tavi.sourceforge.net/FormattingRules">FormattingRules</a>
+</div>
+<hr />
+</div>
+<div id="body">
+<div style="margin: 2em auto 2em auto; padding: 10px; background-color: #F9ECCD; border: 1px solid #004433; text-align: center;">
+<div class="floatleft">
+<span>
+<a href="/Image:Icon-Caution.png" class="image" title="">
+<img src="http://wiki.linux-vserver.org/images/1/1f/Icon-Caution.png" alt="" width="57" height="52" longdesc="/Image:Icon-Caution.png" />
+</a>
+</span>
+</div>
+<p><b>We currently migrate to MediaWiki from our old installation, but not all content has been migrated yet.
+Take a look at the <a href="http://wiki.linux-vserver.org/Wiki_Team" title="Wiki Team">Wiki Team</a> page for instructions how to help 
+or browse through our new wiki at
+<a href="http://wiki.linux-vserver.org" class="external text" title="http://wiki.linux-vserver.org" rel="nofollow">wiki.linux-vserver.org</a>
+to find the information already migrated.</b>
+</p>
+</div>
+<h1>Vserver on Arch Linux</h1>
+<p>   <strong>WARNING: You will need knowledge of Arch Linux's pacman, abs and init system. This is not an Arch tutorial </strong></p>
+
+
+<h2>Overview</h2>
+<p><a href="http://archlinux.org">[Arch Linux]</a> is ideal for running as the host and for VServers.</p>
+
+
+<p>What makes it ideal for the host server is its low foot print and simplicity. On the downside, Arch Linux does not include a VServer kernel or utilities. However, if you are confident building your own kernel and using ABS (the Arch Build System), it is excellent.</p>
+
+
+<p>Arch is ideal for VServers because it is trivial to install an instance of Arch Linux into a target directory and does not require Arch on the host system.</p>
+
+
+<h2>Building dietlibc</h2>
+<p>First for more secure chroots and compatibility you need dietlibc</p>
+
+<pre class="code">pkgname=dietlibc
+pkgver=0.29
+pkgrel=1
+pkgdesc="A libc that is optimized for small size"
+url="http://www.fefe.de/dietlibc/"
+depends=()
+makedepends=()
+conflicts=()
+replaces=()
+install=
+source=(http://www.kernel.org/pub/linux/libs/dietlibc/$pkgname-$pkgver.tar.gz)
+md5sums=('84059c71d6f559f8c4ca4df03a7a541f')
+
+build()
+{
+  mkdir -p $startdir/pkg/usr/{lib,diet,bin,man} $startdir/pkg/usr/man/man1 $startdir/pkg/opt
+  cd $startdir/src/$pkgname-$pkgver
+  make || return 1
+  make prefix=$startdir/pkg/usr/lib/diet install || return 1
+  mv $startdir/pkg/usr/lib/diet/bin/* $startdir/pkg/usr/bin
+  rm -r $startdir/pkg/usr/lib/diet/{man,bin}
+  cp diet.1 $startdir/pkg/usr/man/man1
+  ln -s /usr/lib/diet/ $startdir/pkg/opt/diet
+  find $startdir/pkg -name '*.la' -exec rm {} \;
+}
+</pre>
+
+<h2>Building beecrypt</h2><pre class="code">pkgname=beecrypt
+pkgver=4.1.2
+pkgrel=1
+pkgdesc="A general purpose cryptography library"
+url="http://beecrypt.sourceforge.net/"
+depends=('gcc')
+makedepends=()
+source=(http://puzzle.dl.sourceforge.net/sourceforge/beecrypt/$pkgname-$pkgver.tar.gz)
+md5sums=('820d26437843ab0a6a8a5151a73a657c')
+
+build() {
+  cd $startdir/src/$pkgname-$pkgver
+  ./configure --prefix=/usr
+  make || return 1
+  make DESTDIR=$startdir/pkg install
+  find $startdir/pkg -name '*.la' -exec rm {} \;
+}
+</pre>
+
+<h2>Building util-vserver on the Host</h2>
+<p>The following PKGBUILD will download, package and install util-vserver version <tt>0.30.209</tt>. It should be only a matter of changing the version number to make it work with later versions, assuming nothing major changes in the build process. Before starting to build, make a soft link: ln -s /usr/lib/dietlibc /opt/diet - otherwise the build fails because dietlibc cannot be found.</p>
+
+<pre class="code">pkgname=util-vserver
+pkgver=0.30.209
+pkgrel=1
+pkgdesc="The util-vserver project provides tools for kernels with the security context patch."
+url="http://savannah.nongnu.org/projects/util-vserver/"
+source=(http://www.13thfloor.at/~ensc/util-vserver/files/alpha/${pkgname}-${pkgver}.tar.bz2)
+depends=(beecrypt perl dietlibc)
+makedepends=(vconfig iproute dietlibc beecrypt iptables)
+md5sums=('674b122824292c20d3c53245b91f6088')
+
+build()
+{
+  cd $startdir/src/$pkgname-$pkgver
+  ./configure --prefix=/usr --sysconfdir=/etc --with-initrddir=/etc/rc.d --localstatedir=/var --enable-beecrypt --enable-dietlibc
+  make || return 1
+  make DESTDIR=$startdir/pkg install || return 1
+  # Move the v_* scripts out of the init dir, as Arch does not support SYSV style init scripts
+  install -m755 -d $startdir/pkg/usr/libexec/vserver
+  mv $startdir/pkg/etc/rc.d/v_* $startdir/pkg/usr/libexec/vserver
+  find $startdir/pkg -name '*.la' -exec rm {} \;
+}
+</pre>
+
+<p>VERY IMPORTANT! After you have installed the util-vserver package it is imperative to copy the /usr/lib/libvserver.so.0.0.0 to /lib and then create soft link, libvserver.so.0 to it, also to /lib. Otherwise you might have serious trouble with booting the system up, especially when you use drives with raid driver. (31.03.2006, current Arch with Udev). The util-vserver package must be updated to do this automatically.</p>
+
+
+<p>Once built and installed, add <tt>vprocunhide</tt> and <tt>vservers-default</tt> to <tt>DAEMONS</tt> in <tt>/etc/rc.conf</tt>.</p>
+
+
+<h1>Creating an Arch Linux VServer</h1>
+<p>Download <a href="http://www.linux-stats.org/download/archbootstrap">[archbootstrap]</a> (this script will run on any GNU/Linux host system with wget), choose appropriate values for <tt>name</tt>, <tt>interface</tt> and {{context}, pick some vserver flags (or just use the ones below) then use the following shell commands to create your vserver:</p>
+
+
+<p><em>(choose a mirror close to you, as <tt>archbootstrap</tt> will download all base packages)</em></p>
+
+<pre class="code"># name=test
+# interface=eth0:72.36.180.187/29
+# context=5
+# vserver ${name} build -m skeleton --context ${context} --interface ${interface} \
+   --flags lock,virt_mem,virt_uptime,virt_cpu,virt_load,sched_hard,hide_netif --initstyle plain
+# echo default > /etc/vservers/${name}/apps/init/mark
+# archbootstrap /vservers/${name} ftp://ftp.archlinux.de/pub/archlinux
+...
+</pre>
+
+<p>If you don't have a public ip to spare for your vserver guest, then you must create guest with private ip, like 192.168.0.103 for example. Then in order to allow guest to access the Internet, you will have to set up proper NAT rule for your host's iptables. Assuming that you are using addresses like in previous example, a working NAT rule is this:</p>
+
+<pre class="code">iptables -t nat -I POSTROUTING -s 192.168.0.0/24 -j SNAT --to x.x.x.x
+</pre>
+<p>where the last one is your host's public ip, assuming that it can access the Internet directly. You can now test if NAT rule succeeded by using this command: iptables -t nat -L</p>
+
+
+<p>It should display an output like this:</p>
+
+<pre class="code">Chain POSTROUTING (policy ACCEPT)
+target     prot opt source               destination
+SNAT       all  --  192.168.0.0/24       anywhere            to:x.x.x.x
+</pre>
+
+<p>Remeber to copy /etc/resolv.conf to /vservers/<tt>${name}</tt>/etc to be able to use domain names instead of just ip addresses.  </p>
+
+
+<p>If you plan to set up servers to your guest, it would also be useful to have localhost in there. This can be achieved by creating a new folder in /etc/vservers/<tt>name</tt>/interfaces/ - name the folder 1, for example, if the previous one that exists there is 0. Then create there files named <tt>ip</tt>, <tt>dev</tt> and <tt>prefix</tt>.</p>
+
+<p>To <tt>ip</tt> write <tt>127.0.0.1</tt>, to dev write <tt>lo</tt> and to <tt>prefix</tt> write <tt>32</tt>. </p>
+
+
+<p>Start your vserver:</p>
+
+<pre class="code"># vserver ${name} start
+</pre>
+
+<p>Check it has started</p>
+
+<pre class="code"># vserver-stat
+</pre>
+
+<p>Then enter the guest (<tt>vserver name enter</tt>) and at first create iproute package (it is at /var/abs/network/iproute) - you will need it to see ip addresses and other needful information. Add the package and now to see how networking is working use this command <tt>ip addr show</tt> and try to ping the world. </p>
+
+
+<p>That is pretty much it. You will probably want to edit <tt>/vservers/test/etc/rc.conf</tt> to remove interface configuration and set your hostname.</p>
+
+
+<p>All the usual vserver commands should work as you would expect, but don't forget to modify host service config files so they don't bind to <tt>INADDR_ANY</tt>.</p>
+
+
+<p>  <strong>Note</strong>: the value in <tt>/etc/vservers/${name}/apps/init/mark</tt> must be <tt>default</tt> if you wish your vservers to start at boot using the <tt>vservers-default</tt> init script.</p>
+
+
+<p>  <strong>Note2</strong>: if on starting up a vserver the keyboard control is lost on host, remove console from /dev of vserver</p>
+
+</div>
+<div id="footer">
+<div class="copyleft"><br />
+  Permission is granted to copy, distribute and/or modify this document
+  under the terms of the <br /><a href="http://www.fsf.org/licenses/fdl.txt">
+  GNU Free Documentation License</a>, Version 1.2 or any later version 
+  published by the Free Software Foundation. 
+</div>
+<hr />
+<div id="toolbar-bottom">
+<a href="ArchVserver?action=edit">Edit this document</a> | <a href="ArchVserver?action=history">View document history</a><br />
+</div>
+Document last modified Mon, 19 Jun 2006 13:36:47<br /><form method="get" action="http://oldwiki.linux-vserver.org/?action=find">
+<div class="form">
+  <input type="hidden" name="action" value="find" />
+  <br />Search: <input type="text" name="find" size="20" />
+</div>
+</form>
+</div>
+</body>
+</html>

@@ -1,0 +1,13 @@
+#!/bin/sh
+# 2020-2026
+
+IFS="$(printf '\n\t')"; IFS=${IFS%?}
+P=${1:?required - emptydir <dir>... error}
+
+[ -d "${P%/}" ] && {
+for P in ${P%/}/* ${P%/}/.[!.]* ''; do
+  (test "${P%/\*}" != "${1%/}" && test -e "${P%/}") && break
+done
+}
+
+test -z "${P}"

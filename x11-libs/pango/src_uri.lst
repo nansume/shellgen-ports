@@ -1,4 +1,4 @@
 https://download.gnome.org/sources/pango/1.42/pango-1.42.4.tar.xz
 https://dev.gentoo.org/~leio/distfiles/pango-1.42.4-patchset.tar.xz
-http://data.gpo.zugaina.org/gentoo/x11-libs/pango/files/1.42.4-CVE-2019-1010238.patch
+#http://data.gpo.zugaina.org/gentoo/x11-libs/pango/files/1.42.4-CVE-2019-1010238.patch  # buggy
 http://data.gpo.zugaina.org/gentoo/x11-libs/pango/files/1.42.4-pango-view.1.in

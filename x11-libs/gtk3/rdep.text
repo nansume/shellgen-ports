@@ -1,0 +1,15 @@
+app-crypt/gcr
+app-office/abiword3
+app-text/atril
+app-text/gspell
+dev-util/glade
+media-libs/clutter
+media-libs/clutter-gtk
+net-libs/libinfinity
+net-libs/webkit2gtk31
+x11-libs/goffice10
+x11-libs/gtksourceview3
+x11-libs/gtksourceview4
+x11-libs/libwnck0
+x11-libs/vte
+x11-misc/xpad

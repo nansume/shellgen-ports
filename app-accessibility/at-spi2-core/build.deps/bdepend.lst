@@ -1,18 +1,30 @@
+dev-lang/python3-8  # optional (+introspection)
 dev-libs/expat  # for dbus
-dev-libs/glib57
+dev-libs/glib74
+dev-libs/gobject-introspection74  # optional (+introspection)
 dev-libs/libffi  # for glib
+dev-libs/pcre2  # optional (for >=glib-2.68.4)
 dev-util/pkgconf
 
 sys-apps/dbus
 sys-apps/file
-sys-devel/binutils
-sys-devel/gcc9
+sys-devel/binutils6
+sys-devel/gcc6
 sys-devel/make
 sys-libs/musl
 sys-libs/zlib  # for glib
 
+
+x11-base/xorg-proto  # optional, for +X
+
+x11-libs/libice  # optional, for +X
+x11-libs/libsm  # optional, for +X
 x11-libs/libx11  # for dbus
 x11-libs/libxau  # for dbus
 x11-libs/libxcb  # for dbus
 x11-libs/libxdmcp  # for dbus
+x11-libs/libxext  # optional, for +X
+x11-libs/libxfixes  # optional, for +X
+x11-libs/libxi  # optional, for +X
 x11-libs/libxt  # for dbus
+x11-libs/libxtst  # optional, for +X

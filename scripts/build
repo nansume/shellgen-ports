@@ -1,15 +1,23 @@
 #!/bin/sh
-# 2019-2023
+# 2019-2026
 # File: /sbin/build
 # compatible with Linux kernel (Linuxism)
 # Usage: USE=+bootstrap EABI=x86  emerge -b -- ${CATEGORY}/${PN} ${CATEGORY}/${PN} @system @world @libs
 # Usage: USE=+x32 EABI=x32  emerge -b -- ${CATEGORY}/${PN} ${CATEGORY}/${PN} @system @world @libs
 # Usage: USE='-static -static-libs +shared -lfs +patch -doc -diet +musl +strip +x32' build -b -- dev-libs/libzip
-# Date: 2023-12-09 11:00 UTC - last change
+# Date: 2023-12-09 11:00 UTC, 2026-02-04 10:00 UTC - last change
 
-EXIT='exit' X=${*} IFS="$(printf '\n\t')"; IFS="${IFS%?} "
+export BUILD_USER PORTS_DIR PORTS_TMPDIR CATEGORY PN HOSTNAME
 
-export PORTS_DIR='/usr/ports' PORTS_TMPDIR='/var/tmp/ports' CATEGORY PN
+EXIT='exit'
+X=${*}
+IFS="$(printf '\n\t')"; IFS="${IFS%?} "
+HOSTNAME="localhost"
+BUILD_USER=${BUILD_USER:-tools}
+PORTS_DIR="/usr/ports"
+TMPDIR="/var/tmp"
+PORTS_TMPDIR="/var/tmp/ports"
+LOGFILE="/var/log/mksrc.log"
 
 test -n "${FUNCNAME-}" && EXIT='return'
 
@@ -34,6 +42,8 @@ check_arch(){
   esac
   printf %s\\n "${ARCH:?}"
 }
+
+[ -n "${TMPDIR:?required <TMPDIR>}" ] || ${EXIT}
 
 ARGS=
 while test -n "${X}"; do
@@ -99,7 +109,7 @@ done
 
 mkdir -pm 0755 "${PORTS_TMPDIR}/"
 
-cd '/var/tmp/'
+cd "${TMPDIR}/"
 
 check_arch
 
@@ -126,15 +136,17 @@ for PKG in ${PKGS}; do
   test -d "${PORTS_DIR}/${PKG}" || continue
   if test ! -d "${PORTS_TMPDIR}/${PKG}"; then
     mkdir -pm 0755 "${PORTS_TMPDIR}/${CATEGORY}"
-    #printf %s\\n "cp -ur /usr/ports/${PKG}/ /usr/ports/${PKG}_/"
     cp -ur ${PORTS_DIR}/${PKG}/ ${PORTS_TMPDIR}/${PKG}/ &&
     printf %s\\n "cp -ur ${PORTS_DIR}/${PKG}/ ${PORTS_TMPDIR}/${PKG}/"
   fi
-  cd ${PORTS_TMPDIR}/${PKG}/ &&
+  cd "${PORTS_TMPDIR}/${PKG}/" &&
   if test -x 'build-script.sh'; then
-    #printf %s\\n "cp -ur ../../'mksrc.sh' ../../profiles/* ."
-    printf %s\\n "cp -ur ${PORTS_DIR}/'mksrc.sh' ${PORTS_DIR}/profiles/* ."
-    cp -ur ${PORTS_DIR}/'mksrc.sh' ${PORTS_DIR}/profiles/* .
+    [ -d "./usr" ] || mkdir -v -m 0755 -- "./usr/"
+    [ -d "./usr/ports" ] || mkdir -v -m 0755 -- "./usr/ports/"
+    printf %s\\n "cp -ur ${PORTS_DIR}/mksrc.sh ${PORTS_DIR}/profiles ${PORTS_DIR}/scripts -t ./usr/ports/"
+    cp -ur ${PORTS_DIR}/mksrc.sh ${PORTS_DIR}/profiles ${PORTS_DIR}/scripts -t ./usr/ports/
+    printf %s\\n "cp -ulr ./usr/ports/'mksrc.sh' ./usr/ports/scripts ./usr/ports/profiles/* ."
+    cp -ulr ./usr/ports/'mksrc.sh' ./usr/ports/scripts ./usr/ports/profiles/* .
 
     export USER XPN PF PV WORKDIR PKGNAME DPREFIX BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI PATH
     export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR S SDIR
@@ -144,7 +156,7 @@ for PKG in ${PKGS}; do
 
     . "${PDIR%/}/etools.d/"build-functions
 
-    printf %s\\n "ABI_BUILD=${ABI} ./build-script.sh ${ARGS} 2>&1" &&
+    printf %s\\n "ABI_BUILD=${ABI} ./build-script.sh ${ARGS} 2>&1"
     if test "X$(arch)" != "X$(check_arch)"; then
       ABI_BUILD=${ABI} setarch linux32 ./build-script.sh ${ARGS} 2>&1
     else
@@ -159,5 +171,5 @@ for PKG in ${PKGS}; do
       NSH='1' RMBUILD='0' ABI_BUILD=${ABI} ${PORTS_TMPDIR}/mksrc.sh ${ARGS} 2>&1
     fi
   fi
-  cd '/var/tmp/'
-done | tee -a '/var/log/mksrc.log'
+  cd "${TMPDIR}/"
+done | tee -a ${LOGFILE:?required <LOGFILE>}

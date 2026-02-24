@@ -1,0 +1,2 @@
+https://gitlab.com/api/v4/projects/mdds%2Fmdds/packages/generic/source/3.2.0/mdds-3.2.0.tar.xz
+#https://kohei.us/files/${PN}/src/mdds-3.2.0.tar.xz  # For 3.0.0, it mysteriously redirects to 2.0.0

@@ -1,6 +1,6 @@
 #!/bin/sh
 # Maintainer: Artjom Slepnjov <shellgen-at-uncensored-dot-citadel-dot-org>
-# Date: 2023-12-15 14:00 UTC, 2025-06-24 18:00 UTC - last change
+# Date: 2023-12-15 14:00 UTC, 2026-02-01 08:00 UTC - last change
 # Build with useflag: +static -static-libs -shared -lfs +nopie +patch -doc -xstub -diet +musl +stest +strip +x32
 
 # http://data.gpo.zugaina.org/gentoo/sys-apps/busybox/busybox-1.36.1-r3.ebuild
@@ -13,12 +13,13 @@
 # https://github.com/nolange/busybox/commits/zstdapplets
 
 export XPN PF PV WORKDIR BUILD_DIR PKGNAME BUILD_CHROOT LC_ALL BUILD_USER SRC_DIR IUSE SRC_URI SDIR
-export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED CC
+export XABI SPREFIX EPREFIX DPREFIX PDIR P SN PN PORTS_DIR DISTDIR DISTSOURCE FILESDIR INSTALL_DIR ED
+export CC PKG_CONFIG PKG_CONFIG_LIBDIR PKG_CONFIG_PATH
 
 DESCRIPTION="Utilities for rescue and embedded systems"
 HOMEPAGE="https://www.busybox.net/"
 LICENSE="GPL-2-only"
-IFS="$(printf '\n\t')"
+IFS="$(printf '\n\t') "
 XPWD=${XPWD:-$PWD}
 XPWD=${5:-$XPWD}
 PKG_DIR="/pkg"
@@ -43,8 +44,18 @@ SRC_URI="
   https://${BASE_URI}/0015-ping-make-ping-work-without-root-privileges.patch
   https://${BASE_URI}/0023-Hackfix-to-disable-HW-acceleration-for-MD5-SHA1-on-x.patch
   https://${BASE_URI}/0034-adduser-remove-preconfigured-GECOS-full-name-field.patch
-  http://localhost/${PN}_moused_applet_add.patch
-  http://data.gpo.zugaina.org/gentoo/sys-apps/busybox/files/ginit.c
+  http://localhost/pub/distfiles/patch/${PN}_moused_applet_add.patch
+  http://localhost/pub/distfiles/patch/002-upstream-fix-hexdump.patch
+  http://localhost/pub/distfiles/patch/100-libbb-dump-fix-dumping-of-signed-values-without-expl.patch
+  http://localhost/pub/distfiles/patch/200-udhcpc_reduce_msgs.patch
+  http://localhost/pub/distfiles/patch/201-udhcpc_changed_ifindex.patch
+  http://localhost/pub/distfiles/patch/210-add_netmsg_util.patch
+  http://localhost/pub/distfiles/patch/220-add_lock_util.patch
+  http://localhost/pub/distfiles/patch/270-libbb_make_unicode_printable.patch
+  http://localhost/pub/distfiles/patch/301-ip-link-fix-netlink-msg-size.patch
+  http://localhost/pub/distfiles/patch/520-loginutils-handle-crypt-failures.patch
+  http://localhost/pub/distfiles/patch/530-nslookup-ensure-unique-transaction-IDs-for-the-DNS-queries.patch
+  http://data.gpo.zugaina.org/gentoo/sys-apps/busybox/files/ginit.c -> ${PN}-ginit.c
 "
 USE_BUILD_ROOT="0"
 BUILD_CHROOT=${BUILD_CHROOT:-0}
@@ -78,10 +89,13 @@ BUILD_DIR="${PDIR%/}/${SRC_DIR}/${PN}-${PV}"
 PWD=${PWD%/}; PWD=${PWD:-/}
 LIB_DIR=$(get_libdir)
 LIBDIR="/${LIB_DIR}"
+PKG_CONFIG="pkgconf"
+PKG_CONFIG_LIBDIR="/${LIB_DIR}/pkgconfig"
+PKG_CONFIG_PATH="${PKG_CONFIG_LIBDIR}:/lib/pkgconfig:/usr/share/pkgconfig"
 ABI_BUILD="${ABI_BUILD:-${1:?}}"
 BUILD_CHROOT="${7:-${BUILD_CHROOT:?}}"
 USE_BUILD_ROOT=${9:-$USE_BUILD_ROOT}
-PROG="paste"
+PROG="bin/paste"
 IONICE_COMM="nice -n 19"
 
 if test "X${USER}" != 'Xroot'; then
@@ -98,12 +112,14 @@ fi
 chroot-build || die "Failed chroot... error"
 
 pkginst \
+  "dev-util/pkgconf  # lxdialog (optional)" \
   "sys-devel/binutils9" \
   "sys-devel/gcc14" \
   "sys-devel/make" \
   "sys-devel/patch  # for patch with fuzz and offset." \
   "sys-kernel/linux-headers-musl" \
   "sys-libs/musl" \
+  "sys-libs/netbsd-curses  # lxdialog (optional)" \
   || die "Failed install build pkg depend... error"
 
 build-deps-fixfind
@@ -125,12 +141,13 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
   printf %s\\n "${ZCOMP} -dc ${PF} | tar -C ${PDIR%/}/${SRC_DIR}/ -xkf -"
 
   case $(tc-abi-build) in
-    'x32')   append-flags -mx32 -msse2            ;;
-    'x86')   append-flags -m32 -msse -mfpmath=sse ;;
-    'amd64') append-flags -m64 -msse2             ;;
+    'x32')   append-flags -mx32 -msse2 ;;
+    'x86')   append-flags -m32         ;;
+    'amd64') append-flags -m64 -msse2  ;;
   esac
   append-flags -Os  # TODO: replace to: -Oz (Introduced in gcc-12.1,more aggressively optimize for size)
   append-ldflags -Wl,--gc-sections
+  #append-ldflags "-s -static --static"
   append-cflags -ffunction-sections -fdata-sections
   append-flags -fno-stack-protector -no-pie -g0 -march=$(arch | sed 's/_/-/')
 
@@ -138,7 +155,7 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
 
   cd "${BUILD_DIR}/" || die "builddir: not found... error"
 
-  cp -v -n "${FILESDIR}"/ginit.c -t init/ || : die
+  cp -v -n "${FILESDIR}"/${PN}-ginit.c init/ginit.c || die
 
   # sping applet add
   cp -v -n networking/ping.c networking/sping.c
@@ -153,23 +170,16 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
     -i networking/sping.c
 
   # patches from ports/dist
-  for F in "${PDIR%/}/patches/"*".diff"; do
+  for F in "${PDIR%/}/patches/"*".diff" "${FILESDIR}/"*".patch"; do
     case ${F} in *'*'*) continue;; esac
-    [ -f "${F}" ] && patch -p1 -E < "${F}"
+    [ -f "${F}" ] && gpatch -p1 -E < "${F}"
   done
 
-  gpatch -p1 -E < "${FILESDIR}"/${PN}-1.26.2-bb.patch
-  patch -p1 -E < "${FILESDIR}"/${PN}-1.34.1-skip-selinux-search.patch
-  #patch -p1 -E < "${FILESDIR}"/${PN}-1.36.0-fortify-source-3-fixdep.patch
-  #patch -p1 -E < "${FILESDIR}"/${PN}-1.36.1-kernel-6.8.patch
+  # https://stackoverflow.com/questions/78491346/
+  # FIX: Busybox build fails with ncurses header not found
+  sed -e 's/main() {}/int main() {}/' -i scripts/kconfig/lxdialog/check-lxdialog.sh
 
-  gpatch -p1 -E < "${FILESDIR}"/0001-wget-add-header-Accept.patch
-  gpatch -p1 -E < "${FILESDIR}"/0003-ash-add-built-in-BB_ASH_VERSION-variable.patch
-  #gpatch -p1 -E < "${FILESDIR}"/0008-pgrep-add-support-for-matching-against-UID-and-RUID.patch
-  gpatch -p1 -E < "${FILESDIR}"/0015-ping-make-ping-work-without-root-privileges.patch
-  gpatch -p1 -E < "${FILESDIR}"/0023-Hackfix-to-disable-HW-acceleration-for-MD5-SHA1-on-x.patch
-  gpatch -p1 -E < "${FILESDIR}"/0034-adduser-remove-preconfigured-GECOS-full-name-field.patch
-  gpatch -p1 -E < "${FILESDIR}"/${PN}_moused_applet_add.patch
+  sed -e '/\t$< Config.in/d' -i scripts/kconfig/Makefile
 
   cp -v -u "${PDIR}/dist-src/.config" -t .
 
@@ -177,13 +187,41 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
 
   make -j "$(nproc)" || die "Failed make build"
 
+  make LDFLAGS="-s -static --static ${LDFLAGS}" menuconfig
+
+  ${CC} ${CFLAGS} -s -static --static ${LDFLAGS} networking/httpd_indexcgi.c -o networking/index.cgi
+  ${CC} ${CFLAGS} -s -static --static ${LDFLAGS} networking/httpd_ssi.c -o networking/httpd_ssi
+
   . runverb \
   make DESTDIR="${ED}" install || die "make install... error"
 
   cd "${ED}/" || die "install dir: not found... error"
 
-  use 'stest' && { bin/${PROG} --help || die "binary work... error";}
-  ldd "bin/${PROG}" || { use 'static' && true || die "library deps work... error";}
+  mkdir -m 0755 -- etc/ etc/init.d/ etc/crontabs/ etc/profile.d/ etc/capabilities/
+  mkdir -m 0755 -- usr/ usr/share/ usr/share/acl.d/ usr/share/httpd/
+
+  mv -v -n "${BUILD_DIR}/"scripts/kconfig/lxdialog/lxdialog -t "${ED}"/bin/
+  #mv -v -n "${BUILD_DIR}/"scripts/kconfig/mconf "${ED}"/bin/menuconfig
+  mv -v -n "${BUILD_DIR}/"networking/index.cgi -t "${ED}"/usr/share/httpd/
+  mv -v -n "${BUILD_DIR}/"networking/httpd_post_upload.cgi -t "${ED}"/usr/share/httpd/
+  mv -v -n "${BUILD_DIR}/"networking/httpd_ssi -t "${ED}"/bin/
+
+  cp -v "${PDIR%/}"/files/busybox-history-file.sh -t "${ED}"/etc/profile.d/
+  cp -v "${PDIR%/}"/files/cron -t "${ED}"/etc/init.d/
+  cp -v "${PDIR%/}"/files/sysntpd -t "${ED}"/etc/init.d/
+  cp -v "${PDIR%/}"/files/ntpd-hotplug -t "${ED}"/sbin/
+  cp -v "${PDIR%/}"/files/ntpd.capabilities "${ED}"/etc/capabilities/ntpd.json
+  cp -v "${PDIR%/}"/files/ntpd_acl.json "${ED}"/usr/share/acl.d/ntpd.json
+
+  sed -e 's|/usr/sbin/|/sbin/|' -i etc/init.d/cron etc/init.d/sysntpd
+
+  strip --verbose --strip-all bin/httpd_ssi bin/lxdialog usr/share/httpd/index.cgi
+  #strip --verbose --strip-all bin/menuconfig
+
+  chmod +x "${ED}"/bin/httpd_ssi "${ED}"/usr/share/httpd/index.cgi
+
+  use 'stest' && { ${PROG} --help || die "binary work... error";}
+  ldd "${PROG}" || { use 'static' && true || die "library deps work... error";}
 
   exit 0  # only for user-build
 fi
