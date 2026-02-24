@@ -1,0 +1,25 @@
+#!/bin/sh
+# Usage: LD=$(tc-getLD)
+# Return: printf LD |  Exitcode: [true]/[false]
+
+: ${PATH:?}
+
+LD=$(command -v ld)
+
+[ -n "${LD:?}" ] || exit
+
+if [ -n "${LD##*/*}" ]; then
+  [ -x /bin/${LD} ] && LD="/bin/${LD}"
+else
+  LD=${LD##*/}
+fi
+
+if use 'x32'; then
+  LD="${LD} -m elf32_x86_64"
+else
+  LD=${LD}
+fi
+
+test -n "${LD}" && true
+
+printf %s\\n "${LD:?}"

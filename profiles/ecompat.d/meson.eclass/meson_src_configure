@@ -1,0 +1,32 @@
+#!/bin/sh
+# Usage: meson_src_configure ${emesonargs-}
+set -e -u -f
+
+IFS="$(printf '\n\t') " EPREFIX=${EPREFIX:-$SPREFIX}
+
+: ${EPREFIX:?} ${PN:?} ${PV:?}
+
+EPREFIX=${EPREFIX%/} PF="${PN}-${PV}"
+BUILD_DIR=${BUILD_DIR:-$WORKDIR}
+
+die() {
+  printf %s\\n "${*:-Failed: ${_} build... error}" >&2
+  exit 1
+}
+
+. runverb \
+meson setup \
+  --default-library=$(usex 'shared' both static) \
+  --wrap-mode="nodownload" \
+  -D prefix="/" \
+  -D bindir="bin" \
+  -D libdir="$(get_libdir)" \
+  -D includedir="usr/include" \
+  -D datadir="usr/share" \
+  -D buildtype="release" \
+  -D b_colorout="never" \
+  -D b_pie="false" \
+  -D strip=$(usex 'strip' true false) \
+  ${emesonargs-} ${@} \
+  "${BUILD_DIR}/build" "${BUILD_DIR}" \
+  || die "meson setup... error"

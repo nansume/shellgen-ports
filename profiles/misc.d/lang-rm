@@ -1,0 +1,25 @@
+#!/bin/sh
+
+lang_rm() {
+  local DIR
+  local LANG
+  for DIR in usr/share/locale/*/ usr/share/help/*/; do
+    DIR=${DIR%/}
+    LANG=${DIR##*/}
+    #case ${DIR##*/} in ee|et|ja|ru|'*') continue;; esac
+    case ${LANG} in '*') continue;; esac
+    case ${DIR} in
+      *'/locale/'*) use 'locale' && { use "lang-${LANG}" && continue;}
+      ;;
+      *'/help/'*) use 'help' && { use "lang-${LANG}" && continue;}
+      ;;
+    esac
+    printf '%s\n' "lang-rm: 'lang-${LANG}'"
+    rm -v -r -- "${DIR}"
+  done
+
+  [ -d "usr/share/locale" ] && { emptydir "usr/share/locale/" && rmdir -- usr/share/locale/;}
+  [ -d "usr/share/help" ]   && { emptydir "usr/share/help/"   && rmdir -- usr/share/help/;}
+}
+
+lang_rm

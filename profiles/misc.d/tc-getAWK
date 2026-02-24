@@ -1,0 +1,19 @@
+#!/bin/sh
+# Usage: AWK=$(tc-getAWK)
+# Return: printf AWK |  Exitcode: [true]/[false]
+
+: ${PATH:?}
+
+AWK=$(command -v awk)
+
+[ -n "${AWK:?}" ] || exit
+
+if [ -n "${AWK##*/*}" ]; then
+  [ -x /bin/${AWK} ] && AWK="/bin/${AWK}"
+else
+  AWK=${AWK##*/}
+fi
+
+test -n "${AWK}" && true
+
+printf %s\\n "${AWK:?}"

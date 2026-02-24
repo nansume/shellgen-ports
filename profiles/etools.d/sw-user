@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (C) 2021-2025 Artjom Slepnjov, Shellgen
+# Copyright (C) 2021-2026 Artjom Slepnjov, Shellgen
 # License GPLv3: GNU GPL version 3 only
 # http://www.gnu.org/licenses/gpl-3.0.html
 # Date: 2024-07-07 19:00 UTC, 2025-12-09 18:00 UTC - last change
@@ -9,14 +9,14 @@ SCBUILD=${SCBUILD:-build-script.sh} LOGFILE=${LOGFILE-} BUILDLIST=${BUILDLIST-} 
 [ "0${BUILD_CHROOT}" -ne '0' ] || exit 0
 [ "X${USER}" != 'Xroot' ] && { USE_BUILD_ROOT='0'; exit;}
 
-[ -d "${PDIR:?}" ] || { printf '%s\n' "${PDIR-}: dir not found... error"; exit 1;}
+[ -d "${PDIR:?}" ] || { printf '%s\n' "${PDIR-}: dir not found... error" >&2; exit 1;}
 cd "${PDIR%/}/"
 
 LOGFILE='/var/log/mkconfig.log'
 
 : ${SRC_DIR:?} ${INSTALL_DIR:?}
 
-[ -n "${BUILD_USER-}" ] || { printf '%s\n' "user: '${BUILD_USER-}': not found... error"; exit 1;}
+[ -n "${BUILD_USER-}" ] || { printf '%s\n' "user: '${BUILD_USER-}': not found... error" >&2; exit 1;}
 [ -f "${LOGFILE:?}" ] || > ${LOGFILE:?}
 chown ${BUILD_USER}:${BUILD_USER} "${LOGFILE}"
 
@@ -58,4 +58,4 @@ su ${BUILD_USER} -s "${PWD%/}/${SCBUILD}" \
   "${USE_BUILD_ROOT:?}" \
   "${BUILDLIST-}" \
   "${CATEGORY:?}" \
-  "${PN:?}" || { printf '%s\n' "su ${BUILD_USER} -s ${PWD%/}/${SCBUILD}: failed... error"; exit 1;}
+  "${PN:?}" || { printf '%s\n' "su ${BUILD_USER} -s ${PWD%/}/${SCBUILD}: failed... error" >&2; exit 1;}

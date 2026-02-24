@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (C) 2021-2025 Artjom Slepnjov, Shellgen
+# Copyright (C) 2021-2026 Artjom Slepnjov, Shellgen
 # License GPLv3: GNU GPL version 3 only
 # http://www.gnu.org/licenses/gpl-3.0.html
 # Date: 2023-10-09 18:00 UTC - fix: near to compat-posix, no-posix: local VAR
@@ -137,7 +137,12 @@ elif test -r 'setup.py'; then
   # --root <rootdir> | --prefix <subdir> || == <rootdir>/<subdir>
   # build + install
   . runverb \
-  python "setup.py" install --root ${SPREFIX:?} --prefix ${INSTALL_DIR} --install-lib ${PYTHON_XLIBS} || exit
+  python "setup.py" install \
+    --root ${SPREFIX:?} \
+    --prefix ${INSTALL_DIR} \
+    --install-lib ${PYTHON_XLIBS} \
+    --install-data ${INSTALL_DIR} \
+    || exit
   # only build, without install
   # ./setup.py build
   if test -x "/bin/cc"; then

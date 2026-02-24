@@ -96,7 +96,12 @@ while IFS= read -r I; do
   test -n "${F}" || { printf %s\\n "${ERRO}" >&2; exit 1;}
   X=$(fglob "${DISTDIR}" "${F}")
   if test ! -f "${F}" && test -e "${X}"; then
-    ln -s "${X}" .
+    case ${X} in
+      *.gz|*.lz|*.lzma|*.xz|*.bz2|*.bz|*.zip) ln -s "${X}" .
+      ;;
+      *) cp "${X}" .
+      ;;
+    esac
   fi
   test -e "${F}" || {
   case "${I%${I#*://}}" in

@@ -1,0 +1,27 @@
+#!/bin/sh
+# Support [experimental]: newconfd from ebuild (minimal)
+# Usage: newconfd <old file> <new filename>
+# Variables: ED DESTTREE
+# default path is ${ED}${DESTTREE}/etc/conf.d/
+# https://devmanual.gentoo.org/eclass-reference/ebuild/
+# Date: 2026-02-11 15:00 UTC - last change
+
+IFS="$(printf '\n\t') "
+SC=${0##*/}
+ED=${ED:-$INSTALL_DIR}
+
+: ${ED:?required install dir variables} ${DESTTREE:-}
+: ${1:?Usage: $SC <old file> <new filename>... Error}
+: ${2:?Usage: $SC <old file> <new filename>... Error}
+
+if [ ${#} -ne '2' ];then
+  printf '%s\n' "Usage: $SC  <old file> <new filename>... Error" >&2
+  exit 1
+fi
+
+mkdir -pm 0755 -- "${ED}${DESTTREE}/etc/conf.d/"
+
+cp -n -L "${1}" "${ED}${DESTTREE}/etc/conf.d/${2}" &&
+
+printf %s\\n "${SC}: mv -n ${1} ${ED}${DESTTREE}/etc/conf.d/${2}" ||
+{ printf %s\\n "${SC}: mv -n ${1} ${ED}${DESTTREE}/etc/conf.d/${2}... Error" >&2; exit 1;}

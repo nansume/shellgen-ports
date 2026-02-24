@@ -1,0 +1,7 @@
+#!/bin/sh
+
+if [ -x "/bin/cc" ]; then
+  printf %s\\n "$(get_libdir)"
+else
+  printf %s\\n "lib"
+fi

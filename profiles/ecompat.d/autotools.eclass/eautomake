@@ -1,0 +1,16 @@
+#!/bin/sh
+# Usage: eautomake
+# https://devmanual.gentoo.org/eclass-reference/autotools.eclass/index.html
+# https://gitweb.gentoo.org/repo/gentoo.git/plain/eclass/autotools.eclass
+
+{ [ -f INSTALL ] && [ -f AUTHORS ] && [ -f ChangeLog ] && [ -f NEWS ] && [ -f README ] ;} \
+  || extra_opts="${extra_opts}${extra_opts:+ }--foreign"
+
+# Older versions of automake do not support --force-missing.  But we want
+# to use this whenever possible to update random bundled files, bug #133489.
+extra_opts="${extra_opts}${extra_opts:+ }--force-missing"
+
+printf %s "automake --add-missing --copy ${extra_opts} $@"
+automake --add-missing --copy ${extra_opts} "$@" || { printf %s\\n "... Error" >&2; exit 1;}
+
+printf '\n'

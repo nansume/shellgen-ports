@@ -1,8 +1,8 @@
 #!/bin/sh
-# Copyright (C) 2021-2023 Artjom Slepnjov, Shellgen
+# Copyright (C) 2021-2026 Artjom Slepnjov, Shellgen
 # License GPLv3: GNU GPL version 3 only
 # http://www.gnu.org/licenses/gpl-3.0.html
-# Date: 2023-10-07 18:00 UTC - fix: near to compat-posix, no-posix: header file <<!/bin/bash>>, getent
+# Date: 2023-10-07 18:00 UTC, 2026-02-04 16:00 UTC
 
 NL="$(printf '\n\t')"; NL=${NL%?}
 
@@ -14,14 +14,19 @@ export USER BUILDLIST XPN
 
 if test "x${USER}" != 'xroot'; then
   #test "${BUILD_CHROOT:=0}" -ne '0' || cd ${XPWD%/}/
-  nslookup 'play.google.com' 1.1.1.1 &&
-  { printf %s\\n "network: work... error"; exit 1;}
+  #nslookup 'play.google.com' 1.1.1.1 &&
+  #{ printf %s\\n "network: work... error"; exit 1;}
+  netcat -n -w 1 -z 1.1.1.1 53 &&
+  { printf %s\\n "network: work... error" >&2; exit 1;} || printf %s\\n "network: disable... ok"
   #. ${ENV:?}
 elif test ! -x 'mksrc.sh'; then
   printf '\n\n\n\n######################################\n' >> /var/log/mksrc.log
   # early exist is: SKIPLIST
-  printf %s\\n "cp -ur ../../'mksrc.sh' ../../profiles/* ."
-  cp -ur ../../'mksrc.sh' ../../profiles/* .
+  [ -d "./usr/ports" ] || mkdir -v -- "./usr/ports/"
+  printf %s\\n "cp -ur ../../mksrc.sh ../../profiles ../../scripts -t ./usr/ports/"
+  cp -ur ../../mksrc.sh ../../profiles ../../scripts -t ./usr/ports/
+  printf %s\\n "cp -ulr ./usr/ports/'mksrc.sh' ./usr/ports/scripts ./usr/ports/profiles/* ."
+  cp -ulr ./usr/ports/'mksrc.sh' ./usr/ports/scripts ./usr/ports/profiles/* .
   # test: replace from in old [pre <cp> copy] --> is
   test -s 'removelist.lst' &&
   {

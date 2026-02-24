@@ -1,0 +1,19 @@
+#!/bin/sh
+# Usage: RANLIB=$(tc-getRANLIB)
+# Return: printf RANLIB |  Exitcode: [true]/[false]
+
+: ${PATH:?}
+
+RANLIB=$(command -v ranlib)
+
+[ -n "${RANLIB:?}" ] || exit
+
+if [ -n "${RANLIB##*/*}" ]; then
+  [ -x /bin/${RANLIB} ] && RANLIB="/bin/${RANLIB}"
+else
+  RANLIB=${RANLIB##*/}
+fi
+
+test -n "${RANLIB}" && true
+
+printf %s\\n "${RANLIB:?}"

@@ -1,0 +1,17 @@
+#!/bin/sh
+# Usage: LIBTOOL=$(tc-getLIBTOOL)
+# Return: printf LIBTOOL |  Exitcode: [true]/[false]
+
+test "X${USER}" = 'Xroot' && return
+
+: ${PATH:?}
+
+LIBTOOL=$(type 'libtool' 2>/dev/null)
+LIBTOOL=${LIBTOOL#*: not found}
+LIBTOOL=${LIBTOOL%%[[:cntrl:]]*}
+LIBTOOL=${LIBTOOL##* }
+LIBTOOL=${LIBTOOL##*/}
+
+test -n "${LIBTOOL}" && true
+
+printf %s\\n "${LIBTOOL:?}"

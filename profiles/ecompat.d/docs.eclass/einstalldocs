@@ -4,7 +4,7 @@
 # This is automatically install the documentation.
 # https://devmanual.gentoo.org/eclass-reference/docs.eclass/
 # https://devmanual.gentoo.org/function-reference/install-functions/
-# Date: 2024-05-19 20:00 UTC - last change
+# Date: 2024-05-19 20:00 UTC, 2026-02-21 10:00 UTC - last change
 
 IFS="$(printf '\n\t') "
 SC=${0##*/}
@@ -14,7 +14,8 @@ ED=${ED:-$INSTALL_DIR}
 : ${ED:?required install dir variables}
 
 # TIP! replace: source [path] --> source ${FUNCEXPORT}
-source ${PDIR%/}/ecompat.d/install-functions/"docinto.env"
+#source ${PDIR%/}/ecompat.d/install-functions/"docinto.env"  # it wrong? [bashism]
+. ${PDIR%/}/ecompat.d/install-functions/"docinto.env"
 
 test -n "${DOCS}"      || DOCS="AUTHORS BUGS CHANGES ChangeLog LICENSE NEWS README* THANKS TODO VERSION"
 test -n "${HTML_DOCS}" || HTML_DOCS="doc/html/*.html"

@@ -6,4 +6,4 @@ sed -i 's/\r$//' -- "$@" &&
 
 { printf %s\\n "run command: ${0##*/}... ok"; exit 0;} ||
 
-{ printf %s\\n "Failed to run command: ${0##*/}"; exit 1;}
+{ printf %s\\n "Failed to run command: ${0##*/}" >&2; exit 1;}

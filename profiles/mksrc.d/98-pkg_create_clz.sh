@@ -33,7 +33,8 @@ case ${XABI} in
     test -d "${ED}/$(get_libdir)" &&
     { test -d "${ED}/lib" || { printf %s\\n "dir in pkg no compliance for <noarch>... Error"; exit 1;}; }
     # there in configure where check CC be die or is.
-    test -x "${PDIR}/bin/cc" && { printf %s\\n "compiler is no compliance for <noarch>... Error"; exit 1;}
+    test -x "${PDIR}/bin/cc" && use !noarch &&
+      { printf %s\\n "compiler is no compliance for <noarch>... Error"; exit 1;}
   ;;
 esac
 

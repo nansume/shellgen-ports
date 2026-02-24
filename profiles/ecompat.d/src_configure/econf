@@ -4,9 +4,12 @@
 # This is used as a replacement for configure.
 # https://devmanual.gentoo.org/ebuild-writing/functions/src_configure/configuring/index.html
 # https://dev.gentoo.org/~zmedico/portage/doc/man/ebuild.5.html
-# Date: 2024-05-18 23:00 UTC - last change
+# Date: 2024-05-18 23:00 UTC, 2026-02-22 14:00 UTC - last change
+set -e -u -f
 
 IFS="$(printf '\n\t') " EPREFIX=${EPREFIX:-$SPREFIX}
+
+[ -n "${CHOST-}" ] || CHOST=$(tc-chost)  # It temporary fix
 
 : ${EPREFIX:?} ${CHOST:?} ${PN:?} ${PV:?}
 
@@ -19,23 +22,27 @@ die() {
 
 # nocompat:
 #  --libdir is set from the value of the LIBDIR_${ABI} variable in profiles.
+#  --exec-prefix=${EPREFIX%/}
+
+# TODO: add: --disable-rpath
 
 . runverb \
 ${ECONF_SOURCE:-.}/configure \
   --with-sysroot="${ESYSROOT:-/}" \
-  --prefix="${EPREFIX}"/usr \
-  --sysconfdir="${EPREFIX}"/etc \
-  --libdir="${EPREFIX}"/$(get_libdir) \
-  --localstatedir="${EPREFIX}"/var/lib \
-  --datadir="${EPREFIX}"/usr/share \
-  --mandir="${EPREFIX}"/usr/share/man \
-  --infodir="${EPREFIX}"/usr/share/info \
-  --docdir="${EPREFIX}"/usr/share/doc/${PF} \
-  --htmldir="${EPREFIX}"/usr/share/doc/${PF}/html \
-  ${CBUILD:+--build=}${CBUILD} \
+  --prefix="${EPREFIX%/}"/usr \
+  --exec-prefix="${EPREFIX%/}" \
+  --sysconfdir="${EPREFIX%/}"/etc \
+  --libdir="${EPREFIX%/}"/$(get_libdir) \
+  --localstatedir="${EPREFIX%/}"/var/lib \
+  --datadir="${EPREFIX%/}"/usr/share \
+  --mandir="${EPREFIX%/}"/usr/share/man \
+  --infodir="${EPREFIX%/}"/usr/share/info \
+  --docdir="${EPREFIX%/}"/usr/share/doc/${PF} \
+  --htmldir="${EPREFIX%/}"/usr/share/doc/${PF}/html \
+  ${CBUILD:+--build=}${CBUILD-} \
   --host="${CHOST}" \
-  ${CTARGET:+--target=}${CTARGET} \
+  ${CTARGET:+--target=}${CTARGET-} \
   --disable-dependency-tracking \
   --disable-silent-rules \
-  ${EXTRA_ECONF} \
+  ${EXTRA_ECONF-} \
   ${@} || die "configure... error"

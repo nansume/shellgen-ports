@@ -11,18 +11,18 @@ SC=${0##*/}
 ED=${ED:-$INSTALL_DIR}
 OPT=
 
-: ${ED:?required install dir variables} ${1:?Usage: $SC  [-r] <filename> <linkname>... Error}
+: ${ED:?required install dir variables} ${1:?Usage: $SC [-r] <filename> <linkname>... Error}
 
-test "X${1}" = 'X-r' && { OPT=${1}; shift;}
+test "X${1}" = 'X-r' && { shift; set -- ${@##*/}; }
 
 if test "${#}" -ne '2';then
-  printf '%s\n' "Usage: $SC  [-r] <filename> <linkname>... Error" >&2
+  printf '%s\n' "Usage: $SC [-r] <filename> <linkname>... Error" >&2
   printf '%s\n' "\$3? ambiguous [$SC \$1 \$2]... Error" >&2
   exit 1
 fi
 
-printf %s "${SC}: ln -s ${OPT} ${1} ${ED}${2}"
-ln -s ${OPT} ${1} "${ED}"${2} ||
+printf %s "${SC}: ln -s${OPT:+ }${OPT} ${1} ${ED}${2}"
+ln -s${OPT:+ }${OPT} ${1} "${ED}"${2} ||
 
 { printf %s\\n "... Error" >&2; exit 1;}
 

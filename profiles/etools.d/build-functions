@@ -1,12 +1,12 @@
 #!/bin/sh
-# 2023-2024
+# 2023-2026
 # https://devmanual.gentoo.org/eclass-reference/flag-o-matic.eclass/index.html
-# Date: 2024-05-19 10:00 UTC - last change
+# Date: 2024-05-19 10:00 UTC, 2026-02-04 12:00 UTC - last change
 
 loadfunc() {
   local IFS="$(printf '\n\t') "
   local F
-  for F in ${1}/*; do
+  for F in ${1}/*.env ${1}/*.sh; do
     test -x "${F}" && continue
     test -f "${F}" || continue
     . ${F}
@@ -56,52 +56,60 @@ typeis 'alias' && alias tc-chost='tc_chost'
 append_cflags() {
   test "X${USER}" != 'Xroot' || return 0
 
+  export CFLAGS
+
   local IFS="$(printf '\n\t')"; IFS=" ${IFS%?}"
   local X
 
-  printf %s\\n "append_cflags: '${*}'"
+  printf %s\\n "append-cflags: '${*}'"
 
   for X in ${@}; do
-    export CFLAGS="${CFLAGS:+${CFLAGS} }${X}"
+    CFLAGS="${CFLAGS:+${CFLAGS} }${X}"
   done
 }
 
 append_cxxflags() {
   test "X${USER}" != 'Xroot' || return 0
 
+  export CXXFLAGS
+
   local IFS="$(printf '\n\t')"; IFS=" ${IFS%?}"
   local X
 
-  printf %s\\n "append_cxxflags: '${*}'"
+  printf %s\\n "append-cxxflags: '${*}'"
 
   for X in ${@}; do
-    export CXXFLAGS="${CXXFLAGS:+${CXXFLAGS} }${X}"
+    CXXFLAGS="${CXXFLAGS:+${CXXFLAGS} }${X}"
   done
 }
 
 append_cppflags() {
   test "X${USER}" != 'Xroot' || return 0
 
+  export CPPFLAGS
+
   local IFS="$(printf '\n\t')"; IFS=" ${IFS%?}"
   local X
 
-  printf %s\\n "append_cppflags: '${*}'"
+  printf %s\\n "append-cppflags: '${*}'"
 
   for X in ${@}; do
-    export CPPFLAGS="${CPPFLAGS:+${CPPFLAGS} }${X}"
+    CPPFLAGS="${CPPFLAGS:+${CPPFLAGS} }${X}"
   done
 }
 
 append_ldflags() {
   test "X${USER}" != 'Xroot' || return 0
 
+  export LDFLAGS
+
   local IFS="$(printf '\n\t')"; IFS=" ${IFS%?}"
   local X
 
-  printf %s\\n "append_ldflags: '${*}'"
+  printf %s\\n "append-ldflags: '${*}'"
 
   for X in ${@}; do
-    export LDFLAGS="${LDFLAGS:+${LDFLAGS} }${X}"
+    LDFLAGS="${LDFLAGS:+${LDFLAGS} }${X}"
   done
 }
 
@@ -110,16 +118,18 @@ append_ldflags() {
 append_flags() {
   test "X${USER}" != 'Xroot' || return 0
 
+  export CFLAGS CXXFLAGS FFLAGS FCFLAGS
+
   local IFS="$(printf '\n\t')"; IFS=" ${IFS%?}"
   local X
 
   printf %s\\n "append-flags: '${*}'"
 
   for X in ${@}; do
-    export CFLAGS="${CFLAGS:+${CFLAGS} }${X}"
-    export CXXFLAGS="${CXXFLAGS:+${CXXFLAGS} }${X}"
-    export FFLAGS="${FFLAGS:+${FFLAGS} }${X}"
-    export FCFLAGS="${FCFLAGS:+${FCFLAGS} }${X}"
+    CFLAGS="${CFLAGS:+${CFLAGS} }${X}"
+    CXXFLAGS="${CXXFLAGS:+${CXXFLAGS} }${X}"
+    FFLAGS="${FFLAGS:+${FFLAGS} }${X}"
+    FCFLAGS="${FCFLAGS:+${FCFLAGS} }${X}"
   done
 }
 
@@ -127,23 +137,25 @@ append_flags() {
 append_libs() {
   test "X${USER}" != 'Xroot' || return 0
 
+  export LIBS=${LIBS-}
+
   local IFS="$(printf '\n\t')"; IFS=" ${IFS%?}"
   local X
 
-  printf %s\\n "append_libs: '${*}'"
+  printf %s\\n "append-libs: '${*}'"
 
   for X in ${@}; do
-    export LIBS="${LIBS}${LIBS:+ }${X}"
+    LIBS="${LIBS}${LIBS:+ }${X}"
   done
 }
 
 replace_flags() {
   test "X${USER}" != 'Xroot' || return 0
 
-  CFLAGS=$(printf " ${CFLAGS} " | sed "s/ ${1} / ${2}${2:+ }/;s/^ //;s/ $//")
-  CXXFLAGS=$(printf " ${CXXFLAGS} " | sed "s/ ${1} / ${2}${2:+ }/;s/^ //;s/ $//")
-  LDFLAGS=$(printf " ${LDFLAGS} " | sed "s/ ${1} / ${2}${2:+ }/;s/^ //;s/ $//")
-  MAKEFLAGS=$(printf " ${MAKEFLAGS} " | sed "s/ ${1} / ${2}${2:+ }/;s/^ //;s/ $//")
+  CFLAGS=$(printf " ${CFLAGS-} " | sed "s/ ${1} / ${2}${2:+ }/;s/^ //;s/ $//")
+  CXXFLAGS=$(printf " ${CXXFLAGS-} " | sed "s/ ${1} / ${2}${2:+ }/;s/^ //;s/ $//")
+  LDFLAGS=$(printf " ${LDFLAGS-} " | sed "s/ ${1} / ${2}${2:+ }/;s/^ //;s/ $//")
+  MAKEFLAGS=$(printf " ${MAKEFLAGS-} " | sed "s/ ${1} / ${2}${2:+ }/;s/^ //;s/ $//")
   #MAKEFLAGS=$(mapsetre ${1}" ${2} ${MAKEFLAGS})
 }
 
@@ -200,7 +212,7 @@ rechost() {
 
 
 # hush - not implementation <alias> - replace to: func name no posix
-if typeis 'alias'; then
+if typeis 'alias' && [ -z "${BB_ASH_VERSION-}" ]; then
   alias append-cflags='append_cflags'
   alias append-cxxflags='append_cxxflags'
   alias append-cppflags='append_cppflags'
@@ -211,7 +223,7 @@ if typeis 'alias'; then
   alias filter-flags='filter_flags'
 fi
 # name func no-posix
-if ! typeis 'alias'; then
+if ! typeis 'alias' || [ -n "${BB_ASH_VERSION-}" ]; then
   append-cflags() { append_cflags $@;}
   append-cxxflags() { append_cxxflags $@;}
   append-cppflags() { append_cppflags $@;}
@@ -223,3 +235,5 @@ if ! typeis 'alias'; then
 fi
 
 typeis 'alias' && unalias 'tc-chost'
+
+set +a  # disable all-export vars

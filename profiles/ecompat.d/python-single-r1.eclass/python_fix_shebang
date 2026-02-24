@@ -1,0 +1,16 @@
+#!/bin/sh
+# Usage: python_fix_shebang ${ED}/bin/<prog1> ${ED}/bin/<prog2>
+set -e -u
+
+test "${#}" -eq '0' && exit 1
+
+[ -d "${1}" ] && set -- ${1}/*
+
+sed \
+  -e '1s|^#!.*python3$|#!/bin/python3|;t' \
+  -e '1s|^#!.*python2$|#!/bin/python2|;t' \
+  -i -- "$@" &&
+
+{ printf %s\\n "run command: ${0##*/}... ok"; exit 0;} ||
+
+{ printf %s\\n "Failed to run command: ${0##*/}" >&2; exit 1;}

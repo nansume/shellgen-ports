@@ -1,0 +1,54 @@
+#!/bin/sh
+
+IFS="$(printf '\n\t')"
+
+test "X${USER}" != 'Xroot' || exit
+
+for F in ${@:?}; do
+  F=${F%%#*}
+  [ -n "${F}" ] || exit
+  [ -e "${F}" ] || exit
+  ZCOMP=
+  EXTF=${F##*.}
+  case ${EXTF#t} in
+    'bz2'|'bz')
+      ZCOMP=$(type 'bunzip2' 'bzip2' 2>/dev/null)
+    ;;
+    'gz')
+      ZCOMP=$(type 'gunzip' 'gzip' 2>/dev/null)
+    ;;
+    'lz')
+      ZCOMP=$(type 'plzip' 'lzip' 2>/dev/null)
+    ;;
+    'lzma'|'xz')
+      ZCOMP=$(type "un${EXTF}" "${EXTF}" "unxz" "xz")
+    ;;
+    *)
+      continue
+    ;;
+  esac
+  ZCOMP=${ZCOMP%%[[:cntrl:]]*}
+  ZCOMP=${ZCOMP##* }
+  ZCOMP=${ZCOMP##*/}
+  : ${ZCOMP:?}
+
+  printf %s\\n "F='${F}'" "EXTF='${EXTF}'" "ZCOMP='${ZCOMP}'"
+
+  case ${F} in
+    *".tar.${EXTF}"|*".t${EXTF#t}")
+      printf %s\\n "+ ${ZCOMP} -dc ${F} | tar -xkf -"
+      ${ZCOMP} -dc "${F}" | tar -xkf -
+    ;;
+    *'.zip')
+      printf %s "+ unzip -q ${F}"
+      unzip -q "${F}" || printf %s\\n "... error" &&  # test - fix: unpack double deep rcv. dir
+      printf %s\\n "... ok"
+      # what unpack one zip file, after bugfix?
+    ;;
+    *".${EXTF}")
+      printf %s\\n "+ ${ZCOMP} -dk ${F}"
+      test -f "${F%.*}" || ${ZCOMP} -dk "${F}"
+      continue
+    ;;
+  esac
+done

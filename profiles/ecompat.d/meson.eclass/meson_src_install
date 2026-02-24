@@ -1,0 +1,20 @@
+#!/bin/sh
+set -e -u
+
+BUILD_DIR=${BUILD_DIR:-$WORKDIR}
+ED=${ED:-$INSTALL_DIR}
+
+die() {
+  printf %s\\n "${*:-Failed: ${_} build... error}" >&2
+  exit 1
+}
+
+printf '%s\n' "DESTDIR=${ED:?} meson install --no-rebuild -C ${BUILD_DIR:?}/build"
+
+DESTDIR="${ED}" meson install --no-rebuild -C "${BUILD_DIR}/build" || die "meson install... error"
+
+for pcfile in ${ED}/$(get_libdir)/pkgconfig/*.pc ${ED}/lib/pkgconfig/*.pc ${ED}/usr/share/pkgconfig/*.pc; do
+  [ -f "${pcfile}" ] || continue
+  grep '^prefix=/$' < "${pcfile}" || continue
+  sed -e 's|^prefix=/$|prefix=|' -i "${pcfile}"
+done

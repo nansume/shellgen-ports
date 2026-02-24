@@ -13,8 +13,8 @@ test "${BUILD_CHROOT:=0}" -ne '0' || return 0
 
 for X in /bin/python[23]; do
   test -e "${X}" || continue
-  export PYTHONPATH="${X%/${PYTHON%[23]}*}"
   export PYTHON=${X#?*/}
+  export PYTHONPATH="${X%/${PYTHON%[23]}*}"
   export PYTHONPYCACHEPREFIX="/var/cache/${PYTHON%[23]}"
   break
 done
