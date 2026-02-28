@@ -1,0 +1,7 @@
+dev-build/cmake3
+dev-libs/dietlibc
+dev-util/pkgconf
+
+sys-devel/binutils9
+sys-devel/gcc14
+sys-devel/make
