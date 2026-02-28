@@ -1,7 +1,7 @@
 #!/bin/sh
 # Maintainer: Artjom Slepnjov <shellgen-at-uncensored-dot-citadel-dot-org>
 # Date: 2025-06-13 10:00 UTC - last change
-# Build with useflag: -static -static-libs +shared -lfs +nopie +patch -doc -xstub -diet +musl +stest +strip +x32
+# Build with useflag: -static +static-libs +shared -lfs +nopie +patch -doc -xstub -diet +musl +stest +strip +x32
 
 # http://data.gpo.zugaina.org/gentoo/media-libs/libreplaygain/libreplaygain-483.ebuild
 
@@ -35,7 +35,7 @@ INSTALL_OPTS="install"
 HOSTNAME="localhost"
 BUILD_USER="tools"
 SRC_DIR="build"
-IUSE="-static-libs +shared -doc (+musl) +stest +strip"
+IUSE="+static-libs +shared -doc (+musl) +stest +strip"
 EABI=$(tc-abi-build)
 ABI=${EABI}
 XABI=${EABI}
@@ -119,13 +119,13 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
 
   cd "${BUILD_DIR}/" || die "builddir: not found... error"
 
-  patch -p1 -E < "${FILESDIR}"/${PN}-${PV}-static-libs.patch
+  use 'static-libs' || patch -p1 -E < "${FILESDIR}"/${PN}-${PV}-static-libs.patch
 
   sed -e '/CMAKE_C_FLAGS/d' -i CMakeLists.txt || die
 
   cmake -B build -G "Unix Makefiles" \
     -D CMAKE_INSTALL_PREFIX="${EPREFIX%/}" \
-    -D CMAKE_BUILD_TYPE="Release" \
+    -D CMAKE_BUILD_TYPE="None" \
     -D BUILD_SHARED_LIBS=$(usex 'shared' ON OFF) \
     -D CMAKE_SKIP_RPATH=$(usex 'rpath' OFF ON) \
     -Wno-dev \

@@ -1,0 +1,141 @@
+Author: Artjom Slepnjov "Shellgen"
+Description: x32 support - asm
+Date: 2024-04-05 22:00 UTC
+===========================================================
+--- a/lib/FXAtomic.cpp
++++ b/lib/FXAtomic.cpp
+@@ -248,7 +248,7 @@
+   return ret;
+ #elif (defined(HAVE_INLINE_ASSEMBLY) && defined(__x86_64__))
+   FXlong ret;
+-  __asm__ __volatile__("xchgq %0,(%1)\n\t" : "=r"(ret) : "r"(ptr), "0"(v) : "memory", "cc");
++  __asm__ __volatile__("xchg %0,(%1)\n\t" : "=r"(ret) : "r"(ptr), "0"(v) : "memory", "cc");
+   return ret;
+ #elif defined(HAVE_BUILTIN_ATOMIC)
+   return __atomic_exchange_n(ptr,v,__ATOMIC_SEQ_CST);
+@@ -301,7 +301,7 @@
+ #elif (defined(HAVE_INLINE_ASSEMBLY) && defined(__x86_64__))
+   FXlong ret;
+   __asm__ __volatile__ ("lock\n\t"
+-                        "xaddq %0,(%1)\n\t" : "=r"(ret) : "r"(ptr), "0"(v) : "memory", "cc");
++                        "xadd %0,(%1)\n\t" : "=r"(ret) : "r"(ptr), "0"(v) : "memory", "cc");
+   return ret;
+ #else
+   FXlong ret=*ptr;
+@@ -332,7 +332,7 @@
+ #elif (defined(HAVE_INLINE_ASSEMBLY) && defined(__x86_64__))
+   FXlong ret;
+   __asm__ __volatile__("lock\n\t"
+-                       "cmpxchgq %2,(%1)\n\t" : "=a"(ret) : "r"(ptr), "r"(v), "a"(expect) : "memory", "cc");
++                       "cmpxchg %2,(%1)\n\t" : "=a"(ret) : "r"(ptr), "r"(v), "a"(expect) : "memory", "cc");
+   return ret;
+ #else
+   FXlong ret=*ptr;
+@@ -369,9 +369,9 @@
+ #elif (defined(HAVE_INLINE_ASSEMBLY) && defined(__x86_64__))
+   FXbool ret;
+   __asm__ __volatile__ ("lock\n\t"
+-                        "cmpxchgq %2,(%1)\n\t"
++                        "cmpxchg %2,(%1)\n\t"
+                         "sete %%al\n\t"
+-                        "andq $1, %%rax\n\t" : "=a"(ret) : "r"(ptr), "r"(v), "a"(expect) : "memory", "cc");
++                        "and $1, %%rax\n\t" : "=a"(ret) : "r"(ptr), "r"(v), "a"(expect) : "memory", "cc");
+   return ret;
+ #else
+   if(*ptr==expect){
+@@ -407,7 +407,7 @@
+   return ret;
+ #elif (defined(HAVE_INLINE_ASSEMBLY) && defined(__x86_64__))
+   FXulong ret;
+-  __asm__ __volatile__("xchgq %0,(%1)\n\t" : "=r"(ret) : "r"(ptr), "0"(v) : "memory", "cc");
++  __asm__ __volatile__("xchg %0,(%1)\n\t" : "=r"(ret) : "r"(ptr), "0"(v) : "memory", "cc");
+   return ret;
+ #elif defined(HAVE_BUILTIN_ATOMIC)
+   return __atomic_exchange_n(ptr,v,__ATOMIC_SEQ_CST);
+@@ -460,7 +460,7 @@
+ #elif (defined(HAVE_INLINE_ASSEMBLY) && defined(__x86_64__))
+   FXulong ret;
+   __asm__ __volatile__ ("lock\n\t"
+-                        "xaddq %0,(%1)\n\t" : "=r"(ret) : "r"(ptr), "0"(v) : "memory", "cc");
++                        "xadd %0,(%1)\n\t" : "=r"(ret) : "r"(ptr), "0"(v) : "memory", "cc");
+   return ret;
+ #else
+   FXulong ret=*ptr;
+@@ -491,7 +491,7 @@
+ #elif (defined(HAVE_INLINE_ASSEMBLY) && defined(__x86_64__))
+   FXulong ret;
+   __asm__ __volatile__("lock\n\t"
+-                       "cmpxchgq %2,(%1)\n\t" : "=a"(ret) : "r"(ptr), "r"(v), "a"(expect) : "memory", "cc");
++                       "cmpxchg %2,(%1)\n\t" : "=a"(ret) : "r"(ptr), "r"(v), "a"(expect) : "memory", "cc");
+   return ret;
+ #else
+   FXulong ret=*ptr;
+@@ -528,9 +528,9 @@
+ #elif (defined(HAVE_INLINE_ASSEMBLY) && defined(__x86_64__))
+   FXbool ret;
+   __asm__ __volatile__ ("lock\n\t"
+-                        "cmpxchgq %2,(%1)\n\t"
++                        "cmpxchg %2,(%1)\n\t"
+                         "sete %%al\n\t"
+-                        "andq $1, %%rax\n\t" : "=a"(ret) : "r"(ptr), "r"(v), "a"(expect) : "memory", "cc");
++                        "and $1, %%rax\n\t" : "=a"(ret) : "r"(ptr), "r"(v), "a"(expect) : "memory", "cc");
+   return ret;
+ #else
+   if(*ptr==expect){
+@@ -679,7 +679,7 @@
+ #elif ((defined(__GNUC__) || defined(__INTEL_COMPILER)) && defined(__x86_64__))
+   FXptr ret=0;
+   __asm__ __volatile__("lock\n\t"
+-                       "cmpxchgq %2, (%1)\n\t" : "=a"(ret) : "r"(ptr), "r"(ret), "a"(ret) : "memory", "cc");
++                       "cmpxchg %2, (%1)\n\t" : "=a"(ret) : "r"(ptr), "r"(ret), "a"(ret) : "memory", "cc");
+   return ret;
+ #elif defined(HAVE_BUILTIN_SYNC)
+   return __sync_val_compare_and_swap(ptr,0,0);
+@@ -727,7 +727,7 @@
+   return ret;
+ #elif (defined(HAVE_INLINE_ASSEMBLY) && defined(__x86_64__))
+   FXptr ret=v;
+-  __asm__ __volatile__("xchgq %0, (%1)\n\t" : "=r"(ret) : "r"(ptr), "0"(ret) : "memory", "cc");
++  __asm__ __volatile__("xchg %0, (%1)\n\t" : "=r"(ret) : "r"(ptr), "0"(ret) : "memory", "cc");
+   return ret;
+ #elif defined(HAVE_BUILTIN_SYNC)
+   return __sync_lock_test_and_set(ptr,v);
+@@ -754,7 +754,7 @@
+ #elif (defined(HAVE_INLINE_ASSEMBLY) && defined(__x86_64__))
+   FXptr ret=(FXptr)v;
+   __asm__ __volatile__ ("lock\n\t"
+-                        "xaddq %0, (%1)\n\t" : "=r"(ret) : "r"(ptr), "0" (ret) : "memory", "cc");
++                        "xadd %0, (%1)\n\t" : "=r"(ret) : "r"(ptr), "0" (ret) : "memory", "cc");
+   return ret;
+ #elif defined(HAVE_BUILTIN_SYNC)
+   return __sync_fetch_and_add(ptr,(FXptr)v);
+@@ -780,7 +780,7 @@
+ #elif (defined(HAVE_INLINE_ASSEMBLY) && defined(__x86_64__))
+   FXptr ret;
+   __asm__ __volatile__("lock\n\t"
+-                       "cmpxchgq %2, (%1)\n\t" : "=a"(ret) : "r"(ptr), "r"(v), "a"(expect) : "memory", "cc");
++                       "cmpxchg %2, (%1)\n\t" : "=a"(ret) : "r"(ptr), "r"(v), "a"(expect) : "memory", "cc");
+   return ret;
+ #elif defined(HAVE_BUILTIN_SYNC)
+   return __sync_val_compare_and_swap(ptr,expect,v);
+@@ -810,9 +810,9 @@
+ #elif (defined(HAVE_INLINE_ASSEMBLY) && defined(__x86_64__))
+   FXbool ret;
+   __asm__ __volatile__ ("lock\n\t"
+-                        "cmpxchgq %2, (%1)\n\t"
++                        "cmpxchg %2, (%1)\n\t"
+                         "sete   %%al\n\t"
+-                        "andq   $1, %%rax\n\t" : "=a"(ret) : "r"(ptr), "r"(v), "a"(expect) : "memory", "cc");
++                        "and   $1, %%rax\n\t" : "=a"(ret) : "r"(ptr), "r"(v), "a"(expect) : "memory", "cc");
+   return ret;
+ #elif defined(HAVE_BUILTIN_SYNC)
+   return __sync_bool_compare_and_swap(ptr,expect,v);
+@@ -856,7 +856,7 @@
+   __asm__ __volatile__ ("lock\n\t"
+                         "cmpxchg16b (%1)\n\t"
+                         "setz   %%al\n\t"
+-                        "andq    $1, %%rax\n\t" : "=a"(ret) : "r"(ptr), "a"(cmpa), "d"(cmpb), "b"(a), "c"(b) : "memory", "cc");
++                        "and    $1, %%rax\n\t" : "=a"(ret) : "r"(ptr), "a"(cmpa), "d"(cmpb), "b"(a), "c"(b) : "memory", "cc");
+   return ret;
+ /*
+ #elif (defined(HAVE_BUILTIN_SYNC) && defined(__LP64__))

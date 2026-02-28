@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (C) 2023 Artjom Slepnjov, Shellgen
+# Copyright (C) 2023-2026 Artjom Slepnjov, Shellgen
 # License GPLv3: GNU GPL version 3 only
 # http://www.gnu.org/licenses/gpl-3.0.html
 # Date: 2023-11-11 23:00 UTC - last change
@@ -29,6 +29,7 @@ case ${EXTF} in
     #exit 1
   ;;
 esac
+ZCOMP=${ZCOMP:-:}  # true, if nothing
 ZCOMP=${ZCOMP%%[[:cntrl:]]*}
 ZCOMP=${ZCOMP##* }
 ZCOMP=${ZCOMP##*/}

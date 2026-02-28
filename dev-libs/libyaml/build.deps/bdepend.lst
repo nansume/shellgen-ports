@@ -1,10 +1,10 @@
+dev-build/autoconf71  # required for autotools
+dev-build/automake16  # required for autotools
+dev-build/libtool6  # required for autotools
 dev-lang/perl  # required for autotools
 sys-apps/file
-sys-devel/autoconf  # required for autotools
-sys-devel/automake  # required for autotools
-sys-devel/binutils
-sys-devel/gcc9
-sys-devel/libtool  # required for autotools
+sys-devel/binutils6
+sys-devel/gcc6
 sys-devel/m4  # required for autotools
 sys-devel/make
 sys-libs/musl

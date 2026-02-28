@@ -1,5 +1,5 @@
 #!/bin/sh
-# 2023-2025
+# 2023-2026
 # Date: 2024-05-03 21:00 UTC - last change
 # Date: 2024-10-04 09:00 UTC - last change
 
@@ -116,7 +116,7 @@ CMAKEFLAGS="${CMAKEFLAGS}
   -DCMAKE_SKIP_RPATH=$(usex 'rpath' OFF ON)
   -DWITH_NLS=$(usex 'nls' ON OFF)
   -DENABLE_NLS=$(usex 'nls' ON OFF)
-  -DCMAKE_BUILD_TYPE='Release'
+  -DCMAKE_BUILD_TYPE='None'
   -Wno-dev
 "
 

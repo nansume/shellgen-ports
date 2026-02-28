@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cmake_src_configure(){
+cmake_src_configure() {
   IFS="$(printf '\n\t')"
 
   #append-flags -DNDEBUG
@@ -16,11 +16,15 @@ cmake_src_configure(){
     -DCMAKE_INSTALL_DATAROOTDIR="${DPREFIX#/}/share" \
     -DCMAKE_INSTALL_DOCDIR="${DPREFIX#/}/share/doc" \
     -DCMAKE_BUILD_TYPE="None" \
-    ${mycmakeargs} \
+    ${mycmakeargs-} \
     -DBUILD_SHARED_LIBS=$(usex 'shared' ON OFF) \
     -DCMAKE_SKIP_RPATH=$(usex 'rpath' OFF ON) \
     -Wno-dev \
     || die "Failed cmake build"
 
   DESTDIR="${ED}" cmake --build . --target ${TARGET_INST} -j "$(nproc)" || die "make install... error"
+}
+
+src_configure() {
+  cmake_src_configure ${mycmakeargs-}
 }

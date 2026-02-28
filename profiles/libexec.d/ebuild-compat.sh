@@ -1,5 +1,11 @@
 set -e -u
 
+func_helper() {
+  local FUNCNAME=${1:?required: func_helper <funcname>}
+  printf '%s\n' "${FUNCNAME}... load"
+  command -v ${FUNCNAME} >/dev/null && { ${FUNCNAME} || return ;} || true
+}
+
 var_patches() {
   local IFS="$(printf '\n\t')"; IFS=${IFS%?}
   local patches=
@@ -65,31 +71,39 @@ pkgins() { pkginst \
   || die "Failed install build pkg depend... error"
 }
 
+#bundled_static_libs() { :;}
+
 pre_build() {
-  [ -x "/bin/python" ] || return 0
-  [ -d "/var/cache/python" ] && return
+  ( [ -x "/bin/python" ] && [ ! -d "/var/cache/python" ] ) && {
   if { test "X${USER}" = 'Xroot' && test "${BUILD_CHROOT:=0}" -ne '0' ;} ;then
     mkdir -m 0755 -- "/var/cache/python/"
     chown ${BUILD_USER}:${BUILD_USER} "/var/cache/python/"
   fi
+  }
+  command -v bundled_static_libs >/dev/null || return 0
+  [ x"${USER}" != x'root' ] && prepare; prepare() { :;}
+  bundled_static_libs
 }
 
 unpack() {
   set +f
-  for PF in *.tar.gz *.tar.xz *.tar.bz2; do
+  for PF in ${@:-*.*}; do
     case ${PF} in
       '*'*) continue;;
-      *.tar.gz) ZCOMP="gunzip";;
+      *.tar.gz|*.tgz) ZCOMP="gunzip";;
       *.tar.xz) ZCOMP="unxz";;
       *.tar.bz2) ZCOMP="bunzip2";;
+      *) continue;;
     esac
+    printf %s "${ZCOMP} -dc ${PF} | tar -C ${PDIR%/}/${SRC_DIR}/ -xkf -"
     ${ZCOMP} -dc "${PF}" | tar -C "${PDIR%/}/${SRC_DIR}/" -xkf - || exit &&
-    printf %s\\n "${ZCOMP} -dc ${PF} | tar -C ${PDIR%/}/${SRC_DIR}/ -xkf -"
+    printf %s\\n "    ... ok"
   done
 }
 
 prepare() {
-  command -v pkg_setup >/dev/null && pkg_setup
+  #command -v pkg_setup >/dev/null && pkg_setup
+  func_helper "pkg_setup"
   { [ -x "/bin/cc" ] || [ -x "/bin/gcc" ]; } && {
 
   export CC="gcc" CXX="g++"
@@ -109,14 +123,31 @@ prepare() {
   fi
   use 'static' && append-ldflags "-s -static --static"
   append-flags -DNDEBUG -fno-stack-protector $(usex 'nopie' -no-pie) -g0 -march=$(arch | sed 's/_/-/')
+
+  if use 'diet'; then
+    PATH="${PATH:+${PATH}:}/opt/diet/bin"
+    CC="diet -Os gcc -nostdinc"
+    CPP="diet -Os gcc -nostdinc -E"  # bugfix: error: C preprocessor `gcc -E` fails sanity check
+
+    [ -d "/opt/diet" ] && export DIETHOME="/opt/diet"
+    CC="${CC} -I."  # add headers from build dir
+    #CC="${CC} -I${DIETHOME}/include"  # 2025.04.20 - FIX: it comment, replace by <-isystem>
+    CC="${CC} -isystem ${DIETHOME}/include"  # 2025.04.20
+    CC="${CC} -I/usr/include"
+    [ -d "/usr/include/libowfat" ] && CC="${CC} -I/usr/include/libowfat"
+  fi
   }
 
-  if use 'strip' && [ -n "${TARGET_INST-}" ]; then
-    TARGET_INST="install-strip"
-    test -x "/bin/cmake" && TARGET_INST="install/strip"
-  fi
+  [ -x "/bin/bmake" ] && export MAKESYSPATH="/usr/share/mk/bmake"
 
-  command -v src_prepare >/dev/null && { src_prepare; return;} || true
+  #command -v src_prepare >/dev/null && { src_prepare; return;} || true
+  func_helper "src_prepare"
+}
+
+src_install() {
+  command -v "make" >/dev/null || return 0
+  make DESTDIR="${ED}" PREFIX="${EPREFIX%/}" MANPREFIX="/usr/share/man" ${TARGET_INST}
+  [ $? -eq '0' ] || die "make install... error"
 }
 
 build() {
@@ -149,7 +180,8 @@ build() {
   fi
   cd "${BUILD_DIR}/"
 
-  command -v src_test >/dev/null && src_test
+  #command -v src_test >/dev/null && src_test
+  func_helper "src_test"
 
   command -v src_install >/dev/null && { src_install; return;}
 
@@ -157,17 +189,23 @@ build() {
 }
 
 package() {
-  test -d "usr/bin" && mv -v -n usr/bin -t .
-  test -d "usr/sbin" && mv -v -n usr/sbin -t .
-  #test -d include && mv -v -n include -t usr/
-  test -d "share/doc" && mv -v -n share/doc -t usr/share/
-  test -d "share/man" && mv -v -n share/man -t usr/share/
+  echo "build phase... inst-perm"
+  inst-perm
+
+  test -d "usr" || mkdir -m 0755 "usr/" "usr/share/"
+  test -d "usr/bin"   && mv -v -n "usr/bin" -t .
+  test -d "usr/sbin"  && mv -v -n "usr/sbin" -t .
+  test -d "include"   && mv -v -n "include" -t usr/
+  test -d "share/doc" && mv -v -n "share/doc" -t usr/share/
+  test -d "share/man" && mv -v -n "share/man" -t usr/share/
 
   command -V pre_package || true
-  command -v pre_package >/dev/null && pre_package
+  func_helper "pre_package"
 
-  if use !doc || use !man || use !info; then
+  if use !doc; then
     [ -d "usr/share/doc" ] && rm -v -r -- "usr/share/doc/"
+  fi
+  if ! ( use 'man' || use 'info' ); then
     [ -d "usr/share/info" ] && rm -v -r -- "usr/share/info/"
     [ -d "usr/share/man" ] && rm -v -r -- "usr/share/man/"
   fi
@@ -203,7 +241,7 @@ package() {
   fi
   echo "stest... ok"
 
-  command -v pkg_postinst >/dev/null && { pkg_postinst || return ;} || true
+  func_helper "pkg_postinst"
   command -v pkg_postrm >/dev/null && { pkg_postrm || return ;} || true
 }
 
@@ -282,6 +320,11 @@ CMAKE_PREFIX_PATH="/${LIB_DIR}/cmake"
 PROG=${PROG:-bin/$PN}
 STEST_OPT="--version"
 
+if use 'strip' && [ -n "${TARGET_INST-}" ]; then
+  TARGET_INST="install-strip"
+  test -x "/bin/cmake" && TARGET_INST="install/strip"
+fi
+
 if test "X${USER}" != 'Xroot'; then
   mksrc-prepare
 elif test "${BUILD_CHROOT:=0}" -eq '0'; then
@@ -318,6 +361,7 @@ sw-user || die "Failed package build from user... error"  # only for user-build
 if { test "X${USER}" = 'Xroot' && test "${BUILD_CHROOT:=0}" -ne '0' ;} ;then
   exit  # only for user-build
 elif test "X${USER}" != 'Xroot'; then  # only for user-build
+  PF=$(pfname 'src_uri.lst' "${SRC_URI}")  # redefine for ${PF}, because use `bundled_static_libs()`
   ZCOMP=$(zcomp-as "${PF}")
 
   renice -n '19' -u ${USER}
@@ -328,7 +372,7 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
   [ -x "/bin/gawk" ] && AWK="gawk"
 
   cd "${FILESDIR}/" || die "distsource dir: not found... error"
-  unpack
+  unpack "${PF}"
 
   cd "${BUILD_DIR}/" || die "builddir: not found... error"
   [ -n "${PATCHES-}" ] && epatch ${PATCHES}

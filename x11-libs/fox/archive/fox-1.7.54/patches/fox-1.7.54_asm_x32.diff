@@ -1,0 +1,54 @@
+Author: Artem Slepnev "Shellgen"
+Description: x32 support - asm
+Date: 2016-01-01 01:01 UTC
+===========================================================
+--- a/lib/FXAtomic.cpp	1970-01-01 00:00:00.000000000 +0000
++++ b/lib/FXAtomic.cpp	1970-01-01 00:00:00.000000000 +0000
+@@ -256,7 +256,7 @@
+   return ret;
+ #elif ((defined(__GNUC__) || defined(__INTEL_COMPILER)) && defined(__x86_64__))
+   FXptr ret=v;
+-  __asm__ __volatile__("xchgq %0, (%1)\n\t" : "=r"(ret) : "r"(ptr), "0"(ret) : "memory", "cc");
++  __asm__ __volatile__("xchg %0, (%1)\n\t" : "=r"(ret) : "r"(ptr), "0"(ret) : "memory", "cc");
+   return ret;
+ #elif defined(BUILTIN_SYNC)
+   return __sync_lock_test_and_set(ptr,v);
+@@ -282,7 +282,7 @@
+ #elif ((defined(__GNUC__) || defined(__INTEL_COMPILER)) && defined(__x86_64__))
+   register FXptr ret=(FXptr)v;
+   __asm__ __volatile__ ("lock\n\t"
+-                        "xaddq %0, (%1)\n\t" : "=r"(ret) : "r"(ptr), "0" (ret) : "memory", "cc");
++                        "xadd %0, (%1)\n\t" : "=r"(ret) : "r"(ptr), "0" (ret) : "memory", "cc");
+   return ret;
+ #elif defined(BUILTIN_SYNC)
+   return __sync_fetch_and_add(ptr,(FXptr)v);
+@@ -306,7 +306,7 @@
+ #elif ((defined(__GNUC__) || defined(__INTEL_COMPILER)) && defined(__x86_64__))
+   register FXptr ret;
+   __asm__ __volatile__("lock\n\t"
+-                       "cmpxchgq %2, (%1)\n\t" : "=a"(ret) : "r"(ptr), "r"(v), "a"(expect) : "memory", "cc");
++                       "cmpxchg %2, (%1)\n\t" : "=a"(ret) : "r"(ptr), "r"(v), "a"(expect) : "memory", "cc");
+   return ret;
+ #elif defined(BUILTIN_SYNC)
+   return __sync_val_compare_and_swap(ptr,expect,v);
+@@ -334,9 +334,9 @@
+ #elif ((defined(__GNUC__) || defined(__INTEL_COMPILER)) && defined(__x86_64__))
+   register FXbool ret;
+   __asm__ __volatile__ ("lock\n\t"
+-                        "cmpxchgq %2, (%1)\n\t"
++                        "cmpxchg %2, (%1)\n\t"
+                         "sete   %%al\n\t"
+-                        "andq   $1, %%rax\n\t" : "=a"(ret) : "r"(ptr), "r"(v), "a"(expect) : "memory", "cc");
++                        "and   $1, %%rax\n\t" : "=a"(ret) : "r"(ptr), "r"(v), "a"(expect) : "memory", "cc");
+   return ret;
+ #elif defined(BUILTIN_SYNC)
+   return __sync_bool_compare_and_swap(ptr,expect,v);
+@@ -382,7 +382,7 @@
+   __asm__ __volatile__ ("lock\n\t"
+                         "cmpxchg16b (%1)\n\t"
+                         "setz   %%al\n\t"
+-                        "andq    $1, %%rax\n\t" : "=a"(ret) : "r"(ptr), "a"(cmpa), "d"(cmpb), "b"(a), "c"(b) : "memory", "cc");
++                        "and    $1, %%rax\n\t" : "=a"(ret) : "r"(ptr), "a"(cmpa), "d"(cmpb), "b"(a), "c"(b) : "memory", "cc");
+   return ret;
+ #elif (defined(BUILTIN_SYNC) && defined(__LP64__) && defined(__GNUC__))
+   __uint128_t expectab=((__uint128_t)(FXuval)cmpa) | (((__uint128_t)(FXuval)cmpb)<<64);

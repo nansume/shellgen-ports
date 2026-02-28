@@ -38,6 +38,7 @@ SRC_URI="
   http://localhost/pub/distfiles/patch/musl-1.2.5-nftw-support-common-gnu-ext.patch
   http://data.gpo.zugaina.org/gentoo/sys-libs/musl/files/ldconfig.in-r3
   #http://data.gpo.zugaina.org/gentoo/sys-libs/musl/files/stack_chk_fail_local.c
+  http://localhost/pub/distfiles/patch/musl-1.2.5-add-recallocarray-v4.diff
 "
 USE_BUILD_ROOT="0"
 BUILD_CHROOT=${BUILD_CHROOT:-0}
@@ -140,6 +141,7 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
   patch -p1 -E < "${FILESDIR}"/musl-sched.h-reduce-namespace-conflicts.patch
   patch -p1 -E < "${FILESDIR}"/${PN}-${PV}-read_timezone_from_fs.patch
   patch -p1 -E < "${FILESDIR}"/${PN}-${PV}-nftw-support-common-gnu-ext.patch
+  #patch -p1 -E < "${FILESDIR}"/musl-1.2.5-add-recallocarray-v4.diff  # it exists in libbsd
 
   ./configure \
     CC="gcc" \

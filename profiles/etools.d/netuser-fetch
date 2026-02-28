@@ -26,7 +26,9 @@ test "x${RUN}" = 'xbuiltin' && exit
 
 # 1=XPWD 2=BUILD_CHROOT 3=USE_BUILD_ROOT 4=PDIR 5=DISTSOURCE 6=DISTDIR 7=HOME 8=USER 9=LOGNAME 10=PWD
 # 11=PV 12=PN 13=XPN 14=XPV 15=CATEGORY 16=GITCOMMIT 17=COMMIT
-HOME=${PWD} su "${NET_USER:?}" -s "${RUN}" \
+HOME=${PWD} \
+SRC_URI="${1-}" \
+su "${NET_USER:?}" -s "${RUN}" \
  "${XPWD:?}" \
  "${BUILD_CHROOT:?}" \
  "${USE_BUILD_ROOT:?}" \

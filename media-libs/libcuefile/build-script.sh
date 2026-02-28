@@ -1,7 +1,7 @@
 #!/bin/sh
 # Maintainer: Artjom Slepnjov <shellgen-at-uncensored-dot-citadel-dot-org>
-# Date: 2025-06-13 10:00 UTC - last change
-# Build with useflag: -static -static-libs +shared -lfs +nopie +patch -doc -xstub -diet +musl +stest +strip +x32
+# Date: 2025-06-13 10:00 UTC, 2026-02-25 16:00 UTC - last change
+# Build with useflag: -static +static-libs +shared -lfs +nopie +patch -doc -xstub -diet +musl +stest +strip +x32
 
 # http://data.gpo.zugaina.org/gentoo/media-libs/libcuefile/libcuefile-477-r3.ebuild
 
@@ -25,7 +25,7 @@ PV="477"
 SRC_URI="
   https://mirrors.mit.edu/gentoo-distfiles/distfiles/e9/${PN}-${PV}.tar.xz
   #https://dev.gentoo.org/~ssuominen/${PN}-${PV}.tar.xz
-  http://data.gpo.zugaina.org/gentoo/media-libs/libcuefile/files/${PN}-static-libs.patch
+  #http://data.gpo.zugaina.org/gentoo/media-libs/libcuefile/files/${PN}-static-libs.patch
   http://data.gpo.zugaina.org/gentoo/media-libs/libcuefile/files/${PN}-477-clang16.patch
 "
 USE_BUILD_ROOT="0"
@@ -37,7 +37,7 @@ INSTALL_OPTS="install"
 HOSTNAME="localhost"
 BUILD_USER="tools"
 SRC_DIR="build"
-IUSE="-static-libs +shared -doc (+musl) +stest +strip"
+IUSE="+static-libs +shared -doc (+musl) +stest +strip"
 EABI=$(tc-abi-build)
 ABI=${EABI}
 XABI=${EABI}
@@ -121,12 +121,12 @@ elif test "X${USER}" != 'Xroot'; then  # only for user-build
 
   cd "${BUILD_DIR}/" || die "builddir: not found... error"
 
-  patch -p1 -E < "${FILESDIR}"/${PN}-static-libs.patch
+  #patch -p1 -E < "${FILESDIR}"/${PN}-static-libs.patch
   patch -p1 -E < "${FILESDIR}"/${PN}-477-clang16.patch
 
   cmake -B build -G "Unix Makefiles" \
     -D CMAKE_INSTALL_PREFIX="${EPREFIX%/}" \
-    -D CMAKE_BUILD_TYPE="Release" \
+    -D CMAKE_BUILD_TYPE="None" \
     -D BUILD_SHARED_LIBS=$(usex 'shared' ON OFF) \
     -D CMAKE_SKIP_RPATH=$(usex 'rpath' OFF ON) \
     -Wno-dev \

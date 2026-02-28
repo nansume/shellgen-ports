@@ -1,3 +1,3 @@
 ftp://fox-toolkit.org/pub/fox-1.7.84.tar.gz
 http://data.gpo.zugaina.org/gentoo/x11-libs/fox/files/fox-1.7.84-pthread_rwlock_prefer_writer_np-musl.patch
-http://shellgen.mooo.com/pub/distfiles/patch/fox/fox-1.7.84_asm_x32.diff
+#http://shellgen.mooo.com/pub/distfiles/patch/fox/fox-1.7.84_asm_x32.diff

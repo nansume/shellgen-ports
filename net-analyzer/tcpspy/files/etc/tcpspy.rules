@@ -1,0 +1,4 @@
+user "joe" and rport 53 and raddr 192.168.0.1
+user 1000  # user id [uid]
+lport 53 or lport 2053
+(lport 5353 and user "joe") or raddr 10.0.0.1

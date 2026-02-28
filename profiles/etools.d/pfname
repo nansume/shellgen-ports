@@ -2,24 +2,39 @@
 # 2023-2026
 # Date: 2026-02-09 21:00 UTC - last change
 
+NL="$(printf '\n\t')"; NL=${NL%?}; IFS=${NL}
 SRCLIST=${1:-$SRCLIST}; SRCLIST=${SRCLIST:-src_uri.lst}
 PATCH_URI=${PATCH_URI:-$PATCHES_URI}  # it if wrong
 PATCH_URI="${PATCH_URI:-http://data.gpo.zugaina.org/gentoo/${CATEGORY}/${PN}/files}"
 
+shift
+
+SRC_URI="${@:-${SRC_URI-}}"
+# Remove only spaces from the beginning of the string.
+[ -n "${SRC_URI-}" ] && SRC_URI="${SRC_URI#${SRC_URI%%[![:space:]]*}}"
+
 use 'bundled' && set -- "src_uri_bundled.lst"
 
 if test "X${USER}" = 'Xroot' && test -n "${SRC_URI}"; then
-  # Remove only spaces from the beginning of the string.
-  printf %s\\n "${SRC_URI#${SRC_URI%%[![:space:]]*}}" > "${SRCLIST}"
+  printf %s\\n "${SRC_URI}" > "${SRCLIST}"
 
   for i in ${PATCHES}; do
     i="${PATCH_URI}/${i##*/}"
     printf %s\\n "${i}" >> "${SRCLIST}"
+    [ -n "${SRC_URI-}" ] && SRC_URI=${SRC_URI}${SRC_URI:+$NL}${i}
   done
 fi
-[ -e "${SRCLIST}" ] || exit 0  # FIX: src_uri.lst: not found
 
-read -r PF < "${SRCLIST}"
+if [ -n "${SRC_URI-}" ]; then
+  PF=${SRC_URI}
+  PF="${PF#${PF%%[![:space:]]*}}"
+  PF="${PF%%[[:cntrl:]]*}"
+elif [ -f "${SRCLIST}" ]; then
+  read -r PF < "${SRCLIST}"
+else
+  # FIX: early phase: src_uri.lst: not found
+  exit 0
+fi
 
 # FIX: remove comment in filename
 PF="${PF%% #*}"
