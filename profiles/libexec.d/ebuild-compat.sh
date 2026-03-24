@@ -225,6 +225,7 @@ package() {
   emptydir "usr/"   && rmdir -- usr/
   emptydir "share/"   && rmdir -- share/
   #emptydir include/   && rmdir -- include/
+  [ -d "${ED}/$(get_libdir)/perl5" ] && pkg-rm-empty "${ED}/"
   echo "emptydir clean... ok"
 
   [ -x "${PROG-}" ] || PROG="sbin/${PN}"
