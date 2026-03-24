@@ -1,0 +1,15 @@
+dev-lang/perl
+dev-libs/libxml2
+dev-perl/alien-build
+dev-perl/archive-zip
+dev-perl/capture-tiny
+#dev-perl/extutils-pkgconfig
+dev-perl/ffi-checklib
+dev-perl/file-chdir
+dev-perl/file-which
+dev-perl/path-tiny
+dev-perl/unicode-utf8
+dev-util/pkgconf
+sys-devel/make
+sys-libs/musl
+#sys-libs/zlib  # optional
